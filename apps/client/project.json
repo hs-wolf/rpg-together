@@ -1,0 +1,38 @@
+{
+  "name": "client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/client/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx nuxi build ./apps/client"
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx nuxi dev ./apps/client"
+      }
+    },
+    "generate-pages": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx nuxi generate ./apps/client"
+      }
+    },
+    "preview": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx nuxi preview ./apps/client"
+      }
+    },
+    "prepare": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx nuxi prepare ./apps/client"
+      }
+    }
+  }
+}

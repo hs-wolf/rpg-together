@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@rpg-together/models": ["libs/models/src/index.ts"],
+      "@rpg-together/repos": ["libs/repos/src/index.ts"],
+      "@rpg-together/utils": ["libs/utils/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
