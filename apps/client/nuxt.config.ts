@@ -15,6 +15,10 @@ export default defineNuxtConfig({
     '@rpg-together/utils': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/utils/src/index.ts'),
   },
   css: ['~/assets/css/main.css'],
+  tailwindcss: {
+    cssPath: './src/assets/css/tailwind.css',
+    configPath: './tailwind.config.js',
+  },
   vite: {
     plugins: [
       VueI18nVitePlugin({

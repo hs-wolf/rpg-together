@@ -10,7 +10,23 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        primary: {
+          DEFAULT: '#152026',
+          light: '#2A404D',
+          dark: '#0E151A',
+        },
+        secondary: {
+          DEFAULT: '#F2F2F2',
+          light: '#D9D9D9',
+          dark: '#8C8C8C',
+        },
+        accent: {
+          DEFAULT: '#942136',
+          light: '#CF2D4B',
+          dark: '#57131F',
+        },
+      },
     },
   },
 };

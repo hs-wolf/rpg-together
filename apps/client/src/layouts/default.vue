@@ -1,6 +1,5 @@
 <template>
-  <div class="flex flex-col gap-4 justify-center items-center min-h-screen">
-    Default layout
+  <div class="flex h-screen bg-primary">
     <slot />
   </div>
 </template>
