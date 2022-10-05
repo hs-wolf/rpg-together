@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply p-1.5 bg-primary text-secondary-light rounded text-sm font-semibold active:bg-primary-dark active:scale-90 transition;
+  }
+  .btn-secondary {
+    @apply p-1.5 bg-secondary text-primary-dark rounded text-sm font-semibold active:bg-secondary-dark active:scale-90 transition;
+  }
+  .btn-accent {
+    @apply p-1.5 bg-accent text-secondary-light rounded text-sm font-semibold active:bg-accent-dark active:scale-90 transition;
+  }
+}
