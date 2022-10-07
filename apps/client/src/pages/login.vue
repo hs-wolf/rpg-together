@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
-useHead({ title: useI18n().t('home.title') });
+useHead({ title: useI18n().t('login.title') });
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col">
     <div class="flex justify-center items-center gap-2 h-[64px] p-3 text-xl text-accent tracking-widest font-semibold">
       <nuxt-icon name="logo" />
-      <p>{{ $t('home.title') }}</p>
+      <p>{{ $t('login.title') }}</p>
     </div>
-    <home-featured />
-    <home-announcements />
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const showMobileMenu = ref(false);
 
-const mobileMenuRef = ref();
+const mobileMenuRef = ref<HTMLDivElement>();
 onClickOutside(mobileMenuRef, () => {
   if (!showMobileMenu.value) {
     return;
@@ -9,66 +9,114 @@ onClickOutside(mobileMenuRef, () => {
   showMobileMenu.value = !showMobileMenu.value;
 });
 
-const menus = [
-  { name: 'home', label: 'Home', icon: 'home' },
-  { name: 'tables-list', label: 'Tables list', icon: 'list' },
-  { name: 'profile', label: 'Profile', icon: 'profile' },
-  { name: 'tables', label: 'My Tables', icon: 'table' },
-  { name: 'notifications', label: 'Notifications', icon: 'notifications' },
-  { name: 'about', label: 'About', icon: 'about' },
+const mockUser = {
+  id: 1,
+  username: 'Hajime',
+  avatar: 'https://i.pinimg.com/originals/10/91/94/1091948c6b80b65b9eef8c163f0ae42a.jpg',
+};
+
+const tabs = [
+  { name: 'home', icon: 'home', link: '/' },
+  { name: 'search', icon: 'search', link: 'search' },
+  { name: 'alerts', icon: 'bell', link: 'alerts' },
+  { name: 'profile', icon: 'user', link: 'profile' },
 ];
+
+const menus = [
+  { name: 'my-applications', icon: 'message', link: 'my-applications' },
+  { name: 'my-tables', icon: 'table', link: 'my-tables' },
+  { name: 'settings', icon: 'settings', link: 'settings' },
+  { name: 'about', icon: 'about', link: 'about' },
+];
+
+const closeMobileMenu = () => {
+  showMobileMenu.value = false;
+};
+
+const logout = () => {
+  closeMobileMenu();
+};
 </script>
 
 <template>
-  <nav class="relative flex justify-between items-center gap-2 p-4">
-    <div class="flex gap-2">
-      <nuxt-icon name="logo" class="text-[32px] text-secondary" fill />
-      <div class="flex flex-col gap-1 text-sm text-secondary font-semibold leading-none tracking-widest">
-        <p>rpg</p>
-        <p>together</p>
-      </div>
-    </div>
-    <button class="active:scale-90 transition-transform" @click="showMobileMenu = !showMobileMenu">
-      <nuxt-icon name="hamburguer-menu" class="text-[32px] text-primary-light" />
+  <nav class="fixed inset-x-0 bottom-0 grid grid-cols-5 gap-3 h-16 p-3 bg-primary">
+    <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
+      <nuxt-icon name="hamburguer-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
+      <p>{{ $t('navbar.tabs.menu') }}</p>
     </button>
-    <div
-      ref="mobileMenuRef"
-      class="fixed top-0 right-0 flex flex-col w-3/4 max-w-[320px] h-screen bg-secondary-light shadow-sm shadow-secondary-dark text-primary-dark transition-transform"
-      :class="{ 'translate-x-[100%] ': !showMobileMenu }"
-    >
-      <div class="flex justify-between gap-2 p-4">
-        <div class="flex items-center gap-2 overflow-hidden">
-          <img
-            src="https://i.pinimg.com/280x280_RS/6b/c7/31/6bc731fbe8866f02d929c5579ccd4f45.jpg"
-            alt="Username"
-            class="w-[32px] rounded-full"
-          />
-          <h1 class="font-semibold truncate">Usernameeeeeeeeeeeeeeeeeeeeeee</h1>
-        </div>
-        <button @click="showMobileMenu = !showMobileMenu" class="active:scale-90 transition-transform">
-          <nuxt-icon name="close" class="text-[32px] text-primary-light" />
-        </button>
-      </div>
-      <div class="flex flex-col">
-        <button
-          v-for="item in menus"
-          :key="item.name"
-          class="flex items-center gap-2 px-4 py-2 hover:bg-secondary active:bg-secondary active:px-6 transition-all"
+    <nuxt-link v-for="tab in tabs" :key="tab.name" :to="tab.link" class="tab-button" active-class="text-accent font-semibold">
+      <nuxt-icon :name="tab.icon" fill />
+      <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
+    </nuxt-link>
+    <transition name="slide">
+      <div v-if="showMobileMenu" class="modal">
+        <div
+          ref="mobileMenuRef"
+          class="self-end flex flex-col gap-3 w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark"
         >
-          <nuxt-icon :name="item.icon" class="text-xl text-secondary-dark" />
-          <p
-            v-if="item.name === 'notifications'"
-            class="flex justify-center items-center h-[24px] px-2 bg-accent-light rounded-full text-sm text-secondary font-semibold"
-          >
-            99+
-          </p>
-          <p>{{ item.label }}</p>
-        </button>
+          <div class="flex justify-between gap-3 h-[64px] pr-3 shadow">
+            <nuxt-link to="profile" class="relative flex items-center gap-2 overflow-hidden" @click.prevent="closeMobileMenu">
+              <nuxt-img
+                format="webp"
+                fit="cover"
+                height="64"
+                loading="lazy"
+                sizes="xs:100vw"
+                :src="mockUser.avatar"
+                :alt="mockUser.username"
+                class="rounded-r-full opacity-30"
+              />
+              <h1 class="absolute inset-x-3 font-semibold truncate">
+                {{ mockUser.username }}
+              </h1>
+            </nuxt-link>
+            <button @click.prevent="closeMobileMenu" class="active:scale-90 transition-transform">
+              <nuxt-icon name="close" class="text-xl" />
+            </button>
+          </div>
+          <div class="flex justify-between gap-3 h-[64px] pr-3 shadow">
+            <div class="grid grid-cols-2 gap-3 w-full p-3 pr-0">
+              <nuxt-link to="login" class="btn-accent" @click.prevent="closeMobileMenu">
+                {{ $t('navbar.menus.login') }}</nuxt-link
+              >
+              <nuxt-link to="register" class="btn-secondary" @click.prevent="closeMobileMenu">
+                {{ $t('navbar.menus.register') }}</nuxt-link
+              >
+            </div>
+            <button @click.prevent="closeMobileMenu" class="active:scale-90 transition-transform">
+              <nuxt-icon name="close" class="text-xl" />
+            </button>
+          </div>
+          <div class="flex flex-col">
+            <nuxt-link
+              v-for="item in menus"
+              :key="item.name"
+              :to="item.link"
+              class="menu-button"
+              @click.prevent="closeMobileMenu"
+            >
+              <nuxt-icon :name="item.icon" class="text-xl" />
+              <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
+            </nuxt-link>
+            <button class="menu-button" @click.prevent="logout">
+              <nuxt-icon name="logout" class="text-xl" />
+              <p>{{ $t(`navbar.menus.logout`) }}</p>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="grid grid-cols-2 gap-2 p-4">
-        <button class="btn-accent">Login</button>
-        <button class="btn-secondary">Register</button>
-      </div>
-    </div>
+    </transition>
   </nav>
 </template>
+
+<style scoped>
+.tab-button {
+  @apply flex flex-col items-center gap-1 text-xl active:scale-90 transition-transform;
+  p {
+    @apply text-xs;
+  }
+}
+.menu-button {
+  @apply flex items-center gap-2 p-3 hover:bg-secondary active:bg-secondary active:px-4 transition-all;
+}
+</style>

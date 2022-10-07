@@ -1,3 +1,66 @@
 {
-  "key": "Value"
+  "key": "Value",
+  "navbar": {
+    "tabs": {
+      "menu": "Menu",
+      "home": "Home",
+      "search": "Search",
+      "alerts": "Alerts",
+      "profile": "Profile"
+    },
+    "menus": {
+      "login": "Login",
+      "register": "Register",
+      "my-applications": "My Applications",
+      "my-tables": "My Tables",
+      "settings": "Settings",
+      "about": "About",
+      "logout": "Logout"
+    }
+  },
+  "login": {
+    "title": "Login"
+  },
+  "register": {
+    "title": "Register"
+  },
+  "home": {
+    "title": "Rpg together"
+  },
+  "home-featured": {
+    "title": "Featured Tables",
+    "apply-to-table": "Apply to table",
+    "view-table": "View table",
+    "view-user": "View user",
+    "report": "Report"
+  },
+  "home-announcements": {
+    "title": "Announcements",
+    "see-all": "See all"
+  },
+  "search": {
+    "title": "Search table",
+    "results-for": "Results for: {0}"
+  },
+  "alerts": {
+    "title": "Alerts"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "my-applications": {
+    "title": "My applications"
+  },
+  "my-tables": {
+    "title": "My tables"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "about": {
+    "title": "About"
+  },
+  "announcements": {
+    "title": "Announcements"
+  }
 }

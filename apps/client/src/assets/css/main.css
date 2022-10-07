@@ -1,9 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  @apply leading-none;
+}
 body {
   font-family: 'Poppins', sans-serif;
-  @apply bg-primary-dark text-secondary-light;
+  @apply bg-primary text-secondary antialiased;
 }
-
 .nuxt-icon svg {
   margin-bottom: 0 !important;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.15s ease-out;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(100%);
 }

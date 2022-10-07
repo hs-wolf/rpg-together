@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite';
 
 export default defineNuxtConfig({
-  modules: ['@vueuse/nuxt', '@pinia/nuxt', '@nuxtjs/tailwindcss', 'nuxt-icons'],
+  modules: ['@vueuse/nuxt', '@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxt/image-edge', 'nuxt-icons'],
   nitro: {
     output: {
       dir: '../../../../dist/apps/client',
@@ -13,6 +13,13 @@ export default defineNuxtConfig({
   alias: {
     '@rpg-together/models': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/models/src/index.ts'),
     '@rpg-together/utils': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/utils/src/index.ts'),
+  },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+    },
   },
   css: ['~/assets/css/main.css'],
   tailwindcss: {
