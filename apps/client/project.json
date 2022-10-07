@@ -25,7 +25,7 @@
     "preview": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nuxi preview ./apps/client"
+        "command": "npx nuxi preview ./dist/apps/client"
       }
     },
     "prepare": {
