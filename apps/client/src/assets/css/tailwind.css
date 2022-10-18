@@ -6,14 +6,27 @@
   .modal {
     @apply fixed inset-0 flex flex-col bg-black/50;
   }
-  ,
   .btn-primary {
-    @apply flex justify-center items-center p-1.5 bg-primary text-secondary-light rounded text-sm font-semibold active:bg-primary-dark shadow active:scale-90 transition;
+    @apply flex justify-center items-center p-2 bg-primary text-secondary rounded text-sm font-medium leading-none active:bg-primary-dark shadow transition-transform active:scale-90;
   }
   .btn-secondary {
-    @apply flex justify-center items-center p-1.5 bg-secondary text-primary-dark rounded text-sm font-semibold active:bg-secondary-dark shadow active:scale-90 transition;
+    @apply flex justify-center items-center p-2 bg-secondary text-primary-dark rounded text-sm font-medium leading-none active:bg-secondary-dark shadow transition-transform active:scale-90;
   }
   .btn-accent {
-    @apply flex justify-center items-center p-1.5 bg-accent text-secondary-light rounded text-sm font-semibold active:bg-accent-dark shadow active:scale-90 transition;
+    @apply flex justify-center items-center p-2 bg-accent text-secondary-light rounded text-sm font-medium leading-none active:bg-accent-dark shadow transition-transform active:scale-90;
+  }
+  .select-empty {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    @apply p-1.5 bg-transparent border border-primary-light rounded text-sm text-secondary;
+  }
+  .select-fill {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    @apply p-1.5 bg-secondary border border-primary-light rounded text-sm text-primary;
   }
 }

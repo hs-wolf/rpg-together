@@ -13,13 +13,13 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: '#0D0D0D',
-          light: '#0D0D0D',
-          dark: '#0D0D0D',
+          light: '#3A3A3A',
+          dark: '#000000',
         },
         secondary: {
           DEFAULT: '#EBEDF2',
-          light: '#EBEDF2',
-          dark: '#EBEDF2',
+          light: '#FFFFFF',
+          dark: '#BABBBF',
         },
         accent: {
           DEFAULT: '#6F6BF2',

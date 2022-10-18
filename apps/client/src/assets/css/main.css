@@ -1,14 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-* {
-  @apply leading-none;
-}
 body {
   font-family: 'Poppins', sans-serif;
   @apply bg-primary text-secondary antialiased;
 }
 .nuxt-icon svg {
   margin-bottom: 0 !important;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  @apply hidden;
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -19,12 +23,12 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
-.slide-enter-active,
-.slide-leave-active {
+.slide-left-enter-active,
+.slide-left-leave-active {
   transition: all 0.15s ease-out;
 }
 
-.slide-enter-from,
-.slide-leave-to {
+.slide-left-enter-from,
+.slide-left-leave-to {
   transform: translateX(100%);
 }

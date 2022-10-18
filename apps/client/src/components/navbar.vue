@@ -39,7 +39,7 @@ const logout = () => {
 </script>
 
 <template>
-  <nav class="fixed inset-x-0 bottom-0 grid grid-cols-5 gap-3 h-16 p-3 bg-primary">
+  <nav class="fixed inset-x-0 bottom-0 grid grid-cols-5 gap-3 h-16 p-3 bg-primary shadow">
     <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
       <nuxt-icon name="hamburguer-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
       <p>{{ $t('navbar.tabs.menu') }}</p>
@@ -48,7 +48,7 @@ const logout = () => {
       <nuxt-icon :name="tab.icon" fill />
       <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
     </nuxt-link>
-    <transition name="slide">
+    <transition name="slide-left">
       <div v-if="showMobileMenu" class="modal">
         <div
           ref="mobileMenuRef"

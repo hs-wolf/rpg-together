@@ -29,10 +29,16 @@
   },
   "home-featured": {
     "title": "Featured Tables",
+    "loading": "Loading"
+  },
+  "table-card-options": {
     "apply-to-table": "Apply to table",
     "view-table": "View table",
-    "view-user": "View user",
+    "view-owner": "View owner",
     "report": "Report"
+  },
+  "loading-card": {
+    "title": "loading"
   },
   "home-announcements": {
     "title": "Announcements",
@@ -40,7 +46,7 @@
   },
   "search": {
     "title": "Search table",
-    "results-for": "Results for: {0}"
+    "results-for": "{amount} results for: {query}"
   },
   "alerts": {
     "title": "Alerts"
