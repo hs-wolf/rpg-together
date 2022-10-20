@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { MultiSelectOption } from '~~/types';
+import { AdvancedSelectOption } from '~~/types';
 
 const props = defineProps<{
-  options: MultiSelectOption[];
-  initialValue?: MultiSelectOption[];
+  options: AdvancedSelectOption[];
+  initialValue?: AdvancedSelectOption[];
   placeholderMessage: string;
   searchMessage: string;
   emptyMessage: string;
 }>();
-const emits = defineEmits<{ (e: 'changeOptions', items: MultiSelectOption[]): void }>();
+const emits = defineEmits<{ (e: 'changeOptions', items: AdvancedSelectOption[]): void }>();
 
 const componentRef = ref();
 const showOptions = ref(false);
 
-const selectedOptions = ref<MultiSelectOption[]>([]);
+const selectedOptions = ref<AdvancedSelectOption[]>([]);
 const optionsQuery = ref('');
 const filteredOptions = computed(() =>
   props.options
@@ -29,7 +29,7 @@ const changeOptions = () => {
   emits('changeOptions', selectedOptions.value);
 };
 
-const insertOption = (item: MultiSelectOption) => {
+const insertOption = (item: AdvancedSelectOption) => {
   selectedOptions.value.push(item);
   if (!filteredOptions.value.length) {
     optionsQuery.value = '';
