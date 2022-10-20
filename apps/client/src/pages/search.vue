@@ -14,7 +14,7 @@ onMounted(() => {
   tables.value = tablesStore.getFeaturedTables();
 });
 
-const showFilterMenu = ref(true);
+const showFilterMenu = ref(false);
 const genresFilterRef = ref();
 const systemsFilterRef = ref();
 const languagesFilterRef = ref();
@@ -115,17 +115,17 @@ const selectedFilters = reactive<{
 });
 
 const clearFilters = () => {
-  genresFilterRef.value.clearItems();
-  systemsFilterRef.value.clearItems();
-  languagesFilterRef.value.clearItems();
-  ratingsFilterRef.value.clearItems();
-  vacanciesFilterRef.value.clearItems();
+  genresFilterRef.value.clearOptions();
+  systemsFilterRef.value.clearOptions();
+  languagesFilterRef.value.clearOptions();
+  ratingsFilterRef.value.clearOptions();
+  vacanciesFilterRef.value.clearOptions();
 };
 </script>
 
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-center items-center gap-2 h-24 px-3 pt-3 text-xl text-accent tracking-widest font-semibold">
+    <div class="flex justify-center items-center gap-2 h-24 p-3 pb-0 text-xl text-accent tracking-widest font-semibold">
       <nuxt-icon name="logo" />
       <p>{{ $t('search.title') }}</p>
     </div>
@@ -145,60 +145,79 @@ const clearFilters = () => {
           <nuxt-icon name="close" />
         </button>
       </div>
-      <div class="flex flex-col items-start gap-2">
-        <button class="btn-accent gap-1.5" @click.prevent="showFilterMenu = !showFilterMenu">
-          <nuxt-icon name="filter" />
-          <p>Filters</p>
-          <nuxt-icon name="chevron-up" fill class="transition-transform rotate-90" :class="{ '-rotate-90': showFilterMenu }" />
-        </button>
+      <div class="flex flex-col gap-2">
+        <div class="flex justify-between">
+          <button class="btn-accent gap-1.5" @click.prevent="showFilterMenu = !showFilterMenu">
+            <nuxt-icon name="filter" />
+            <p>Filters</p>
+            <nuxt-icon
+              name="chevron-up"
+              fill
+              class="transition-transform rotate-90"
+              :class="{ '-rotate-90': showFilterMenu }"
+            />
+          </button>
+          <transition name="slide-left">
+            <button v-if="showFilterMenu" class="btn-secondary gap-2" @click.prevent="clearFilters">
+              <p>Clear</p>
+              <nuxt-icon name="close" />
+            </button>
+          </transition>
+        </div>
         <transition name="slide-left">
-          <div v-if="showFilterMenu" class="flex flex-col items-start gap-2">
+          <div v-if="showFilterMenu" class="flex flex-col gap-2">
             <div class="flex flex-wrap items-start gap-2">
-              <multi-select
+              <advanced-select
                 ref="systemsFilterRef"
                 :options="systemsList"
-                placeholder="Systems"
                 :initialValue="selectedFilters.systems"
+                placeholderMessage="Systems"
+                searchMessage="Search"
+                emptyMessage="No options left."
                 @changeOptions="(options) => (selectedFilters.systems = options)"
               />
-              <multi-select
+              <advanced-select
                 ref="languagesFilterRef"
                 :options="languagesList"
-                placeholder="Languages"
                 :initialValue="selectedFilters.languages"
+                placeholderMessage="Languages"
+                searchMessage="Search"
+                emptyMessage="No options left."
                 @changeOptions="(options) => (selectedFilters.languages = options)"
               />
-              <multi-select
+              <advanced-select
                 ref="ratingsFilterRef"
                 :options="contentRatingsList"
-                placeholder="Ratings"
                 :initialValue="selectedFilters.ratings"
+                placeholderMessage="Ratings"
+                searchMessage="Search"
+                emptyMessage="No options left."
                 @changeOptions="(options) => (selectedFilters.ratings = options)"
               />
-              <multi-select
+              <advanced-select
                 ref="vacanciesFilterRef"
                 :options="vacanciesList"
-                placeholder="Vacancies"
                 :initialValue="selectedFilters.vacancies"
+                placeholderMessage="Vacancies"
+                searchMessage="Search"
+                emptyMessage="No options left."
                 @changeOptions="(options) => (selectedFilters.vacancies = options)"
               />
-              <multi-select
+              <advanced-select
                 ref="genresFilterRef"
                 :options="genresList"
-                placeholder="Genres"
                 :initialValue="selectedFilters.genres"
+                placeholderMessage="Genres"
+                searchMessage="Search"
+                emptyMessage="No options left."
                 @changeOptions="(options) => (selectedFilters.genres = options)"
               />
             </div>
-            <button class="btn-secondary gap-2" @click.prevent="clearFilters">
-              <p>Reset</p>
-              <nuxt-icon name="close" />
-            </button>
           </div>
         </transition>
       </div>
     </div>
-    <i18n-t v-if="!query" keypath="search.results-for" tag="h1" class="p-3 text-sm text-center">
+    <i18n-t v-if="query" keypath="search.results-for" tag="h1" class="p-3 text-sm text-center">
       <template v-slot:amount>
         <span class="font-semibold">{{ tables?.length }}</span>
       </template>
@@ -206,8 +225,12 @@ const clearFilters = () => {
         <span class="font-semibold">{{ query }}</span>
       </template>
     </i18n-t>
-    <div class="flex flex-col gap-3 p-3">
-      <table-card v-for="table in tables" :key="table.id" :table="table" />
+    <div class="flex flex-col p-3">
+      <div v-if="tables?.length" class="flex flex-col gap-3">
+        <table-card v-for="table in tables" :key="table.id" :table="table" />
+        <button class="btn-accent">Load more</button>
+      </div>
+      <loading-card v-else class="" />
     </div>
   </div>
 </template>

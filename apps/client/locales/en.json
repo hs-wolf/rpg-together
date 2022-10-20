@@ -18,6 +18,15 @@
       "logout": "Logout"
     }
   },
+  "table-card-options": {
+    "apply-to-table": "Apply to table",
+    "view-table": "View table",
+    "view-owner": "View owner",
+    "report": "Report"
+  },
+  "loading-card": {
+    "title": "Loading"
+  },
   "login": {
     "title": "Login"
   },
@@ -30,15 +39,6 @@
   "home-featured": {
     "title": "Featured Tables",
     "loading": "Loading"
-  },
-  "table-card-options": {
-    "apply-to-table": "Apply to table",
-    "view-table": "View table",
-    "view-owner": "View owner",
-    "report": "Report"
-  },
-  "loading-card": {
-    "title": "loading"
   },
   "home-announcements": {
     "title": "Announcements",
