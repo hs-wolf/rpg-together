@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { MultiSelectOption } from '~~/types';
+import { AdvancedSelectOption } from '~~/types';
 import { useTablesStore } from '~/stores';
 
 useHead({ title: useI18n().t('search.title') });
@@ -101,11 +101,11 @@ const genresList = [
 ];
 
 const selectedFilters = reactive<{
-  genres: MultiSelectOption[];
-  systems: MultiSelectOption[];
-  languages: MultiSelectOption[];
-  ratings: MultiSelectOption[];
-  vacancies: MultiSelectOption[];
+  genres: AdvancedSelectOption[];
+  systems: AdvancedSelectOption[];
+  languages: AdvancedSelectOption[];
+  ratings: AdvancedSelectOption[];
+  vacancies: AdvancedSelectOption[];
 }>({
   genres: [],
   systems: [],

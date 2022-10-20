@@ -7,13 +7,16 @@
     @apply fixed inset-0 flex flex-col bg-black/50;
   }
   .btn-primary {
-    @apply flex justify-center items-center p-2 bg-primary text-secondary rounded text-sm font-medium leading-none active:bg-primary-dark shadow transition-transform active:scale-90;
+    @apply flex justify-center items-center p-2 bg-primary border border-primary-light shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
+    @apply active:bg-primary-dark active:scale-90;
   }
   .btn-secondary {
-    @apply flex justify-center items-center p-2 bg-secondary text-primary-dark rounded text-sm font-medium leading-none active:bg-secondary-dark shadow transition-transform active:scale-90;
+    @apply flex justify-center items-center p-2 bg-secondary border border-secondary-dark shadow rounded text-sm text-primary font-medium leading-none transition-transform;
+    @apply active:bg-secondary-dark active:scale-90;
   }
   .btn-accent {
-    @apply flex justify-center items-center p-2 bg-accent text-secondary-light rounded text-sm font-medium leading-none active:bg-accent-dark shadow transition-transform active:scale-90;
+    @apply flex justify-center items-center p-2 bg-accent border border-accent-dark shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
+    @apply active:bg-accent-dark active:scale-90;
   }
   .select-empty {
     appearance: none;

@@ -1,4 +1,4 @@
-export type MultiSelectOption = {
+export type AdvancedSelectOption = {
   name: string;
   label: string;
 };
