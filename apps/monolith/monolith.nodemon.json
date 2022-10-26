@@ -1,0 +1,5 @@
+{
+  "exec": "ts-node apps/monolith/src/main.ts",
+  "watch": ["apps/monolith/src", "libs/models", "libs/repos", "libs/utils"],
+  "ext": "ts"
+}

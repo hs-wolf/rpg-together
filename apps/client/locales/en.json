@@ -5,7 +5,7 @@
       "menu": "Menu",
       "home": "Home",
       "search": "Search",
-      "alerts": "Alerts",
+      "notifications": "Alerts",
       "profile": "Profile"
     },
     "menus": {
@@ -28,10 +28,22 @@
     "title": "Loading"
   },
   "login": {
-    "title": "Login"
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "no-account": "Do not have an account? {0}",
+    "register-here": "Register here!"
   },
   "register": {
-    "title": "Register"
+    "title": "Register",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "repeat-password": "Repeat password",
+    "submit": "Register",
+    "existing-account": "Already have an account? {0}",
+    "login-here": "Login here!"
   },
   "home": {
     "title": "Rpg together"
@@ -48,7 +60,7 @@
     "title": "Search table",
     "results-for": "{amount} results for: {query}"
   },
-  "alerts": {
+  "notifications": {
     "title": "Alerts"
   },
   "profile": {
@@ -68,5 +80,8 @@
   },
   "announcements": {
     "title": "Announcements"
+  },
+  "404": {
+    "title": "404 Page not found"
   }
 }

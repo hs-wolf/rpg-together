@@ -18,17 +18,23 @@ body {
 .fade-leave-active {
   transition: opacity 0.15s ease-out;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
 .slide-left-enter-active,
 .slide-left-leave-active {
-  transition: all 0.15s ease-out;
+  transition: transform 0.15s ease-out;
 }
-
 .slide-left-enter-from,
 .slide-left-leave-to {
   transform: translateX(100%);
+}
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.15s ease-out;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
 }

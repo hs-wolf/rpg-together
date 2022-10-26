@@ -39,12 +39,14 @@ testem.log
 Thumbs.db
 
 # Nuxt3
-node_modules
-*.log*
-.nuxt
-.nitro
-.cache
+/**/node_modules
+/**/*.log*
+/**/.nuxt
+/**/.nitro
+/**/.cache
 /**/.output/
 
 # Custom
 .env
+/dist
+firebase-keys.json

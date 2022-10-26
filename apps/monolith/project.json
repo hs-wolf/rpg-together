@@ -54,6 +54,18 @@
         "jestConfig": "apps/monolith/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "watch-tsoa": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nodemon --config apps/monolith/monolith.nodemon.json -x tsoa spec-and-routes -c=apps/monolith/monolith.tsoa.json"
+      }
+    },
+    "build-tsoa": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsoa spec-and-routes -c=apps/monolith/monolith.tsoa.json"
+      }
     }
   },
   "tags": []

@@ -6,9 +6,6 @@ useHead({ title: useI18n().t('announcements.title') });
 
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-center items-center gap-2 h-[64px] p-3 text-xl text-accent tracking-widest font-semibold">
-      <nuxt-icon name="logo" />
-      <p>{{ $t('announcements.title') }}</p>
-    </div>
+    <PageTitle :title="$t('announcements.title')" />
   </div>
 </template>

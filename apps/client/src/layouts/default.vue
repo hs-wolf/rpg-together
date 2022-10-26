@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-col h-full mb-16">
+  <div class="flex flex-col min-h-screen pb-16">
+    <NuxtLoadingIndicator color="#6F6BF2" />
     <slot />
-    <navbar />
-    <table-card-options />
+    <Navbar />
+    <TableCardOptions />
+    <Snackbar />
   </div>
 </template>

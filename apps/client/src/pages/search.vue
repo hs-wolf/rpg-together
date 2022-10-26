@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { AdvancedSelectOption } from '~~/types';
+import { AdvancedSelectOption } from '~~/custom-types';
 import { useTablesStore } from '~/stores';
 
 useHead({ title: useI18n().t('search.title') });
@@ -125,13 +125,10 @@ const clearFilters = () => {
 
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-center items-center gap-2 h-24 p-3 pb-0 text-xl text-accent tracking-widest font-semibold">
-      <nuxt-icon name="logo" />
-      <p>{{ $t('search.title') }}</p>
-    </div>
+    <PageTitle :title="$t('search.title')" />
     <div class="flex flex-col gap-3 p-3">
       <div class="relative flex items-center border border-primary-light rounded">
-        <nuxt-icon name="search" class="absolute left-0 px-3 py-2 pointer-events-none" />
+        <NuxtIcon name="search" class="absolute left-0 px-3 py-2 pointer-events-none" />
         <input
           type="text"
           v-model="query"
@@ -142,79 +139,74 @@ const clearFilters = () => {
           class="absolute right-0 flex px-3 py-2 opacity-50 transition-transform active:rotate-90"
           @click.prevent="query = ''"
         >
-          <nuxt-icon name="close" />
+          <NuxtIcon name="close" />
         </button>
       </div>
       <div class="flex flex-col gap-2">
         <div class="flex justify-between">
           <button class="btn-accent gap-1.5" @click.prevent="showFilterMenu = !showFilterMenu">
-            <nuxt-icon name="filter" />
+            <NuxtIcon name="filter" />
             <p>Filters</p>
-            <nuxt-icon
-              name="chevron-up"
-              fill
-              class="transition-transform rotate-90"
-              :class="{ '-rotate-90': showFilterMenu }"
-            />
+            <NuxtIcon name="chevron-up" fill class="transition-transform rotate-90" :class="{ '-rotate-90': showFilterMenu }" />
           </button>
-          <transition name="slide-left">
+          <Transition name="slide-left">
             <button v-if="showFilterMenu" class="btn-secondary gap-2" @click.prevent="clearFilters">
               <p>Clear</p>
-              <nuxt-icon name="close" />
+              <NuxtIcon name="close" />
             </button>
-          </transition>
+          </Transition>
         </div>
-        <transition name="slide-left">
+        <Transition name="slide-left">
           <div v-if="showFilterMenu" class="flex flex-col gap-2">
             <div class="flex flex-wrap items-start gap-2">
-              <advanced-select
+              <AdvancedSelect
                 ref="systemsFilterRef"
                 :options="systemsList"
                 :initialValue="selectedFilters.systems"
                 placeholderMessage="Systems"
                 searchMessage="Search"
                 emptyMessage="No options left."
-                @changeOptions="(options) => (selectedFilters.systems = options)"
+                @change-options="(options) => (selectedFilters.systems = options)"
               />
-              <advanced-select
+              <AdvancedSelect
                 ref="languagesFilterRef"
                 :options="languagesList"
                 :initialValue="selectedFilters.languages"
                 placeholderMessage="Languages"
                 searchMessage="Search"
                 emptyMessage="No options left."
-                @changeOptions="(options) => (selectedFilters.languages = options)"
+                @change-options="(options) => (selectedFilters.languages = options)"
               />
-              <advanced-select
+              <AdvancedSelect
                 ref="ratingsFilterRef"
                 :options="contentRatingsList"
                 :initialValue="selectedFilters.ratings"
                 placeholderMessage="Ratings"
                 searchMessage="Search"
                 emptyMessage="No options left."
-                @changeOptions="(options) => (selectedFilters.ratings = options)"
+                @change-options="(options) => (selectedFilters.ratings = options)"
               />
-              <advanced-select
+              <AdvancedSelect
                 ref="vacanciesFilterRef"
                 :options="vacanciesList"
                 :initialValue="selectedFilters.vacancies"
                 placeholderMessage="Vacancies"
                 searchMessage="Search"
                 emptyMessage="No options left."
-                @changeOptions="(options) => (selectedFilters.vacancies = options)"
+                @change-options="(options) => (selectedFilters.vacancies = options)"
               />
-              <advanced-select
+              <AdvancedSelect
                 ref="genresFilterRef"
                 :options="genresList"
                 :initialValue="selectedFilters.genres"
                 placeholderMessage="Genres"
                 searchMessage="Search"
                 emptyMessage="No options left."
-                @changeOptions="(options) => (selectedFilters.genres = options)"
+                @change-options="(options) => (selectedFilters.genres = options)"
               />
             </div>
           </div>
-        </transition>
+        </Transition>
       </div>
     </div>
     <i18n-t v-if="query" keypath="search.results-for" tag="h1" class="p-3 text-sm text-center">
@@ -227,10 +219,10 @@ const clearFilters = () => {
     </i18n-t>
     <div class="flex flex-col p-3">
       <div v-if="tables?.length" class="flex flex-col gap-3">
-        <table-card v-for="table in tables" :key="table.id" :table="table" />
+        <TableCard v-for="table in tables" :key="table.id" :table="table" />
         <button class="btn-accent">Load more</button>
       </div>
-      <loading-card v-else class="" />
+      <LoadingCard v-else />
     </div>
   </div>
 </template>

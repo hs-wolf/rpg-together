@@ -1,18 +1,15 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import { initializeApp, getApps, applicationDefault, cert } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import app from './app';
 
-import * as express from 'express';
+if (!getApps().length) {
+  initializeApp({
+    credential: process.env.USE_DEFAULT_SERVICE_ACCOUNT === 'true' ? applicationDefault() : cert('firebase-keys.json'),
+  });
+  getFirestore().settings({ ignoreUndefinedProperties: true });
+}
 
-const app = express();
-
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to monolith!' });
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`\u001b[32mAPI being listened at: \u001b[1;32mhttp://localhost:${port}`);
 });
-
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-});
-server.on('error', console.error);
