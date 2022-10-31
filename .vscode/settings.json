@@ -1,15 +1,13 @@
 {
-  "i18n-ally.localesPaths": ["apps/client/locales"],
   "files.autoSave": "afterDelay",
   "editor.formatOnSave": true,
   "files.eol": "\n",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
   "editor.quickSuggestions": {
     "strings": true
   },
-  "css.validate": false,
-  "i18n-ally.keystyle": "nested"
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "i18n-ally.localesPaths": ["apps/nuxt-app/locales"]
 }

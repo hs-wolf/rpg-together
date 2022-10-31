@@ -38,15 +38,16 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Nuxt3
-/**/node_modules
-/**/*.log*
-/**/.nuxt
-/**/.nitro
-/**/.cache
-/**/.output/
+# Nuxt Apps
+apps/**/node_modules
+apps/**/*.log*
+apps/**/*.nuxt
+apps/**/*.nitro
+apps/**/*.cache
+apps/**/*.output
+apps/**/*.env
+apps/**/dist
 
 # Custom
 .env
-/dist
 firebase-keys.json

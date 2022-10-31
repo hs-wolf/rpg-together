@@ -17,11 +17,6 @@ app.use('/docs', serve, async (_req: ExRequest, res: ExResponse) => {
   return res.send(generateHTML(await import('../spec/swagger.json'), { isExplorer: true }));
 });
 
-app.use((req: ExRequest, res: ExResponse, next: NextFunction) => {
-  console.log(req.method, req.path);
-  next();
-});
-
 RegisterRoutes(app);
 
 app.use(function errorHandler(err: unknown, req: ExRequest, res: ExResponse, next: NextFunction) {
