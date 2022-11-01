@@ -10,10 +10,17 @@ export const useRpgTogetherAPI = {
       ...options,
       headers: { Authorization: `${SECURITY_NAME_BEARER} ${token}` },
     };
-    return useFetch<T>(`${useRuntimeConfig().public.BASE_URL}${path}`, finalOptions);
+    return $fetch<T>(`${useRuntimeConfig().public.BASE_URL}${path}`, finalOptions);
   },
-  async fetchUser(args: { userId: string }, options?: FetchOptions) {
-    const fetch = await this.customFetch<User>(`users/${args.userId}`, {
+  async register(options?: FetchOptions): Promise<void> {
+    const fetch = await this.customFetch(`auth/register/user`, {
+      ...options,
+      method: 'POST',
+    });
+    return fetch;
+  },
+  async fetchUser(args: { userId: string }, options?: FetchOptions): Promise<User> {
+    const fetch = await this.customFetch(`users/${args.userId}`, {
       ...options,
       method: 'GET',
     });

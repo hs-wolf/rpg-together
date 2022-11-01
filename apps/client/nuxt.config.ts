@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   typescript: { shim: false },
   nitro: {
     output: {
-      dir: '~~/../../dist/apps/nuxt-app',
+      dir: '~~/../../dist/apps/client',
     },
   },
   srcDir: 'src/',
@@ -21,11 +21,11 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Rpg Together' },
       ],
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@vueuse/nuxt', 'nuxt-icons'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@vueuse/nuxt', '@nuxt/image-edge', 'nuxt-icons'],
   tailwindcss: {
     cssPath: './src/assets/css/tailwind.css',
     configPath: './tailwind.config.js',

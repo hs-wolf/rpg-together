@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '~/stores';
+import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
 const nuxtApp = useNuxtApp();
 const userStore = useUserStore();
@@ -55,14 +56,22 @@ const logout = async () => {
           ref="mobileMenuRef"
           class="self-end flex flex-col gap-3 w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark"
         >
-          <div v-if="nuxtApp.$firebaseAuth.currentUser" class="flex justify-between gap-3 h-[64px] pr-3 shadow">
-            <NuxtLink to="profile" class="relative flex items-center gap-2 overflow-hidden" @click.prevent="closeMobileMenu">
-              <img :src="user?.avatar ?? ''" :alt="user?.username" height="64" class="rounded-r-full opacity-30" />
+          <div v-if="nuxtApp.$firebaseAuth.currentUser" class="flex justify-between h-[64px] shadow">
+            <NuxtLink to="profile" class="relative flex items-center w-full overflow-hidden" @click.prevent="closeMobileMenu">
+              <NuxtImg
+                :src="user?.avatar ?? DEFAULT_USER_AVATAR"
+                :alt="user?.username"
+                width="auto"
+                height="64"
+                sizes="sm:100vw md:50vw lg:400px"
+                format="webp"
+                class="w-full rounded-r-full opacity-30 object-cover"
+              />
               <h1 class="absolute inset-x-3 font-semibold truncate">
                 {{ user?.username }}
               </h1>
             </NuxtLink>
-            <button @click.prevent="closeMobileMenu" class="active:scale-90 transition-transform">
+            <button @click.prevent="closeMobileMenu" class="p-3 active:scale-90 transition-transform">
               <NuxtIcon name="close" class="text-xl" />
             </button>
           </div>

@@ -9,13 +9,13 @@ const { currentSnack, waitingSnack } = storeToRefs(snackbarStore);
 const currentBgAndIcon = computed(() => {
   switch (currentSnack.value.type) {
     case SnackType.SUCCESS:
-      return { bg: 'bg-green-500', icon: 'success' };
+      return { bg: 'bg-green-500', icon: 'check' };
     case SnackType.WARNING:
-      return { bg: 'bg-yellow-500', icon: 'alert' };
+      return { bg: 'bg-yellow-500', icon: 'alert-triangle' };
     case SnackType.ERROR:
-      return { bg: 'bg-red-500', icon: 'error' };
+      return { bg: 'bg-red-500', icon: 'alert-circle' };
     default:
-      return { bg: 'bg-yellow-500', icon: 'warning' };
+      return { bg: 'bg-yellow-500', icon: 'alert-triangle' };
   }
 });
 </script>
@@ -28,7 +28,10 @@ const currentBgAndIcon = computed(() => {
       :class="[currentBgAndIcon.bg]"
     >
       <NuxtIcon :name="currentBgAndIcon.icon" class="text-xl" />
-      <p class="font-medium">{{ currentSnack.message }}</p>
+      <p class="w-full font-medium break-all">{{ currentSnack.message }}</p>
+      <button name="clear-snack" @click.prevent="snackbarStore.clearCurrentSnack">
+        <NuxtIcon name="close-circle" class="text-lg" />
+      </button>
     </div>
   </transition>
 </template>

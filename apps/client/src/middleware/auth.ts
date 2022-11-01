@@ -1,6 +1,6 @@
 import { useUserStore } from '~/stores';
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to, _from) => {
   const userStore = useUserStore();
   const nuxtApp = useNuxtApp();
   const firebaseUser = nuxtApp.$firebaseAuth?.currentUser;

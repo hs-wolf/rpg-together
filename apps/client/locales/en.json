@@ -1,5 +1,13 @@
 {
-  "key": "Value",
+  "zod-errors": {
+    "required": "{label} is required.",
+    "min": "{label} needs a minimum of {min} characters.",
+    "email": "{label} must be a valid e-mail.",
+    "not-number": "{label} must have only numbers.",
+    "not-date": "{label} must be a valid date.",
+    "array-min": "You need to select at least {min} options from {label}.",
+    "password-match": "The passwords don't match."
+  },
   "navbar": {
     "tabs": {
       "menu": "Menu",
@@ -43,7 +51,25 @@
     "repeat-password": "Repeat password",
     "submit": "Register",
     "existing-account": "Already have an account? {0}",
-    "login-here": "Login here!"
+    "login-here": "Login here!",
+    "form": {
+      "username": {
+        "label": "Username",
+        "placeholder": "Username"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      },
+      "confirmPassword": {
+        "label": "Password (Confirm)",
+        "placeholder": "Password (Confirm)"
+      }
+    }
   },
   "home": {
     "title": "Rpg together"
@@ -83,5 +109,15 @@
   },
   "404": {
     "title": "404 Page not found"
+  },
+  "user-store": {
+    "success": {
+      "register": "Registered successfully, check your e-mail to confirm."
+    },
+    "warning": {},
+    "error": {
+      "register": "We had an internal error and could not finish your registration, please try again.",
+      "fetch-user": "Could not fetch user, please try again later."
+    }
   }
 }

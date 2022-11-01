@@ -7,12 +7,13 @@ interface IState {
   snackTimer: number;
   offsetTimer: number;
   waitingSnack: boolean;
+  currentTimeOut?: NodeJS.Timeout;
 }
 
 export const useSnackbarStore = defineStore(SNACKBAR_STORE, {
   state: (): IState => ({
     snacksList: [],
-    snackTimer: 2,
+    snackTimer: 5,
     offsetTimer: 1,
     waitingSnack: false,
   }),
@@ -31,15 +32,17 @@ export const useSnackbarStore = defineStore(SNACKBAR_STORE, {
         return;
       }
       this.waitingSnack = true;
-      setTimeout(() => {
-        this.waitingSnack = false;
-        this.snacksList.splice(0, 1);
-        if (this.snacksList.length) {
-          setTimeout(() => {
-            this.clearSnackList();
-          }, this.offsetTimer * 1000);
-        }
-      }, this.snackTimer * 1000);
+      this.currentTimeOut = setTimeout(this.clearCurrentSnack, this.snackTimer * 1000);
+    },
+    clearCurrentSnack() {
+      clearTimeout(this.currentTimeOut);
+      this.waitingSnack = false;
+      this.snacksList.splice(0, 1);
+      if (this.snacksList.length) {
+        setTimeout(() => {
+          this.clearSnackList();
+        }, this.offsetTimer * 1000);
+      }
     },
   },
 });

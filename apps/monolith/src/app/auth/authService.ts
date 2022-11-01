@@ -26,6 +26,7 @@ export class AuthService {
         avatar: DEFAULT_USER_AVATAR,
       });
     } catch (error) {
+      console.log(error);
       apiErrorHandler(error);
     }
   }

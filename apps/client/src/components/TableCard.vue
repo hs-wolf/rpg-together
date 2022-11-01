@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTablesStore } from '~/stores';
+import { DEFAULT_USER_AVATAR, DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
 // TODO: Change any for the table class.
 defineProps<{ table: any }>();
@@ -9,12 +10,14 @@ const tablesStore = useTablesStore();
 
 <template>
   <div class="relative flex flex-col bg-secondary rounded text-primary break-all">
-    <img
-      :src="table.banner ?? ''"
-      :alt="table.title"
+    <NuxtImg
+      :src="table?.banner ?? DEFAULT_TABLE_BANNER"
+      :alt="table?.title"
       width="128"
       height="128"
-      class="object-cover w-full h-[128px] rounded-t shadow"
+      sizes="sm:100vw md:50vw lg:400px"
+      format="webp"
+      class="w-full shadow rounded-t object-cover"
     />
     <div class="flex flex-col gap-3 h-full p-3">
       <h1 class="font-semibold uppercase">{{ table.title }}</h1>
@@ -29,12 +32,14 @@ const tablesStore = useTablesStore();
       </div>
       <div class="flex justify-between items-center gap-2 mt-auto">
         <div class="flex items-center gap-1">
-          <img
-            :src="table.owner.avatar ?? ''"
-            :alt="table.owner.name"
+          <NuxtImg
+            :src="table?.owner.avatar ?? DEFAULT_USER_AVATAR"
+            :alt="table?.owner.name"
             width="20"
             height="20"
-            class="w-5 h-5 shadow rounded-full"
+            sizes="sm:100vw md:50vw lg:400px"
+            format="webp"
+            class="shadow rounded-full"
           />
           <h1 class="text-xs font-semibold truncate">{{ table.owner.name }}</h1>
         </div>

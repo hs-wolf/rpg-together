@@ -1,3 +1,95 @@
 {
-  "key": "Valor"
+  "zod-errors": {
+    "required": "{label} is required.",
+    "min": "{label} needs a minimum of {min} characters.",
+    "email": "{label} must be a valid e-mail.",
+    "not-number": "{label} must have only numbers.",
+    "not-date": "{label} must be a valid date.",
+    "array-min": "You need to select at least {min} options from {label}.",
+    "password-match": "The passwords don't match."
+  },
+  "navbar": {
+    "tabs": {
+      "menu": "Menu",
+      "home": "Home",
+      "search": "Search",
+      "notifications": "Alerts",
+      "profile": "Profile"
+    },
+    "menus": {
+      "login": "Login",
+      "register": "Register",
+      "my-applications": "My Applications",
+      "my-tables": "My Tables",
+      "settings": "Settings",
+      "about": "About",
+      "logout": "Logout"
+    }
+  },
+  "table-card-options": {
+    "apply-to-table": "Apply to table",
+    "view-table": "View table",
+    "view-owner": "View owner",
+    "report": "Report"
+  },
+  "loading-card": {
+    "title": "Loading"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "no-account": "Do not have an account? {0}",
+    "register-here": "Register here!"
+  },
+  "register": {
+    "title": "Register",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "repeat-password": "Repeat password",
+    "submit": "Register",
+    "existing-account": "Already have an account? {0}",
+    "login-here": "Login here!"
+  },
+  "home": {
+    "title": "Rpg together"
+  },
+  "home-featured": {
+    "title": "Featured Tables",
+    "loading": "Loading"
+  },
+  "home-announcements": {
+    "title": "Announcements",
+    "see-all": "See all"
+  },
+  "search": {
+    "title": "Search table",
+    "results-for": "{amount} results for: {query}"
+  },
+  "notifications": {
+    "title": "Alerts"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "my-applications": {
+    "title": "My applications"
+  },
+  "my-tables": {
+    "title": "My tables"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "about": {
+    "title": "About"
+  },
+  "announcements": {
+    "title": "Announcements"
+  },
+  "404": {
+    "title": "404 Page not found"
+  }
 }

@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { MiddlewareKey } from '~~/.nuxt/types/middleware';
 import { firebaseConfig } from '~~/firebase-config';
 import { useUserStore, useAlertsStore } from '~/stores';
-import { MiddlewareKey } from '~~/.nuxt/types/middleware';
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const app = initializeApp(firebaseConfig);

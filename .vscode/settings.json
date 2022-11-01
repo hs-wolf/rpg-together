@@ -9,5 +9,6 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "i18n-ally.localesPaths": ["apps/nuxt-app/locales"]
+  "i18n-ally.localesPaths": ["apps/client/locales"],
+  "i18n-ally.keystyle": "nested"
 }
