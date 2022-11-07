@@ -53,23 +53,24 @@ const logout = async () => {
     <Transition name="slide-left">
       <div v-if="showMobileMenu" class="modal">
         <div ref="mobileMenuRef" class="self-end flex flex-col w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark">
-          <div v-if="nuxtApp.$firebaseAuth.currentUser" class="flex justify-between h-[64px] shadow">
-            <NuxtLink to="profile" class="relative flex items-center w-full overflow-hidden" @click.prevent="closeMobileMenu">
-              <NuxtImg
-                :src="user?.avatar ?? DEFAULT_USER_AVATAR"
-                :alt="user?.username"
-                width="auto"
-                height="64"
-                sizes="sm:100vw md:50vw lg:400px"
-                format="webp"
-                class="w-full rounded-r-full opacity-30 object-cover"
-              />
-              <h1 class="absolute inset-x-3 font-semibold truncate">
-                {{ user?.username }}
-              </h1>
+          <div
+            v-if="nuxtApp.$firebaseAuth.currentUser"
+            class="relative flex justify-between items-center h-[64px] shadow overflow-hidden"
+          >
+            <NuxtImg
+              :src="user?.avatar ?? DEFAULT_USER_AVATAR"
+              :alt="user?.username"
+              width="320"
+              height="320"
+              sizes="sm:100vw md:50vw lg:320px"
+              format="webp"
+              class="absolute inset-x-0 w-full opacity-30 bg-cover blur-[1px] pointer-events-none"
+            />
+            <NuxtLink to="profile" class="flex items-center w-full p-3 overflow-hidden" @click.prevent="closeMobileMenu">
+              <h1 class="font-semibold truncate">{{ user?.username }}</h1>
             </NuxtLink>
-            <button @click.prevent="closeMobileMenu" class="p-3 active:scale-90 transition-transform">
-              <NuxtIcon name="close" class="text-xl" />
+            <button class="p-3 active:scale-90 transition-transform" @click.prevent="logout">
+              <NuxtIcon name="logout" class="text-xl text-red-500" />
             </button>
           </div>
           <div v-else class="flex justify-between gap-3 h-[64px] pr-3 shadow">
@@ -81,9 +82,6 @@ const logout = async () => {
                 {{ $t('navbar.menus.register') }}</NuxtLink
               >
             </div>
-            <button @click.prevent="closeMobileMenu" class="active:scale-90 transition-transform">
-              <NuxtIcon name="close" class="text-xl" />
-            </button>
           </div>
           <div class="flex flex-col h-full py-3">
             <NuxtLink
@@ -96,10 +94,6 @@ const logout = async () => {
               <NuxtIcon :name="item.icon" />
               <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
             </NuxtLink>
-            <button v-if="nuxtApp.$firebaseAuth.currentUser" class="menu-button text-red-500 mt-auto" @click.prevent="logout">
-              <NuxtIcon name="logout" />
-              <p>{{ $t(`navbar.menus.logout`) }}</p>
-            </button>
           </div>
         </div>
       </div>
