@@ -100,7 +100,7 @@
 			}
 		},
 		"securitySchemes": {
-			"bearer": {
+			"Bearer": {
 				"type": "http",
 				"scheme": "bearer"
 			}
@@ -264,7 +264,9 @@
 				],
 				"security": [
 					{
-						"Bearer": []
+						"Bearer": [
+							"USER"
+						]
 					}
 				],
 				"parameters": [

@@ -7,32 +7,18 @@
     @apply fixed inset-0 flex flex-col bg-black/50;
   }
   .btn-primary {
-    @apply flex justify-center items-center h-10 bg-primary border border-primary-light shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
+    @apply flex justify-center items-center h-10 px-3 bg-primary border border-primary-light shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
     @apply active:bg-primary-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-secondary {
-    @apply flex justify-center items-center h-10 bg-secondary border border-secondary-dark shadow rounded text-sm text-primary font-medium leading-none transition-transform;
+    @apply flex justify-center items-center h-10 px-3 bg-secondary border border-secondary-dark shadow rounded text-sm text-primary font-medium leading-none transition-transform;
     @apply active:bg-secondary-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-accent {
-    @apply flex justify-center items-center h-10 bg-accent border border-accent-dark shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
+    @apply flex justify-center items-center h-10 px-3 bg-accent border border-accent-dark shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
     @apply active:bg-accent-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
-  }
-  .select-empty {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    @apply p-1.5 bg-transparent border border-primary-light rounded text-sm text-secondary;
-  }
-  .select-fill {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    @apply p-1.5 bg-secondary border border-primary-light rounded text-sm text-primary;
   }
 }

@@ -8,9 +8,9 @@ export default defineNuxtPlugin(({ vueApp }) => {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   onAuthStateChanged(auth, async (user) => {
+    const route = useRoute();
     const userStore = useUserStore();
     const alertsStore = useAlertsStore();
-    const route = useRoute();
     try {
       if (user) {
         userStore.fetchUser(user.uid);

@@ -6,7 +6,7 @@
     "outputDirectory": "apps/monolith/spec",
     "specVersion": 3,
     "securityDefinitions": {
-      "bearer": {
+      "Bearer": {
         "type": "http",
         "scheme": "bearer"
       }

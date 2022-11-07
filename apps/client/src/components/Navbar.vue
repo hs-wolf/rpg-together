@@ -41,7 +41,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <nav class="fixed inset-x-0 bottom-0 grid grid-cols-5 gap-3 h-16 p-3 bg-primary shadow">
+  <nav class="fixed bottom-0 grid grid-cols-5 gap-3 w-full h-16 p-3 bg-primary shadow">
     <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
       <NuxtIcon name="hamburguer-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
       <p>{{ $t('navbar.tabs.menu') }}</p>
@@ -52,10 +52,7 @@ const logout = async () => {
     </NuxtLink>
     <Transition name="slide-left">
       <div v-if="showMobileMenu" class="modal">
-        <div
-          ref="mobileMenuRef"
-          class="self-end flex flex-col gap-3 w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark"
-        >
+        <div ref="mobileMenuRef" class="self-end flex flex-col w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark">
           <div v-if="nuxtApp.$firebaseAuth.currentUser" class="flex justify-between h-[64px] shadow">
             <NuxtLink to="profile" class="relative flex items-center w-full overflow-hidden" @click.prevent="closeMobileMenu">
               <NuxtImg
@@ -88,7 +85,7 @@ const logout = async () => {
               <NuxtIcon name="close" class="text-xl" />
             </button>
           </div>
-          <div class="flex flex-col">
+          <div class="flex flex-col h-full py-3">
             <NuxtLink
               v-for="item in menus"
               :key="item.name"
@@ -96,11 +93,11 @@ const logout = async () => {
               class="menu-button"
               @click.prevent="closeMobileMenu"
             >
-              <NuxtIcon :name="item.icon" class="text-xl" />
+              <NuxtIcon :name="item.icon" />
               <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
             </NuxtLink>
-            <button class="menu-button" @click.prevent="logout">
-              <NuxtIcon name="logout" class="text-xl" />
+            <button v-if="nuxtApp.$firebaseAuth.currentUser" class="menu-button text-red-500 mt-auto" @click.prevent="logout">
+              <NuxtIcon name="logout" />
               <p>{{ $t(`navbar.menus.logout`) }}</p>
             </button>
           </div>
@@ -110,7 +107,7 @@ const logout = async () => {
   </nav>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .tab-button {
   @apply flex flex-col items-center gap-1 text-xl active:scale-90 transition-transform;
   p {
@@ -119,5 +116,8 @@ const logout = async () => {
 }
 .menu-button {
   @apply flex items-center gap-2 p-3 hover:bg-secondary active:bg-secondary active:px-4 transition-all;
+  .nuxt-icon {
+    @apply text-xl;
+  }
 }
 </style>
