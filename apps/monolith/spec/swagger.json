@@ -25,6 +25,278 @@
 				],
 				"type": "object"
 			},
+			"FlairTypes": {
+				"enum": [
+					"SYSTEM",
+					"LANGUAGES",
+					"RATINGS",
+					"VACANCIES",
+					"GENRES",
+					"CUSTOM"
+				],
+				"type": "string"
+			},
+			"Flair": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"type": {
+						"$ref": "#/components/schemas/FlairTypes"
+					},
+					"name": {
+						"type": "string"
+					},
+					"labels": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					},
+					"users": {
+						"type": "number",
+						"format": "double"
+					},
+					"creationDate": {
+						"type": "string"
+					},
+					"lastUpdateDate": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"type",
+					"name",
+					"labels",
+					"users",
+					"creationDate",
+					"lastUpdateDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_Pick_Flair.type-or-name-or-labels-or-users-or-creationDate-or-lastUpdateDate__": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/FlairTypes"
+					},
+					"name": {
+						"type": "string"
+					},
+					"labels": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					},
+					"users": {
+						"type": "number",
+						"format": "double"
+					},
+					"creationDate": {
+						"type": "string"
+					},
+					"lastUpdateDate": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"FlairCreationBody": {
+				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels-or-users-or-creationDate-or-lastUpdateDate__"
+			},
+			"Partial_Pick_Flair.type-or-name-or-labels-or-users-or-lastUpdateDate__": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/FlairTypes"
+					},
+					"name": {
+						"type": "string"
+					},
+					"labels": {
+						"properties": {},
+						"additionalProperties": {
+							"type": "string"
+						},
+						"type": "object"
+					},
+					"users": {
+						"type": "number",
+						"format": "double"
+					},
+					"lastUpdateDate": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"FlairUpdateBody": {
+				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels-or-users-or-lastUpdateDate__"
+			},
+			"Table": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"ownerId": {
+						"type": "string"
+					},
+					"ownerHeader": {
+						"properties": {
+							"avatar": {
+								"type": "string"
+							},
+							"username": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"avatar",
+							"username"
+						],
+						"type": "object"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"banner": {
+						"type": "string"
+					},
+					"flairs": {
+						"items": {
+							"$ref": "#/components/schemas/Flair"
+						},
+						"type": "array"
+					},
+					"acceptMessage": {
+						"type": "string"
+					},
+					"creationDate": {
+						"type": "string"
+					},
+					"lastUpdateDate": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"ownerId",
+					"ownerHeader",
+					"title",
+					"description",
+					"banner",
+					"flairs",
+					"acceptMessage",
+					"creationDate",
+					"lastUpdateDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_Pick_Table.-or-ownerId-or-ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-creationDate-or-lastUpdateDate__": {
+				"properties": {
+					"creationDate": {
+						"type": "string"
+					},
+					"lastUpdateDate": {
+						"type": "string"
+					},
+					"ownerId": {
+						"type": "string"
+					},
+					"ownerHeader": {
+						"properties": {
+							"avatar": {
+								"type": "string"
+							},
+							"username": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"avatar",
+							"username"
+						],
+						"type": "object"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"banner": {
+						"type": "string"
+					},
+					"flairs": {
+						"items": {
+							"$ref": "#/components/schemas/Flair"
+						},
+						"type": "array"
+					},
+					"acceptMessage": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"TableCreationBody": {
+				"$ref": "#/components/schemas/Partial_Pick_Table.-or-ownerId-or-ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-creationDate-or-lastUpdateDate__"
+			},
+			"Partial_Pick_Table.ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-lastUpdateDate__": {
+				"properties": {
+					"lastUpdateDate": {
+						"type": "string"
+					},
+					"ownerHeader": {
+						"properties": {
+							"avatar": {
+								"type": "string"
+							},
+							"username": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"avatar",
+							"username"
+						],
+						"type": "object"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"banner": {
+						"type": "string"
+					},
+					"flairs": {
+						"items": {
+							"$ref": "#/components/schemas/Flair"
+						},
+						"type": "array"
+					},
+					"acceptMessage": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"TableUpdateBody": {
+				"$ref": "#/components/schemas/Partial_Pick_Table.ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-lastUpdateDate__"
+			},
 			"UserRoles": {
 				"enum": [
 					"USER",
@@ -48,19 +320,33 @@
 					},
 					"avatar": {
 						"type": "string"
+					},
+					"creationDate": {
+						"type": "string"
+					},
+					"lastUpdateDate": {
+						"type": "string"
 					}
 				},
 				"required": [
 					"id",
 					"username",
 					"email",
-					"avatar"
+					"avatar",
+					"creationDate",
+					"lastUpdateDate"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_User.role-or-username-or-email-or-avatar__": {
+			"Partial_Pick_User.role-or-username-or-email-or-avatar-or-creationDate-or-lastUpdateDate__": {
 				"properties": {
+					"creationDate": {
+						"type": "string"
+					},
+					"lastUpdateDate": {
+						"type": "string"
+					},
 					"role": {
 						"$ref": "#/components/schemas/UserRoles"
 					},
@@ -78,10 +364,13 @@
 				"description": "Make all properties in T optional"
 			},
 			"UserCreationBody": {
-				"$ref": "#/components/schemas/Partial_Pick_User.role-or-username-or-email-or-avatar__"
+				"$ref": "#/components/schemas/Partial_Pick_User.role-or-username-or-email-or-avatar-or-creationDate-or-lastUpdateDate__"
 			},
-			"Partial_Pick_User.username-or-email-or-avatar__": {
+			"Partial_Pick_User.username-or-email-or-avatar-or-lastUpdateDate__": {
 				"properties": {
+					"lastUpdateDate": {
+						"type": "string"
+					},
 					"username": {
 						"type": "string"
 					},
@@ -96,7 +385,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_User.username-or-email-or-avatar__"
+				"$ref": "#/components/schemas/Partial_Pick_User.username-or-email-or-avatar-or-lastUpdateDate__"
 			}
 		},
 		"securitySchemes": {
@@ -172,6 +461,286 @@
 				}
 			}
 		},
+		"/flairs/{flairId}": {
+			"get": {
+				"operationId": "GetFlair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Flair"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "flairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateFlair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Flair"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "flairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/FlairUpdateBody"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteFlair",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "flairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/flairs": {
+			"post": {
+				"operationId": "CreateFlair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Flair"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/FlairCreationBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/tables/{tableId}": {
+			"get": {
+				"operationId": "GetTable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Table"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateTable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Table"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TableUpdateBody"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteTable",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/tables": {
+			"post": {
+				"operationId": "CreateTable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Table"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TableCreationBody"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/users/{userId}": {
 			"get": {
 				"operationId": "GetUser",
@@ -221,7 +790,9 @@
 				],
 				"security": [
 					{
-						"Bearer": []
+						"Bearer": [
+							"ADMIN"
+						]
 					}
 				],
 				"parameters": [
@@ -264,9 +835,7 @@
 				],
 				"security": [
 					{
-						"Bearer": [
-							"USER"
-						]
+						"Bearer": []
 					}
 				],
 				"parameters": [
