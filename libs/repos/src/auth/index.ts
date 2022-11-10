@@ -1,2 +1,2 @@
 export * from './authRepositoryInterface';
-export * from './authRepositoryFirebaseAuth';
+export * from './authRepositoryFirebase';

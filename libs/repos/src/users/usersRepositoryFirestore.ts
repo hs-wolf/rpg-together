@@ -1,10 +1,10 @@
-import * as admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 import { IUsersRepository } from './usersRepositoryInterface';
 import { User } from '@rpg-together/models';
 import { FIREBASE_COLLECTION_USERS } from '@rpg-together/utils';
 
 export class UsersRepositoryFirestore implements IUsersRepository {
-  private firestore = admin.firestore();
+  private firestore = getFirestore();
   private collRef = this.firestore.collection(FIREBASE_COLLECTION_USERS);
 
   async getUser(id: string) {
@@ -13,7 +13,12 @@ export class UsersRepositoryFirestore implements IUsersRepository {
   }
 
   async createUser(user: User) {
-    await this.collRef.doc(user.id).set(user.toMap());
+    if (user.id) {
+      await this.collRef.doc(user.id).set(user.toMap());
+      return user;
+    }
+    const newUser = await (await this.collRef.add(user.toMap())).get();
+    return User.fromFirestore(newUser);
   }
 
   async updateUser(user: User) {

@@ -10,8 +10,8 @@ export class User {
     public username: string,
     public email: string,
     public avatar: string,
-    public creationDate: string,
-    public lastUpdateDate: string
+    public creationDate: Date,
+    public lastUpdateDate: Date
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,14 +40,4 @@ export class User {
   }
 }
 
-export type UserRegisterBody = {
-  email: string;
-  password: string;
-  username: string;
-};
-
-export type UserCreationBody = Partial<
-  Pick<User, 'role' | 'username' | 'email' | 'avatar' | 'creationDate' | 'lastUpdateDate'>
->;
-
-export type UserUpdateBody = Partial<Pick<User, 'username' | 'email' | 'avatar' | 'lastUpdateDate'>>;
+export type UserUpdateRequest = Partial<Pick<User, 'username' | 'avatar'>>;

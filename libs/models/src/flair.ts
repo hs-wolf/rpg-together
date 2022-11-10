@@ -44,6 +44,6 @@ export class Flair {
   }
 }
 
-export type FlairCreationBody = Partial<Pick<Flair, 'type' | 'name' | 'labels' | 'users' | 'creationDate' | 'lastUpdateDate'>>;
+export type FlairCreationBody = Partial<Pick<Flair, 'type' | 'name' | 'labels' | 'users'>>;
 
-export type FlairUpdateBody = Partial<Pick<Flair, 'type' | 'name' | 'labels' | 'users' | 'lastUpdateDate'>>;
+export type FlairUpdateBody = Partial<Pick<Flair, 'type' | 'name' | 'labels' | 'users'>>;

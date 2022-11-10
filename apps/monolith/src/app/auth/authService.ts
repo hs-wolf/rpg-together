@@ -1,46 +1,63 @@
-import { Inject, Singleton } from 'typescript-ioc';
-import { UsersService } from '../users/usersService';
-import { TokenClaims, UserRegisterBody, UserRoles } from '@rpg-together/models';
-import { IAuthRepository, AuthRepositoryFirebaseAuth } from '@rpg-together/repos';
+import { Singleton } from 'typescript-ioc';
+import { TokenClaims, AuthUserRegisterRequest, User, UserRoles } from '@rpg-together/models';
+import { IAuthRepository, AuthRepositoryFirebase, IUsersRepository, UsersRepositoryFirestore } from '@rpg-together/repos';
 import { apiErrorHandler, DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
 @Singleton
 export class AuthService {
-  @Inject
-  private _usersService: UsersService;
-
   private _authRepo: IAuthRepository;
+  private _usersRepo: IUsersRepository;
 
-  constructor(authRepo: IAuthRepository) {
-    this._authRepo = authRepo ?? new AuthRepositoryFirebaseAuth();
+  constructor(authRepo: IAuthRepository, usersRepo: IUsersRepository) {
+    this._authRepo = authRepo ?? new AuthRepositoryFirebase();
+    this._usersRepo = usersRepo ?? new UsersRepositoryFirestore();
   }
 
-  async userRegister(body: UserRegisterBody): Promise<void> {
+  async userRegister(body: AuthUserRegisterRequest): Promise<void> {
     try {
       const authUser = await this._authRepo.createAuthUserWithEmailAndPassword(body);
-      await this._authRepo.setUserClaims(authUser.uid, new TokenClaims(UserRoles.USER));
-      await this._usersService.createUser(authUser.uid, {
-        role: UserRoles.USER,
-        username: body.username,
-        email: body.email,
-        avatar: DEFAULT_USER_AVATAR,
-      });
+      const newUser = new User(
+        authUser.uid,
+        UserRoles.USER,
+        body.username,
+        body.email,
+        DEFAULT_USER_AVATAR,
+        new Date(),
+        new Date()
+      );
+      await Promise.all([
+        this._authRepo.setUserClaims(authUser.uid, new TokenClaims(UserRoles.USER)),
+        this._usersRepo.createUser(newUser),
+      ]);
     } catch (error) {
-      console.log(error);
       apiErrorHandler(error);
     }
   }
 
-  async adminRegister(body: UserRegisterBody): Promise<void> {
+  async adminRegister(body: AuthUserRegisterRequest): Promise<void> {
     try {
       const authUser = await this._authRepo.createAuthUserWithEmailAndPassword(body);
-      await this._authRepo.setUserClaims(authUser.uid, new TokenClaims(UserRoles.ADMIN));
-      await this._usersService.createUser(authUser.uid, {
-        role: UserRoles.ADMIN,
-        username: body.username,
-        email: body.email,
-        avatar: DEFAULT_USER_AVATAR,
-      });
+      const newUser = new User(
+        authUser.uid,
+        UserRoles.ADMIN,
+        body.username,
+        body.email,
+        DEFAULT_USER_AVATAR,
+        new Date(),
+        new Date()
+      );
+      await Promise.all([
+        this._authRepo.setUserClaims(authUser.uid, new TokenClaims(UserRoles.ADMIN)),
+        this._usersRepo.createUser(newUser),
+      ]);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async accountDelete(id: string): Promise<void> {
+    try {
+      await Promise.all([this._authRepo.deleteAuthUser(id), this._usersRepo.deleteUser(id)]);
     } catch (error) {
       apiErrorHandler(error);
     }

@@ -17,3 +17,5 @@ export class TokenClaims {
     };
   }
 }
+
+export type AuthUserRegisterRequest = { username: string; email: string; password: string };

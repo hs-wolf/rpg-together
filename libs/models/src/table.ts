@@ -13,8 +13,8 @@ export class Table {
     public banner: string,
     public flairs: Flair[],
     public acceptMessage: string,
-    public creationDate: string,
-    public lastUpdateDate: string
+    public creationDate: Date,
+    public lastUpdateDate: Date
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,21 +57,8 @@ export class Table {
   }
 }
 
-export type TableCreationBody = Partial<
-  Pick<
-    Table,
-    | 'ownerId'
-    | 'ownerHeader'
-    | 'title'
-    | 'description'
-    | 'banner'
-    | 'flairs'
-    | 'acceptMessage'
-    | 'creationDate'
-    | 'lastUpdateDate'
-  >
+export type TableCreateRequest = Partial<
+  Pick<Table, 'ownerId' | 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>
 >;
 
-export type TableUpdateBody = Partial<
-  Pick<Table, 'ownerHeader' | 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage' | 'lastUpdateDate'>
->;
+export type TableUpdateRequest = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;
