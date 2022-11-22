@@ -7,6 +7,15 @@ export class UsersRepositoryFirestore implements IUsersRepository {
   private firestore = getFirestore();
   private collRef = this.firestore.collection(FIREBASE_COLLECTION_USERS);
 
+  async getUserByUsername(username: string) {
+    const query = this.collRef.where('username', '==', username);
+    const querySnapshot = await query.get();
+    if (querySnapshot.docs.length) {
+      return User.fromFirestore(querySnapshot.docs[0]);
+    }
+    return null;
+  }
+
   async getUser(id: string) {
     const snapshot = await this.collRef.doc(id).get();
     return User.fromFirestore(snapshot);

@@ -5,10 +5,7 @@ export class TokenClaims {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromMap(map: any) {
-    if (!map) {
-      return null;
-    }
-    return new TokenClaims(map['role'] ?? null);
+    return !map ? null : new TokenClaims(map.role);
   }
 
   toMap() {
@@ -18,4 +15,4 @@ export class TokenClaims {
   }
 }
 
-export type AuthUserRegisterRequest = { username: string; email: string; password: string };
+export type AuthUserRegisterBody = { username: string; email: string; password: string };

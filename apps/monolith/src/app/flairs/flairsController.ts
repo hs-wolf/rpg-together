@@ -10,6 +10,12 @@ export class FlairsController extends Controller {
   @Inject
   private _flairService: FlairsService;
 
+  @Security(SECURITY_NAME_BEARER)
+  @Post('/{flairId}/change-uses')
+  public async changeNumberOfUses(@Path() flairId: string, @Body() body: { action: 'increase' | 'decrease' }): Promise<void> {
+    return this._flairService.changeNumberOfUses(flairId, body.action);
+  }
+
   @Get('/{flairId}')
   public async getFlair(@Path() flairId: string): Promise<Flair> {
     return this._flairService.getFlair(flairId);

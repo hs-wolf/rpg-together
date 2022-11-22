@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { auth } from 'firebase-admin';
 import { DecodedIdToken } from 'firebase-admin/auth';
-import { ApiError, ResponseCodes } from '@rpg-together/models';
+import { ApiError, ResponseCodes, ResponseMessages } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER, apiErrorHandler } from '@rpg-together/utils';
 
 /**
@@ -34,11 +34,11 @@ const bearerAuth = async (request: Request, scopes: string[]): Promise<DecodedId
       request.body.token || request.query.token || request.headers['x-access-token'] || request.get('Authorization');
     const cleanToken = rawToken ? rawToken.replace(`${SECURITY_NAME_BEARER} `, '') : '';
     if (!cleanToken) {
-      throw new ApiError(ResponseCodes.UNAUTHORIZED, 'Unauthorized due missing token.');
+      throw new ApiError(ResponseCodes.UNAUTHORIZED, ResponseMessages.MISSING_TOKEN);
     }
     const claims = await auth().verifyIdToken(cleanToken);
-    if (!scopes.includes(claims.role)) {
-      throw new ApiError(ResponseCodes.UNAUTHORIZED, 'Unauthorized to access this route.');
+    if (scopes.length && !scopes.includes(claims.role)) {
+      throw new ApiError(ResponseCodes.UNAUTHORIZED, ResponseMessages.ROLE_NOT_AUTHORIZED);
     }
     return claims;
   } catch (error) {

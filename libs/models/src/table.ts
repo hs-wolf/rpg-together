@@ -1,4 +1,4 @@
-import { Flair } from './flair';
+import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
 
 export class Table {
   constructor(
@@ -11,18 +11,14 @@ export class Table {
     public title: string,
     public description: string,
     public banner: string,
-    public flairs: Flair[],
+    public flairs: string[],
     public acceptMessage: string,
     public creationDate: Date,
     public lastUpdateDate: Date
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromFirestore(snapshot: any) {
-    if (!snapshot || !snapshot.exists) {
-      return null;
-    }
-    return Table.fromMap({ ...snapshot.data(), id: snapshot.id });
+  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
+    return !snapshot || !snapshot.exists ? null : Table.fromMap({ ...snapshot.data(), id: snapshot.id });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,8 +53,6 @@ export class Table {
   }
 }
 
-export type TableCreateRequest = Partial<
-  Pick<Table, 'ownerId' | 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>
->;
+export type TableCreateBody = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;
 
-export type TableUpdateRequest = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;
+export type TableUpdateBody = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;

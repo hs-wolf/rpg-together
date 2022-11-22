@@ -6,22 +6,22 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"UserRegisterBody": {
+			"AuthUserRegisterBody": {
 				"properties": {
-					"username": {
-						"type": "string"
-					},
 					"password": {
 						"type": "string"
 					},
 					"email": {
 						"type": "string"
+					},
+					"username": {
+						"type": "string"
 					}
 				},
 				"required": [
-					"username",
 					"password",
-					"email"
+					"email",
+					"username"
 				],
 				"type": "object"
 			},
@@ -54,15 +54,17 @@
 						},
 						"type": "object"
 					},
-					"users": {
+					"numberOfUses": {
 						"type": "number",
 						"format": "double"
 					},
 					"creationDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					},
 					"lastUpdateDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
@@ -70,14 +72,14 @@
 					"type",
 					"name",
 					"labels",
-					"users",
+					"numberOfUses",
 					"creationDate",
 					"lastUpdateDate"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Flair.type-or-name-or-labels-or-users-or-creationDate-or-lastUpdateDate__": {
+			"Partial_Pick_Flair.type-or-name-or-labels__": {
 				"properties": {
 					"type": {
 						"$ref": "#/components/schemas/FlairTypes"
@@ -91,52 +93,16 @@
 							"type": "string"
 						},
 						"type": "object"
-					},
-					"users": {
-						"type": "number",
-						"format": "double"
-					},
-					"creationDate": {
-						"type": "string"
-					},
-					"lastUpdateDate": {
-						"type": "string"
 					}
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
 			"FlairCreationBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels-or-users-or-creationDate-or-lastUpdateDate__"
-			},
-			"Partial_Pick_Flair.type-or-name-or-labels-or-users-or-lastUpdateDate__": {
-				"properties": {
-					"type": {
-						"$ref": "#/components/schemas/FlairTypes"
-					},
-					"name": {
-						"type": "string"
-					},
-					"labels": {
-						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
-						"type": "object"
-					},
-					"users": {
-						"type": "number",
-						"format": "double"
-					},
-					"lastUpdateDate": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
+				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels__"
 			},
 			"FlairUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels-or-users-or-lastUpdateDate__"
+				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels__"
 			},
 			"Table": {
 				"properties": {
@@ -172,7 +138,7 @@
 					},
 					"flairs": {
 						"items": {
-							"$ref": "#/components/schemas/Flair"
+							"type": "string"
 						},
 						"type": "array"
 					},
@@ -180,10 +146,12 @@
 						"type": "string"
 					},
 					"creationDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					},
 					"lastUpdateDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
@@ -201,32 +169,8 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Table.-or-ownerId-or-ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-creationDate-or-lastUpdateDate__": {
+			"Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__": {
 				"properties": {
-					"creationDate": {
-						"type": "string"
-					},
-					"lastUpdateDate": {
-						"type": "string"
-					},
-					"ownerId": {
-						"type": "string"
-					},
-					"ownerHeader": {
-						"properties": {
-							"avatar": {
-								"type": "string"
-							},
-							"username": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"avatar",
-							"username"
-						],
-						"type": "object"
-					},
 					"title": {
 						"type": "string"
 					},
@@ -238,7 +182,7 @@
 					},
 					"flairs": {
 						"items": {
-							"$ref": "#/components/schemas/Flair"
+							"type": "string"
 						},
 						"type": "array"
 					},
@@ -249,53 +193,11 @@
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
-			"TableCreationBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Table.-or-ownerId-or-ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-creationDate-or-lastUpdateDate__"
-			},
-			"Partial_Pick_Table.ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-lastUpdateDate__": {
-				"properties": {
-					"lastUpdateDate": {
-						"type": "string"
-					},
-					"ownerHeader": {
-						"properties": {
-							"avatar": {
-								"type": "string"
-							},
-							"username": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"avatar",
-							"username"
-						],
-						"type": "object"
-					},
-					"title": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"banner": {
-						"type": "string"
-					},
-					"flairs": {
-						"items": {
-							"$ref": "#/components/schemas/Flair"
-						},
-						"type": "array"
-					},
-					"acceptMessage": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
+			"TableCreateBody": {
+				"$ref": "#/components/schemas/Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__"
 			},
 			"TableUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Table.ownerHeader-or-title-or-description-or-banner-or-flairs-or-acceptMessage-or-lastUpdateDate__"
+				"$ref": "#/components/schemas/Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__"
 			},
 			"UserRoles": {
 				"enum": [
@@ -322,10 +224,12 @@
 						"type": "string"
 					},
 					"creationDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					},
 					"lastUpdateDate": {
-						"type": "string"
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
@@ -339,42 +243,9 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_User.role-or-username-or-email-or-avatar-or-creationDate-or-lastUpdateDate__": {
+			"Partial_Pick_User.username-or-avatar__": {
 				"properties": {
-					"creationDate": {
-						"type": "string"
-					},
-					"lastUpdateDate": {
-						"type": "string"
-					},
-					"role": {
-						"$ref": "#/components/schemas/UserRoles"
-					},
 					"username": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"avatar": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
-			"UserCreationBody": {
-				"$ref": "#/components/schemas/Partial_Pick_User.role-or-username-or-email-or-avatar-or-creationDate-or-lastUpdateDate__"
-			},
-			"Partial_Pick_User.username-or-email-or-avatar-or-lastUpdateDate__": {
-				"properties": {
-					"lastUpdateDate": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"email": {
 						"type": "string"
 					},
 					"avatar": {
@@ -385,7 +256,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_User.username-or-email-or-avatar-or-lastUpdateDate__"
+				"$ref": "#/components/schemas/Partial_Pick_User.username-or-avatar__"
 			}
 		},
 		"securitySchemes": {
@@ -423,7 +294,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserRegisterBody"
+								"$ref": "#/components/schemas/AuthUserRegisterBody"
 							}
 						}
 					}
@@ -454,7 +325,76 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserRegisterBody"
+								"$ref": "#/components/schemas/AuthUserRegisterBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/delete": {
+			"delete": {
+				"operationId": "AccountDelete",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Authentication Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/flairs/{flairId}/change-uses": {
+			"post": {
+				"operationId": "ChangeNumberOfUses",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "flairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"action": {
+										"type": "string",
+										"enum": [
+											"increase",
+											"decrease"
+										]
+									}
+								},
+								"required": [
+									"action"
+								],
+								"type": "object"
 							}
 						}
 					}
@@ -479,11 +419,7 @@
 				"tags": [
 					"Flairs Service"
 				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -514,7 +450,9 @@
 				],
 				"security": [
 					{
-						"Bearer": []
+						"Bearer": [
+							"ADMIN"
+						]
 					}
 				],
 				"parameters": [
@@ -550,7 +488,9 @@
 				],
 				"security": [
 					{
-						"Bearer": []
+						"Bearer": [
+							"ADMIN"
+						]
 					}
 				],
 				"parameters": [
@@ -585,7 +525,9 @@
 				],
 				"security": [
 					{
-						"Bearer": []
+						"Bearer": [
+							"ADMIN"
+						]
 					}
 				],
 				"parameters": [],
@@ -599,6 +541,40 @@
 						}
 					}
 				}
+			}
+		},
+		"/tables/from-user/{userId}": {
+			"get": {
+				"operationId": "GetTablesFromUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Table"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/tables/{tableId}": {
@@ -619,11 +595,7 @@
 				"tags": [
 					"Tables Service"
 				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
+				"security": [],
 				"parameters": [
 					{
 						"in": "path",
@@ -734,7 +706,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/TableCreationBody"
+								"$ref": "#/components/schemas/TableCreateBody"
 							}
 						}
 					}
@@ -770,52 +742,9 @@
 						}
 					}
 				]
-			},
-			"post": {
-				"operationId": "CreateUser",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Users Service"
-				],
-				"security": [
-					{
-						"Bearer": [
-							"ADMIN"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/UserCreationBody"
-							}
-						}
-					}
-				}
-			},
+			}
+		},
+		"/users": {
 			"put": {
 				"operationId": "UpdateUser",
 				"responses": {
@@ -838,16 +767,7 @@
 						"Bearer": []
 					}
 				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
+				"parameters": [],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -858,32 +778,6 @@
 						}
 					}
 				}
-			},
-			"delete": {
-				"operationId": "DeleteUser",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Users Service"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			}
 		}
 	},

@@ -9,9 +9,9 @@ export class TablesRepositoryFirestore implements ITablesRepository {
 
   async getTablesFromUser(userId: string) {
     const query = this.collRef.where('ownerId', '==', userId);
-    const snapshot = await query.get();
-    if (snapshot.docs.length) {
-      return snapshot.docs.map((snapshot) => Table.fromFirestore(snapshot)).filter((table) => table) as Table[];
+    const querySnapshot = await query.get();
+    if (querySnapshot.docs.length) {
+      return querySnapshot.docs.map((snapshot) => Table.fromFirestore(snapshot)).filter((table) => table) as Table[];
     }
     return [];
   }

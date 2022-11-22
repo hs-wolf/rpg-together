@@ -1,7 +1,4 @@
-export enum UserRoles {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
-}
+import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
 
 export class User {
   constructor(
@@ -14,17 +11,13 @@ export class User {
     public lastUpdateDate: Date
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromFirestore(snapshot: any) {
-    if (!snapshot || !snapshot.exists) {
-      return null;
-    }
-    return User.fromMap({ ...snapshot.data(), id: snapshot.id });
+  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
+    return !snapshot || !snapshot.exists ? null : User.fromMap({ ...snapshot.data(), id: snapshot.id });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromMap(map: any) {
-    return new User(map.id, map.role, map.username, map.email, map.avatar, map.creationDate, map.lastUpdateDate);
+    return !map ? null : new User(map.id, map.role, map.username, map.email, map.avatar, map.creationDate, map.lastUpdateDate);
   }
 
   toMap() {
@@ -40,4 +33,11 @@ export class User {
   }
 }
 
-export type UserUpdateRequest = Partial<Pick<User, 'username' | 'avatar'>>;
+export enum UserRoles {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+}
+
+export type UserCreateBody = Partial<Pick<User, 'id' | 'role' | 'username' | 'email' | 'avatar'>>;
+
+export type UserUpdateBody = Partial<Pick<User, 'username' | 'avatar'>>;

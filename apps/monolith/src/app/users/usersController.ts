@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Path, Put, Route, Security, Tags } from 'tsoa';
+import { Body, Controller, Get, Path, Put, Request, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
 import { UsersService } from './usersService';
-import { User, UserUpdateRequest } from '@rpg-together/models';
+import { User, UserUpdateBody, TsoaRequest } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
 
 @Tags('Users Service')
@@ -16,8 +16,8 @@ export class UsersController extends Controller {
   }
 
   @Security(SECURITY_NAME_BEARER)
-  @Put('/{userId}')
-  public async updateUser(@Path() userId: string, @Body() body: UserUpdateRequest): Promise<User> {
-    return this._userService.updateUser(userId, body);
+  @Put('/')
+  public async updateUser(@Request() request: TsoaRequest, @Body() body: UserUpdateBody): Promise<User> {
+    return this._userService.updateUser(request.user.uid, body);
   }
 }
