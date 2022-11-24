@@ -128,7 +128,7 @@ const clearFilters = () => {
     <PageTitle :title="$t('search.title')" />
     <div class="flex flex-col gap-3 p-3">
       <div class="relative flex items-center border border-primary-light rounded">
-        <NuxtIcon name="search" class="absolute left-0 px-3 py-2 pointer-events-none" />
+        <Icon name="material-symbols:search-rounded" class="absolute left-3 text-lg pointer-events-none" />
         <input
           type="text"
           v-model="query"
@@ -139,20 +139,20 @@ const clearFilters = () => {
           class="absolute right-0 flex px-3 py-2 opacity-50 transition-transform active:rotate-90"
           @click.prevent="query = ''"
         >
-          <NuxtIcon name="close" />
+          <Icon name="material-symbols:close" />
         </button>
       </div>
       <div class="flex flex-col gap-2">
         <div class="flex justify-between">
           <button class="btn-accent gap-1.5" @click.prevent="showFilterMenu = !showFilterMenu">
-            <NuxtIcon name="filter" />
+            <Icon name="material-symbols:filter-alt" />
             <p>Filters</p>
-            <NuxtIcon name="chevron-up" fill class="transition-transform rotate-90" :class="{ '-rotate-90': showFilterMenu }" />
+            <Icon name="ion:chevron-up" fill class="transition-transform rotate-90" :class="{ '-rotate-90': showFilterMenu }" />
           </button>
           <Transition name="slide-left">
             <button v-if="showFilterMenu" class="btn-secondary gap-2" @click.prevent="clearFilters">
               <p>Clear</p>
-              <NuxtIcon name="close" />
+              <Icon name="material-symbols:close" />
             </button>
           </Transition>
         </div>

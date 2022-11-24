@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { SnackType } from '~~/custom-types';
 import { useSnackbarStore, useUserStore } from '~/stores';
-import { UserRegisterBody } from '@rpg-together/models';
+import { AuthUserRegisterBody } from '@rpg-together/models';
 
 definePageMeta({ middleware: ['offline'] });
 useHead({ title: useI18n().t('register.title') });
@@ -73,7 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
           autocomplete="off"
           :disabled="registering"
         >
-          <template #field-icon><NuxtIcon name="user" /></template>
+          <template #field-icon><Icon name="mdi:user" /></template>
         </FormInput>
         <FormInput
           :name="formFields.email.name"
@@ -85,7 +85,7 @@ const onSubmit = handleSubmit(async (values) => {
           type="email"
           :disabled="registering"
         >
-          <template #field-icon><NuxtIcon name="email" /></template>
+          <template #field-icon><Icon name="material-symbols:alternate-email" /></template>
         </FormInput>
         <FormInput
           :name="formFields.password.name"
@@ -97,9 +97,9 @@ const onSubmit = handleSubmit(async (values) => {
           type="password"
           :disabled="registering"
         >
-          <template #field-icon><NuxtIcon name="key" /></template>
-          <template #show-password-icon><NuxtIcon name="eye-open" /></template>
-          <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
+          <template #field-icon><Icon name="material-symbols:key" /></template>
+          <template #show-password-icon><Icon name="bi:eye-fill" /></template>
+          <template #hide-password-icon><Icon name="bi:eye-slash-fill" /></template>
         </FormInput>
         <FormInput
           :name="formFields.confirmPassword.name"
@@ -113,13 +113,13 @@ const onSubmit = handleSubmit(async (values) => {
           type="password"
           :disabled="registering"
         >
-          <template #field-icon><NuxtIcon name="key" /></template>
-          <template #show-password-icon><NuxtIcon name="eye-open" /></template>
-          <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
+          <template #field-icon><Icon name="material-symbols:key" /></template>
+          <template #show-password-icon><Icon name="bi:eye-fill" /></template>
+          <template #hide-password-icon><Icon name="bi:eye-slash-fill" /></template>
         </FormInput>
       </div>
       <button class="btn-accent" @click.prevent="onSubmit" :disabled="registering">
-        <NuxtIcon v-if="registering" name="loading" class="text-xl" />
+        <Icon v-if="registering" name="line-md:loading-loop" class="text-xl" />
         <p v-else>{{ $t('register.submit') }}</p>
       </button>
       <i18n-t keypath="register.existing-account" tag="div" scope="global" class="text-center text-sm">

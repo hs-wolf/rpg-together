@@ -13,7 +13,7 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-3 p-3">
     <div class="flex items-center gap-2 font-semibold">
-      <NuxtIcon name="pin" />
+      <Icon name="material-symbols:push-pin" />
       <h1>{{ $t('home-announcements.title') }}</h1>
     </div>
     <div v-if="announcements?.length" class="flex flex-col gap-3">

@@ -1,9 +1,8 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { USER_STORE } from '~~/constants';
 import { SnackType } from '~~/custom-types';
 import { useAlertsStore, useSnackbarStore } from '~/stores';
-import { User, UserRegisterBody } from '@rpg-together/models';
+import { User, AuthUserRegisterBody } from '@rpg-together/models';
 
 interface IState {
   user: User | null;
@@ -51,7 +50,7 @@ export const useUserStore = defineStore(USER_STORE, {
         this.signingOut = false;
       }
     },
-    async register(body: UserRegisterBody) {
+    async register(body: AuthUserRegisterBody) {
       if (this.registering) {
         return;
       }

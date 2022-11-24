@@ -21,7 +21,7 @@ const showPassword = ref(false);
     <div class="flex flex-col gap-6 p-3">
       <div class="flex flex-col gap-3">
         <div class="relative flex items-center border border-primary-light rounded">
-          <NuxtIcon name="email" class="absolute left-0 px-3 py-2 pointer-events-none" />
+          <Icon name="material-symbols:alternate-email" class="absolute left-0 px-3 py-2 pointer-events-none" />
           <input
             name="email"
             type="text"
@@ -32,7 +32,7 @@ const showPassword = ref(false);
           />
         </div>
         <div class="relative flex items-center border border-primary-light rounded">
-          <NuxtIcon name="key" class="absolute left-0 px-3 py-2 pointer-events-none" />
+          <Icon name="material-symbols:key" class="absolute left-0 px-3 py-2 pointer-events-none" />
           <input
             name="password"
             :type="showPassword ? 'text' : 'password'"
@@ -45,7 +45,7 @@ const showPassword = ref(false);
             class="absolute right-0 flex px-3 py-2 transition-transform active:scale-90"
             @click.prevent="showPassword = !showPassword"
           >
-            <NuxtIcon :name="showPassword ? 'eye-open' : 'eye-closed'" class="text-xl" />
+            <Icon :name="showPassword ? 'bi:eye-fill' : 'bi:eye-slash-fill'" class="text-xl" />
           </button>
         </div>
       </div>

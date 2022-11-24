@@ -20,6 +20,6 @@ watch(authChecked, () => {
 
 <template>
   <div>
-    <NuxtIcon name="logo" class="text-2xl animate-pulse" />
+    <Icon name="Logo" class="text-2xl animate-pulse" />
   </div>
 </template>

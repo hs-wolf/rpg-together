@@ -52,7 +52,7 @@ onMounted(() => {
     <div class="flex flex-col gap-3 p-3">
       <button class="btn-primary gap-2" @click.prevent="markAllAsRead">
         <p>Mark all as read</p>
-        <NuxtIcon name="check" />
+        <Icon name="material-symbols:check-circle-rounded" />
       </button>
       <h1 class="p-3 text-center">
         You have <strong>{{ unreadNotificationsNumber }}</strong> unread alerts.

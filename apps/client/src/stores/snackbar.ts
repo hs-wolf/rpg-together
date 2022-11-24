@@ -1,4 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
 import { SNACKBAR_STORE } from '~~/constants';
 import { ISnack } from '~~/custom-types';
 

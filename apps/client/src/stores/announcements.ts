@@ -1,4 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
 import { ANNOUNCEMENTS_STORE } from '~~/constants';
 
 interface IState {}

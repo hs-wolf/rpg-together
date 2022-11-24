@@ -9,13 +9,13 @@ const { currentSnack, waitingSnack } = storeToRefs(snackbarStore);
 const currentBgAndIcon = computed(() => {
   switch (currentSnack.value.type) {
     case SnackType.SUCCESS:
-      return { bg: 'bg-green-500', icon: 'check' };
+      return { bg: 'bg-green-500', icon: 'material-symbols:check-circle-rounded' };
     case SnackType.WARNING:
-      return { bg: 'bg-yellow-500', icon: 'alert-triangle' };
+      return { bg: 'bg-yellow-500', icon: 'mdi:alert' };
     case SnackType.ERROR:
-      return { bg: 'bg-red-500', icon: 'alert-circle' };
+      return { bg: 'bg-red-500', icon: 'mdi:alert-circle' };
     default:
-      return { bg: 'bg-yellow-500', icon: 'alert-triangle' };
+      return { bg: 'bg-yellow-500', icon: 'mdi:alert' };
   }
 });
 </script>
@@ -27,10 +27,10 @@ const currentBgAndIcon = computed(() => {
       class="fixed inset-x-3 top-3 flex items-center gap-2 p-3 shadow rounded"
       :class="[currentBgAndIcon.bg]"
     >
-      <NuxtIcon :name="currentBgAndIcon.icon" class="text-xl" />
+      <Icon :name="currentBgAndIcon.icon" class="text-xl" />
       <p class="w-full font-medium break-all">{{ currentSnack.message }}</p>
       <button name="clear-snack" @click.prevent="snackbarStore.clearCurrentSnack">
-        <NuxtIcon name="close-circle" class="text-lg" />
+        <Icon name="mdi:close-circle" class="text-lg" />
       </button>
     </div>
   </transition>

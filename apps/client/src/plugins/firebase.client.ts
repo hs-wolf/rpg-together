@@ -1,6 +1,5 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { MiddlewareKey } from '~~/.nuxt/types/middleware';
 import { firebaseConfig } from '~~/firebase-config';
 import { useUserStore, useAlertsStore } from '~/stores';
 
@@ -20,7 +19,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
         return navigateTo('/');
       } else {
         userStore.$reset();
-        if (route.meta.middleware && (route.meta.middleware as MiddlewareKey[]).includes('auth')) {
+        if (route.meta.middleware && (route.meta.middleware as string[]).includes('auth')) {
           return navigateTo({ name: 'login', query: { redirect: route.fullPath } });
         }
       }

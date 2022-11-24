@@ -1,6 +1,7 @@
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'url';
-import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite';
+import en from './locales/en.json';
+import pt from './locales/pt.json';
 
 export default defineNuxtConfig({
   typescript: { shim: false },
@@ -10,6 +11,16 @@ export default defineNuxtConfig({
     },
   },
   srcDir: 'src/',
+  alias: {
+    '@rpg-together/models': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/models/src/index.ts'),
+    '@rpg-together/repos': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/repos/src/index.ts'),
+    '@rpg-together/utils': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/utils/src/index.ts'),
+  },
+  runtimeConfig: {
+    public: {
+      BASE_URL: process.env.BASE_URL ?? 'http://localhost:3000/',
+    },
+  },
   app: {
     head: {
       htmlAttrs: {
@@ -25,27 +36,35 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@vueuse/nuxt', '@nuxt/image-edge', 'nuxt-icons'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: ['acceptHMRUpdate', 'defineStore', 'storeToRefs'],
+      },
+    ],
+    '@vueuse/nuxt',
+    [
+      '@nuxtjs/i18n-edge',
+      {
+        vueI18n: {
+          legacy: false,
+          locale: 'en',
+          fallbackLocale: 'en',
+          messages: {
+            ['en']: en,
+            ['pt']: pt,
+          },
+        },
+      },
+    ],
+    '@nuxt/image-edge',
+    'nuxt-icon',
+  ],
   tailwindcss: {
     cssPath: './src/assets/css/tailwind.css',
     configPath: './tailwind.config.js',
     viewer: false,
-  },
-  vite: {
-    plugins: [
-      VueI18nVitePlugin({
-        include: [resolve(dirname(fileURLToPath(import.meta.url)), 'locales/*.json')],
-      }),
-    ],
-  },
-  alias: {
-    '@rpg-together/models': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/models/src/index.ts'),
-    '@rpg-together/repos': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/repos/src/index.ts'),
-    '@rpg-together/utils': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/utils/src/index.ts'),
-  },
-  runtimeConfig: {
-    public: {
-      BASE_URL: process.env.BASE_URL ?? 'http://localhost:3000/',
-    },
   },
 });

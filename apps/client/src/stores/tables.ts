@@ -1,4 +1,3 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
 import { TABLES_STORE } from '~~/constants';
 
 interface IState {
