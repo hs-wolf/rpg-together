@@ -21,7 +21,7 @@ const showPassword = ref(false);
     <div class="flex flex-col gap-6 p-3">
       <div class="flex flex-col gap-3">
         <div class="relative flex items-center border border-primary-light rounded">
-          <Icon name="material-symbols:alternate-email" class="absolute left-0 px-3 py-2 pointer-events-none" />
+          <Icon name="material-symbols:alternate-email" class="absolute left-3 pointer-events-none" />
           <input
             name="email"
             type="text"
@@ -32,7 +32,7 @@ const showPassword = ref(false);
           />
         </div>
         <div class="relative flex items-center border border-primary-light rounded">
-          <Icon name="material-symbols:key" class="absolute left-0 px-3 py-2 pointer-events-none" />
+          <Icon name="material-symbols:key" class="absolute left-3 pointer-events-none" />
           <input
             name="password"
             :type="showPassword ? 'text' : 'password'"

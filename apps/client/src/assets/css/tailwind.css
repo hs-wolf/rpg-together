@@ -21,4 +21,9 @@
     @apply active:bg-accent-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
+  .btn-danger {
+    @apply flex justify-center items-center h-10 px-3 border border-transparent shadow rounded text-sm text-red-500 font-medium leading-none transition-transform;
+    @apply active:bg-red-500 active:text-secondary active:scale-90;
+    @apply disabled:opacity-50 disabled:pointer-events-none;
+  }
 }
