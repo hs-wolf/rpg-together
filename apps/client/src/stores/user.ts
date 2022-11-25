@@ -218,7 +218,7 @@ export const useUserStore = defineStore(USER_STORE, {
         }
         this.changingAvatar = true;
         const formData = new FormData();
-        formData.append('file', file, DEFAULT_USER_AVATAR_NAME);
+        formData.append('file', file, `${DEFAULT_USER_AVATAR_NAME}.${file.name.split('.').pop()}`);
         const url = await useRpgTogetherAPI.uploadUserFile({ body: formData });
         const body: UserUpdateBody = {
           avatar: url,
