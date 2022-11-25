@@ -72,7 +72,8 @@
     "title": "Alerts"
   },
   "profile": {
-    "title": "Profile"
+    "title": "Profile",
+    "email": "Email:"
   },
   "my-applications": {
     "title": "My applications"

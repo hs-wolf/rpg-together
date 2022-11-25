@@ -25,6 +25,21 @@
 				],
 				"type": "object"
 			},
+			"Partial__email-string--password-string__": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"AuthUserUpdateBody": {
+				"$ref": "#/components/schemas/Partial__email-string--password-string__"
+			},
 			"FlairTypes": {
 				"enum": [
 					"SYSTEM",
@@ -243,8 +258,11 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_User.username-or-avatar__": {
+			"Partial_Pick_User.username-or-email-or-avatar__": {
 				"properties": {
+					"email": {
+						"type": "string"
+					},
 					"username": {
 						"type": "string"
 					},
@@ -256,7 +274,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"UserUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_User.username-or-avatar__"
+				"$ref": "#/components/schemas/Partial_Pick_User.username-or-email-or-avatar__"
 			}
 		},
 		"securitySchemes": {
@@ -326,6 +344,35 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/AuthUserRegisterBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/update": {
+			"put": {
+				"operationId": "UpdateAuthUser",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Authentication Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AuthUserUpdateBody"
 							}
 						}
 					}
@@ -707,6 +754,51 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/TableCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/upload/user-file": {
+			"post": {
+				"operationId": "UploadFile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Upload Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"file"
+								]
 							}
 						}
 					}

@@ -6,7 +6,6 @@ body {
 }
 
 /* HELPERS */
-
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -16,7 +15,6 @@ body {
 }
 
 /* TRANSITIONS */
-
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.15s ease-out;

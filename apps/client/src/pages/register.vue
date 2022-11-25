@@ -4,8 +4,7 @@ import { useForm, useField } from 'vee-validate';
 import { toFormValidator } from '@vee-validate/zod';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
-import { SnackType } from '~~/custom-types';
-import { useSnackbarStore, useUserStore } from '~/stores';
+import { useUserStore } from '~/stores';
 import { AuthUserRegisterBody } from '@rpg-together/models';
 
 definePageMeta({ middleware: ['offline'] });
@@ -54,7 +53,7 @@ const { value: passwordValue } = useField(formFields.password.name);
 const { value: confirmPasswordValue } = useField(formFields.confirmPassword.name);
 
 const onSubmit = handleSubmit(async (values) => {
-  const body: UserRegisterBody = { username: values.username, email: values.email, password: values.password };
+  const body: AuthUserRegisterBody = { username: values.username, email: values.email, password: values.password };
   await userStore.register(body);
 });
 </script>

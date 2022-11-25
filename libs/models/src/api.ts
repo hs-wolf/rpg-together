@@ -28,6 +28,8 @@ export enum ResponseMessages {
   TABLE_NOT_FOUND = 'TABLE_NOT_FOUND',
   FLAIR_NOT_FOUND = 'FLAIR_NOT_FOUND',
   USERNAME_TAKEN = 'USERNAME_TAKEN',
+  EMAIL_TAKEN = 'EMAIL_TAKEN',
+  COULD_NOT_UPLOAD = 'COULD_NOT_UPLOAD',
 }
 
 export type TsoaRequest = Request & { user: DecodedIdToken };

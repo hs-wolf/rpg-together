@@ -2,6 +2,8 @@ import { CreateRequest, UpdateRequest, UserRecord } from 'firebase-admin/auth';
 import { TokenClaims } from '@rpg-together/models';
 
 export interface IAuthRepository {
+  getAuthUserByEmail(email: string): Promise<UserRecord | null>;
+
   setUserClaims(uid: string, claims: TokenClaims): Promise<void>;
 
   createAuthUserWithEmailAndPassword(request: CreateRequest): Promise<UserRecord>;

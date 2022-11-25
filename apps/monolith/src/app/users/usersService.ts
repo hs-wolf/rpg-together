@@ -13,7 +13,7 @@ export class UsersService {
 
   async checkUsernameExists(username: string) {
     try {
-      const user = this._usersRepo.getUserByUsername(username);
+      const user = await this._usersRepo.getUserByUsername(username);
       if (user) {
         throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.USERNAME_TAKEN);
       }
@@ -49,6 +49,9 @@ export class UsersService {
 
   async updateUser(userId: string, body: UserUpdateBody): Promise<User> {
     try {
+      if (body.username) {
+        await this.checkUsernameExists(body.username);
+      }
       const oldUser = await this.getUser(userId);
       const newUser = User.fromMap({ ...oldUser, ...body });
       newUser.lastUpdateDate = new Date();

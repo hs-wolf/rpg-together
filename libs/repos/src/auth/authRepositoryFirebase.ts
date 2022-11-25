@@ -5,6 +5,13 @@ import { TokenClaims } from '@rpg-together/models';
 export class AuthRepositoryFirebase implements IAuthRepository {
   private auth = getAuth();
 
+  async getAuthUserByEmail(email: string): Promise<UserRecord | null> {
+    return this.auth
+      .getUserByEmail(email)
+      .then((userRecord) => userRecord)
+      .catch(() => null);
+  }
+
   async setUserClaims(uid: string, claims: TokenClaims): Promise<void> {
     return this.auth.setCustomUserClaims(uid, claims.toMap());
   }

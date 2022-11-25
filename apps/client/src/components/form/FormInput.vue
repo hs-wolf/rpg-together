@@ -26,12 +26,12 @@ const inputFinalClass = computed(() => {
     if (props.type === 'password') {
       return '';
     }
-    return 'pr-3';
+    return 'mr-3';
   } else {
     if (props.type === 'password') {
-      return 'pl-3';
+      return 'ml-3';
     }
-    return 'px-3';
+    return 'mx-3';
   }
 });
 </script>
@@ -49,7 +49,7 @@ const inputFinalClass = computed(() => {
         :value="modelValue"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :autocomplete="autocomplete"
-        class="flex items-center w-full h-10 outline-none bg-primary rounded"
+        class="flex items-center w-full outline-none bg-primary rounded text-secondary"
         :class="inputFinalClass"
       />
       <button

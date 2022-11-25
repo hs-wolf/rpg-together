@@ -16,3 +16,5 @@ export class TokenClaims {
 }
 
 export type AuthUserRegisterBody = { username: string; email: string; password: string };
+
+export type AuthUserUpdateBody = Partial<{ email: string; password: string }>;

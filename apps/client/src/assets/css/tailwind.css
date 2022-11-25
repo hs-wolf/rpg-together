@@ -4,7 +4,10 @@
 
 @layer components {
   .modal {
-    @apply fixed inset-0 flex flex-col bg-black/50;
+    @apply z-10 fixed inset-0 flex flex-col bg-black/50;
+  }
+  .card {
+    @apply flex flex-col h-auto p-3 bg-primary rounded;
   }
   .btn-primary {
     @apply flex justify-center items-center h-10 px-3 bg-primary border border-primary-light shadow rounded text-sm text-secondary font-medium leading-none transition-transform;
@@ -22,7 +25,7 @@
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-danger {
-    @apply flex justify-center items-center h-10 px-3 border border-transparent shadow rounded text-sm text-red-500 font-medium leading-none transition-transform;
+    @apply flex justify-center items-center h-10 px-3 border border-red-500 shadow rounded text-sm text-red-500 font-medium leading-none transition-transform;
     @apply active:bg-red-500 active:text-secondary active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }

@@ -6,7 +6,22 @@
     "not-number": "{label} must have only numbers.",
     "not-date": "{label} must be a valid date.",
     "array-min": "You need to select at least {min} options from {label}.",
-    "password-match": "The passwords don't match."
+    "password-match": "The passwords don't match.",
+    "email-match": "The emails don't match."
+  },
+  "firebase-errors": {
+    "auth/wrong-password": "Wrong password.",
+    "auth/too-many-requests": "Too many requests, try again later."
+  },
+  "api-errors": {
+    "MISSING_TOKEN": "Missing token.",
+    "ROLE_NOT_AUTHORIZED": "You are not authorized to do this.",
+    "NOT_OWNER_OF_CONTENT": "You are not the owner of this content.",
+    "USER_NOT_FOUND": "User not found.",
+    "TABLE_NOT_FOUND": "Table not found.",
+    "FLAIR_NOT_FOUND": "Flair not found.",
+    "USERNAME_TAKEN": "This username is taken.",
+    "EMAIL_TAKEN": "This email is taken."
   },
   "navbar": {
     "tabs": {
@@ -90,7 +105,85 @@
     "title": "Alerts"
   },
   "profile": {
-    "title": "Profile"
+    "title": "Profile",
+    "email": "Email:",
+    "creation-date": "Creation date: {date}",
+    "last-update-date": "Last update date: {date}",
+    "change-password": "Change password",
+    "delete-account": "Delete account"
+  },
+  "profile-change-username-modal": {
+    "title": "Change Username",
+    "current-name": "Current name: {name}",
+    "form": {
+      "username": {
+        "label": "Username",
+        "placeholder": "New username"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      }
+    },
+    "back": "Back",
+    "save": "Save"
+  },
+  "profile-change-email-modal": {
+    "title": "Change Email",
+    "current-email": "Current email: {email}",
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "New email"
+      },
+      "confirm-email": {
+        "label": "Confirm email",
+        "placeholder": "Confirm email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      }
+    },
+    "back": "Back",
+    "save": "Save"
+  },
+  "profile-change-password-modal": {
+    "title": "Change Password",
+    "form": {
+      "old-password": {
+        "label": "Old password",
+        "placeholder": "Old password"
+      },
+      "new-password": {
+        "label": "New password",
+        "placeholder": "New password"
+      },
+      "confirm-password": {
+        "label": "Confirm password",
+        "placeholder": "Confirm password"
+      }
+    },
+    "back": "Back",
+    "save": "Save"
+  },
+  "profile-delete-account-modal": {
+    "title": "Delete Account",
+    "warnings": [
+      "Deleting your account is an irreversible action.",
+      "Your profile, active applications and tables will all be delete.",
+      "(You'll be prompted to enter your password.)"
+    ],
+    "confirmation": "Are you sure you want to delete your acocunt?",
+    "back": "Back",
+    "understand": "I understand",
+    "confirm": "Confirm",
+    "form": {
+      "password": {
+        "label": "Password",
+        "placeholder": "Password"
+      }
+    }
   },
   "my-applications": {
     "title": "My applications"
@@ -112,12 +205,20 @@
   },
   "user-store": {
     "success": {
-      "register": "Registered successfully, check your e-mail to confirm."
+      "register": "Registered successfully, check your e-mail to confirm.",
+      "change-auth-data": "Login data updated!",
+      "account-delete": "Your account was deleted!",
+      "change-username": "Username changed!",
+      "change-avatar": "Avatar changed!"
     },
     "warning": {},
     "error": {
       "register": "We had an internal error and could not finish your registration, please try again.",
-      "fetch-user": "Could not fetch user, please try again later."
+      "change-auth-data": "Sorry, we could not change your login data.",
+      "account-delete": "Sorry, we could not delete your account.",
+      "fetch-user": "Could not fetch user, please try again later.",
+      "change-username": "Sorry, we could not change your username.",
+      "change-avatar": "Sorry, we could not change your avatar."
     }
   }
 }

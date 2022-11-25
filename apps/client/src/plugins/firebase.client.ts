@@ -11,8 +11,9 @@ export default defineNuxtPlugin(({ vueApp }) => {
     const userStore = useUserStore();
     const alertsStore = useAlertsStore();
     try {
+      useFirebase.user().value = user;
       if (user) {
-        userStore.fetchUser(user.uid);
+        userStore.fetchUser(user.uid, { save: true });
         if (route.query.redirect) {
           return navigateTo(route.query.redirect.toString());
         }
@@ -27,8 +28,11 @@ export default defineNuxtPlugin(({ vueApp }) => {
       alertsStore.handleError(error);
     } finally {
       userStore.authChecked = true;
+      useFirebase.checked().value = true;
     }
   });
+  useFirebase.app().value = app;
+  useFirebase.auth().value = auth;
   return {
     provide: {
       firebaseApp: app,

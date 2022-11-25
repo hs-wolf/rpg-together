@@ -1,7 +1,15 @@
 import { Inject, Singleton } from 'typescript-ioc';
 import { UsersService } from '../users/usersService';
 import { TablesService } from '../tables/tablesService';
-import { TokenClaims, AuthUserRegisterBody, UserRoles } from '@rpg-together/models';
+import {
+  TokenClaims,
+  AuthUserRegisterBody,
+  UserRoles,
+  AuthUserUpdateBody,
+  ApiError,
+  ResponseCodes,
+  ResponseMessages,
+} from '@rpg-together/models';
 import { IAuthRepository, AuthRepositoryFirebase } from '@rpg-together/repos';
 import { apiErrorHandler, DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
@@ -20,6 +28,7 @@ export class AuthService {
 
   async userRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
+      await this.usersService.checkUsernameExists(body.username);
       const authUser = await this._authRepo.createAuthUserWithEmailAndPassword({ email: body.email, password: body.password });
       await Promise.all([
         this._authRepo.setUserClaims(authUser.uid, new TokenClaims(UserRoles.USER)),
@@ -38,6 +47,7 @@ export class AuthService {
 
   async adminRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
+      await this.usersService.checkUsernameExists(body.username);
       const authUser = await this._authRepo.createAuthUserWithEmailAndPassword({ email: body.email, password: body.password });
       await Promise.all([
         this._authRepo.setUserClaims(authUser.uid, new TokenClaims(UserRoles.ADMIN)),
@@ -49,6 +59,28 @@ export class AuthService {
           avatar: DEFAULT_USER_AVATAR,
         }),
       ]);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async updateAuthUser(userId: string, body: AuthUserUpdateBody): Promise<void> {
+    try {
+      if (body.email) {
+        console.log('A');
+        const userRecord = await this._authRepo.getAuthUserByEmail(body.email);
+        console.log(userRecord);
+        if (userRecord) {
+          console.log('B');
+          throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.EMAIL_TAKEN);
+        }
+      }
+      console.log('C');
+      await this._authRepo.updateAuthUser(userId, { email: body.email, password: body.password });
+      if (body.email) {
+        await this.usersService.updateUser(userId, { email: body.email });
+      }
+      console.log('D');
     } catch (error) {
       apiErrorHandler(error);
     }
