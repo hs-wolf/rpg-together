@@ -1,15 +1,26 @@
 import { TABLES_STORE } from '~~/constants';
+import { useAlertsStore, useSnackbarStore } from '~/stores';
+import { ResponseMessages, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
+import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
+import { SnackType } from '~~/custom-types';
+import { FetchError } from 'ohmyfetch';
 
 interface IState {
   // TODO: Change any for the table class.
   selectedTableCard: any;
   showTableCardOptionsModal: boolean;
+  fetchingMyTables: boolean;
+  creatingTable: boolean;
+  updatingTable: boolean;
 }
 
 export const useTablesStore = defineStore(TABLES_STORE, {
   state: (): IState => ({
     selectedTableCard: null,
     showTableCardOptionsModal: false,
+    fetchingMyTables: false,
+    creatingTable: false,
+    updatingTable: false,
   }),
   getters: {},
   actions: {
@@ -54,6 +65,7 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         },
       ];
     },
+
     // TODO: Change any for the table class.
     toggleTableCardOptions(tableCard?: any) {
       if (tableCard) {
@@ -63,6 +75,82 @@ export const useTablesStore = defineStore(TABLES_STORE, {
       }
       this.selectedTableCard = null;
       this.showTableCardOptionsModal = false;
+    },
+    async fetchMyTables() {
+      try {
+        if (this.fetchingMyTables) {
+          return;
+        }
+        this.fetchingMyTables = true;
+        const userId = useFirebase.user().value?.uid ?? '';
+        return await useRpgTogetherAPI.fetchMyTables({ userId });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+      } finally {
+        this.fetchingMyTables = false;
+      }
+    },
+    async createTable(values: TableCreateBody, bannerFile?: File) {
+      try {
+        if (this.creatingTable) {
+          return;
+        }
+        this.creatingTable = true;
+        const body: TableCreateBody = {
+          ...values,
+          banner: DEFAULT_TABLE_BANNER,
+        };
+        const newTable = await useRpgTogetherAPI.createTable({ body });
+        if (bannerFile) {
+          await this.updateTable(newTable.id, { ...values }, bannerFile);
+        }
+        useSnackbarStore().createSnack({
+          message: useNuxtApp().$i18n.t('tables-store.success.create-table'),
+          type: SnackType.SUCCESS,
+        });
+        navigateTo({ name: 'my-tables' });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        useSnackbarStore().createSnack({
+          message: useNuxtApp().$i18n.t('tables-store.error.create-table'),
+          type: SnackType.ERROR,
+        });
+        if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
+          return useNuxtApp().$i18n.t(`api-errors.${(error as FetchError).data.message}`) as string;
+        }
+      } finally {
+        this.creatingTable = false;
+      }
+    },
+    async updateTable(tabledId: string, values: TableUpdateBody, bannerFile?: File) {
+      try {
+        if (this.updatingTable) {
+          return;
+        }
+        this.updatingTable = true;
+        const body: TableUpdateBody = {
+          ...values,
+        };
+        if (bannerFile) {
+          const formData = new FormData();
+          formData.append('file', bannerFile);
+          const url = await useRpgTogetherAPI.uploadTableFile({ tableId: tabledId }, { body: formData });
+          body.banner = url;
+        }
+        await useRpgTogetherAPI.updateTable({ tableId: tabledId }, { body });
+        useSnackbarStore().createSnack({
+          message: useNuxtApp().$i18n.t('tables-store.success.update-table'),
+          type: SnackType.SUCCESS,
+        });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        useSnackbarStore().createSnack({
+          message: useNuxtApp().$i18n.t('tables-store.error.update-table'),
+          type: SnackType.ERROR,
+        });
+      } finally {
+        this.updatingTable = false;
+      }
     },
   },
 });

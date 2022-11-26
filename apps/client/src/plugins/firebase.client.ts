@@ -17,7 +17,6 @@ export default defineNuxtPlugin(({ vueApp }) => {
         if (route.query.redirect) {
           return navigateTo(route.query.redirect.toString());
         }
-        return navigateTo('/');
       } else {
         userStore.$reset();
         if (route.meta.middleware && (route.meta.middleware as string[]).includes('auth')) {
@@ -33,10 +32,4 @@ export default defineNuxtPlugin(({ vueApp }) => {
   });
   useFirebase.app().value = app;
   useFirebase.auth().value = auth;
-  return {
-    provide: {
-      firebaseApp: app,
-      firebaseAuth: auth,
-    },
-  };
 });

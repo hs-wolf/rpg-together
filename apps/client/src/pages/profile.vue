@@ -83,7 +83,9 @@ const currentAvatarUrl = computed(() =>
     </div>
     <div class="flex flex-col p-3 gap-3">
       <button class="btn-secondary" @click.prevent="showChangePasswordModal = true">{{ $t('profile.change-password') }}</button>
-      <button class="btn-danger" @click.prevent="showDeleteAccountModal = true">{{ $t('profile.delete-account') }}</button>
+      <button class="btn-danger self-end" @click.prevent="showDeleteAccountModal = true">
+        {{ $t('profile.delete-account') }}
+      </button>
     </div>
     <TransitionGroup name="fade" tag="div">
       <ProfileChangeUsernameModal :user="user" v-if="showChangeUsernameModal" @close="showChangeUsernameModal = false" />

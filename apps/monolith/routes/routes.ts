@@ -274,6 +274,30 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/flairs',
+            ...(fetchMiddlewares<RequestHandler>(FlairsController)),
+            ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.getAllFlairs)),
+
+            function FlairsController_getAllFlairs(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new FlairsController();
+
+
+              const promise = controller.getAllFlairs.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/flairs/:flairId',
             ...(fetchMiddlewares<RequestHandler>(FlairsController)),
             ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.getFlair)),
@@ -514,9 +538,9 @@ export function RegisterRoutes(app: express.Router) {
             authenticateMiddleware([{"Bearer":[]}]),
             upload.single('file'),
             ...(fetchMiddlewares<RequestHandler>(UploadController)),
-            ...(fetchMiddlewares<RequestHandler>(UploadController.prototype.uploadFile)),
+            ...(fetchMiddlewares<RequestHandler>(UploadController.prototype.uploadUserFile)),
 
-            function UploadController_uploadFile(request: any, response: any, next: any) {
+            function UploadController_uploadUserFile(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     file: {"in":"formData","name":"file","required":true,"dataType":"file"},
@@ -531,7 +555,36 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new UploadController();
 
 
-              const promise = controller.uploadFile.apply(controller, validatedArgs as any);
+              const promise = controller.uploadUserFile.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/upload/table-file/:tableId',
+            authenticateMiddleware([{"Bearer":[]}]),
+            upload.single('file'),
+            ...(fetchMiddlewares<RequestHandler>(UploadController)),
+            ...(fetchMiddlewares<RequestHandler>(UploadController.prototype.uploadTableFile)),
+
+            function UploadController_uploadTableFile(request: any, response: any, next: any) {
+            const args = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+                    file: {"in":"formData","name":"file","required":true,"dataType":"file"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new UploadController();
+
+
+              const promise = controller.uploadTableFile.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

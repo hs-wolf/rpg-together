@@ -39,8 +39,10 @@ export const useUserStore = defineStore(USER_STORE, {
           return;
         }
         this.signingIn = true;
-        const nuxtApp = useNuxtApp();
-        await signInWithEmailAndPassword(nuxtApp.$firebaseAuth, email, password);
+        const firebaseAuth = useFirebase.auth();
+        if (firebaseAuth.value) {
+          await signInWithEmailAndPassword(firebaseAuth.value, email, password);
+        }
       } catch (error) {
         useAlertsStore().handleError(error);
       } finally {
@@ -53,8 +55,10 @@ export const useUserStore = defineStore(USER_STORE, {
           return;
         }
         this.signingOut = true;
-        const nuxtApp = useNuxtApp();
-        await signOut(nuxtApp.$firebaseAuth);
+        const firebaseAuth = useFirebase.auth();
+        if (firebaseAuth.value) {
+          await signOut(firebaseAuth.value);
+        }
       } catch (error) {
         useAlertsStore().handleError(error);
       } finally {
@@ -69,14 +73,14 @@ export const useUserStore = defineStore(USER_STORE, {
       try {
         await useRpgTogetherAPI.register({ body });
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$vuei18n.global.t('user-store.success.register'),
+          message: useNuxtApp().$i18n.global.t('user-store.success.register'),
           type: SnackType.SUCCESS,
         });
         await this.signIn(body.email, body.password);
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$vuei18n.global.t('user-store.error.register'),
+          message: useNuxtApp().$i18n.global.t('user-store.error.register'),
           type: SnackType.ERROR,
         });
       } finally {
@@ -169,7 +173,7 @@ export const useUserStore = defineStore(USER_STORE, {
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$vuei18n.global.t('user-store.error.fetch-user'),
+          message: useNuxtApp().$i18n.global.t('user-store.error.fetch-user'),
           type: SnackType.ERROR,
         });
       }
@@ -218,7 +222,7 @@ export const useUserStore = defineStore(USER_STORE, {
         }
         this.changingAvatar = true;
         const formData = new FormData();
-        formData.append('file', file, `${DEFAULT_USER_AVATAR_NAME}.${file.name.split('.').pop()}`);
+        formData.append('file', file);
         const url = await useRpgTogetherAPI.uploadUserFile({ body: formData });
         const body: UserUpdateBody = {
           avatar: url,

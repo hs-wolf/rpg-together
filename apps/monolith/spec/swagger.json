@@ -448,6 +448,67 @@
 				}
 			}
 		},
+		"/flairs": {
+			"get": {
+				"operationId": "GetAllFlairs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Flair"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateFlair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Flair"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": [
+							"ADMIN"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/FlairCreationBody"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/flairs/{flairId}": {
 			"get": {
 				"operationId": "GetFlair",
@@ -550,44 +611,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/flairs": {
-			"post": {
-				"operationId": "CreateFlair",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Flair"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Flairs Service"
-				],
-				"security": [
-					{
-						"Bearer": [
-							"ADMIN"
-						]
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/FlairCreationBody"
-							}
-						}
-					}
-				}
 			}
 		},
 		"/tables/from-user/{userId}": {
@@ -762,7 +785,7 @@
 		},
 		"/upload/user-file": {
 			"post": {
-				"operationId": "UploadFile",
+				"operationId": "UploadUserFile",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -784,6 +807,60 @@
 					}
 				],
 				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"file": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"file"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"/upload/table-file/{tableId}": {
+			"post": {
+				"operationId": "UploadTableFile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Upload Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
 				"requestBody": {
 					"required": true,
 					"content": {

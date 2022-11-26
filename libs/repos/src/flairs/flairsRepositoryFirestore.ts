@@ -7,6 +7,14 @@ export class FlairsRepositoryFirestore implements IFlairsRepository {
   private firestore = getFirestore();
   private collRef = this.firestore.collection(FIREBASE_COLLECTION_FLAIRS);
 
+  async getAllFlairs() {
+    const querySnapshot = await this.collRef.get();
+    if (querySnapshot.docs.length) {
+      return querySnapshot.docs.map((doc) => Flair.fromFirestore(doc)).filter((flair) => flair) as Flair[];
+    }
+    return [];
+  }
+
   async getFlair(id: string) {
     const snapshot = await this.collRef.doc(id).get();
     return Flair.fromFirestore(snapshot);

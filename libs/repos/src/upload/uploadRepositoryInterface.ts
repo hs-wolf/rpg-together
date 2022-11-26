@@ -1,5 +1,7 @@
 import { Multer } from 'multer';
 
 export interface IUploadRepository {
-  uploadImage(userId: string, file: Express.Multer.File): Promise<string>;
+  uploadUserImage(userId: string, file: Express.Multer.File): Promise<string>;
+
+  uploadTableImage(tableId: string, file: Express.Multer.File): Promise<string>;
 }

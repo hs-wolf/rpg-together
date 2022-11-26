@@ -4,12 +4,13 @@ const props = defineProps<{
   name: string;
   label: string;
   placeholder: string;
-  modelValue;
-  error?;
+  modelValue?: string;
+  maxlength?: number;
   autocomplete?: 'on' | 'off';
   disabled?: boolean;
+  error?: string;
 }>();
-defineEmits<{ (e: 'update:modelValue') }>();
+defineEmits<{ (e: 'update:modelValue'): void }>();
 
 const slots = useSlots();
 const showPassword = ref(false);
@@ -38,7 +39,7 @@ const inputFinalClass = computed(() => {
 
 <template>
   <div class="flex flex-col gap-2" :class="{ 'opacity-50 pointer-events-none': disabled }">
-    <div class="relative flex items-center border rounded" :class="error ? 'border-red-500' : 'border-primary-light'">
+    <div class="relative flex items-center h-10 border rounded" :class="error ? 'border-red-500' : 'border-primary-light'">
       <div v-if="slots['field-icon']" class="shrink-0 flex justify-center items-center w-10 h-10 pointer-events-none">
         <slot name="field-icon" />
       </div>
@@ -47,6 +48,7 @@ const inputFinalClass = computed(() => {
         :name="name"
         :placeholder="placeholder"
         :value="modelValue"
+        :maxlength="maxlength"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :autocomplete="autocomplete"
         class="flex items-center w-full outline-none bg-primary rounded text-secondary"
@@ -61,18 +63,9 @@ const inputFinalClass = computed(() => {
         <slot v-else name="hide-password-icon" />
       </button>
     </div>
-    <span v-if="error" class="relative px-2 py-1 self-end text-sm bg-red-500 rounded">
+    <span v-if="error" class="relative self-end p-2 bg-red-500 rounded text-xs">
       <p>{{ error }}</p>
-      <div class="absolute bottom-full arrow-up"></div>
+      <div class="absolute bottom-full error-message-arrow-up"></div>
     </span>
   </div>
 </template>
-
-<style scoped>
-.arrow-up {
-  @apply w-0 h-0;
-  @apply border-l-4 border-l-transparent;
-  @apply border-r-4 border-r-transparent;
-  @apply border-b-4 border-b-red-500;
-}
-</style>

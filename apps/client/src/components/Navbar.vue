@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { useUserStore } from '~/stores';
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
-const nuxtApp = useNuxtApp();
+const firebaseUser = useFirebase.user();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
@@ -41,7 +41,7 @@ const logout = async () => {
 </script>
 
 <template>
-  <nav class="fixed bottom-0 grid grid-cols-5 gap-3 w-full h-16 p-3 bg-primary shadow">
+  <nav class="z-30 fixed bottom-0 grid grid-cols-5 gap-3 w-full h-16 p-3 bg-primary shadow">
     <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
       <Icon name="cil:hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
       <p>{{ $t('navbar.tabs.menu') }}</p>
@@ -53,10 +53,7 @@ const logout = async () => {
     <Transition name="slide-left">
       <div v-if="showMobileMenu" class="modal">
         <div ref="mobileMenuRef" class="self-end flex flex-col w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark">
-          <div
-            v-if="nuxtApp.$firebaseAuth.currentUser"
-            class="relative flex justify-between items-center h-[64px] shadow overflow-hidden"
-          >
+          <div v-if="firebaseUser" class="relative flex justify-between items-center h-[64px] shadow overflow-hidden">
             <NuxtImg
               :src="user?.avatar ?? DEFAULT_USER_AVATAR"
               :alt="user?.username"

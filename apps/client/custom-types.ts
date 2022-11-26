@@ -9,6 +9,7 @@ export interface ISnack {
 }
 
 export type AdvancedSelectOption = {
+  id?: string;
   name: string;
   label: string;
 };

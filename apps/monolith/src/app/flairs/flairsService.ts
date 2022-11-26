@@ -24,6 +24,15 @@ export class FlairsService {
     }
   }
 
+  async getAllFlairs(): Promise<Flair[]> {
+    try {
+      const flairs = await this._flairsRepo.getAllFlairs();
+      return flairs;
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
   async getFlair(flairId: string): Promise<Flair> {
     try {
       const flair = await this._flairsRepo.getFlair(flairId);
@@ -40,7 +49,7 @@ export class FlairsService {
     try {
       const currentDate = new Date();
       let newFlair = Flair.fromMap({ ...body });
-      newFlair.numberOfUses = 1;
+      newFlair.numberOfUses = 0;
       newFlair.creationDate = currentDate;
       newFlair.lastUpdateDate = currentDate;
       newFlair = await this._flairsRepo.createFlair(newFlair);

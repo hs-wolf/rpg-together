@@ -49,7 +49,9 @@ export class TablesService {
       newTable.creationDate = currentDate;
       newTable.lastUpdateDate = currentDate;
       newTable = await this._tablesRepo.createTable(newTable);
-      await Promise.all(newTable.flairs.map((flair) => this.flairsService.changeNumberOfUses(flair, 'increase')));
+      if (newTable.flairs) {
+        await Promise.all(newTable.flairs.map((flair) => this.flairsService.changeNumberOfUses(flair, 'increase')));
+      }
       return newTable;
     } catch (error) {
       apiErrorHandler(error);
@@ -67,8 +69,8 @@ export class TablesService {
       newTable.ownerHeader = { username: owner.username, avatar: owner.avatar };
       newTable.lastUpdateDate = new Date();
       await this._tablesRepo.updateTable(newTable);
-      const flairsToDecrease = oldTable.flairs.filter((flair) => !newTable.flairs.includes(flair));
-      const flairsToIncrease = newTable.flairs.filter((flair) => !oldTable.flairs.includes(flair));
+      const flairsToDecrease = oldTable.flairs ? oldTable.flairs.filter((flair) => !newTable.flairs.includes(flair)) : [];
+      const flairsToIncrease = newTable.flairs ? newTable.flairs.filter((flair) => !oldTable.flairs.includes(flair)) : [];
       await Promise.all([
         ...flairsToDecrease.map((flair) => this.flairsService.changeNumberOfUses(flair, 'decrease')),
         ...flairsToIncrease.map((flair) => this.flairsService.changeNumberOfUses(flair, 'increase')),
@@ -83,7 +85,9 @@ export class TablesService {
     try {
       const tableToDelete = typeof table === 'string' ? await this.getTable(table) : table;
       await this._tablesRepo.deleteTable(tableToDelete.id);
-      await Promise.all(tableToDelete.flairs.map((flair) => this.flairsService.changeNumberOfUses(flair, 'decrease')));
+      if (tableToDelete.flairs) {
+        await Promise.all(tableToDelete.flairs.map((flair) => this.flairsService.changeNumberOfUses(flair, 'decrease')));
+      }
     } catch (error) {
       apiErrorHandler(error);
     }

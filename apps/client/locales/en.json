@@ -1,11 +1,12 @@
 {
   "zod-errors": {
-    "required": "{label} is required.",
-    "min": "{label} needs a minimum of {min} characters.",
-    "email": "{label} must be a valid e-mail.",
-    "not-number": "{label} must have only numbers.",
-    "not-date": "{label} must be a valid date.",
-    "array-min": "You need to select at least {min} options from {label}.",
+    "required": "This field is required.",
+    "min": "This field needs a minimum of {min} characters.",
+    "max": "This field can have a maximum of {min} characters.",
+    "email": "This field must be a valid e-mail.",
+    "not-number": "This field must have only numbers.",
+    "not-date": "This field must be a valid date.",
+    "array-min": "You need to select at least {min} options.",
     "password-match": "The passwords don't match.",
     "email-match": "The emails don't match."
   },
@@ -189,7 +190,34 @@
     "title": "My applications"
   },
   "my-tables": {
-    "title": "My tables"
+    "title": "My tables",
+    "create-table": "Create new table"
+  },
+  "create-table": {
+    "title": "Create table",
+    "form": {
+      "title": {
+        "label": "Title",
+        "placeholder": "Table title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Brief summary"
+      },
+      "banner-url": {
+        "label": "Banner",
+        "placeholder": "Banner"
+      },
+      "flairs": {
+        "label": "Flairs",
+        "placeholder": "Flairs"
+      },
+      "accept-message": {
+        "label": "Accept message",
+        "placeholder": "Accept message"
+      }
+    },
+    "submit": "Create"
   },
   "settings": {
     "title": "Settings"
@@ -219,6 +247,23 @@
       "fetch-user": "Could not fetch user, please try again later.",
       "change-username": "Sorry, we could not change your username.",
       "change-avatar": "Sorry, we could not change your avatar."
+    }
+  },
+  "flairs-menu": {
+    "flairs": "Flairs",
+    "clear": "Clear",
+    "search-flair": "Search flair",
+    "no-options-left": "No options left."
+  },
+  "tables-store": {
+    "success": {
+      "create-table": "New table created successfully!",
+      "update-table": "The table was updated successfully!"
+    },
+    "warning": {},
+    "error": {
+      "create-table": "Sorry, we could not create your table.",
+      "update-table": "sorry, we could not updated your table."
     }
   }
 }

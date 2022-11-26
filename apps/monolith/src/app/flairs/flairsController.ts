@@ -16,6 +16,11 @@ export class FlairsController extends Controller {
     return this._flairService.changeNumberOfUses(flairId, body.action);
   }
 
+  @Get('/')
+  public async getAllFlairs(): Promise<Flair[]> {
+    return this._flairService.getAllFlairs();
+  }
+
   @Get('/{flairId}')
   public async getFlair(@Path() flairId: string): Promise<Flair> {
     return this._flairService.getFlair(flairId);

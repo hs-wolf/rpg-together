@@ -24,7 +24,7 @@ const currentBgAndIcon = computed(() => {
   <transition name="snackbar-slide">
     <div
       v-if="waitingSnack"
-      class="fixed inset-x-3 top-3 flex items-center gap-2 p-3 shadow rounded"
+      class="z-40 fixed inset-x-3 top-3 flex items-center gap-2 p-3 shadow rounded"
       :class="[currentBgAndIcon.bg]"
     >
       <Icon :name="currentBgAndIcon.icon" class="text-xl" />

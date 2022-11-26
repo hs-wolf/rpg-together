@@ -11,10 +11,22 @@ export class UploadService {
     this._uploadRepo = uploadRepo ?? new UploadRepositoryFirebase();
   }
 
-  async uploadFile(userId: string, file: Express.Multer.File): Promise<string> {
+  async uploadUserFile(userId: string, file: Express.Multer.File): Promise<string> {
     try {
       if (file.mimetype.includes('image')) {
-        const url = await this._uploadRepo.uploadImage(userId, file);
+        const url = await this._uploadRepo.uploadUserImage(userId, file);
+        return url;
+      }
+      throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.COULD_NOT_UPLOAD);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async uploadTableFile(tableid: string, file: Express.Multer.File): Promise<string> {
+    try {
+      if (file.mimetype.includes('image')) {
+        const url = await this._uploadRepo.uploadTableImage(tableid, file);
         return url;
       }
       throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.COULD_NOT_UPLOAD);
