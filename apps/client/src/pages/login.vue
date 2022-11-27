@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '~/stores';
 
-definePageMeta({ middleware: ['offline'] });
+definePageMeta({ middleware: ['logged-out'] });
 
 useHead({ title: useI18n().t('login.title') });
 

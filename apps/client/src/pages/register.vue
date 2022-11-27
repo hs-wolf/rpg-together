@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia';
 import { useUserStore } from '~/stores';
 import { AuthUserRegisterBody } from '@rpg-together/models';
 
-definePageMeta({ middleware: ['offline'] });
+definePageMeta({ middleware: ['logged-out'] });
 useHead({ title: useI18n().t('register.title') });
 
 const userStore = useUserStore();

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { AdvancedSelectOption } from '~~/custom-types';
+import { AdvancedSelectOption } from '~/types';
 import { useNotificationsStore } from '~/stores';
 import { storeToRefs } from 'pinia';
 
-definePageMeta({ middleware: ['auth'] });
+definePageMeta({ middleware: ['logged-in'] });
 
 useHead({ title: useI18n().t('notifications.title') });
 

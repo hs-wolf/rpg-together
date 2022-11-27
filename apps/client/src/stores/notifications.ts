@@ -1,4 +1,4 @@
-import { NOTIFICATIONS_STORE } from '~~/constants';
+import { NOTIFICATIONS_STORE } from '~/constants';
 
 interface IState {
   unreadNotificationsNumber: number;

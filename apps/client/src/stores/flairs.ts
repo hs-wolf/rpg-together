@@ -1,4 +1,4 @@
-import { FLAIRS_STORE } from '~~/constants';
+import { FLAIRS_STORE } from '~/constants';
 import { useAlertsStore } from '~/stores';
 import { Flair, FlairTypes } from '@rpg-together/models';
 
@@ -51,9 +51,21 @@ export const useFlairsStore = defineStore(FLAIRS_STORE, {
     },
   },
   actions: {
-    async getAllFlairs() {
+    async getAllFlairs(options?: { save: boolean }) {
       try {
-        this.allFlairs = await useRpgTogetherAPI.getAllFlairs();
+        const flairs = await useRpgTogetherAPI.getAllFlairs();
+        if (options?.save) {
+          this.allFlairs = flairs;
+        }
+        return flairs;
+      } catch (error) {
+        useAlertsStore().handleError(error);
+      }
+    },
+    getFlairLabel(flairId: string) {
+      try {
+        const { locale } = useNuxtApp().$i18n;
+        return this.allFlairs.find((flair) => flair.id === flairId)?.labels[locale.value];
       } catch (error) {
         useAlertsStore().handleError(error);
       }

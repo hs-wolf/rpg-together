@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AdvancedSelectOption } from '~~/custom-types';
+import { AdvancedSelectOption } from '~/types';
 
 const props = defineProps<{
   options: AdvancedSelectOption[];

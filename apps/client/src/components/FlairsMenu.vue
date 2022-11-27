@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AdvancedSelectOption } from '~~/custom-types';
+import { AdvancedSelectOption } from '~/types';
 import { useFlairsStore } from '~/stores';
 
 const flairsStore = useFlairsStore();
@@ -50,7 +50,7 @@ watch(selectedFilters, () => {
 
 onMounted(async () => {
   if (!allFlairs.value.length) {
-    await flairsStore.getAllFlairs();
+    await flairsStore.getAllFlairs({ save: true });
   }
 });
 </script>

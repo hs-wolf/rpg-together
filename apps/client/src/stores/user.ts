@@ -1,11 +1,8 @@
-import { FetchError } from 'ofetch';
-import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword, signOut, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
-import { USER_STORE } from '~~/constants';
-import { SnackType } from '~~/custom-types';
+import { USER_STORE } from '~/constants';
+import { SnackType } from '~/types';
 import { useAlertsStore, useSnackbarStore } from '~/stores';
-import { User, AuthUserRegisterBody, UserUpdateBody, ResponseMessages, AuthUserUpdateBody } from '@rpg-together/models';
-import { DEFAULT_USER_AVATAR_NAME } from '@rpg-together/utils';
+import { User, AuthUserRegisterBody, UserUpdateBody, AuthUserUpdateBody } from '@rpg-together/models';
 
 interface IState {
   authChecked: boolean;
@@ -34,15 +31,16 @@ export const useUserStore = defineStore(USER_STORE, {
   getters: {},
   actions: {
     async signIn(email: string, password: string) {
+      if (this.signingIn) {
+        return;
+      }
+      const firebaseAuth = useFirebase.auth().value;
+      if (!firebaseAuth) {
+        return;
+      }
       try {
-        if (this.signingIn) {
-          return;
-        }
         this.signingIn = true;
-        const firebaseAuth = useFirebase.auth();
-        if (firebaseAuth.value) {
-          await signInWithEmailAndPassword(firebaseAuth.value, email, password);
-        }
+        await signInWithEmailAndPassword(firebaseAuth, email, password);
       } catch (error) {
         useAlertsStore().handleError(error);
       } finally {
@@ -50,15 +48,16 @@ export const useUserStore = defineStore(USER_STORE, {
       }
     },
     async signOut() {
+      if (this.signingOut) {
+        return;
+      }
+      const firebaseAuth = useFirebase.auth().value;
+      if (!firebaseAuth) {
+        return;
+      }
       try {
-        if (this.signingOut) {
-          return;
-        }
         this.signingOut = true;
-        const firebaseAuth = useFirebase.auth();
-        if (firebaseAuth.value) {
-          await signOut(firebaseAuth.value);
-        }
+        await signOut(firebaseAuth);
       } catch (error) {
         useAlertsStore().handleError(error);
       } finally {
@@ -69,96 +68,86 @@ export const useUserStore = defineStore(USER_STORE, {
       if (this.registering) {
         return;
       }
-      this.registering = true;
       try {
+        this.registering = true;
         await useRpgTogetherAPI.register({ body });
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.global.t('user-store.success.register'),
           type: SnackType.SUCCESS,
+          message: 'user-store.success.register',
         });
         await this.signIn(body.email, body.password);
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.global.t('user-store.error.register'),
           type: SnackType.ERROR,
+          message: 'user-store.error.register',
         });
       } finally {
         this.registering = false;
       }
     },
     async changeAuthData(values: { password: string; newEmail?: string; newPassword?: string }) {
+      if (this.changingAuthData) {
+        return;
+      }
+      const firebaseUser = useFirebase.user().value;
+      if (!firebaseUser) {
+        return;
+      }
       try {
-        if (this.changingAuthData) {
-          return;
-        }
         this.changingAuthData = true;
-        const firebaseUser = useFirebase.user();
-        if (!firebaseUser.value) {
-          return;
-        }
-        const emailCred = EmailAuthProvider.credential(firebaseUser.value.email ?? '', values.password);
-        await reauthenticateWithCredential(firebaseUser.value, emailCred);
+        const emailCred = EmailAuthProvider.credential(firebaseUser.email ?? '', values.password);
+        await reauthenticateWithCredential(firebaseUser, emailCred);
         const body: AuthUserUpdateBody = {
           password: values.newPassword,
           email: values.newEmail,
         };
         await useRpgTogetherAPI.updateAuthUser({ body });
         const newUser = await useRpgTogetherAPI.updateUser({
-          body: { email: values.newEmail ?? firebaseUser.value.email ?? '' },
+          body: { email: values.newEmail ?? firebaseUser.email ?? '' },
         });
         this.user = newUser;
-        await this.signIn(values.newEmail ?? firebaseUser.value.email ?? '', values.newPassword ?? values.password);
+        await this.signIn(values.newEmail ?? firebaseUser.email ?? '', values.newPassword ?? values.password);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.success.change-auth-data'),
           type: SnackType.SUCCESS,
+          message: 'user-store.success.change-auth-data',
         });
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.error.change-auth-data'),
           type: SnackType.ERROR,
+          message: 'user-store.error.change-auth-data',
         });
-        if (error instanceof FirebaseError) {
-          return useNuxtApp().$i18n.t(`firebase-errors.${error.code}`) as string;
-        }
-        if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
-          return useNuxtApp().$i18n.t(`api-errors.${(error as FetchError).data.message}`) as string;
-        }
+        return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.changingAuthData = false;
       }
     },
     async accountDelete(password: string) {
+      if (this.deletingAccount) {
+        return;
+      }
+      const firebaseUser = useFirebase.user().value;
+      if (!firebaseUser) {
+        return;
+      }
       try {
-        if (this.deletingAccount) {
-          return;
-        }
         this.deletingAccount = true;
-        const firebaseUser = useFirebase.user();
-        if (!firebaseUser.value) {
-          return;
-        }
-        const emailCred = EmailAuthProvider.credential(firebaseUser.value.email ?? '', password);
-        await reauthenticateWithCredential(firebaseUser.value, emailCred);
+        const emailCred = EmailAuthProvider.credential(firebaseUser.email ?? '', password);
+        await reauthenticateWithCredential(firebaseUser, emailCred);
         await useRpgTogetherAPI.accountDelete();
         await this.signOut();
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.success.account-delete'),
           type: SnackType.SUCCESS,
+          message: 'user-store.success.account-delete',
         });
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.error.account-delete'),
           type: SnackType.ERROR,
+          message: 'user-store.error.account-delete',
         });
-        if (error instanceof FirebaseError) {
-          return useNuxtApp().$i18n.t(`firebase-errors.${error.code}`) as string;
-        }
-        if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
-          return useNuxtApp().$i18n.t(`api-errors.${(error as FetchError).data.message}`) as string;
-        }
+        return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.deletingAccount = false;
       }
@@ -173,53 +162,48 @@ export const useUserStore = defineStore(USER_STORE, {
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.global.t('user-store.error.fetch-user'),
           type: SnackType.ERROR,
+          message: 'user-store.error.fetch-user',
         });
       }
     },
     async changeUsername(values: { username: string; password: string }) {
+      if (this.changingUsername) {
+        return;
+      }
+      const firebaseUser = useFirebase.user().value;
+      if (!firebaseUser) {
+        return;
+      }
       try {
-        if (this.changingUsername) {
-          return;
-        }
         this.changingUsername = true;
-        const firebaseUser = useFirebase.user();
-        if (!firebaseUser.value) {
-          return;
-        }
-        const emailCred = EmailAuthProvider.credential(firebaseUser.value.email ?? '', values.password);
-        await reauthenticateWithCredential(firebaseUser.value, emailCred);
+        const emailCred = EmailAuthProvider.credential(firebaseUser.email ?? '', values.password);
+        await reauthenticateWithCredential(firebaseUser, emailCred);
         const body: UserUpdateBody = {
           username: values.username,
         };
         const newUser = await useRpgTogetherAPI.updateUser({ body });
         this.user = newUser;
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.success.change-username'),
           type: SnackType.SUCCESS,
+          message: 'user-store.success.change-username',
         });
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.error.change-username'),
           type: SnackType.ERROR,
+          message: 'user-store.error.change-username',
         });
-        if (error instanceof FirebaseError) {
-          return useNuxtApp().$i18n.t(`firebase-errors.${error.code}`) as string;
-        }
-        if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
-          return useNuxtApp().$i18n.t(`api-errors.${(error as FetchError).data.message}`) as string;
-        }
+        return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.changingUsername = false;
       }
     },
     async changeAvatar(file: File) {
+      if (this.changingAvatar) {
+        return;
+      }
       try {
-        if (this.changingAvatar) {
-          return;
-        }
         this.changingAvatar = true;
         const formData = new FormData();
         formData.append('file', file);
@@ -230,14 +214,14 @@ export const useUserStore = defineStore(USER_STORE, {
         const newUser = await useRpgTogetherAPI.updateUser({ body });
         this.user = newUser;
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.success.change-avatar'),
           type: SnackType.SUCCESS,
+          message: 'user-store.success.change-avatar',
         });
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('user-store.error.change-avatar'),
           type: SnackType.ERROR,
+          message: 'user-store.error.change-avatar',
         });
       } finally {
         this.changingAvatar = false;

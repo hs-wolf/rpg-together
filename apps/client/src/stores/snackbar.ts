@@ -1,5 +1,5 @@
-import { SNACKBAR_STORE } from '~~/constants';
-import { ISnack } from '~~/custom-types';
+import { SNACKBAR_STORE } from '~/constants';
+import { ISnack } from '~/types';
 
 interface IState {
   snacksList: ISnack[];
@@ -23,7 +23,8 @@ export const useSnackbarStore = defineStore(SNACKBAR_STORE, {
   },
   actions: {
     createSnack(snack: ISnack) {
-      this.snacksList.push(snack);
+      const { t } = useNuxtApp().$i18n;
+      this.snacksList.push({ ...snack, message: t(snack.message) });
       this.clearSnackList();
     },
     clearSnackList() {

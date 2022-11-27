@@ -28,7 +28,7 @@ const textareaFinalClass = computed(() => {
 
 <template>
   <div class="flex flex-col gap-2" :class="{ 'opacity-50 pointer-events-none': disabled }">
-    <div class="flex flex-col min-h-10 border rounded" :class="error ? 'border-red-500' : 'border-primary-light'">
+    <div class="flex flex-col min-h-10 border rounded" :class="error ? 'border-danger' : 'border-primary-light'">
       <div class="flex">
         <div v-if="slots['field-icon']" class="flex justify-center items-center w-10 h-10 pointer-events-none">
           <slot name="field-icon" />
@@ -48,7 +48,7 @@ const textareaFinalClass = computed(() => {
         {{ `${modelValue?.length} / ${maxlength}` }}
       </div>
     </div>
-    <span v-if="error" class="relative self-end p-2 bg-red-500 rounded text-xs">
+    <span v-if="error" class="relative self-end p-2 bg-danger rounded text-xs">
       <p>{{ error }}</p>
       <div class="absolute bottom-full error-message-arrow-up"></div>
     </span>

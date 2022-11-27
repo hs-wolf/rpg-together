@@ -9,6 +9,7 @@ const props = defineProps<{
   autocomplete?: 'on' | 'off';
   disabled?: boolean;
   error?: string;
+  theme?: 'primary' | 'secondary';
 }>();
 defineEmits<{ (e: 'update:modelValue'): void }>();
 
@@ -16,30 +17,28 @@ const slots = useSlots();
 const showPassword = ref(false);
 
 const finalType = computed(() => {
-  if (props.type === 'password') {
-    return showPassword.value ? 'text' : 'password';
-  }
-  return props.type;
+  return props.type === 'password' ? (showPassword.value ? 'text' : 'password') : props.type;
 });
 
 const inputFinalClass = computed(() => {
-  if (slots['field-icon']) {
-    if (props.type === 'password') {
-      return '';
-    }
-    return 'mr-3';
-  } else {
-    if (props.type === 'password') {
-      return 'ml-3';
-    }
-    return 'mx-3';
-  }
+  return slots['field-icon'] ? (props.type === 'password' ? '' : 'mr-3') : props.type === 'password' ? 'ml-3' : 'mx-3';
+});
+
+const wrapperCustomClass = computed(() => {
+  const bg = !props.theme || props.theme === 'primary' ? 'bg-primary' : 'bg-secondary';
+  const text = !props.theme || props.theme === 'primary' ? 'text-secondary' : 'text-primary';
+  const border = props.error
+    ? 'border-danger'
+    : !props.theme || props.theme === 'primary'
+    ? 'border-primary-light'
+    : 'border-secondary-dark';
+  return `${bg} ${text} ${border}`;
 });
 </script>
 
 <template>
   <div class="flex flex-col gap-2" :class="{ 'opacity-50 pointer-events-none': disabled }">
-    <div class="relative flex items-center h-10 border rounded" :class="error ? 'border-red-500' : 'border-primary-light'">
+    <div class="relative flex items-center h-10 border rounded-sm" :class="wrapperCustomClass">
       <div v-if="slots['field-icon']" class="shrink-0 flex justify-center items-center w-10 h-10 pointer-events-none">
         <slot name="field-icon" />
       </div>
@@ -51,7 +50,7 @@ const inputFinalClass = computed(() => {
         :maxlength="maxlength"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :autocomplete="autocomplete"
-        class="flex items-center w-full outline-none bg-primary rounded text-secondary"
+        class="flex items-center w-full outline-none bg-transparent"
         :class="inputFinalClass"
       />
       <button
@@ -63,9 +62,6 @@ const inputFinalClass = computed(() => {
         <slot v-else name="hide-password-icon" />
       </button>
     </div>
-    <span v-if="error" class="relative self-end p-2 bg-red-500 rounded text-xs">
-      <p>{{ error }}</p>
-      <div class="absolute bottom-full error-message-arrow-up"></div>
-    </span>
+    <FormErrorMessage :error="error ?? ''" />
   </div>
 </template>

@@ -45,7 +45,7 @@ const report = () => {
         <button @click.prevent="applyToTable" class="text-accent">{{ $t('table-card-options.apply-to-table') }}</button>
         <button @click.prevent="viewTable">{{ $t('table-card-options.view-table') }}</button>
         <button @click.prevent="viewOwner">{{ $t('table-card-options.view-owner') }}</button>
-        <button @click.prevent="report" class="text-red-500">{{ $t('table-card-options.report') }}</button>
+        <button @click.prevent="report" class="text-danger">{{ $t('table-card-options.report') }}</button>
       </div>
     </div>
   </Transition>

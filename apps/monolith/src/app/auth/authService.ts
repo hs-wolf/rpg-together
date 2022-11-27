@@ -1,6 +1,7 @@
 import { Inject, Singleton } from 'typescript-ioc';
 import { UsersService } from '../users/usersService';
 import { TablesService } from '../tables/tablesService';
+import { UploadService } from '../upload/uploadService';
 import {
   TokenClaims,
   AuthUserRegisterBody,
@@ -19,6 +20,8 @@ export class AuthService {
   private usersService: UsersService;
   @Inject
   private tablesService: TablesService;
+  @Inject
+  private uploadService: UploadService;
 
   private _authRepo: IAuthRepository;
 
@@ -92,6 +95,7 @@ export class AuthService {
         this._authRepo.deleteAuthUser(userId),
         this.usersService.deleteUser(userId),
         this.tablesService.deleteTablesFromUser(userId),
+        this.uploadService.deleteAllUserFiles(userId),
       ]);
     } catch (error) {
       apiErrorHandler(error);

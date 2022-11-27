@@ -1,26 +1,29 @@
-import { TABLES_STORE } from '~~/constants';
+import { EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { TABLES_STORE } from '~/constants';
+import { SnackType } from '~/types';
 import { useAlertsStore, useSnackbarStore } from '~/stores';
-import { ResponseMessages, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
+import { Table, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
-import { SnackType } from '~~/custom-types';
-import { FetchError } from 'ohmyfetch';
 
 interface IState {
-  // TODO: Change any for the table class.
   selectedTableCard: any;
   showTableCardOptionsModal: boolean;
+  myTables: Table[];
   fetchingMyTables: boolean;
   creatingTable: boolean;
   updatingTable: boolean;
+  deletingTable: boolean;
 }
 
 export const useTablesStore = defineStore(TABLES_STORE, {
   state: (): IState => ({
     selectedTableCard: null,
     showTableCardOptionsModal: false,
+    myTables: [],
     fetchingMyTables: false,
     creatingTable: false,
     updatingTable: false,
+    deletingTable: false,
   }),
   getters: {},
   actions: {
@@ -65,8 +68,6 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         },
       ];
     },
-
-    // TODO: Change any for the table class.
     toggleTableCardOptions(tableCard?: any) {
       if (tableCard) {
         this.selectedTableCard = tableCard;
@@ -76,14 +77,21 @@ export const useTablesStore = defineStore(TABLES_STORE, {
       this.selectedTableCard = null;
       this.showTableCardOptionsModal = false;
     },
-    async fetchMyTables() {
+    async fetchMyTables(options?: { save: boolean }) {
+      if (this.fetchingMyTables) {
+        return;
+      }
+      const firebaseUser = useFirebase.user().value;
+      if (!firebaseUser) {
+        return;
+      }
       try {
-        if (this.fetchingMyTables) {
-          return;
-        }
         this.fetchingMyTables = true;
-        const userId = useFirebase.user().value?.uid ?? '';
-        return await useRpgTogetherAPI.fetchMyTables({ userId });
+        const tables = await useRpgTogetherAPI.fetchMyTables({ userId: firebaseUser.uid });
+        if (options?.save) {
+          this.myTables = tables;
+        }
+        return tables;
       } catch (error) {
         useAlertsStore().handleError(error);
       } finally {
@@ -91,42 +99,41 @@ export const useTablesStore = defineStore(TABLES_STORE, {
       }
     },
     async createTable(values: TableCreateBody, bannerFile?: File) {
+      if (this.creatingTable) {
+        return;
+      }
       try {
-        if (this.creatingTable) {
-          return;
-        }
         this.creatingTable = true;
         const body: TableCreateBody = {
           ...values,
           banner: DEFAULT_TABLE_BANNER,
         };
-        const newTable = await useRpgTogetherAPI.createTable({ body });
+        const table = await useRpgTogetherAPI.createTable({ body });
+        this.myTables.push(table);
         if (bannerFile) {
-          await this.updateTable(newTable.id, { ...values }, bannerFile);
+          await this.updateTable(table.id, { ...values }, bannerFile);
         }
-        useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('tables-store.success.create-table'),
-          type: SnackType.SUCCESS,
-        });
         navigateTo({ name: 'my-tables' });
+        useSnackbarStore().createSnack({
+          type: SnackType.SUCCESS,
+          message: 'tables-store.success.create-table',
+        });
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('tables-store.error.create-table'),
           type: SnackType.ERROR,
+          message: 'tables-store.error.create-table',
         });
-        if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
-          return useNuxtApp().$i18n.t(`api-errors.${(error as FetchError).data.message}`) as string;
-        }
+        return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.creatingTable = false;
       }
     },
-    async updateTable(tabledId: string, values: TableUpdateBody, bannerFile?: File) {
+    async updateTable(tableId: string, values: TableUpdateBody, bannerFile?: File) {
+      if (this.updatingTable) {
+        return;
+      }
       try {
-        if (this.updatingTable) {
-          return;
-        }
         this.updatingTable = true;
         const body: TableUpdateBody = {
           ...values,
@@ -134,22 +141,59 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         if (bannerFile) {
           const formData = new FormData();
           formData.append('file', bannerFile);
-          const url = await useRpgTogetherAPI.uploadTableFile({ tableId: tabledId }, { body: formData });
+          const url = await useRpgTogetherAPI.uploadTableFile({ tableId }, { body: formData });
           body.banner = url;
         }
-        await useRpgTogetherAPI.updateTable({ tableId: tabledId }, { body });
+        const table = await useRpgTogetherAPI.updateTable({ tableId }, { body });
+        const tableIndex = this.myTables.findIndex((table) => table.id === tableId);
+        if (tableIndex >= 0) {
+          this.myTables[tableIndex] = table;
+        }
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('tables-store.success.update-table'),
           type: SnackType.SUCCESS,
+          message: 'tables-store.success.update-table',
         });
       } catch (error) {
         useAlertsStore().handleError(error);
         useSnackbarStore().createSnack({
-          message: useNuxtApp().$i18n.t('tables-store.error.update-table'),
           type: SnackType.ERROR,
+          message: 'tables-store.error.update-table',
         });
+        return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.updatingTable = false;
+      }
+    },
+    async deleteTable(tableId: string, password: string) {
+      if (this.deletingTable) {
+        return;
+      }
+      const firebaseUser = useFirebase.user().value;
+      if (!firebaseUser) {
+        return;
+      }
+      try {
+        this.deletingTable = true;
+        const emailCred = EmailAuthProvider.credential(firebaseUser.email ?? '', password);
+        await reauthenticateWithCredential(firebaseUser, emailCred);
+        await useRpgTogetherAPI.deleteTable({ tableId });
+        const tableIndex = this.myTables.findIndex((table) => table.id === tableId);
+        if (tableIndex >= 0) {
+          this.myTables.splice(tableIndex, 1);
+        }
+        useSnackbarStore().createSnack({
+          type: SnackType.SUCCESS,
+          message: 'tables-store.success.delete-table',
+        });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        useSnackbarStore().createSnack({
+          type: SnackType.ERROR,
+          message: 'tables-store.error.delete-table',
+        });
+        return useAlertsStore().getErrorToShowUser(error);
+      } finally {
+        this.deletingTable = false;
       }
     },
   },

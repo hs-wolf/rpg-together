@@ -7,7 +7,7 @@ import { storeToRefs } from 'pinia';
 import { useTablesStore } from '~/stores';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
-definePageMeta({ middleware: ['auth'] });
+definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('create-table.title') });
 
 const tablesStore = useTablesStore();
@@ -48,12 +48,13 @@ const formSchema = object({
   ['accept-message']: string().min(3).max(512),
 });
 
-const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) });
+const { errors, handleSubmit, setFieldValue } = useForm({ validationSchema: toFormValidator(formSchema) });
 const { value: titleValue } = useField<string>(formFields.title.name);
 const { value: descriptionValue } = useField<string>(formFields.description.name);
 const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name);
 const { value: flairsValue } = useField<string[]>(formFields.flairs.name);
 const { value: acceptMessageValue } = useField<string>(formFields['accept-message'].name);
+const apiError = ref('');
 
 const bannerImageFile = ref<File>();
 const onUserAvatarFileUploaded = async (e: Event) => {
@@ -66,15 +67,15 @@ const onUserAvatarFileUploaded = async (e: Event) => {
 };
 
 const updateFlairs = (values: string[]) => {
-  console.log(values);
-  if (creatingTable) {
+  if (creatingTable.value) {
     return;
   }
   flairsValue.value = values;
 };
 
 const onSubmit = handleSubmit(async (values) => {
-  await tablesStore.createTable(
+  apiError.value = '';
+  const response = await tablesStore.createTable(
     {
       title: values.title,
       description: values.description,
@@ -83,12 +84,15 @@ const onSubmit = handleSubmit(async (values) => {
     },
     bannerImageFile.value
   );
+  if (response) {
+    apiError.value = response;
+  }
 });
 </script>
 
 <template>
   <div class="flex flex-col pb-3">
-    <PageTitle :title="$t('create-table.title')" />
+    <PageTitle :title="$t('create-table.title')" back="my-tables" />
     <div class="flex flex-col gap-6 px-3">
       <FormInput
         :name="formFields.title.name"
@@ -158,10 +162,16 @@ const onSubmit = handleSubmit(async (values) => {
       >
         <template #field-icon><Icon name="bi:send-fill" /></template>
       </FormTextarea>
-      <button class="btn-accent" @click.prevent="onSubmit" :disabled="creatingTable">
-        <Icon v-if="creatingTable" name="line-md:loading-loop" class="text-xl" />
-        <p v-else>{{ $t('create-table.submit') }}</p>
-      </button>
+      <LoadingCard v-if="creatingTable" />
+      <div v-else class="flex flex-col gap-3">
+        <button class="btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
+          {{ $t('create-table.submit') }}
+        </button>
+        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
+          <p>{{ apiError }}</p>
+          <div class="absolute bottom-full error-message-arrow-up"></div>
+        </span>
+      </div>
     </div>
   </div>
 </template>

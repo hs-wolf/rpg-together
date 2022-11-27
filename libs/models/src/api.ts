@@ -30,6 +30,7 @@ export enum ResponseMessages {
   USERNAME_TAKEN = 'USERNAME_TAKEN',
   EMAIL_TAKEN = 'EMAIL_TAKEN',
   COULD_NOT_UPLOAD = 'COULD_NOT_UPLOAD',
+  TABLES_LIMIT_REACHED = 'TABLES_LIMIT_REACHED',
 }
 
 export type TsoaRequest = Request & { user: DecodedIdToken };

@@ -67,7 +67,7 @@ const logout = async () => {
               <h1 class="font-semibold truncate">{{ user?.username }}</h1>
             </NuxtLink>
             <button class="p-3 active:scale-90 transition-transform" @click.prevent="logout">
-              <Icon name="material-symbols:logout" class="text-xl text-red-500" />
+              <Icon name="material-symbols:logout" class="text-xl text-danger" />
             </button>
           </div>
           <div v-else class="flex justify-between gap-3 h-[64px] pr-3 shadow">
@@ -80,7 +80,7 @@ const logout = async () => {
               >
             </div>
           </div>
-          <div class="flex flex-col h-full py-3">
+          <div class="flex flex-col gap-3 h-full py-3">
             <NuxtLink
               v-for="item in menus"
               :key="item.name"

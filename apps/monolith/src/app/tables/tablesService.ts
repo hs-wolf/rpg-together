@@ -1,9 +1,10 @@
 import { Inject, Singleton } from 'typescript-ioc';
 import { UsersService } from '../users/usersService';
 import { FlairsService } from '../flairs/flairsService';
+import { UploadService } from '../upload/uploadService';
 import { ApiError, ResponseCodes, ResponseMessages, Table, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
 import { ITablesRepository, TablesRepositoryFirestore } from '@rpg-together/repos';
-import { apiErrorHandler } from '@rpg-together/utils';
+import { apiErrorHandler, LIMIT_OF_TABLES } from '@rpg-together/utils';
 
 @Singleton
 export class TablesService {
@@ -11,6 +12,8 @@ export class TablesService {
   private usersService: UsersService;
   @Inject
   private flairsService: FlairsService;
+  @Inject
+  private uploadService: UploadService;
 
   private _tablesRepo: ITablesRepository;
 
@@ -41,6 +44,10 @@ export class TablesService {
 
   async createTable(ownerId: string, body: TableCreateBody): Promise<Table> {
     try {
+      const existingTables = await this.getTablesFromUser(ownerId);
+      if (existingTables.length >= LIMIT_OF_TABLES) {
+        throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.TABLES_LIMIT_REACHED);
+      }
       const owner = await this.usersService.getUser(ownerId);
       const currentDate = new Date();
       let newTable = Table.fromMap({ ...body });
@@ -88,6 +95,7 @@ export class TablesService {
       if (tableToDelete.flairs) {
         await Promise.all(tableToDelete.flairs.map((flair) => this.flairsService.changeNumberOfUses(flair, 'decrease')));
       }
+      await this.uploadService.deleteAllTableFiles(tableToDelete.id);
     } catch (error) {
       apiErrorHandler(error);
     }

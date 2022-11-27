@@ -67,7 +67,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <div class="modal justify-center p-3">
-    <div ref="cardRef" class="card gap-3">
+    <div ref="cardRef" class="card-primary gap-3">
       <h1 class="font-semibold">{{ $t('profile-change-email-modal.title') }}</h1>
       <i18n-t keypath="profile-change-email-modal.current-email" tag="p" scope="global" class="text-sm">
         <template v-slot:email>
@@ -120,7 +120,7 @@ const onSubmit = handleSubmit(async (values) => {
           </button>
           <button class="btn-accent" @click.prevent="onSubmit">{{ $t('profile-change-email-modal.save') }}</button>
         </div>
-        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-red-500 rounded">
+        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
           <div class="absolute bottom-full"></div>
         </span>

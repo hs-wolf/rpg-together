@@ -2,17 +2,21 @@
 import { useI18n } from 'vue-i18n';
 import { useTablesStore } from '~/stores';
 import { Table } from '@rpg-together/models';
+import { LIMIT_OF_TABLES } from '@rpg-together/utils';
 
-definePageMeta({ middleware: ['auth'] });
+definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('my-tables.title') });
 
 const tablesStore = useTablesStore();
+const { myTables } = storeToRefs(tablesStore);
 
-const tables = ref<Table[]>([]);
+const enableCreateTable = computed(() => (myTables.value.length >= LIMIT_OF_TABLES ? false : true));
+
+const tableToDelete = ref<Table>();
+
 onMounted(async () => {
-  const fetch = await tablesStore.fetchMyTables();
-  if (fetch) {
-    tables.value = fetch;
+  if (!myTables.value.length) {
+    await tablesStore.fetchMyTables({ save: true });
   }
 });
 </script>
@@ -20,12 +24,27 @@ onMounted(async () => {
 <template>
   <div class="flex flex-col">
     <PageTitle :title="$t('my-tables.title')" />
-    <div class="flex flex-col gap-3 px-3">
-      <NuxtLink :to="{ name: 'create-table' }" class="btn-accent">{{ $t('my-tables.create-table') }}</NuxtLink>
-      <hr class="border-primary-light" />
+    <div class="flex justify-between items-center gap-3 p-3">
+      <i18n-t keypath="my-tables.tables-limit" tag="p" scope="global" class="text-sm leading-none">
+        <template v-slot:limit>
+          <span class="font-semibold">{{ `${myTables.length} / ${LIMIT_OF_TABLES}` }}</span>
+        </template>
+      </i18n-t>
+      <NuxtLink
+        :to="{ name: 'create-table' }"
+        :class="enableCreateTable ? 'btn-accent' : 'btn-primary opacity-50 pointer-events-none'"
+      >
+        {{ $t('my-tables.create-table') }}
+      </NuxtLink>
     </div>
     <div class="flex flex-col gap-3 p-3">
-      <MyTablesTableCard v-for="table in tables" :key="table.id" :table="(table as any)" />
+      <MyTablesTableCard
+        v-for="table in myTables"
+        :key="table.id"
+        :table="(table as any)"
+        @delete="(table: Table) => (tableToDelete = table)"
+      />
     </div>
+    <MyTablesDeleteTableModal :table="tableToDelete" @close="tableToDelete = undefined" />
   </div>
 </template>

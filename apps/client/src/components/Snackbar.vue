@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { SnackType } from '~~/custom-types';
+import { SnackType } from '~/types';
 import { useSnackbarStore } from '~/stores';
 
 const snackbarStore = useSnackbarStore();
@@ -13,7 +13,7 @@ const currentBgAndIcon = computed(() => {
     case SnackType.WARNING:
       return { bg: 'bg-yellow-500', icon: 'mdi:alert' };
     case SnackType.ERROR:
-      return { bg: 'bg-red-500', icon: 'mdi:alert-circle' };
+      return { bg: 'bg-danger', icon: 'mdi:alert-circle' };
     default:
       return { bg: 'bg-yellow-500', icon: 'mdi:alert' };
   }
@@ -21,19 +21,21 @@ const currentBgAndIcon = computed(() => {
 </script>
 
 <template>
-  <transition name="snackbar-slide">
-    <div
-      v-if="waitingSnack"
-      class="z-40 fixed inset-x-3 top-3 flex items-center gap-2 p-3 shadow rounded"
-      :class="[currentBgAndIcon.bg]"
-    >
-      <Icon :name="currentBgAndIcon.icon" class="text-xl" />
-      <p class="w-full font-medium break-all">{{ currentSnack.message }}</p>
-      <button name="clear-snack" @click.prevent="snackbarStore.clearCurrentSnack">
+  <Transition name="snackbar-slide">
+    <div class="z-40 fixed inset-x-3 top-3 flex flex-col">
+      <button
+        v-if="waitingSnack"
+        name="clear-snack"
+        @click.prevent="snackbarStore.clearCurrentSnack"
+        class="flex items-center gap-2 p-3 shadow rounded"
+        :class="[currentBgAndIcon.bg]"
+      >
+        <Icon :name="currentBgAndIcon.icon" class="text-xl" />
+        <p class="w-full font-medium break-all">{{ currentSnack.message }}</p>
         <Icon name="mdi:close-circle" class="text-lg" />
       </button>
     </div>
-  </transition>
+  </Transition>
 </template>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { AdvancedSelectOption } from '~~/custom-types';
+import { AdvancedSelectOption } from '~/types';
 import { useTablesStore } from '~/stores';
 
 useHead({ title: useI18n().t('search.title') });

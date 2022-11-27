@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { firebaseConfig } from '~~/firebase-config';
+import { firebaseConfig } from '~/firebase-config';
 import { useUserStore, useAlertsStore } from '~/stores';
 
 export default defineNuxtPlugin(({ vueApp }) => {
@@ -13,14 +13,17 @@ export default defineNuxtPlugin(({ vueApp }) => {
     try {
       useFirebase.user().value = user;
       if (user) {
-        userStore.fetchUser(user.uid, { save: true });
+        await userStore.fetchUser(user.uid, { save: true });
         if (route.query.redirect) {
           return navigateTo(route.query.redirect.toString());
         }
       } else {
         userStore.$reset();
-        if (route.meta.middleware && (route.meta.middleware as string[]).includes('auth')) {
+        if (route.meta.middleware && (route.meta.middleware as string[]).includes('logged-in')) {
           return navigateTo({ name: 'login', query: { redirect: route.fullPath } });
+        }
+        if (route.query.redirect) {
+          return navigateTo(route.query.redirect.toString());
         }
       }
     } catch (error) {

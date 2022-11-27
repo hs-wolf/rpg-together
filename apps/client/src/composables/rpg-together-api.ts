@@ -82,6 +82,13 @@ export const useRpgTogetherAPI = {
     });
     return Table.fromMap(fetch);
   },
+  async deleteTable(args: { tableId: string }, options?: FetchOptions) {
+    const fetch = await this.customFetch<Table>(`tables/${args.tableId}`, {
+      ...options,
+      method: 'DELETE',
+    });
+    return Table.fromMap(fetch);
+  },
   async getAllFlairs(options?: FetchOptions) {
     const fetch = await this.customFetch<Flair[]>(`flairs`, {
       ...options,

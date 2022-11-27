@@ -1,4 +1,7 @@
-import { ALERTS_STORE } from '~~/constants';
+import { FetchError } from 'ohmyfetch';
+import { FirebaseError } from 'firebase/app';
+import { ALERTS_STORE } from '~/constants';
+import { ResponseMessages, Table, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
 
 interface IState {}
 
@@ -11,6 +14,15 @@ export const useAlertsStore = defineStore(ALERTS_STORE, {
     },
     handleWarning(error: unknown) {
       console.log('⚠️ WARNING:', error);
+    },
+    getErrorToShowUser(error: unknown) {
+      const { t } = useNuxtApp().$i18n;
+      if (error instanceof FirebaseError) {
+        return t(`firebase-errors.${error.code}`) as string;
+      }
+      if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
+        return t(`api-errors.${(error as FetchError).data.message}`) as string;
+      }
     },
   },
 });

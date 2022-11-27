@@ -1,4 +1,4 @@
-import { ANNOUNCEMENTS_STORE } from '~~/constants';
+import { ANNOUNCEMENTS_STORE } from '~/constants';
 
 interface IState {}
 

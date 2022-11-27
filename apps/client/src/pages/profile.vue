@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useUserStore } from '~/stores';
 import { DEFAULT_USER_AVATAR, firebaseTimestampToDate } from '@rpg-together/utils';
 
-definePageMeta({ middleware: ['auth'] });
+definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('profile.title') });
 
 const userStore = useUserStore();

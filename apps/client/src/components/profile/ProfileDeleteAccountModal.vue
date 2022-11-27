@@ -53,8 +53,8 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <div class="modal justify-center p-3">
-    <div v-if="showConfirmCard" ref="confirmCardRef" class="card gap-3">
-      <h1 class="text-red-500 font-semibold">{{ $t('profile-delete-account-modal.title') }}</h1>
+    <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3">
+      <h1 class="text-danger font-semibold">{{ $t('profile-delete-account-modal.title') }}</h1>
       <p class="text-sm">{{ $t('profile-delete-account-modal.confirmation') }}</p>
       <FormInput
         :name="formFields.password.name"
@@ -80,14 +80,14 @@ const onSubmit = handleSubmit(async (values) => {
             {{ $t('profile-delete-account-modal.confirm') }}
           </button>
         </div>
-        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-red-500 rounded">
+        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
           <div class="absolute bottom-full"></div>
         </span>
       </div>
     </div>
-    <div v-else ref="cardRef" class="card gap-3">
-      <h1 class="text-red-500 font-semibold">{{ $t('profile-delete-account-modal.title') }}</h1>
+    <div v-else ref="cardRef" class="card-primary gap-3">
+      <h1 class="text-danger font-semibold">{{ $t('profile-delete-account-modal.title') }}</h1>
       <div class="flex flex-col gap-2 text-sm">
         <p>{{ $t('profile-delete-account-modal.warnings[0]') }}</p>
         <p>{{ $t('profile-delete-account-modal.warnings[1]') }}</p>
@@ -103,7 +103,7 @@ const onSubmit = handleSubmit(async (values) => {
             {{ $t('profile-delete-account-modal.understand') }}
           </button>
         </div>
-        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-red-500 rounded">
+        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
           <div class="absolute bottom-full"></div>
         </span>

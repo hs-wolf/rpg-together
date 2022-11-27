@@ -34,4 +34,20 @@ export class UploadService {
       apiErrorHandler(error);
     }
   }
+
+  async deleteAllUserFiles(userId: string): Promise<void> {
+    try {
+      await this._uploadRepo.deleteAllUserFiles(userId);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async deleteAllTableFiles(tableId: string): Promise<void> {
+    try {
+      await this._uploadRepo.deleteAllTableFiles(tableId);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
 }
