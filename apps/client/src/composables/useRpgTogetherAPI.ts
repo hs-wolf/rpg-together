@@ -2,9 +2,9 @@ import { FetchOptions } from 'ohmyfetch';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
 import { Flair, Table, User } from '@rpg-together/models';
 
-export const useRpgTogetherAPI = {
+export default {
   async customFetch<T>(path: string, options?: FetchOptions) {
-    const firebaseUser = useFirebase.user();
+    const firebaseUser = useFirebase.currentUser();
     const token = (await firebaseUser.value?.getIdToken()) || '';
     const finalOptions = {
       ...options,
@@ -68,6 +68,13 @@ export const useRpgTogetherAPI = {
     });
     return fetch.map((table) => Table.fromMap(table));
   },
+  async fetchTable(args: { tableId: string }, options?: FetchOptions) {
+    const fetch = await this.customFetch<Table>(`tables/${args.tableId}`, {
+      ...options,
+      method: 'GET',
+    });
+    return Table.fromMap(fetch);
+  },
   async createTable(options?: FetchOptions) {
     const fetch = await this.customFetch<Table>(`tables`, {
       ...options,
@@ -89,7 +96,7 @@ export const useRpgTogetherAPI = {
     });
     return Table.fromMap(fetch);
   },
-  async getAllFlairs(options?: FetchOptions) {
+  async fetchAllFlairs(options?: FetchOptions) {
     const fetch = await this.customFetch<Flair[]>(`flairs`, {
       ...options,
       method: 'GET',

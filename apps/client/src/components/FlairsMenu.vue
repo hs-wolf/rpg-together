@@ -47,12 +47,6 @@ watch(selectedFilters, () => {
   ];
   emits('change', ids);
 });
-
-onMounted(async () => {
-  if (!allFlairs.value.length) {
-    await flairsStore.getAllFlairs({ save: true });
-  }
-});
 </script>
 
 <template>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '~/stores';
+import { AppLang } from '~/types';
+import { useLocalesStore, useUserStore } from '~/stores';
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
-const firebaseUser = useFirebase.user();
+const firebaseUser = useFirebase.currentUser();
+const localesStore = useLocalesStore();
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
@@ -17,7 +19,7 @@ onClickOutside(mobileMenuRef, () => {
 });
 
 const tabs = [
-  { name: 'home', icon: 'ic:round-home', link: '/' },
+  { name: 'home', icon: 'ic:round-home', link: 'index' },
   { name: 'search', icon: 'material-symbols:search-rounded', link: 'search' },
   { name: 'notifications', icon: 'mdi:bell', link: 'notifications' },
   { name: 'profile', icon: 'mdi:user', link: 'profile' },
@@ -46,7 +48,13 @@ const logout = async () => {
       <Icon name="cil:hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
       <p>{{ $t('navbar.tabs.menu') }}</p>
     </button>
-    <NuxtLink v-for="tab in tabs" :key="tab.name" :to="tab.link" class="tab-button" active-class="text-accent font-semibold">
+    <NuxtLink
+      v-for="tab in tabs"
+      :key="tab.name"
+      :to="{ name: tab.link }"
+      class="tab-button"
+      active-class="text-accent font-semibold"
+    >
       <Icon :name="tab.icon" />
       <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
     </NuxtLink>
@@ -84,13 +92,23 @@ const logout = async () => {
             <NuxtLink
               v-for="item in menus"
               :key="item.name"
-              :to="item.link"
+              :to="{ name: item.link }"
               class="menu-button"
               @click.prevent="closeMobileMenu"
             >
               <Icon :name="item.icon" />
               <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
             </NuxtLink>
+            <button
+              @click.prevent="
+                $i18n.locale === 'en' ? localesStore.changeLocale(AppLang.PT) : localesStore.changeLocale(AppLang.EN)
+              "
+              class="menu-button"
+            >
+              <Icon v-if="$i18n.locale === 'en'" name="twemoji:flag-united-states" />
+              <Icon v-else-if="$i18n.locale === 'pt'" name="twemoji:flag-brazil" />
+              <p>Language</p>
+            </button>
           </div>
         </div>
       </div>

@@ -81,7 +81,7 @@ export const useTablesStore = defineStore(TABLES_STORE, {
       if (this.fetchingMyTables) {
         return;
       }
-      const firebaseUser = useFirebase.user().value;
+      const firebaseUser = useFirebase.currentUser().value;
       if (!firebaseUser) {
         return;
       }
@@ -96,6 +96,13 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         useAlertsStore().handleError(error);
       } finally {
         this.fetchingMyTables = false;
+      }
+    },
+    async fetchTable(tableId: string) {
+      try {
+        return await useRpgTogetherAPI.fetchTable({ tableId });
+      } catch (error) {
+        useAlertsStore().handleError(error);
       }
     },
     async createTable(values: TableCreateBody, bannerFile?: File) {
@@ -168,7 +175,7 @@ export const useTablesStore = defineStore(TABLES_STORE, {
       if (this.deletingTable) {
         return;
       }
-      const firebaseUser = useFirebase.user().value;
+      const firebaseUser = useFirebase.currentUser().value;
       if (!firebaseUser) {
         return;
       }

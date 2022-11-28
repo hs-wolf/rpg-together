@@ -51,9 +51,9 @@ export const useFlairsStore = defineStore(FLAIRS_STORE, {
     },
   },
   actions: {
-    async getAllFlairs(options?: { save: boolean }) {
+    async fetchAllFlairs(options?: { save: boolean }) {
       try {
-        const flairs = await useRpgTogetherAPI.getAllFlairs();
+        const flairs = await useRpgTogetherAPI.fetchAllFlairs();
         if (options?.save) {
           this.allFlairs = flairs;
         }

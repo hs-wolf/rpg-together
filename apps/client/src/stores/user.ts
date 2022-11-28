@@ -34,7 +34,7 @@ export const useUserStore = defineStore(USER_STORE, {
       if (this.signingIn) {
         return;
       }
-      const firebaseAuth = useFirebase.auth().value;
+      const firebaseAuth = useFirebase.firebaseAuth().value;
       if (!firebaseAuth) {
         return;
       }
@@ -51,7 +51,7 @@ export const useUserStore = defineStore(USER_STORE, {
       if (this.signingOut) {
         return;
       }
-      const firebaseAuth = useFirebase.auth().value;
+      const firebaseAuth = useFirebase.firebaseAuth().value;
       if (!firebaseAuth) {
         return;
       }
@@ -90,7 +90,7 @@ export const useUserStore = defineStore(USER_STORE, {
       if (this.changingAuthData) {
         return;
       }
-      const firebaseUser = useFirebase.user().value;
+      const firebaseUser = useFirebase.currentUser().value;
       if (!firebaseUser) {
         return;
       }
@@ -127,7 +127,7 @@ export const useUserStore = defineStore(USER_STORE, {
       if (this.deletingAccount) {
         return;
       }
-      const firebaseUser = useFirebase.user().value;
+      const firebaseUser = useFirebase.currentUser().value;
       if (!firebaseUser) {
         return;
       }
@@ -171,7 +171,7 @@ export const useUserStore = defineStore(USER_STORE, {
       if (this.changingUsername) {
         return;
       }
-      const firebaseUser = useFirebase.user().value;
+      const firebaseUser = useFirebase.currentUser().value;
       if (!firebaseUser) {
         return;
       }

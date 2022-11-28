@@ -2,16 +2,16 @@ import { FirebaseApp } from 'firebase/app';
 import { Auth, User } from 'firebase/auth';
 
 export default {
-  app() {
-    return useState<FirebaseApp | null>('useFirebaseApp', () => null);
+  firebaseApp() {
+    return useState<FirebaseApp | null>('useFirebaseFirebaseApp', () => null);
   },
-  auth() {
-    return useState<Auth | null>('useFirebaseAuth', () => null);
+  firebaseAuth() {
+    return useState<Auth | null>('useFirebaseFirebaseAuth', () => null);
   },
-  user() {
-    return useState<User | null>('useFirebaseUser', () => null);
+  currentUser() {
+    return useState<User | null>('useFirebaseCurrentUser', () => null);
   },
-  checked() {
-    return useState<boolean>('useFirebaseChecked', () => false);
+  checkedFirstTime() {
+    return useState<boolean>('useFirebaseCheckedFirstTime', () => false);
   },
 };

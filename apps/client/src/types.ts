@@ -1,3 +1,12 @@
+export enum AppDirections {
+  RTL = 'rtl',
+  LTR = 'ltr',
+}
+export enum AppLang {
+  EN = 'en',
+  PT = 'pt',
+}
+
 export enum SnackType {
   SUCCESS = 'SUCCESS',
   WARNING = 'WARNING',

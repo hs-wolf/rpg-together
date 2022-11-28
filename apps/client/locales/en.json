@@ -197,6 +197,10 @@
   "my-applications": {
     "title": "My Applications"
   },
+  "tables": {
+    "description": "Description:",
+    "flairs": "Flairs:"
+  },
   "my-tables": {
     "title": "My Tables",
     "create-table": "Create new table",

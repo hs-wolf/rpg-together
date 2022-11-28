@@ -48,7 +48,7 @@ const formSchema = object({
   ['accept-message']: string().min(3).max(512),
 });
 
-const { errors, handleSubmit, setFieldValue } = useForm({ validationSchema: toFormValidator(formSchema) });
+const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) });
 const { value: titleValue } = useField<string>(formFields.title.name);
 const { value: descriptionValue } = useField<string>(formFields.description.name);
 const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name);

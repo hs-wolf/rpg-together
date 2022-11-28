@@ -10,12 +10,6 @@ const tablesStore = useTablesStore();
 const flairsStore = useFlairsStore();
 
 const showInfo = ref(false);
-
-onMounted(() => {
-  if (!flairsStore.allFlairs.length) {
-    flairsStore.getAllFlairs({ save: true });
-  }
-});
 </script>
 
 <template>
@@ -53,10 +47,10 @@ onMounted(() => {
               <Icon name="material-symbols:edit" />
               <p>{{ $t('my-tables-table-card.edit') }}</p>
             </button>
-            <button class="btn-secondary gap-2">
+            <NuxtLink :to="{ path: `/tables/${table?.id}` }" class="btn-secondary gap-2">
               <Icon name="ic:baseline-remove-red-eye" />
               <p>{{ $t('my-tables-table-card.view') }}</p>
-            </button>
+            </NuxtLink>
           </div>
           <i18n-t keypath="my-tables-table-card.description" tag="p" scope="global" class="font-semibold leading-5">
             <template #text>

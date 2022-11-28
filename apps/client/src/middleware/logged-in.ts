@@ -2,7 +2,7 @@ import { useUserStore } from '~/stores';
 
 export default defineNuxtRouteMiddleware((to, _from) => {
   const userStore = useUserStore();
-  const firebaseUser = useFirebase.user();
+  const firebaseUser = useFirebase.currentUser();
 
   if (!firebaseUser.value) {
     if (!userStore.authChecked) {
