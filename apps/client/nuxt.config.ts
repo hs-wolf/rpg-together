@@ -60,7 +60,7 @@ export default defineNuxtConfig({
       },
     ],
     '@nuxt/image-edge',
-    'nuxt-icon',
+    'nuxt-icons',
   ],
   tailwindcss: {
     cssPath: './src/assets/css/tailwind.css',
