@@ -22,6 +22,8 @@ export default defineNuxtConfig({
     },
   },
   app: {
+    pageTransition: { name: 'slide-left', mode: 'out-in' },
+    layoutTransition: { name: 'slide-left', mode: 'out-in' },
     head: {
       htmlAttrs: {
         lang: 'en',
@@ -35,7 +37,7 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/transitions.css'],
   modules: [
     '@nuxtjs/tailwindcss',
     [
@@ -63,7 +65,7 @@ export default defineNuxtConfig({
     'nuxt-icons',
   ],
   tailwindcss: {
-    cssPath: './src/assets/css/tailwind.css',
+    cssPath: '~/assets/css/tailwind.css',
     configPath: './tailwind.config.js',
     viewer: false,
   },

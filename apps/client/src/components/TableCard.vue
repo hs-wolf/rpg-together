@@ -44,7 +44,7 @@ const tablesStore = useTablesStore();
           <h1 class="text-xs font-semibold truncate">{{ table.owner.name }}</h1>
         </div>
         <button name="options" @click.prevent="tablesStore.toggleTableCardOptions(table)" class="btn-primary">
-          <Icon name="ph:dots-three-bold" />
+          <NuxtIcon name="three-dots" />
         </button>
       </div>
     </div>

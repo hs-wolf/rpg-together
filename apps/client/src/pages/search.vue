@@ -19,7 +19,7 @@ onMounted(() => {
     <PageTitle :title="$t('search.title')" />
     <div class="flex flex-col gap-3 p-3">
       <div class="relative flex items-center border border-primary-light rounded">
-        <Icon name="material-symbols:search-rounded" class="absolute left-3 text-lg pointer-events-none" />
+        <NuxtIcon name="search-tool" class="absolute left-3 text-lg pointer-events-none" />
         <input
           type="text"
           v-model="query"
@@ -30,7 +30,7 @@ onMounted(() => {
           class="absolute right-0 flex px-3 py-2 opacity-50 transition-transform active:rotate-90"
           @click.prevent="query = ''"
         >
-          <Icon name="material-symbols:close" />
+          <NuxtIcon name="x-close" />
         </button>
       </div>
       <FlairsMenu />

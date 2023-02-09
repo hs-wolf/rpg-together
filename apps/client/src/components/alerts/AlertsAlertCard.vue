@@ -11,7 +11,7 @@ defineEmits<{ (e: 'markAsRead'): void }>();
     @click.prevent="$emit('markAsRead')"
   >
     <div class="flex items-center gap-1" :class="alert.read ? 'text-primary-light' : 'text-accent'">
-      <Icon name="mdi:bell" />
+      <NuxtIcon name="bell" />
       <h1 class="text-sm font-medium leading-none">{{ alert.title }}</h1>
     </div>
     <p class="text-xs">{{ alert.message }}</p>

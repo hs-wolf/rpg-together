@@ -58,13 +58,13 @@ const currentAvatarUrl = computed(() =>
           class="w-[50vw] h-[50vw] rounded-full shadow object-cover"
         />
         <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-50">
-          <Icon :name="changingAvatar ? 'line-md:loading-loop' : 'clarity:picture-solid'" />
+          <NuxtIcon :name="changingAvatar ? 'loading-loop' : 'picture'" />
         </div>
       </label>
       <div class="flex flex-wrap justify-center items-center gap-2">
         <h1 class="text-2xl font-semibold">{{ user?.username }}</h1>
         <button class="transition-transform active:scale-90" @click.prevent="showChangeUsernameModal = true">
-          <Icon name="material-symbols:edit" class="text-xl" />
+          <NuxtIcon name="edit-pencil" class="text-xl" />
         </button>
       </div>
     </div>
@@ -73,7 +73,7 @@ const currentAvatarUrl = computed(() =>
         <p>{{ $t('profile.email') }}</p>
         <p class="text-accent-light font-semibold break-all">{{ user?.email }}</p>
         <button class="transition-transform active:scale-90" @click.prevent="showChangeEmailModal = true">
-          <Icon name="material-symbols:edit" class="text-xl" />
+          <NuxtIcon name="edit-pencil" class="text-xl" />
         </button>
       </div>
       <p class="text-xs">{{ $t('profile.creation-date', { date: firebaseTimestampToDate(user?.creationDate as any) }) }}</p>

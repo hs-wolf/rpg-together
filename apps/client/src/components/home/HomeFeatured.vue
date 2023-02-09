@@ -13,7 +13,7 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-3 p-3">
     <div class="flex items-center gap-2 font-semibol">
-      <Icon name="bi:bookmark-star-fill" />
+      <NuxtIcon name="bookmark-star" />
       <h1>{{ $t('home-featured.title') }}</h1>
     </div>
     <div v-if="tables?.length" class="flex gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory hide-scrollbar">

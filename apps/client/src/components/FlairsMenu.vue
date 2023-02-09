@@ -53,14 +53,14 @@ watch(selectedFilters, () => {
   <div class="flex flex-col gap-2">
     <div class="flex justify-between">
       <button class="btn-primary gap-2" @click.prevent="showFilterMenu = !showFilterMenu">
-        <Icon name="material-symbols:filter-alt" />
+        <NuxtIcon name="filter" />
         <p>{{ $t('flairs-menu.flairs') }}</p>
-        <Icon name="ion:chevron-left" fill class="transition-transform" :class="{ 'rotate-180': showFilterMenu }" />
+        <NuxtIcon name="chevron-left" fill class="transition-transform" :class="{ 'rotate-180': showFilterMenu }" />
       </button>
       <Transition name="slide-left">
         <button v-if="showFilterMenu" class="btn-primary gap-2" @click.prevent="clearFilters">
           <p>{{ $t('flairs-menu.clear') }}</p>
-          <Icon name="material-symbols:close" />
+          <NuxtIcon name="x-close" />
         </button>
       </Transition>
     </div>

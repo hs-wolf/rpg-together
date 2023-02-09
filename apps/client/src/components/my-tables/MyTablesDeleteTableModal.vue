@@ -64,9 +64,9 @@ const onSubmit = handleSubmit(async (values) => {
           :disabled="deletingTable"
           :error="errors.password"
         >
-          <template #field-icon><Icon name="material-symbols:key" /></template>
-          <template #show-password-icon><Icon name="bi:eye-fill" /></template>
-          <template #hide-password-icon><Icon name="bi:eye-slash-fill" /></template>
+          <template #field-icon><NuxtIcon name="key" /></template>
+          <template #show-password-icon><NuxtIcon name="eye-open" /></template>
+          <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
         </FormInput>
         <LoadingCard v-if="deletingTable" class="mt-3" />
         <div v-else class="flex flex-col gap-3 mt-3">

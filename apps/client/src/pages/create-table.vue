@@ -104,7 +104,7 @@ const onSubmit = handleSubmit(async (values) => {
         :disabled="creatingTable"
         :error="errors.title"
       >
-        <template #field-icon><Icon name="material-symbols:title" /></template>
+        <template #field-icon><NuxtIcon name="title" /></template>
       </FormInput>
       <FormTextarea
         :name="formFields.description.name"
@@ -116,7 +116,7 @@ const onSubmit = handleSubmit(async (values) => {
         :disabled="creatingTable"
         :error="errors.description"
       >
-        <template #field-icon><Icon name="material-symbols:description" /></template>
+        <template #field-icon><NuxtIcon name="document" /></template>
       </FormTextarea>
       <div class="flex flex-col gap-2">
         <h1>{{ $t(formFields['banner-url'].label) }}</h1>
@@ -144,7 +144,7 @@ const onSubmit = handleSubmit(async (values) => {
               class="w-full h-32 shadow rounded opacity-80 object-cover"
             />
             <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-80">
-              <Icon name="clarity:picture-solid" />
+              <NuxtIcon name="picture" />
             </div>
           </label>
         </div>
@@ -160,7 +160,7 @@ const onSubmit = handleSubmit(async (values) => {
         :disabled="creatingTable"
         :error="errors['accept-message']"
       >
-        <template #field-icon><Icon name="bi:send-fill" /></template>
+        <template #field-icon><NuxtIcon name="send" /></template>
       </FormTextarea>
       <LoadingCard v-if="creatingTable" />
       <div v-else class="flex flex-col gap-3">

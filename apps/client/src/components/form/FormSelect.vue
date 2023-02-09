@@ -73,7 +73,7 @@ defineExpose({
           @click.prevent="showOptions = !showOptions"
         >
           <p class="font-semibold">{{ placeholderMessage }}</p>
-          <Icon name="ion:chevron-up" class="transition-transform" :class="{ 'rotate-180': showOptions }" />
+          <NuxtIcon name="chevron-up" class="transition-transform" :class="{ 'rotate-180': showOptions }" />
         </button>
       </div>
       <div class="flex flex-wrap gap-2 px-3" :class="{ 'pb-3': selectedOptions.length }">
@@ -85,7 +85,7 @@ defineExpose({
             @click.prevent="removeOption(index)"
           >
             <p>{{ option.label }}</p>
-            <Icon name="material-symbols:close" />
+            <NuxtIcon name="x-close" />
           </button>
         </TransitionGroup>
       </div>
@@ -96,7 +96,7 @@ defineExpose({
         class="z-10 absolute top-[calc(100%-1px)] inset-x-0 flex flex-col bg-secondary border border-accent-dark rounded-b text-primary"
       >
         <div v-if="showOptions" class="flex items-center gap-2 p-3 h-10 bg-secondary-dark">
-          <Icon name="material-symbols:search" class="text-accent-dark" />
+          <NuxtIcon name="search-tool" class="text-accent-dark" />
           <input
             type="text"
             v-model="optionsQuery"

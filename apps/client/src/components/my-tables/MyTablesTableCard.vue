@@ -24,7 +24,7 @@ const showInfo = ref(false);
       class="w-full h-32 rounded-t-sm object-cover"
     />
     <button class="btn-primary absolute self-end m-1 gap-2">
-      <Icon name="teenyicons:message-plus-solid" />
+      <NuxtIcon name="message-plus" />
       <p>{{ $t('my-tables-table-card.applicants') }}</p>
     </button>
     <div class="flex flex-col gap-0.5 shadow overflow-hidden">
@@ -38,17 +38,17 @@ const showInfo = ref(false);
             <span class="font-semibold">{{ table.title }}</span>
           </template>
         </i18n-t>
-        <Icon name="ion:chevron-up" class="shrink-0 text-xl transition-transform" :class="{ 'rotate-180': showInfo }" />
+        <NuxtIcon name="chevron-up" class="shrink-0 text-xl transition-transform" :class="{ 'rotate-180': showInfo }" />
       </button>
       <Transition name="slide-down">
         <div v-if="showInfo" class="flex flex-col gap-3 h-full p-3 bg-secondary rounded-b-sm">
           <div class="flex flex-wrap justify-end gap-3 w-full">
             <button class="btn-accent gap-2">
-              <Icon name="material-symbols:edit" />
+              <NuxtIcon name="edit-pencil" />
               <p>{{ $t('my-tables-table-card.edit') }}</p>
             </button>
             <NuxtLink :to="{ path: `/tables/${table?.id}` }" class="btn-secondary gap-2">
-              <Icon name="ic:baseline-remove-red-eye" />
+              <NuxtIcon name="eye-open" />
               <p>{{ $t('my-tables-table-card.view') }}</p>
             </NuxtLink>
           </div>

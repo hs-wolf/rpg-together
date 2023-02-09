@@ -19,17 +19,17 @@ onClickOutside(mobileMenuRef, () => {
 });
 
 const tabs = [
-  { name: 'home', icon: 'ic:round-home', link: 'index' },
-  { name: 'search', icon: 'material-symbols:search-rounded', link: 'search' },
-  { name: 'notifications', icon: 'mdi:bell', link: 'notifications' },
-  { name: 'profile', icon: 'mdi:user', link: 'profile' },
+  { name: 'home', icon: 'home', link: 'index' },
+  { name: 'search', icon: 'search-tool', link: 'search' },
+  { name: 'notifications', icon: 'bell', link: 'notifications' },
+  { name: 'profile', icon: 'user', link: 'profile' },
 ];
 
 const menus = [
-  { name: 'my-applications', icon: 'ic:round-message', link: 'my-applications' },
-  { name: 'my-tables', icon: 'material-symbols:table-bar', link: 'my-tables' },
-  { name: 'settings', icon: 'material-symbols:settings-rounded', link: 'settings' },
-  { name: 'about', icon: 'mdi:about-circle-outline', link: 'about' },
+  { name: 'my-applications', icon: 'message', link: 'my-applications' },
+  { name: 'my-tables', icon: 'bar-table', link: 'my-tables' },
+  { name: 'settings', icon: 'settings-cog', link: 'settings' },
+  { name: 'about', icon: 'information-circle', link: 'about' },
 ];
 
 const closeMobileMenu = () => {
@@ -45,7 +45,7 @@ const logout = async () => {
 <template>
   <nav class="z-30 fixed bottom-0 grid grid-cols-5 gap-3 w-full h-16 p-3 bg-primary shadow">
     <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
-      <Icon name="cil:hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
+      <NuxtIcon name="hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
       <p>{{ $t('navbar.tabs.menu') }}</p>
     </button>
     <NuxtLink
@@ -55,7 +55,7 @@ const logout = async () => {
       class="tab-button"
       active-class="text-accent font-semibold"
     >
-      <Icon :name="tab.icon" />
+      <NuxtIcon :name="tab.icon" />
       <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
     </NuxtLink>
     <Transition name="slide-left">
@@ -75,7 +75,7 @@ const logout = async () => {
               <h1 class="font-semibold truncate">{{ user?.username }}</h1>
             </NuxtLink>
             <button class="p-3 active:scale-90 transition-transform" @click.prevent="logout">
-              <Icon name="material-symbols:logout" class="text-xl text-danger" />
+              <NuxtIcon name="logout" class="text-xl text-danger" />
             </button>
           </div>
           <div v-else class="flex justify-between gap-3 h-[64px] pr-3 shadow">
@@ -96,7 +96,7 @@ const logout = async () => {
               class="menu-button"
               @click.prevent="closeMobileMenu"
             >
-              <Icon :name="item.icon" />
+              <NuxtIcon :name="item.icon" />
               <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
             </NuxtLink>
             <button
@@ -105,8 +105,7 @@ const logout = async () => {
               "
               class="menu-button"
             >
-              <Icon v-if="$i18n.locale === 'en'" name="twemoji:flag-united-states" />
-              <Icon v-else-if="$i18n.locale === 'pt'" name="twemoji:flag-brazil" />
+              <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
               <p>Language</p>
             </button>
           </div>

@@ -17,9 +17,10 @@ const finalPreviousRoute = computed(() => {
     :class="finalPreviousRoute ? 'justify-between' : 'justify-center'"
   >
     <NuxtLink v-if="finalPreviousRoute" :to="{ path: finalPreviousRoute }">
-      <Icon name="material-symbols:arrow-back-ios-new-rounded" class="text-2xl" />
+      <NuxtIcon name="chevron-left" class="text-2xl" />
     </NuxtLink>
     <div class="flex items-center gap-2">
+      <NuxtIcon name="logo" class="text-2xl" />
       <p class="text-2xl text-accent font-righteous">{{ title ?? $t('home.title') }}</p>
     </div>
   </div>
