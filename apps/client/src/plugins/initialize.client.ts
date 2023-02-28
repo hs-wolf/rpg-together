@@ -5,9 +5,9 @@ import { useAlertsStore, useLocalesStore, useUserStore, useFlairsStore } from '~
 
 export default defineNuxtPlugin(({ hook }) => {
   hook('app:created', () => {
-    console.log('app:created');
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+
     useFirebase.firebaseApp().value = app;
     useFirebase.firebaseAuth().value = auth;
 
@@ -24,6 +24,7 @@ export default defineNuxtPlugin(({ hook }) => {
     onAuthStateChanged(auth, async (user) => {
       try {
         useFirebase.currentUser().value = user;
+        useFirebase.checkedFirstTime().value = true;
         if (user) {
           userStore.fetchUser(user.uid, { save: true });
           if (route.query.redirect) {
@@ -40,8 +41,6 @@ export default defineNuxtPlugin(({ hook }) => {
         }
       } catch (error) {
         alertsStore.handleError(error);
-      } finally {
-        useFirebase.checkedFirstTime().value = true;
       }
     });
   });

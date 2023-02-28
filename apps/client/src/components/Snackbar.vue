@@ -21,8 +21,8 @@ const currentBgAndIcon = computed(() => {
 </script>
 
 <template>
-  <Transition name="snackbar-slide">
-    <div class="z-40 fixed inset-x-3 top-3 flex flex-col">
+  <Transition name="slide-down">
+    <div class="z-50 fixed inset-x-3 top-3 flex flex-col">
       <button
         v-if="waitingSnack"
         name="clear-snack"
@@ -37,14 +37,3 @@ const currentBgAndIcon = computed(() => {
     </div>
   </Transition>
 </template>
-
-<style scoped>
-.snackbar-slide-enter-active,
-.snackbar-slide-leave-active {
-  transition: all 0.15s ease-out;
-}
-.snackbar-slide-enter-from,
-.snackbar-slide-leave-to {
-  transform: translateY(-100%);
-}
-</style>

@@ -22,8 +22,8 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    pageTransition: { name: 'slide-left', mode: 'out-in' },
-    layoutTransition: { name: 'slide-left', mode: 'out-in' },
+    pageTransition: { name: 'fade', mode: 'out-in' },
+    layoutTransition: { name: 'fade', mode: 'out-in' },
     head: {
       htmlAttrs: {
         lang: 'en',

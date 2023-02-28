@@ -5,7 +5,6 @@ import { useAlertsStore, useSnackbarStore } from '~/stores';
 import { User, AuthUserRegisterBody, UserUpdateBody, AuthUserUpdateBody } from '@rpg-together/models';
 
 interface IState {
-  authChecked: boolean;
   user: User | null;
   signingIn: boolean;
   signingOut: boolean;
@@ -18,7 +17,6 @@ interface IState {
 
 export const useUserStore = defineStore(USER_STORE, {
   state: (): IState => ({
-    authChecked: false,
     user: null,
     signingIn: false,
     signingOut: false,

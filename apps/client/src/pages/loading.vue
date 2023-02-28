@@ -1,25 +1,9 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useUserStore } from '~/stores';
-
-definePageMeta({ layout: 'loading' });
-
-const userStore = useUserStore();
-const { authChecked } = storeToRefs(userStore);
-
-const route = useRoute();
-watch(authChecked, () => {
-  if (authChecked.value) {
-    if (route.query.redirect) {
-      return navigateTo(route.query.redirect.toString());
-    }
-    return navigateTo('/');
-  }
-});
+definePageMeta({ layout: 'empty' });
 </script>
 
 <template>
-  <div>
+  <div class="flex-1 flex flex-col justify-center items-center">
     <NuxtIcon name="logo" class="text-2xl animate-pulse" />
   </div>
 </template>
