@@ -3,7 +3,6 @@ import { object, string } from 'zod';
 import { useForm, useField } from 'vee-validate';
 import { toFormValidator } from '@vee-validate/zod';
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { useUserStore } from '~/stores';
 import { AuthUserRegisterBody } from '@rpg-together/models';
 
@@ -47,10 +46,10 @@ const validationSchema = toFormValidator(
   })
 );
 const { errors, handleSubmit } = useForm({ validationSchema });
-const { value: usernameValue } = useField(formFields.username.name);
-const { value: emailValue } = useField(formFields.email.name);
-const { value: passwordValue } = useField(formFields.password.name);
-const { value: confirmPasswordValue } = useField(formFields.confirmPassword.name);
+const { value: usernameValue } = useField<string>(formFields.username.name);
+const { value: emailValue } = useField<string>(formFields.email.name);
+const { value: passwordValue } = useField<string>(formFields.password.name);
+const { value: confirmPasswordValue } = useField<string>(formFields.confirmPassword.name);
 
 const onSubmit = handleSubmit(async (values) => {
   const body: AuthUserRegisterBody = { username: values.username, email: values.email, password: values.password };

@@ -255,6 +255,33 @@
     },
     "submit": "Create"
   },
+  "edit-table": {
+    "title": "Edit Table",
+    "form": {
+      "title": {
+        "label": "Title",
+        "placeholder": "Table title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Brief summary"
+      },
+      "banner-url": {
+        "label": "Banner",
+        "placeholder": "Banner"
+      },
+      "flairs": {
+        "label": "Flairs",
+        "placeholder": "Flairs"
+      },
+      "accept-message": {
+        "label": "Accept message",
+        "placeholder": "Accept message"
+      }
+    },
+    "submit": "Save",
+    "table-not-found": "Table not found."
+  },
   "settings": {
     "title": "Settings"
   },
@@ -299,5 +326,11 @@
       "update-table": "sorry, we could not updated your table.",
       "delete-table": "sorry, we could not delete your table."
     }
+  },
+  "discard-changes-dialog": {
+    "title": "Changes Present",
+    "message": "There are unsaved changes, would you like to discard them?",
+    "confirm": "Confirm",
+    "close": "Close"
   }
 }

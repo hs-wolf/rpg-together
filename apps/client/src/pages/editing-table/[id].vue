@@ -3,40 +3,45 @@ import { object, string } from 'zod';
 import { useForm, useField } from 'vee-validate';
 import { toFormValidator } from '@vee-validate/zod';
 import { useI18n } from 'vue-i18n';
-import { useTablesStore } from '~/stores';
+import { SnackType } from '~/types';
+import { useTablesStore, useSnackbarStore } from '~/stores';
+import { Table, TableUpdateBody } from '@rpg-together/models';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
 definePageMeta({ middleware: ['logged-in'] });
-useHead({ title: useI18n().t('create-table.title') });
+useHead({ title: useI18n().t('edit-table.title') });
 
+const tableId = useRoute().params.id as string;
 const tablesStore = useTablesStore();
-const { creatingTable } = storeToRefs(tablesStore);
+const { updatingTable } = storeToRefs(tablesStore);
+
+const table = ref<Table>();
 
 const formFields = {
   title: {
     name: 'title',
-    label: 'create-table.form.title.label',
-    placeholder: 'create-table.form.title.placeholder',
+    label: 'edit-table.form.title.label',
+    placeholder: 'edit-table.form.title.placeholder',
   },
   description: {
     name: 'description',
-    label: 'create-table.form.description.label',
-    placeholder: 'create-table.form.description.placeholder',
+    label: 'edit-table.form.description.label',
+    placeholder: 'edit-table.form.description.placeholder',
   },
   ['banner-url']: {
     name: 'banner-url',
-    label: 'create-table.form.banner-url.label',
-    placeholder: 'create-table.form.banner-url.placeholder',
+    label: 'edit-table.form.banner-url.label',
+    placeholder: 'edit-table.form.banner-url.placeholder',
   },
   flairs: {
     name: 'flairs',
-    label: 'create-table.form.flairs.label',
-    placeholder: 'create-table.form.flairs.placeholder',
+    label: 'edit-table.form.flairs.label',
+    placeholder: 'edit-table.form.flairs.placeholder',
   },
   ['accept-message']: {
     name: 'accept-message',
-    label: 'create-table.form.accept-message.label',
-    placeholder: 'create-table.form.accept-message.placeholder',
+    label: 'edit-table.form.accept-message.label',
+    placeholder: 'edit-table.form.accept-message.placeholder',
   },
 };
 const formSchema = object({
@@ -47,7 +52,7 @@ const formSchema = object({
   ['accept-message']: string().min(3).max(512),
 });
 
-const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) });
+const { errors, handleSubmit, setValues } = useForm({ validationSchema: toFormValidator(formSchema) });
 const { value: titleValue } = useField<string>(formFields.title.name);
 const { value: descriptionValue } = useField<string>(formFields.description.name);
 const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name);
@@ -66,7 +71,7 @@ const onUserAvatarFileUploaded = async (e: Event) => {
 };
 
 const updateFlairs = (values: string[]) => {
-  if (creatingTable.value) {
+  if (updatingTable.value) {
     return;
   }
   flairsValue.value = values;
@@ -74,7 +79,8 @@ const updateFlairs = (values: string[]) => {
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = '';
-  const response = await tablesStore.createTable(
+  const response = await tablesStore.updateTable(
+    tableId,
     {
       title: values.title,
       description: values.description,
@@ -85,13 +91,63 @@ const onSubmit = handleSubmit(async (values) => {
   );
   if (response) {
     apiError.value = response;
+  } else {
+    navigateTo({ name: 'my-tables' });
   }
+});
+
+const showDiscardChangedDialogs = ref(false);
+const blockedPath = ref('');
+const confirmExit = ref(false);
+const thereAreChanges = computed(() => {
+  const oldData: TableUpdateBody = {
+    title: table.value?.title,
+    description: table.value?.description,
+    flairs: table.value?.flairs,
+    acceptMessage: table.value?.acceptMessage,
+  };
+  const newData: TableUpdateBody = {
+    title: titleValue.value,
+    description: descriptionValue.value,
+    flairs: flairsValue.value,
+    acceptMessage: acceptMessageValue.value,
+  };
+  return bannerImageFile.value ? true : JSON.stringify(oldData) === JSON.stringify(newData) ? false : true;
+});
+
+const forcedExit = () => {
+  confirmExit.value = true;
+  navigateTo(blockedPath.value);
+};
+
+useRouter().beforeEach((to, from) => {
+  if (thereAreChanges.value && !confirmExit.value) {
+    blockedPath.value = to.fullPath;
+    showDiscardChangedDialogs.value = true;
+    return false;
+  }
+});
+
+onMounted(async () => {
+  table.value = await tablesStore.fetchTable(tableId);
+  if (!table) {
+    useSnackbarStore().createSnack({ type: SnackType.ERROR, message: 'edit-table.table-not-found' });
+    return navigateTo({ name: 'my-tables' });
+  }
+  setValues({
+    title: table.value?.title,
+    description: table.value?.description,
+    'banner-url': table.value?.banner,
+    flairs: table.value?.flairs,
+    'accept-message': table.value?.acceptMessage,
+  });
 });
 </script>
 
 <template>
-  <div class="flex flex-col pb-3">
-    <PageTitle :title="$t('create-table.title')" back="my-tables" />
+  <LoadingIcon v-if="!table" />
+  <div v-else class="flex flex-col pb-3">
+    <PageTitle :title="$t('edit-table.title')" back="my-tables" />
     <div class="flex flex-col gap-6 px-3">
       <FormInput
         :name="formFields.title.name"
@@ -100,7 +156,7 @@ const onSubmit = handleSubmit(async (values) => {
         v-model="titleValue"
         :maxlength="128"
         autocomplete="off"
-        :disabled="creatingTable"
+        :disabled="updatingTable"
         :error="errors.title"
       >
         <template #field-icon><NuxtIcon name="title" /></template>
@@ -112,7 +168,7 @@ const onSubmit = handleSubmit(async (values) => {
         v-model="descriptionValue"
         :maxlength="512"
         :rows="7"
-        :disabled="creatingTable"
+        :disabled="updatingTable"
         :error="errors.description"
       >
         <template #field-icon><NuxtIcon name="document" /></template>
@@ -126,7 +182,7 @@ const onSubmit = handleSubmit(async (values) => {
             name="banner"
             accept="image/*"
             @change="onUserAvatarFileUploaded"
-            :disabled="creatingTable"
+            :disabled="updatingTable"
             hidden
           />
           <label
@@ -148,7 +204,7 @@ const onSubmit = handleSubmit(async (values) => {
           </label>
         </div>
       </div>
-      <FlairsMenu :open="!creatingTable" @change="updateFlairs" />
+      <FlairsMenu :open="!updatingTable" :initialFlairs="table?.flairs" @change="updateFlairs" />
       <FormTextarea
         :name="formFields['accept-message'].name"
         :label="$t(formFields['accept-message'].label)"
@@ -156,15 +212,15 @@ const onSubmit = handleSubmit(async (values) => {
         v-model="acceptMessageValue"
         :maxlength="512"
         :rows="7"
-        :disabled="creatingTable"
+        :disabled="updatingTable"
         :error="errors['accept-message']"
       >
         <template #field-icon><NuxtIcon name="send" /></template>
       </FormTextarea>
-      <LoadingCard v-if="creatingTable" />
+      <LoadingCard v-if="updatingTable" />
       <div v-else class="flex flex-col gap-3">
-        <button class="btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
-          {{ $t('create-table.submit') }}
+        <button class="btn-accent" :disabled="updatingTable" @click.prevent="onSubmit">
+          {{ $t('edit-table.submit') }}
         </button>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
@@ -172,5 +228,6 @@ const onSubmit = handleSubmit(async (values) => {
         </span>
       </div>
     </div>
+    <DiscardChangesDialog :show="showDiscardChangedDialogs" @close="showDiscardChangedDialogs = false" @confirm="forcedExit" />
   </div>
 </template>

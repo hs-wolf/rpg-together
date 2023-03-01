@@ -2,7 +2,6 @@
 import { useI18n } from 'vue-i18n';
 import { AdvancedSelectOption } from '~/types';
 import { useNotificationsStore } from '~/stores';
-import { storeToRefs } from 'pinia';
 
 definePageMeta({ middleware: ['logged-in'] });
 

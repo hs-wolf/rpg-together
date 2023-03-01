@@ -27,7 +27,7 @@ const showInfo = ref(false);
       <NuxtIcon name="message-plus" />
       <p>{{ $t('my-tables-table-card.applicants') }}</p>
     </button>
-    <div class="flex flex-col gap-0.5 shadow overflow-hidden">
+    <div class="flex flex-col gap-[1px] shadow overflow-hidden">
       <button
         class="z-10 flex justify-between items-center p-3 bg-secondary"
         :class="{ 'rounded-b-sm': !showInfo }"
@@ -41,12 +41,12 @@ const showInfo = ref(false);
         <NuxtIcon name="chevron-up" class="shrink-0 text-xl transition-transform" :class="{ 'rotate-180': showInfo }" />
       </button>
       <Transition name="slide-down">
-        <div v-if="showInfo" class="flex flex-col gap-3 h-full p-3 bg-secondary rounded-b-sm">
+        <div v-if="showInfo" class="flex flex-col gap-5 h-full p-3 bg-secondary rounded-b-sm">
           <div class="flex flex-wrap justify-end gap-3 w-full">
-            <button class="btn-accent gap-2">
+            <NuxtLink :to="{ path: `/editing-table/${table?.id}` }" class="btn-accent gap-2">
               <NuxtIcon name="edit-pencil" />
               <p>{{ $t('my-tables-table-card.edit') }}</p>
-            </button>
+            </NuxtLink>
             <NuxtLink :to="{ path: `/tables/${table?.id}` }" class="btn-secondary gap-2">
               <NuxtIcon name="eye-open" />
               <p>{{ $t('my-tables-table-card.view') }}</p>
@@ -54,7 +54,7 @@ const showInfo = ref(false);
           </div>
           <i18n-t keypath="my-tables-table-card.description" tag="p" scope="global" class="font-semibold leading-5">
             <template #text>
-              <span class="font-normal">{{ table.description }}</span>
+              <span class="font-normal whitespace-pre-line">{{ table.description }}</span>
             </template>
           </i18n-t>
           <div v-if="table.flairs && table.flairs.length" class="flex flex-wrap items-center gap-1">

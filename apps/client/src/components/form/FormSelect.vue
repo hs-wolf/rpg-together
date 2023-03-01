@@ -3,15 +3,19 @@ import { AdvancedSelectOption } from '~/types';
 
 const props = defineProps<{
   options: AdvancedSelectOption[];
-  initialValue?: AdvancedSelectOption[];
+  initialFlairs?: AdvancedSelectOption[];
   placeholderMessage: string;
   searchMessage: string;
   emptyMessage: string;
 }>();
+
 const emits = defineEmits<{ (e: 'change', items: AdvancedSelectOption[]): void }>();
 
-const componentRef = ref<HTMLElement>();
 const showOptions = ref(false);
+const componentRef = ref<HTMLElement>();
+onClickOutside(componentRef, () => {
+  showOptions.value = false;
+});
 
 const selectedOptions = ref<AdvancedSelectOption[]>([]);
 const optionsQuery = ref('');
@@ -20,14 +24,6 @@ const filteredOptions = computed(() =>
     .filter((item) => !selectedOptions.value.includes(item))
     .filter((item) => item.label.toLowerCase().includes(optionsQuery.value.toLowerCase()))
 );
-
-onClickOutside(componentRef, () => {
-  showOptions.value = false;
-});
-
-const changeOptions = () => {
-  emits('change', selectedOptions.value);
-};
 
 const insertOption = (item: AdvancedSelectOption) => {
   selectedOptions.value.push(item);
@@ -49,11 +45,26 @@ const clearOptions = () => {
   changeOptions();
 };
 
-onMounted(() => {
-  if (props.initialValue) {
-    selectedOptions.value = props.initialValue;
+const changeOptions = () => {
+  emits('change', selectedOptions.value);
+};
+
+const setInitialFlairs = () => {
+  if (props.initialFlairs?.length) {
+    selectedOptions.value = props.initialFlairs;
   }
+};
+
+onMounted(() => {
+  setInitialFlairs();
 });
+
+watch(
+  () => props.initialFlairs,
+  () => {
+    setInitialFlairs();
+  }
+);
 
 defineExpose({
   clearOptions,

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { AppLang } from '~/types';
 import { useLocalesStore, useUserStore } from '~/stores';
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';

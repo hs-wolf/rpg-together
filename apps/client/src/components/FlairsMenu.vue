@@ -3,9 +3,9 @@ import { AdvancedSelectOption } from '~/types';
 import { useFlairsStore } from '~/stores';
 
 const flairsStore = useFlairsStore();
-const { allFlairs, systemsFlairs, languagesFlairs, ratingsFlairs, vacanciesFlairs, genresFlairs } = storeToRefs(flairsStore);
+const { systemsFlairs, languagesFlairs, ratingsFlairs, vacanciesFlairs, genresFlairs } = storeToRefs(flairsStore);
 
-const props = defineProps<{ open?: boolean }>();
+const props = defineProps<{ open?: boolean; initialFlairs?: string[] }>();
 const emits = defineEmits<{ (e: 'change', values: string[]): void }>();
 
 const showFilterMenu = ref(props.open);
@@ -47,6 +47,37 @@ watch(selectedFilters, () => {
   ];
   emits('change', ids);
 });
+
+const setInitialFlairs = () => {
+  if (props.initialFlairs?.length) {
+    selectedFilters.systems = systemsFlairs.value.filter((flair) => {
+      return props.initialFlairs?.includes(flair.id);
+    });
+    selectedFilters.languages = languagesFlairs.value.filter((flair) => {
+      return props.initialFlairs?.includes(flair.id);
+    });
+    selectedFilters.ratings = ratingsFlairs.value.filter((flair) => {
+      return props.initialFlairs?.includes(flair.id);
+    });
+    selectedFilters.vacancies = vacanciesFlairs.value.filter((flair) => {
+      return props.initialFlairs?.includes(flair.id);
+    });
+    selectedFilters.genres = genresFlairs.value.filter((flair) => {
+      return props.initialFlairs?.includes(flair.id);
+    });
+  }
+};
+
+onMounted(() => {
+  setInitialFlairs();
+});
+
+watch(
+  () => props.initialFlairs,
+  () => {
+    setInitialFlairs();
+  }
+);
 </script>
 
 <template>
@@ -69,7 +100,7 @@ watch(selectedFilters, () => {
         <FormSelect
           ref="systemsFilterRef"
           :options="systemsFlairs"
-          :initialValue="selectedFilters.systems"
+          :initialFlairs="selectedFilters.systems"
           placeholderMessage="Systems"
           :searchMessage="$t('flairs-menu.search-flair')"
           :emptyMessage="$t('flairs-menu.no-options-left')"
@@ -78,7 +109,7 @@ watch(selectedFilters, () => {
         <FormSelect
           ref="languagesFilterRef"
           :options="languagesFlairs"
-          :initialValue="selectedFilters.languages"
+          :initialFlairs="selectedFilters.languages"
           placeholderMessage="Languages"
           :searchMessage="$t('flairs-menu.search-flair')"
           :emptyMessage="$t('flairs-menu.no-options-left')"
@@ -87,7 +118,7 @@ watch(selectedFilters, () => {
         <FormSelect
           ref="ratingsFilterRef"
           :options="ratingsFlairs"
-          :initialValue="selectedFilters.ratings"
+          :initialFlairs="selectedFilters.ratings"
           placeholderMessage="Ratings"
           :searchMessage="$t('flairs-menu.search-flair')"
           :emptyMessage="$t('flairs-menu.no-options-left')"
@@ -96,7 +127,7 @@ watch(selectedFilters, () => {
         <FormSelect
           ref="vacanciesFilterRef"
           :options="vacanciesFlairs"
-          :initialValue="selectedFilters.vacancies"
+          :initialFlairs="selectedFilters.vacancies"
           placeholderMessage="Vacancies"
           :searchMessage="$t('flairs-menu.search-flair')"
           :emptyMessage="$t('flairs-menu.no-options-left')"
@@ -105,7 +136,7 @@ watch(selectedFilters, () => {
         <FormSelect
           ref="genresFilterRef"
           :options="genresFlairs"
-          :initialValue="selectedFilters.genres"
+          :initialFlairs="selectedFilters.genres"
           placeholderMessage="Genres"
           :searchMessage="$t('flairs-menu.search-flair')"
           :emptyMessage="$t('flairs-menu.no-options-left')"

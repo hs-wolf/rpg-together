@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { storeToRefs } from 'pinia';
 import { useUserStore } from '~/stores';
 
 definePageMeta({ middleware: ['logged-out'] });

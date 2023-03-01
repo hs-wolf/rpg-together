@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { useTablesStore } from '~/stores';
 
 const tablesStore = useTablesStore();

@@ -7,7 +7,7 @@ const finalPreviousRoute = computed(() => {
   if (!props.back) {
     return;
   }
-  return typeof props.back === 'string' ? props.back : previousRoute?.toString() ?? '/';
+  return typeof props.back === 'string' ? `/${props.back}` : previousRoute?.toString() ?? '/';
 });
 </script>
 
