@@ -3,12 +3,15 @@ import { useTablesStore, useFlairsStore } from '~/stores';
 import { Table } from '@rpg-together/models';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
+const { t } = useI18n();
 const tableId = useRoute().params.id as string;
 const previousRoute = useRouter().options.history.state.back;
 const tablesStore = useTablesStore();
 const flairsStore = useFlairsStore();
-
 const table = ref<Table>();
+
+useHead({ title: () => table.value?.title ?? t('tables.title') });
+
 onMounted(async () => {
   table.value = await tablesStore.fetchTable(tableId);
   if (!table.value) {
@@ -29,9 +32,9 @@ onMounted(async () => {
       format="webp"
       class="w-full h-64 rounded-t-sm object-cover"
     />
-    <div class="flex flex-col gap-1 p-3">
+    <div class="flex flex-col gap-1 p-3 bg-secondary text-primary">
       <h1 class="font-semibold">{{ $t('tables.description') }}</h1>
-      <p class="font-roboto-slab">{{ table?.description }}</p>
+      <p class="font-roboto-slab whitespace-pre-line">{{ table?.description }}</p>
     </div>
     <div class="flex flex-col gap-1 p-3">
       <p class="font-semibold">{{ $t('my-tables-table-card.flairs') }}</p>
