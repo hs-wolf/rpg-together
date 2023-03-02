@@ -1,16 +1,35 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { AdvancedSelectOption } from '~/types';
 import { useTablesStore } from '~/stores';
+import { Table } from '@rpg-together/models';
 
 useHead({ title: useI18n().t('search.title') });
 
 const tablesStore = useTablesStore();
-const query = ref('');
 
-const tables = ref<any[]>([]);
+const query = ref('');
+const flairs = ref<string[]>([]);
+
+const { result, search } = useAlgoliaSearch('dev_tables');
+
+const tables = computed<Table[]>(() => {
+  if (!result.value?.hits.length) {
+    return [];
+  }
+  return result.value?.hits.map((hit: unknown) => Table.fromMap(hit));
+});
+
+const newSearch = async () => {
+  // const facet = { query: query.value, flairs: flairs.value };
+  await search({ query: query.value });
+};
+
+watch([query, flairs], () => {
+  newSearch();
+});
+
 onMounted(() => {
-  tables.value = tablesStore.getFeaturedTables();
+  newSearch();
 });
 </script>
 
@@ -33,9 +52,9 @@ onMounted(() => {
           <NuxtIcon name="x-close" />
         </button>
       </div>
-      <FlairsMenu />
+      <FlairsMenu @change="(value) => (flairs = value)" />
     </div>
-    <i18n-t v-if="query" keypath="search.results-for" tag="h1" class="p-3 text-sm text-center">
+    <i18n-t v-if="query" keypath="search.results-for" tag="h1" scope="global" class="p-3 text-sm text-center">
       <template v-slot:amount>
         <span class="font-semibold">{{ tables?.length }}</span>
       </template>
