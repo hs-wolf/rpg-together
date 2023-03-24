@@ -102,7 +102,10 @@
   },
   "search": {
     "title": "Search Table",
-    "results-for": "{amount} results for: {query}"
+    "results-for": "Tables found: {amount}",
+    "load-more": "Load More",
+    "no-more-tables": "No more tables available.",
+    "no-tables-found": "No tables found."
   },
   "flairs-menu": {
     "flairs": "Flairs",

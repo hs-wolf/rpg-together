@@ -36,7 +36,7 @@ const currentAvatarUrl = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('profile.title')" />
     <div class="flex flex-col items-center gap-3 px-3">
       <input

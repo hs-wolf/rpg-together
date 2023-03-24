@@ -58,7 +58,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('register.title')" />
     <div class="flex flex-col gap-6 p-3">
       <div class="flex flex-col gap-3">

@@ -46,7 +46,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('notifications.title')" />
     <div class="flex flex-col gap-3 p-3">
       <button class="btn-primary gap-2" @click.prevent="markAllAsRead">

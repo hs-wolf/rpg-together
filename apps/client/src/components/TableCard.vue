@@ -35,15 +35,15 @@ const flairsStore = useFlairsStore();
       <div class="flex justify-between items-center gap-2 mt-auto">
         <div class="flex items-center gap-1">
           <NuxtImg
-            :src="table?.ownerHeader.avatar ?? DEFAULT_USER_AVATAR"
-            :alt="table?.ownerHeader.username"
+            :src="table?.ownerHeader?.avatar ?? DEFAULT_USER_AVATAR"
+            :alt="table?.ownerHeader?.username"
             width="20"
             height="20"
             sizes="sm:100vw md:50vw lg:400px"
             format="webp"
             class="shadow rounded-full"
           />
-          <h1 class="text-xs font-semibold truncate">{{ table.ownerHeader.username }}</h1>
+          <h1 class="text-xs font-semibold truncate">{{ table?.ownerHeader?.username }}</h1>
         </div>
         <button name="options" @click.prevent="tablesStore.toggleTableCardOptions(table)" class="btn-primary">
           <NuxtIcon name="three-dots" />
@@ -52,4 +52,3 @@ const flairsStore = useFlairsStore();
     </div>
   </div>
 </template>
-  

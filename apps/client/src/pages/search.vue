@@ -2,27 +2,47 @@
 import { useI18n } from 'vue-i18n';
 import { useTablesStore } from '~/stores';
 import { Table } from '@rpg-together/models';
+import { useInfiniteScroll } from '@vueuse/core';
 
 useHead({ title: useI18n().t('search.title') });
 
 const tablesStore = useTablesStore();
 
-const query = ref('');
-const flairs = ref<string[]>([]);
-
 const { result, search } = useAlgoliaSearch('dev_tables');
 
-const tables = computed<Table[]>(() => {
-  if (!result.value?.hits.length) {
-    return [];
-  }
-  return result.value?.hits.map((hit: unknown) => Table.fromMap(hit));
-});
+const pageRef = ref<HTMLElement | null>(null);
+const query = ref('');
+const flairs = ref<string[]>([]);
+const tables = ref<Table[]>();
+const firstSearchMade = ref(false);
 
+const currentSearchPage = ref(0);
 const newSearch = async () => {
-  // const facet = { query: query.value, flairs: flairs.value };
-  await search({ query: query.value });
+  currentSearchPage.value = 0;
+  const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
+  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 1, page: currentSearchPage.value } });
+  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: unknown) => Table.fromMap(hit)) : [];
+  if (!firstSearchMade.value) {
+    firstSearchMade.value = true;
+  }
 };
+
+const noMoreTables = ref(false);
+const searchMore = async () => {
+  currentSearchPage.value++;
+  const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
+  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 1, page: currentSearchPage.value } });
+  const newTables = result.value?.hits.map((hit: unknown) => Table.fromMap(hit));
+  if (!newTables.length) {
+    noMoreTables.value = true;
+  }
+  tables.value?.push(...newTables);
+};
+
+useInfiniteScroll(pageRef, () => searchMore(), { distance: 60 });
+const { y: pageY } = useScroll(pageRef, { behavior: 'smooth' });
+const scrollToTop = () => (pageY.value = 0);
+const showScrollToTopButton = computed(() => currentSearchPage.value >= 1 || pageY.value !== 0);
 
 watch([query, flairs], () => {
   newSearch();
@@ -34,7 +54,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div ref="pageRef" class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('search.title')" />
     <div class="flex flex-col gap-3 p-3">
       <div class="relative flex items-center border border-primary-light rounded">
@@ -54,20 +74,28 @@ onMounted(() => {
       </div>
       <FlairsMenu @change="(value) => (flairs = value)" />
     </div>
-    <i18n-t v-if="query" keypath="search.results-for" tag="h1" scope="global" class="p-3 text-sm text-center">
+    <i18n-t v-if="result?.nbHits" keypath="search.results-for" tag="h1" scope="global" class="p-3 text-sm text-center">
       <template v-slot:amount>
-        <span class="font-semibold">{{ tables?.length }}</span>
-      </template>
-      <template v-slot:query>
-        <span class="font-semibold">{{ query }}</span>
+        <span class="font-semibold">{{ result?.nbHits }}</span>
       </template>
     </i18n-t>
     <div class="flex flex-col p-3">
       <div v-if="tables?.length" class="flex flex-col gap-3">
         <TableCard v-for="table in tables" :key="table.id" :table="table" />
-        <button class="btn-accent">Load more</button>
+        <button v-if="!noMoreTables" @click.prevent="searchMore" class="btn-accent">{{ $t('search.load-more') }}</button>
+        <p class="p-3 text-sm text-center">{{ $t('search.no-more-tables') }}</p>
       </div>
-      <LoadingCard v-else />
+      <LoadingCard v-else-if="!firstSearchMade" />
+      <p v-else class="p-3 text-sm text-center">{{ $t('search.no-tables-found') }}</p>
     </div>
+    <Transition name="slide-left">
+      <button
+        v-if="showScrollToTopButton"
+        @click.prevent="scrollToTop"
+        class="btn-accent fixed right-1 bottom-[68px] h-[46px] rounded-full"
+      >
+        <NuxtIcon name="chevron-up" class="text-xl" />
+      </button>
+    </Transition>
   </div>
 </template>

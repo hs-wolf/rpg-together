@@ -90,7 +90,7 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-col pb-3">
+  <div class="flex flex-col h-full pb-3 overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('create-table.title')" back="my-tables" />
     <div class="flex flex-col gap-6 px-3">
       <FormInput

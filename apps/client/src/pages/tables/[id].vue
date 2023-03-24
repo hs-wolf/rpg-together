@@ -21,7 +21,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="table?.title" :back="true" />
     <NuxtImg
       :src="table?.banner ?? DEFAULT_TABLE_BANNER"

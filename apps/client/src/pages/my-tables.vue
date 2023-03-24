@@ -22,7 +22,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('my-tables.title')" />
     <div class="flex justify-between items-center gap-3 p-3">
       <i18n-t keypath="my-tables.tables-limit" tag="p" scope="global" class="text-sm leading-none">

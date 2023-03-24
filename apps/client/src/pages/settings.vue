@@ -5,7 +5,7 @@ useHead({ title: useI18n().t('settings.title') });
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('settings.title')" />
   </div>
 </template>

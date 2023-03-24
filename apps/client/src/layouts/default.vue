@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex-1 flex flex-col pb-[4.75rem]">
+  <div class="relative flex flex-col h-full pb-16">
     <NuxtLoadingIndicator color="#6F6BF2" />
     <slot />
     <Navbar />
