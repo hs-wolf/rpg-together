@@ -6,6 +6,7 @@ import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 defineProps<{ table: Table }>();
 defineEmits<{ (eventName: 'delete', table: Table): void }>();
 
+const localePath = useLocalePath();
 const tablesStore = useTablesStore();
 const flairsStore = useFlairsStore();
 
@@ -43,11 +44,11 @@ const showInfo = ref(false);
       <Transition name="slide-down">
         <div v-if="showInfo" class="flex flex-col gap-5 h-full p-3 bg-secondary rounded-b-sm">
           <div class="flex flex-wrap justify-end gap-3 w-full">
-            <NuxtLink :to="{ path: `/editing-table/${table?.id}` }" class="btn-accent gap-2">
+            <NuxtLink :to="localePath({ path: `/editing-table/${table?.id}` })" class="btn-accent gap-2">
               <NuxtIcon name="edit-pencil" />
               <p>{{ $t('my-tables-table-card.edit') }}</p>
             </NuxtLink>
-            <NuxtLink :to="{ path: `/tables/${table?.id}` }" class="btn-secondary gap-2">
+            <NuxtLink :to="localePath({ path: `/tables/${table?.id}` })" class="btn-secondary gap-2">
               <NuxtIcon name="eye-open" />
               <p>{{ $t('my-tables-table-card.view') }}</p>
             </NuxtLink>

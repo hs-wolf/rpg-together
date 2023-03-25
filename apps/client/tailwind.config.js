@@ -2,7 +2,10 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: ['./apps/client/app.vue', './apps/client/src/{components,layouts,pages}/**/*.{js,jsx,ts,tsx,vue}'],
+  content: [
+    './apps/client/{App,app,Error,error}.vue',
+    './apps/client/src/{components,layouts,pages,composables,plugins}/**/*.{js,jsx,ts,tsx,vue}',
+  ],
   theme: {
     extend: {
       colors: {

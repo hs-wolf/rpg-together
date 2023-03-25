@@ -7,6 +7,7 @@ import { LIMIT_OF_TABLES } from '@rpg-together/utils';
 definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('my-tables.title') });
 
+const localePath = useLocalePath();
 const tablesStore = useTablesStore();
 const { myTables } = storeToRefs(tablesStore);
 
@@ -31,7 +32,7 @@ onMounted(async () => {
         </template>
       </i18n-t>
       <NuxtLink
-        :to="{ name: 'create-table' }"
+        :to="localePath({ name: 'create-table' })"
         :class="enableCreateTable ? 'btn-accent' : 'btn-primary opacity-50 pointer-events-none'"
       >
         {{ $t('my-tables.create-table') }}

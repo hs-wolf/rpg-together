@@ -120,7 +120,8 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         if (bannerFile) {
           await this.updateTable(table.id, { ...values }, bannerFile);
         }
-        navigateTo({ name: 'my-tables' });
+        const localeRoute = useLocaleRoute();
+        navigateTo(localeRoute({ name: 'my-tables' }));
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
           message: 'tables-store.success.create-table',

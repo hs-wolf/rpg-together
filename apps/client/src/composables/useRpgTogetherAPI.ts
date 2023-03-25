@@ -10,7 +10,7 @@ export default {
       ...options,
       headers: { Authorization: `${SECURITY_NAME_BEARER} ${token}` },
     };
-    return $fetch<T>(`${useRuntimeConfig().public.BASE_URL}${path}`, finalOptions);
+    return $fetch<T>(`${useRuntimeConfig().public.API_URL}${path}`, finalOptions);
   },
   async register(options?: FetchOptions) {
     const fetch = await this.customFetch<void>(`auth/register/user`, {

@@ -3,6 +3,7 @@ import { AppLang } from '~/types';
 import { useLocalesStore, useUserStore } from '~/stores';
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
+const localePath = useLocalePath();
 const firebaseUser = useFirebase.currentUser();
 const localesStore = useLocalesStore();
 const userStore = useUserStore();
@@ -50,7 +51,7 @@ const logout = async () => {
     <NuxtLink
       v-for="tab in tabs"
       :key="tab.name"
-      :to="{ name: tab.link }"
+      :to="localePath({ name: tab.link })"
       class="tab-button"
       active-class="text-accent font-semibold"
     >
@@ -70,7 +71,11 @@ const logout = async () => {
               format="webp"
               class="absolute inset-x-0 w-full opacity-30 bg-cover blur-[1px] pointer-events-none"
             />
-            <NuxtLink to="profile" class="flex items-center w-full p-3 overflow-hidden" @click.prevent="closeMobileMenu">
+            <NuxtLink
+              :to="localePath({ name: 'profile' })"
+              class="flex items-center w-full p-3 overflow-hidden"
+              @click.prevent="closeMobileMenu"
+            >
               <h1 class="font-semibold truncate">{{ user?.username }}</h1>
             </NuxtLink>
             <button class="p-3 active:scale-90 transition-transform" @click.prevent="logout">
@@ -79,10 +84,10 @@ const logout = async () => {
           </div>
           <div v-else class="flex justify-between gap-3 h-[64px] pr-3 shadow">
             <div class="grid grid-cols-2 gap-3 w-full p-3 pr-0">
-              <NuxtLink to="login" class="btn-accent" @click.prevent="closeMobileMenu">
+              <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
                 {{ $t('navbar.menus.login') }}</NuxtLink
               >
-              <NuxtLink to="register" class="btn-secondary" @click.prevent="closeMobileMenu">
+              <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
                 {{ $t('navbar.menus.register') }}</NuxtLink
               >
             </div>
@@ -91,7 +96,7 @@ const logout = async () => {
             <NuxtLink
               v-for="item in menus"
               :key="item.name"
-              :to="{ name: item.link }"
+              :to="localePath({ name: item.link })"
               class="menu-button"
               @click.prevent="closeMobileMenu"
             >
@@ -105,7 +110,7 @@ const logout = async () => {
               class="menu-button"
             >
               <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
-              <p>Language</p>
+              <p>{{ $t('navbar.language') }}</p>
             </button>
           </div>
         </div>

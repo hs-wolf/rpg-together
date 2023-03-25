@@ -12,6 +12,7 @@ definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('edit-table.title') });
 
 const tableId = useRoute().params.id as string;
+const localeRoute = useLocaleRoute();
 const tablesStore = useTablesStore();
 const { updatingTable } = storeToRefs(tablesStore);
 
@@ -92,7 +93,7 @@ const onSubmit = handleSubmit(async (values) => {
   if (response) {
     apiError.value = response;
   } else {
-    navigateTo({ name: 'my-tables' });
+    navigateTo(localeRoute({ name: 'my-tables' }));
   }
 });
 
@@ -117,7 +118,7 @@ const thereAreChanges = computed(() => {
 
 const forcedExit = () => {
   confirmExit.value = true;
-  navigateTo(blockedPath.value);
+  navigateTo(localeRoute({ path: blockedPath.value }));
 };
 
 useRouter().beforeEach((to, from) => {
@@ -132,7 +133,7 @@ onMounted(async () => {
   table.value = await tablesStore.fetchTable(tableId);
   if (!table) {
     useSnackbarStore().createSnack({ type: SnackType.ERROR, message: 'edit-table.table-not-found' });
-    return navigateTo({ name: 'my-tables' });
+    return navigateTo(localeRoute({ name: 'my-tables' }));
   }
   setValues({
     title: table.value?.title,

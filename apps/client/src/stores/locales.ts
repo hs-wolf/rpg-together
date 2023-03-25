@@ -15,14 +15,18 @@ export const useLocalesStore = defineStore(LOCALES_STORE, {
   getters: {},
   actions: {
     changeLocale(locale: AppLang) {
-      const { locale: currentLocale } = useNuxtApp().$i18n;
-      currentLocale.value = locale;
       this.saveLocale(locale);
-      return this.rtlList.includes(locale) ? (this.direction = AppDirections.RTL) : (this.direction = AppDirections.LTR);
+      this.rtlList.includes(locale) ? (this.direction = AppDirections.RTL) : (this.direction = AppDirections.LTR);
+      const switchLocalePath = useSwitchLocalePath();
+      navigateTo(switchLocalePath(locale));
     },
-    saveLocale(locale: string) {
+    saveLocale(locale: AppLang) {
       try {
         localStorage.setItem(LOCALE_STORAGE_KEY, locale);
+        const auth = useFirebase.firebaseAuth();
+        if (auth.value) {
+          auth.value.languageCode = locale;
+        }
       } catch (error) {
         useAlertsStore().handleError(error);
       }

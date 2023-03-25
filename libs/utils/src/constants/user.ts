@@ -1,4 +1,4 @@
 export const DEFAULT_USER_AVATAR =
-  'https://profile-pics-cdn77.xvideos-cdn.com/uJGz6f2OEapDJrca59xPZA==,1672293664/videos/profiles/profthumb/c4/d1/3b/hentai_-girl/profile_1_big.jpg';
+  'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/defaults%2Fdefault-profile-picture.jpg?alt=media&token=b292a338-3c0e-452f-a0ca-74ed86f49016';
 
 export const DEFAULT_USER_AVATAR_NAME = 'avatar';

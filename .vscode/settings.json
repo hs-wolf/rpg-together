@@ -1,14 +1,14 @@
 {
-  "files.autoSave": "afterDelay",
-  "editor.formatOnSave": true,
-  "files.eol": "\n",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
   "editor.quickSuggestions": {
     "strings": true
   },
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "i18n-ally.localesPaths": ["apps/client/locales"],
+  "files.autoSave": "afterDelay",
+  "files.eol": "\n",
+  "i18n-ally.localesPaths": ["apps/client/src/locales"],
   "i18n-ally.keystyle": "nested"
 }

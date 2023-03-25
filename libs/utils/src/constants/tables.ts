@@ -1,5 +1,5 @@
 export const DEFAULT_TABLE_BANNER =
-  'https://cdn.shopify.com/s/files/1/1483/3510/files/Witcher_Dice_a8089c20-8415-4f94-8cc1-edc195340a17_1024x1024.jpg?v=1649437249';
+  'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/defaults%2Fdefault-table-banner.png?alt=media&token=5a59520c-94f5-486d-8391-c8c8af2fb548';
 
 export const DEFAULT_TABLE_BANNER_NAME = 'banner';
 

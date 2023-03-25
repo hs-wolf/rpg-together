@@ -6,6 +6,7 @@ definePageMeta({ middleware: ['logged-out'] });
 
 useHead({ title: useI18n().t('login.title') });
 
+const localePath = useLocalePath();
 const userStore = useUserStore();
 const { signingIn } = storeToRefs(userStore);
 
@@ -51,7 +52,9 @@ const showPassword = ref(false);
       <LoadingCard v-if="signingIn" />
       <button v-else class="btn-accent" @click.prevent="userStore.signIn(email, password)">{{ $t('login.submit') }}</button>
       <i18n-t keypath="login.no-account" tag="div" scope="global" class="text-center text-sm">
-        <NuxtLink :to="{ name: 'register' }" class="text-accent font-medium">{{ $t('login.register-here') }}</NuxtLink>
+        <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-medium">
+          {{ $t('login.register-here') }}
+        </NuxtLink>
       </i18n-t>
     </div>
   </div>

@@ -1,13 +1,11 @@
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'url';
-import en from './locales/en.json';
-import pt from './locales/pt.json';
 
+// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  typescript: { shim: false },
   nitro: {
     output: {
-      dir: '~~/../../dist/apps/client',
+      dir: '../../../../dist/apps/client',
     },
   },
   srcDir: 'src/',
@@ -18,12 +16,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      BASE_URL: process.env.BASE_URL ?? 'http://localhost:3000/',
+      API_URL: process.env.API_URL,
     },
   },
   app: {
-    pageTransition: { name: 'fade', mode: 'out-in' },
-    layoutTransition: { name: 'fade', mode: 'out-in' },
     head: {
       htmlAttrs: {
         lang: 'en',
@@ -37,37 +33,54 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
-  css: ['~/assets/css/main.css', '~/assets/css/transitions.css'],
+  css: ['~/assets/css/global.css', '~/assets/css/transitions.css'],
   modules: [
+    '@nuxtjs/robots',
     '@nuxtjs/tailwindcss',
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: ['acceptHMRUpdate', 'defineStore', 'storeToRefs'],
-      },
-    ],
     '@vueuse/nuxt',
-    [
-      '@nuxtjs/i18n-edge',
+    '@pinia/nuxt',
+    '@nuxtjs/i18n',
+    'nuxt-icons',
+    '@nuxt/image-edge',
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/algolia',
+  ],
+  // https://github.com/nuxt-community/robots-module
+  robots: {},
+  // https://github.com/nuxt-modules/tailwindcss
+  tailwindcss: {},
+  // https://github.com/vueuse/vueuse
+  vueuse: {},
+  // https://github.com/vuejs/pinia/tree/v2/packages/nuxt
+  pinia: {
+    autoImports: ['acceptHMRUpdate', 'defineStore', 'storeToRefs'],
+  },
+  // https://github.com/nuxt-modules/i18n
+  i18n: {
+    locales: [
       {
-        vueI18n: {
-          legacy: false,
-          locale: 'en',
-          fallbackLocale: 'en',
-          messages: {
-            ['en']: en,
-            ['pt']: pt,
-          },
-        },
+        code: 'en',
+        file: 'en.yaml',
+      },
+      {
+        code: 'pt',
+        file: 'pt.yaml',
       },
     ],
-    '@nuxt/image-edge',
-    'nuxt-icons',
-    ['@nuxtjs/algolia', {}],
-  ],
-  tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
-    configPath: './tailwind.config.js',
-    viewer: false,
+    defaultLocale: 'en',
+    lazy: true,
+    langDir: 'locales',
+    vueI18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+    },
   },
+  // https://github.com/gitFoxCode/nuxt-icons
+  nuxtIcons: {},
+  // https://github.com/nuxt/image
+  image: {},
+  // https://github.com/nuxt-community/eslint-module
+  eslint: {},
+  // https://algolia.nuxtjs.org/getting-started/quick-start
+  algolia: {},
 });

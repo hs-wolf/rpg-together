@@ -11,6 +11,7 @@ export default defineNuxtPlugin(({ hook }) => {
     useFirebase.firebaseApp().value = app;
     useFirebase.firebaseAuth().value = auth;
 
+    const localeRoute = useLocaleRoute();
     const route = useRoute();
     const pinia = usePinia();
     const alertsStore = useAlertsStore(pinia);
@@ -34,7 +35,7 @@ export default defineNuxtPlugin(({ hook }) => {
         }
         userStore.$reset();
         if (route.meta.middleware && (route.meta.middleware as string[]).includes('logged-in')) {
-          return navigateTo({ name: 'login', query: { redirect: route.fullPath } });
+          return navigateTo(localeRoute({ name: 'login', query: { redirect: route.fullPath } }));
         }
         if (route.query.redirect) {
           return navigateTo(route.query.redirect.toString());

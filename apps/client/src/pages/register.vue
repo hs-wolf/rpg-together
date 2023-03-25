@@ -9,6 +9,7 @@ import { AuthUserRegisterBody } from '@rpg-together/models';
 definePageMeta({ middleware: ['logged-out'] });
 useHead({ title: useI18n().t('register.title') });
 
+const localePath = useLocalePath();
 const userStore = useUserStore();
 const { registering } = storeToRefs(userStore);
 
@@ -121,7 +122,7 @@ const onSubmit = handleSubmit(async (values) => {
         <p v-else>{{ $t('register.submit') }}</p>
       </button>
       <i18n-t keypath="register.existing-account" tag="div" scope="global" class="text-center text-sm">
-        <NuxtLink :to="{ name: 'login' }" class="text-accent font-medium">{{ $t('register.login-here') }}</NuxtLink>
+        <NuxtLink :to="localePath({ name: 'login' })" class="text-accent font-medium">{{ $t('register.login-here') }}</NuxtLink>
       </i18n-t>
     </div>
   </div>
