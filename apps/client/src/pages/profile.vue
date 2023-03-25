@@ -58,7 +58,7 @@ const currentAvatarUrl = computed(() =>
           class="w-[50vw] h-[50vw] rounded-full shadow object-cover"
         />
         <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-50">
-          <NuxtIcon :name="changingAvatar ? 'loading-loop' : 'picture'" />
+          <NuxtIcon :name="changingAvatar ? 'loading-loop' : 'picture'" filled />
         </div>
       </label>
       <div class="flex flex-wrap justify-center items-center gap-2">

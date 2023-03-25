@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { useTablesStore } from '~/stores';
 import { Table } from '@rpg-together/models';
 import { useInfiniteScroll } from '@vueuse/core';
 
 useHead({ title: useI18n().t('search.title') });
-
-const tablesStore = useTablesStore();
 
 const { result, search } = useAlgoliaSearch('dev_tables');
 
@@ -20,7 +17,7 @@ const currentSearchPage = ref(0);
 const newSearch = async () => {
   currentSearchPage.value = 0;
   const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
-  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 1, page: currentSearchPage.value } });
+  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 2, page: currentSearchPage.value } });
   tables.value = result.value?.hits.length ? result.value?.hits.map((hit: unknown) => Table.fromMap(hit)) : [];
   if (!firstSearchMade.value) {
     firstSearchMade.value = true;
@@ -31,7 +28,7 @@ const noMoreTables = ref(false);
 const searchMore = async () => {
   currentSearchPage.value++;
   const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
-  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 1, page: currentSearchPage.value } });
+  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 2, page: currentSearchPage.value } });
   const newTables = result.value?.hits.map((hit: unknown) => Table.fromMap(hit));
   if (!newTables.length) {
     noMoreTables.value = true;
@@ -42,7 +39,7 @@ const searchMore = async () => {
 useInfiniteScroll(pageRef, () => searchMore(), { distance: 60 });
 const { y: pageY } = useScroll(pageRef, { behavior: 'smooth' });
 const scrollToTop = () => (pageY.value = 0);
-const showScrollToTopButton = computed(() => currentSearchPage.value >= 1 || pageY.value !== 0);
+const showScrollToTopButton = computed(() => currentSearchPage.value >= 1 && pageY.value !== 0);
 
 watch([query, flairs], () => {
   newSearch();

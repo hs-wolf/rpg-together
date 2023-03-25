@@ -1,5 +1,6 @@
 import { FLAIRS_STORE } from '~/constants';
 import { useAlertsStore } from '~/stores';
+import { AdvancedSelectOption, AppLang } from '~/types';
 import { Flair, FlairTypes } from '@rpg-together/models';
 
 interface IState {
@@ -10,44 +11,19 @@ export const useFlairsStore = defineStore(FLAIRS_STORE, {
   state: (): IState => ({ allFlairs: [] }),
   getters: {
     systemsFlairs(state) {
-      const { locale } = useNuxtApp().$i18n;
-      return state.allFlairs
-        .filter((flair) => flair.type === FlairTypes.SYSTEM)
-        .map((flair) => {
-          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] };
-        });
+      return state.allFlairs.filter((flair) => flair.type === FlairTypes.SYSTEM);
     },
     languagesFlairs(state) {
-      const { locale } = useNuxtApp().$i18n;
-      return state.allFlairs
-        .filter((flair) => flair.type === FlairTypes.LANGUAGES)
-        .map((flair) => {
-          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] };
-        });
+      return state.allFlairs.filter((flair) => flair.type === FlairTypes.LANGUAGES);
     },
     ratingsFlairs(state) {
-      const { locale } = useNuxtApp().$i18n;
-      return state.allFlairs
-        .filter((flair) => flair.type === FlairTypes.RATINGS)
-        .map((flair) => {
-          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] };
-        });
+      return state.allFlairs.filter((flair) => flair.type === FlairTypes.RATINGS);
     },
     vacanciesFlairs(state) {
-      const { locale } = useNuxtApp().$i18n;
-      return state.allFlairs
-        .filter((flair) => flair.type === FlairTypes.VACANCIES)
-        .map((flair) => {
-          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] };
-        });
+      return state.allFlairs.filter((flair) => flair.type === FlairTypes.VACANCIES);
     },
     genresFlairs(state) {
-      const { locale } = useNuxtApp().$i18n;
-      return state.allFlairs
-        .filter((flair) => flair.type === FlairTypes.GENRES)
-        .map((flair) => {
-          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] };
-        });
+      return state.allFlairs.filter((flair) => flair.type === FlairTypes.GENRES);
     },
   },
   actions: {
@@ -62,10 +38,23 @@ export const useFlairsStore = defineStore(FLAIRS_STORE, {
         useAlertsStore().handleError(error);
       }
     },
+    mapFlairsToAdvancedSelectOption(flairs: Flair[]) {
+      try {
+        const { locale } = useNuxtApp().$i18n;
+        const advancedSelectOptions: AdvancedSelectOption[] = flairs.map((flair) => {
+          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] ?? flair.labels[AppLang.EN] };
+        });
+        return advancedSelectOptions;
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        return [];
+      }
+    },
     getFlairLabel(flairId: string) {
       try {
         const { locale } = useNuxtApp().$i18n;
-        return this.allFlairs.find((flair) => flair.id === flairId)?.labels[locale.value];
+        const flair = this.allFlairs.find((flair) => flair.id === flairId);
+        return flair?.labels[locale.value] ?? flair?.labels[AppLang.EN];
       } catch (error) {
         useAlertsStore().handleError(error);
       }

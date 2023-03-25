@@ -50,21 +50,31 @@ watch(selectedFilters, () => {
 
 const setInitialFlairs = () => {
   if (props.initialFlairs?.length) {
-    selectedFilters.systems = systemsFlairs.value.filter((flair) => {
-      return props.initialFlairs?.includes(flair.id);
-    });
-    selectedFilters.languages = languagesFlairs.value.filter((flair) => {
-      return props.initialFlairs?.includes(flair.id);
-    });
-    selectedFilters.ratings = ratingsFlairs.value.filter((flair) => {
-      return props.initialFlairs?.includes(flair.id);
-    });
-    selectedFilters.vacancies = vacanciesFlairs.value.filter((flair) => {
-      return props.initialFlairs?.includes(flair.id);
-    });
-    selectedFilters.genres = genresFlairs.value.filter((flair) => {
-      return props.initialFlairs?.includes(flair.id);
-    });
+    selectedFilters.systems = flairsStore.mapFlairsToAdvancedSelectOption(
+      systemsFlairs.value.filter((flair) => {
+        return props.initialFlairs?.includes(flair.id);
+      })
+    );
+    selectedFilters.languages = flairsStore.mapFlairsToAdvancedSelectOption(
+      languagesFlairs.value.filter((flair) => {
+        return props.initialFlairs?.includes(flair.id);
+      })
+    );
+    selectedFilters.ratings = flairsStore.mapFlairsToAdvancedSelectOption(
+      ratingsFlairs.value.filter((flair) => {
+        return props.initialFlairs?.includes(flair.id);
+      })
+    );
+    selectedFilters.vacancies = flairsStore.mapFlairsToAdvancedSelectOption(
+      vacanciesFlairs.value.filter((flair) => {
+        return props.initialFlairs?.includes(flair.id);
+      })
+    );
+    selectedFilters.genres = flairsStore.mapFlairsToAdvancedSelectOption(
+      genresFlairs.value.filter((flair) => {
+        return props.initialFlairs?.includes(flair.id);
+      })
+    );
   }
 };
 
@@ -99,7 +109,7 @@ watch(
       <div v-if="showFilterMenu" class="flex flex-wrap items-start gap-2">
         <FormSelect
           ref="systemsFilterRef"
-          :options="systemsFlairs"
+          :options="flairsStore.mapFlairsToAdvancedSelectOption(systemsFlairs)"
           :initialFlairs="selectedFilters.systems"
           placeholderMessage="Systems"
           :searchMessage="$t('flairs-menu.search-flair')"
@@ -108,7 +118,7 @@ watch(
         />
         <FormSelect
           ref="languagesFilterRef"
-          :options="languagesFlairs"
+          :options="flairsStore.mapFlairsToAdvancedSelectOption(languagesFlairs)"
           :initialFlairs="selectedFilters.languages"
           placeholderMessage="Languages"
           :searchMessage="$t('flairs-menu.search-flair')"
@@ -117,7 +127,7 @@ watch(
         />
         <FormSelect
           ref="ratingsFilterRef"
-          :options="ratingsFlairs"
+          :options="flairsStore.mapFlairsToAdvancedSelectOption(ratingsFlairs)"
           :initialFlairs="selectedFilters.ratings"
           placeholderMessage="Ratings"
           :searchMessage="$t('flairs-menu.search-flair')"
@@ -126,7 +136,7 @@ watch(
         />
         <FormSelect
           ref="vacanciesFilterRef"
-          :options="vacanciesFlairs"
+          :options="flairsStore.mapFlairsToAdvancedSelectOption(vacanciesFlairs)"
           :initialFlairs="selectedFilters.vacancies"
           placeholderMessage="Vacancies"
           :searchMessage="$t('flairs-menu.search-flair')"
@@ -135,7 +145,7 @@ watch(
         />
         <FormSelect
           ref="genresFilterRef"
-          :options="genresFlairs"
+          :options="flairsStore.mapFlairsToAdvancedSelectOption(genresFlairs)"
           :initialFlairs="selectedFilters.genres"
           placeholderMessage="Genres"
           :searchMessage="$t('flairs-menu.search-flair')"

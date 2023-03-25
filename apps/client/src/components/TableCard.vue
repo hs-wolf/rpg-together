@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useTablesStore, useFlairsStore } from '~/stores';
-import { Table, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
+import { Table } from '@rpg-together/models';
 import { DEFAULT_USER_AVATAR, DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
-// TODO: Change any for the table class.
 defineProps<{ table: Table }>();
 
 const tablesStore = useTablesStore();

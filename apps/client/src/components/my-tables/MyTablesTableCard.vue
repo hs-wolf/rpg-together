@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTablesStore, useFlairsStore } from '~/stores';
+import { useFlairsStore } from '~/stores';
 import { Table } from '@rpg-together/models';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
@@ -7,7 +7,6 @@ defineProps<{ table: Table }>();
 defineEmits<{ (eventName: 'delete', table: Table): void }>();
 
 const localePath = useLocalePath();
-const tablesStore = useTablesStore();
 const flairsStore = useFlairsStore();
 
 const showInfo = ref(false);
