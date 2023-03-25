@@ -4,3 +4,5 @@ export const DEFAULT_TABLE_BANNER =
 export const DEFAULT_TABLE_BANNER_NAME = 'banner';
 
 export const LIMIT_OF_TABLES = 3;
+
+export const LIMIT_OF_APPLICATIONS = 6;

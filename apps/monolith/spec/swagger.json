@@ -6,6 +6,96 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"ApplicationStatus": {
+				"enum": [
+					"WAITING",
+					"ACCEPTED",
+					"DECLINED"
+				],
+				"type": "string"
+			},
+			"Application": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"applicantId": {
+						"type": "string"
+					},
+					"applicantHeader": {
+						"properties": {
+							"avatar": {
+								"type": "string"
+							},
+							"username": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"avatar",
+							"username"
+						],
+						"type": "object"
+					},
+					"tableId": {
+						"type": "string"
+					},
+					"tableHeader": {
+						"properties": {
+							"banner": {
+								"type": "string"
+							},
+							"title": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"banner",
+							"title"
+						],
+						"type": "object"
+					},
+					"message": {
+						"type": "string"
+					},
+					"status": {
+						"$ref": "#/components/schemas/ApplicationStatus"
+					},
+					"creationDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"lastUpdateDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"applicantId",
+					"applicantHeader",
+					"tableId",
+					"tableHeader",
+					"message",
+					"status",
+					"creationDate",
+					"lastUpdateDate"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Partial_Pick_Application.message__": {
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"ApplicationCreateBody": {
+				"$ref": "#/components/schemas/Partial_Pick_Application.message__"
+			},
 			"AuthUserRegisterBody": {
 				"properties": {
 					"password": {
@@ -294,6 +384,223 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/applications/from-user/{userId}": {
+			"get": {
+				"operationId": "GetApplicationsFromUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Application"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/applications/from-table/{tableId}": {
+			"get": {
+				"operationId": "GetApplicationsFromTable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Application"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/applications/{applicationId}": {
+			"get": {
+				"operationId": "GetApplication",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Application"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "applicationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteApplication",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "applicationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/applications": {
+			"post": {
+				"operationId": "CreateApplication",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Application"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ApplicationCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/applications/{applicationId}/accept": {
+			"post": {
+				"operationId": "AcceptApplication",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "applicationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/applications/{applicationId}/decline": {
+			"post": {
+				"operationId": "DeclineApplication",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "applicationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/auth/register/user": {
 			"post": {
 				"operationId": "UserRegister",
