@@ -9,6 +9,6 @@
   },
   "files.autoSave": "afterDelay",
   "files.eol": "\n",
-  "i18n-ally.localesPaths": ["apps/client/src/locales"],
+  "i18n-ally.localesPaths": ["apps/client/locales"],
   "i18n-ally.keystyle": "nested"
 }
