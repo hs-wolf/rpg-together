@@ -1,5 +1,6 @@
 export * from './alerts';
 export * from './announcements';
+export * from './applications';
 export * from './flairs';
 export * from './locales';
 export * from './notifications';

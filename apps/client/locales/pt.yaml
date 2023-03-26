@@ -72,8 +72,9 @@ register:
       placeholder: Password (Confirm)
 home:
   title: Rpg Together
+table-card:
+  read-more: Read more
 table-card-options:
-  apply-to-table: Apply to table
   view-table: View table
   view-owner: View owner
   report: Report
@@ -160,10 +161,19 @@ profile-delete-account-modal:
       placeholder: Password
 my-applications:
   title: My Applications
+  applications-limit: 'Applications limit: {limit}'
 tables:
   title: Tables
   description: 'Description:'
   flairs: 'Flairs:'
+  apply-to-table: Apply to this table
+  already-applied: You've already applied to this table.
+tables-apply:
+  form:
+    message:
+      label: Message
+      placeholder: Application message
+  submit: Send application
 my-tables:
   title: My Tables
   create-table: Create new table

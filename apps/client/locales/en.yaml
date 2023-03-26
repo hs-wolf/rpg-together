@@ -72,8 +72,9 @@ register:
       placeholder: Password (Confirm)
 home:
   title: Rpg Together
+table-card:
+  read-more: Read more
 table-card-options:
-  apply-to-table: Apply to table
   view-table: View table
   view-owner: View owner
   report: Report
@@ -160,10 +161,26 @@ profile-delete-account-modal:
       placeholder: Password
 my-applications:
   title: My Applications
+  applications-limit: 'Applications limit: {limit}'
+my-applications-application-card:
+  table-title: 'Table: {text}'
+  table-owner: 'Owner: {text}'
+  your-message: 'Your message: {text}'
+  status: 'Status: {text}'
+  accepted-message: 'Accepted message: {text}'
+  declined-message: Sorry, they table owner declined your application.
 tables:
   title: Tables
   description: 'Description:'
   flairs: 'Flairs:'
+  apply-to-table: Apply to this table
+  already-applied: You've already applied to this table.
+tables-apply:
+  form:
+    message:
+      label: Message
+      placeholder: Application message
+  submit: Send application
 my-tables:
   title: My Tables
   create-table: Create new table
@@ -259,11 +276,19 @@ tables-store:
     delete-table: The table was deleted successfully!
   warning: {}
   error:
-    create-table: Sorry, we could not create your table.
-    update-table: sorry, we could not updated your table.
-    delete-table: sorry, we could not delete your table.
+    create-table: Sorry, we could not create the table.
+    update-table: sorry, we could not updated the table.
+    delete-table: sorry, we could not delete the table.
 discard-changes-dialog:
   title: Changes Present
   message: There are unsaved changes, would you like to discard them?
   confirm: Confirm
   close: Close
+applications-store:
+  success:
+    create-application: Application sent successfully!
+    delete-application: The application was deleted successfully!
+  warning: {}
+  error:
+    create-application: Sorry, we could not send the application.
+    delete-application: sorry, we could not delete the application.

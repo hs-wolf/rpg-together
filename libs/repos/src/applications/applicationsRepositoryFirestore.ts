@@ -7,6 +7,17 @@ export class ApplicationsRepositoryFirestore implements IApplicationsRepository 
   private firestore = getFirestore();
   private collRef = this.firestore.collection(FIREBASE_COLLECTION_APPLICATIONS);
 
+  async getExistingApplication(tableId: string, userId: string) {
+    const query = this.collRef.where('tableId', '==', tableId).where('applicantId', '==', userId);
+    const querySnapshot = await query.get();
+    if (querySnapshot.docs.length) {
+      return querySnapshot.docs
+        .map((snapshot) => Application.fromFirestore(snapshot))
+        .filter((table) => table) as Application[];
+    }
+    return [];
+  }
+
   async getApplicationsFromUser(userId: string) {
     const query = this.collRef.where('applicantId', '==', userId);
     const querySnapshot = await query.get();

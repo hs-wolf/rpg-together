@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Path, Post, Put, Request, Route, Security, Tags } from 'tsoa';
+import { Body, Controller, Delete, Get, Path, Post, Request, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
 import { ApplicationsService } from './applicationsService';
 import { selfOnly } from '@rpg-together/middlewares';
@@ -10,6 +10,11 @@ import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
 export class ApplicationsController extends Controller {
   @Inject
   private _applicationsService: ApplicationsService;
+
+  @Get('/existing/{tableId}/{userId}')
+  public async getExistingApplication(@Path() tableId: string, @Path() userId: string): Promise<Application[]> {
+    return this._applicationsService.getExistingApplication(tableId, userId);
+  }
 
   @Get('/from-user/{userId}')
   public async getApplicationsFromUser(@Path() userId: string): Promise<Application[]> {

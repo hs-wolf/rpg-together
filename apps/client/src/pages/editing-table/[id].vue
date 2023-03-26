@@ -6,7 +6,12 @@ import { useI18n } from 'vue-i18n';
 import { SnackType } from '~/types';
 import { useTablesStore, useSnackbarStore } from '~/stores';
 import { Table, TableUpdateBody } from '@rpg-together/models';
-import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
+import {
+  DEFAULT_TABLE_BANNER,
+  TABLE_TITLE_MAX_LENGTH,
+  TABLE_DESCRIPTION_MAX_LENGTH,
+  TABLE_ACCEPT_MESSAGE_MAX_LENGTH,
+} from '@rpg-together/utils';
 
 definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('edit-table.title') });
@@ -46,11 +51,11 @@ const formFields = {
   },
 };
 const formSchema = object({
-  title: string().min(3).max(128),
-  description: string().min(3).max(512),
+  title: string().min(3).max(TABLE_TITLE_MAX_LENGTH),
+  description: string().min(3).max(TABLE_DESCRIPTION_MAX_LENGTH),
   ['banner-url']: string().optional(),
   flairs: string().array().optional(),
-  ['accept-message']: string().min(3).max(512),
+  ['accept-message']: string().min(3).max(TABLE_ACCEPT_MESSAGE_MAX_LENGTH),
 });
 
 const { errors, handleSubmit, setValues } = useForm({ validationSchema: toFormValidator(formSchema) });
@@ -167,7 +172,7 @@ onMounted(async () => {
         :label="$t(formFields.description.label)"
         :placeholder="$t(formFields.description.placeholder)"
         v-model="descriptionValue"
-        :maxlength="512"
+        :maxlength="TABLE_DESCRIPTION_MAX_LENGTH"
         :rows="7"
         :disabled="updatingTable"
         :error="errors.description"
@@ -211,7 +216,7 @@ onMounted(async () => {
         :label="$t(formFields['accept-message'].label)"
         :placeholder="$t(formFields['accept-message'].placeholder)"
         v-model="acceptMessageValue"
-        :maxlength="512"
+        :maxlength="TABLE_ACCEPT_MESSAGE_MAX_LENGTH"
         :rows="7"
         :disabled="updatingTable"
         :error="errors['accept-message']"

@@ -83,7 +83,7 @@ onMounted(() => {
         <p class="p-3 text-sm text-center">{{ $t('search.no-more-tables') }}</p>
       </div>
       <LoadingCard v-else-if="!firstSearchMade" />
-      <p v-else class="p-3 text-sm text-center">{{ $t('search.no-tables-found') }}</p>
+      <p v-else class="p-3 text-sm text-center text-secondary-dark">{{ $t('search.no-tables-found') }}</p>
     </div>
     <Transition name="slide-left">
       <button

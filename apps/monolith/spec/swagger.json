@@ -84,9 +84,12 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Application.message__": {
+			"Partial_Pick_Application.message-or-tableId__": {
 				"properties": {
 					"message": {
+						"type": "string"
+					},
+					"tableId": {
 						"type": "string"
 					}
 				},
@@ -94,7 +97,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"ApplicationCreateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Application.message__"
+				"$ref": "#/components/schemas/Partial_Pick_Application.message-or-tableId__"
 			},
 			"AuthUserRegisterBody": {
 				"properties": {
@@ -384,6 +387,45 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/applications/existing/{tableId}/{userId}": {
+			"get": {
+				"operationId": "GetExistingApplication",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Application"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/applications/from-user/{userId}": {
 			"get": {
 				"operationId": "GetApplicationsFromUser",

@@ -45,7 +45,7 @@ app.use(function errorHandler(err: unknown, req: ExRequest, res: ExResponse, nex
   }
   next();
 });
-const port = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT) || 3000;
 app.listen(port, () => {
   console.log(`\u001b[32mAPI being listened at: \u001b[1;32mhttp://localhost:${port}`);
 });

@@ -1,4 +1,3 @@
-import { FetchError } from 'ohmyfetch';
 import { FirebaseError } from 'firebase/app';
 import { ALERTS_STORE } from '~/constants';
 import { ResponseMessages, Table, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
@@ -20,8 +19,8 @@ export const useAlertsStore = defineStore(ALERTS_STORE, {
       if (error instanceof FirebaseError) {
         return t(`firebase-errors.${error.code}`) as string;
       }
-      if (Object.values(ResponseMessages).includes((error as FetchError).data.message)) {
-        return t(`api-errors.${(error as FetchError).data.message}`) as string;
+      if (Object.values(ResponseMessages).includes((error as any).data.message)) {
+        return t(`api-errors.${(error as any).data.message}`) as string;
       }
     },
   },

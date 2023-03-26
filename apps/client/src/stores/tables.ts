@@ -6,8 +6,6 @@ import { Table, TableCreateBody, TableUpdateBody } from '@rpg-together/models';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
 interface IState {
-  selectedTableCard: any;
-  showTableCardOptionsModal: boolean;
   myTables: Table[];
   fetchingMyTables: boolean;
   creatingTable: boolean;
@@ -17,8 +15,6 @@ interface IState {
 
 export const useTablesStore = defineStore(TABLES_STORE, {
   state: (): IState => ({
-    selectedTableCard: null,
-    showTableCardOptionsModal: false,
     myTables: [],
     fetchingMyTables: false,
     creatingTable: false,
@@ -27,15 +23,6 @@ export const useTablesStore = defineStore(TABLES_STORE, {
   }),
   getters: {},
   actions: {
-    toggleTableCardOptions(tableCard?: any) {
-      if (tableCard) {
-        this.selectedTableCard = tableCard;
-        this.showTableCardOptionsModal = true;
-        return;
-      }
-      this.selectedTableCard = null;
-      this.showTableCardOptionsModal = false;
-    },
     async fetchMyTables(options?: { save: boolean }) {
       if (this.fetchingMyTables) {
         return;

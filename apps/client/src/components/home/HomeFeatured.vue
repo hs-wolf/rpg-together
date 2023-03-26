@@ -24,8 +24,8 @@ onMounted(() => {
       <NuxtIcon name="bookmark-star" />
       <h1>{{ $t('home-featured.title') }}</h1>
     </div>
-    <div v-if="tables?.length" class="flex gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory hide-scrollbar">
-      <TableCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%]" />
+    <div v-if="tables?.length" class="flex gap-3 overflow-x-auto snap-x snap-mandatory hide-scrollbar">
+      <TableCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%] h-fit" />
     </div>
     <LoadingCard v-else />
   </div>

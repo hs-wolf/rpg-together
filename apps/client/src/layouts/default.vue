@@ -3,6 +3,5 @@
     <NuxtLoadingIndicator color="#6F6BF2" />
     <slot />
     <Navbar />
-    <TableCardOptions />
   </div>
 </template>

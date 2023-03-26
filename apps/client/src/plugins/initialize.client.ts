@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { MiddlewareKey } from '~~/.nuxt/types/middleware';
 import { firebaseConfig } from '~/firebase-config';
 import { useAlertsStore, useLocalesStore, useUserStore, useFlairsStore } from '~/stores';
 
@@ -30,6 +31,9 @@ export default defineNuxtPlugin(({ hook }) => {
           userStore.fetchUser(user.uid, { save: true });
           if (route.query.redirect) {
             return navigateTo(route.query.redirect.toString());
+          }
+          if (route.meta.middleware && (route.meta.middleware as MiddlewareKey[]).includes('logged-out')) {
+            return navigateTo('/');
           }
           return;
         }

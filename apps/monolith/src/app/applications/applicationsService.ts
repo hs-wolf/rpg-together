@@ -26,6 +26,14 @@ export class ApplicationsService {
     this._applicationsRepo = applicationsRepo ?? new ApplicationsRepositoryFirestore();
   }
 
+  async getExistingApplication(tableId: string, userId: string): Promise<Application[]> {
+    try {
+      return await this._applicationsRepo.getExistingApplication(tableId, userId);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
   async getApplicationsFromUser(userId: string): Promise<Application[]> {
     try {
       return await this._applicationsRepo.getApplicationsFromUser(userId);
@@ -60,11 +68,20 @@ export class ApplicationsService {
       if (existingApplications.length >= LIMIT_OF_APPLICATIONS) {
         throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.APPLICATIONS_LIMIT_REACHED);
       }
+      if (existingApplications.some((application) => application.tableId === body.tableId)) {
+        throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.ALREADY_APPLIED_TO_TABLE);
+      }
+      const table = await this.tablesService.getTable(body.tableId ?? '');
+      if (table.ownerId === applicantId) {
+        throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.APPLICATING_TO_SELF);
+      }
       const applicant = await this.usersService.getUser(applicantId);
       const currentDate = new Date();
       const newApplication = Application.fromMap({ ...body });
       newApplication.applicantId = applicantId;
       newApplication.applicantHeader = { avatar: applicant.avatar, username: applicant.username };
+      newApplication.tableHeader = { banner: table.banner, title: table.title };
+      newApplication.status = ApplicationStatus.WAITING;
       newApplication.creationDate = currentDate;
       newApplication.lastUpdateDate = currentDate;
       return await this._applicationsRepo.createApplication(newApplication);

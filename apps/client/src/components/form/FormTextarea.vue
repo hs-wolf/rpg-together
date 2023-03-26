@@ -28,9 +28,9 @@ const textareaFinalClass = computed(() => {
 
 <template>
   <div class="flex flex-col gap-2" :class="{ 'opacity-50 pointer-events-none': disabled }">
-    <div class="flex flex-col min-h-10 border rounded" :class="error ? 'border-danger' : 'border-primary-light'">
+    <div class="flex flex-col min-h-10 bg-primary border rounded" :class="error ? 'border-danger' : 'border-primary-light'">
       <div class="flex">
-        <div v-if="slots['field-icon']" class="flex justify-center items-center w-10 h-10 pointer-events-none">
+        <div v-if="slots['field-icon']" class="flex justify-center items-center w-10 h-10 text-secondary pointer-events-none">
           <slot name="field-icon" />
         </div>
         <textarea
@@ -40,7 +40,7 @@ const textareaFinalClass = computed(() => {
           :maxlength="maxlength"
           :rows="rows"
           @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-          class="flex items-center w-full h-auto outline-none bg-primary rounded text-secondary leading-6"
+          class="flex items-center w-full h-auto outline-none bg-transparent rounded text-secondary leading-6"
           :class="textareaFinalClass"
         ></textarea>
       </div>

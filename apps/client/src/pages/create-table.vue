@@ -4,7 +4,12 @@ import { useForm, useField } from 'vee-validate';
 import { toFormValidator } from '@vee-validate/zod';
 import { useI18n } from 'vue-i18n';
 import { useTablesStore } from '~/stores';
-import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
+import {
+  DEFAULT_TABLE_BANNER,
+  TABLE_TITLE_MAX_LENGTH,
+  TABLE_DESCRIPTION_MAX_LENGTH,
+  TABLE_ACCEPT_MESSAGE_MAX_LENGTH,
+} from '@rpg-together/utils';
 
 definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('create-table.title') });
@@ -40,11 +45,11 @@ const formFields = {
   },
 };
 const formSchema = object({
-  title: string().min(3).max(128),
-  description: string().min(3).max(512),
+  title: string().min(3).max(TABLE_TITLE_MAX_LENGTH),
+  description: string().min(3).max(TABLE_DESCRIPTION_MAX_LENGTH),
   ['banner-url']: string().optional(),
   flairs: string().array().optional(),
-  ['accept-message']: string().min(3).max(512),
+  ['accept-message']: string().min(3).max(TABLE_ACCEPT_MESSAGE_MAX_LENGTH),
 });
 
 const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) });
@@ -110,7 +115,7 @@ const onSubmit = handleSubmit(async (values) => {
         :label="$t(formFields.description.label)"
         :placeholder="$t(formFields.description.placeholder)"
         v-model="descriptionValue"
-        :maxlength="512"
+        :maxlength="TABLE_DESCRIPTION_MAX_LENGTH"
         :rows="7"
         :disabled="creatingTable"
         :error="errors.description"
@@ -154,7 +159,7 @@ const onSubmit = handleSubmit(async (values) => {
         :label="$t(formFields['accept-message'].label)"
         :placeholder="$t(formFields['accept-message'].placeholder)"
         v-model="acceptMessageValue"
-        :maxlength="512"
+        :maxlength="TABLE_ACCEPT_MESSAGE_MAX_LENGTH"
         :rows="7"
         :disabled="creatingTable"
         :error="errors['accept-message']"
