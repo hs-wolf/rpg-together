@@ -137,4 +137,10 @@ export default {
     });
     return Application.fromMap(fetch);
   },
+  async deleteApplication(args: { applicationId: string }, options?: any) {
+    await this.customFetch<Application>(`applications/${args.applicationId}`, {
+      ...options,
+      method: 'DELETE',
+    });
+  },
 };

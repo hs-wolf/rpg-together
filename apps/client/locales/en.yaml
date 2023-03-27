@@ -163,12 +163,23 @@ my-applications:
   title: My Applications
   applications-limit: 'Applications limit: {limit}'
 my-applications-application-card:
-  table-title: 'Table: {text}'
-  table-owner: 'Owner: {text}'
+  view-table: View table
+  applying-to: 'Applying to: {text}'
   your-message: 'Your message: {text}'
   status: 'Status: {text}'
-  accepted-message: 'Accepted message: {text}'
-  declined-message: Sorry, they table owner declined your application.
+  owner-message: 'Owner message: {text}'
+  declined-message: Sorry, the table owner declined your application.
+my-applications-delete-application-modal:
+  title: Delete application
+  warning: Deleting this application is an irreversible action. You'll be prompted to enter your password.
+  confirmation: Are you sure you want to delete this application?
+  back: Back
+  understand: I understand
+  confirm: Confirm
+  form:
+    password:
+      label: Password
+      placeholder: Password
 tables:
   title: Tables
   description: 'Description:'

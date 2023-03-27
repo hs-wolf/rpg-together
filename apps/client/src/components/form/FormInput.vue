@@ -50,7 +50,7 @@ const wrapperCustomClass = computed(() => {
         :maxlength="maxlength"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :autocomplete="autocomplete"
-        class="flex items-center w-full outline-none bg-transparent"
+        class="flex items-center w-full h-full outline-none bg-transparent"
         :class="inputFinalClass"
       />
       <button

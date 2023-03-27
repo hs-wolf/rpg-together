@@ -8,12 +8,14 @@ import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 interface IState {
   myApplications: Application[];
   sendingApplication: boolean;
+  deletingApplication: boolean;
 }
 
 export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
   state: (): IState => ({
     myApplications: [],
     sendingApplication: false,
+    deletingApplication: false,
   }),
   getters: {},
   actions: {
@@ -75,6 +77,38 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
         return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.sendingApplication = false;
+      }
+    },
+    async deleteApplication(applicationId: string, password: string) {
+      try {
+        if (this.deletingApplication) {
+          return;
+        }
+        const firebaseUser = useFirebase.currentUser().value;
+        if (!firebaseUser) {
+          return;
+        }
+        this.deletingApplication = true;
+        const emailCred = EmailAuthProvider.credential(firebaseUser.email ?? '', password);
+        await reauthenticateWithCredential(firebaseUser, emailCred);
+        await useRpgTogetherAPI.deleteApplication({ applicationId });
+        const applicationIndex = this.myApplications.findIndex((application) => application.id === applicationId);
+        if (applicationIndex >= 0) {
+          this.myApplications.splice(applicationIndex, 1);
+        }
+        useSnackbarStore().createSnack({
+          type: SnackType.SUCCESS,
+          message: 'applications-store.success.delete-application',
+        });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        useSnackbarStore().createSnack({
+          type: SnackType.ERROR,
+          message: 'applications-store.error.delete-application',
+        });
+        return useAlertsStore().getErrorToShowUser(error);
+      } finally {
+        this.deletingApplication = false;
       }
     },
   },

@@ -17,6 +17,7 @@ onBeforeMount(async () => {
 });
 
 const showInfo = ref(false);
+const showDeleteModal = ref(false);
 
 const statusColor = computed(() => {
   switch (props.application.status) {
@@ -30,6 +31,19 @@ const statusColor = computed(() => {
       return 'text-blue-500';
   }
 });
+
+const statusIcon = computed(() => {
+  switch (props.application.status) {
+    case ApplicationStatus.WAITING:
+      return 'analog-clock';
+    case ApplicationStatus.ACCEPTED:
+      return 'check';
+    case ApplicationStatus.DECLINED:
+      return 'danger';
+    default:
+      return 'analog-clock';
+  }
+});
 </script>
 
 <template>
@@ -41,75 +55,84 @@ const statusColor = computed(() => {
       height="128px"
       class="min-h-[128px] max-h-[128px] shadow rounded-t object-cover"
     />
+    <div class="absolute top-2 inset-x-2 flex justify-end gap-2">
+      <NuxtLink :to="localeRoute({ path: `/profile/${table?.ownerId}` })" class="btn-primary gap-2 overflow-hidden">
+        <NuxtImg
+          :src="table?.ownerHeader?.avatar ?? DEFAULT_USER_AVATAR"
+          :alt="table?.ownerHeader?.username"
+          width="20px"
+          height="20px"
+          class="shadow rounded-full"
+        />
+        <h1 class="truncate">{{ table?.ownerHeader?.username }}</h1>
+      </NuxtLink>
+      <NuxtLink :to="localeRoute({ path: `/tables/${table?.id}` })" class="btn-secondary gap-2">
+        <NuxtIcon name="bar-table" class="text-xl" />
+        <p>{{ $t('my-applications-application-card.view-table') }}</p>
+      </NuxtLink>
+    </div>
     <div class="flex flex-col gap-[1px] shadow overflow-hidden">
       <button
-        class="z-10 flex justify-between items-center p-3 bg-secondary"
+        class="z-10 flex justify-between items-center gap-2 px-3 py-4 bg-secondary"
         :class="{ 'rounded-b-sm': !showInfo }"
         @click.prevent="showInfo = !showInfo"
       >
-        <i18n-t keypath="my-applications-application-card.table-title" tag="h1" scope="global" class="text-start">
-          <template #text>
-            <span class="font-semibold">{{ application.tableHeader.title }}</span>
-          </template>
-        </i18n-t>
+        <div class="flex items-center gap-2 text-start">
+          <NuxtIcon :name="statusIcon" class="text-xl" :class="statusColor" />
+          <i18n-t keypath="my-applications-application-card.applying-to" tag="span" scope="global" class="text-sm">
+            <template #text>
+              <span class="text-base font-semibold break-all">{{ application.tableHeader.title }}</span>
+            </template>
+          </i18n-t>
+        </div>
         <NuxtIcon name="chevron-up" class="shrink-0 text-xl transition-transform" :class="{ 'rotate-180': showInfo }" />
       </button>
       <Transition name="slide-down">
-        <div v-if="showInfo" class="flex flex-col gap-5 h-full px-3 py-4 bg-secondary rounded-b-sm">
-          <i18n-t
-            keypath="my-applications-application-card.table-owner"
-            tag="p"
-            scope="global"
-            class="flex items-center gap-1 font-semibold leading-5"
-          >
-            <template #text>
-              <div class="flex items-center gap-1">
-                <NuxtImg
-                  :src="table?.ownerHeader?.avatar ?? DEFAULT_USER_AVATAR"
-                  :alt="table?.ownerHeader?.username"
-                  width="20px"
-                  height="20px"
-                  class="shadow rounded-full"
-                />
-                <h1 class="font-normal truncate">{{ table?.ownerHeader?.username }}</h1>
-              </div>
-            </template>
-          </i18n-t>
+        <div v-if="showInfo" class="card-secondary gap-5 rounded-t-none">
           <i18n-t
             keypath="my-applications-application-card.your-message"
             tag="p"
             scope="global"
-            class="flex flex-col gap-2 font-semibold leading-5"
+            class="flex flex-col gap-1 text-sm font-semibold"
           >
             <template #text>
-              <span class="text-sm font-roboto-slab font-normal whitespace-pre-line">
+              <span class="text-base font-normal font-roboto-slab leading-5 whitespace-pre-line">
                 {{ application?.message }}
               </span>
             </template>
           </i18n-t>
-          <i18n-t keypath="my-applications-application-card.status" tag="p" scope="global" class="font-semibold leading-5">
+          <hr class="border-secondary-dark" />
+          <i18n-t keypath="my-applications-application-card.status" tag="p" scope="global" class="text-sm font-semibold">
             <template #text>
-              <span :class="statusColor">
+              <span class="text-base" :class="statusColor">
                 {{ application?.status }}
               </span>
             </template>
           </i18n-t>
           <i18n-t
             v-if="application.status === ApplicationStatus.ACCEPTED"
-            keypath="my-applications-application-card.accepted-message"
+            keypath="my-applications-application-card.owner-message"
             tag="p"
             scope="global"
-            class="flex flex-col gap-2 font-semibold leading-5"
+            class="flex flex-col gap-1 text-sm font-semibold"
           >
             <template #text>
-              <span class="text-sm font-roboto-slab font-normal whitespace-pre-line">
+              <span class="text-base font-roboto-slab font-normal leading-5 whitespace-pre-line">
                 {{ table?.acceptMessage }}
               </span>
             </template>
           </i18n-t>
-          <p>{{ $t('my-applications-application-card.declined-message') }}</p>
+          <p v-if="application.status === ApplicationStatus.DECLINED" class="text-sm">
+            {{ $t('my-applications-application-card.declined-message') }}
+          </p>
+          <div class="flex justify-end">
+            <button @click.prevent="showDeleteModal = !showDeleteModal" class="btn-danger">
+              <NuxtIcon name="trash" class="text-lg" />
+            </button>
+          </div>
         </div>
       </Transition>
     </div>
+    <MyApplicationsDeleteApplicationModal :show="showDeleteModal" :application="application" @close="showDeleteModal = false" />
   </div>
 </template>

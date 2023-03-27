@@ -6,6 +6,9 @@ body {
   font-family: 'Poppins', sans-serif;
   @apply bg-primary text-secondary antialiased;
 }
+.nuxt-icon svg {
+  margin-bottom: 0 !important;
+}
 
 .font-righteous {
   font-family: 'Righteous', cursive;

@@ -47,7 +47,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
         </div>
       </div>
       <div class="flex justify-between items-center gap-2 mt-auto">
-        <div class="flex items-center gap-1">
+        <NuxtLink :to="localeRoute({ path: `/profile/${table.ownerId}` })" class="flex items-center gap-1">
           <NuxtImg
             :src="table?.ownerHeader?.avatar ?? DEFAULT_USER_AVATAR"
             :alt="table?.ownerHeader?.username"
@@ -56,7 +56,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
             class="shadow rounded-full"
           />
           <h1 class="text-xs font-semibold truncate">{{ table?.ownerHeader?.username }}</h1>
-        </div>
+        </NuxtLink>
         <button name="options" @click.prevent="showOptions = !showOptions" class="btn-secondary">
           <NuxtIcon name="three-dots" />
         </button>

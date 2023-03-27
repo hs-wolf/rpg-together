@@ -163,6 +163,7 @@ export const useUserStore = defineStore(USER_STORE, {
           type: SnackType.ERROR,
           message: 'user-store.error.fetch-user',
         });
+        return null;
       }
     },
     async changeUsername(values: { username: string; password: string }) {

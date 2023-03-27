@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { useApplicationsStore } from '~/stores';
-import { LIMIT_OF_APPLICATIONS, DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
+import { LIMIT_OF_APPLICATIONS } from '@rpg-together/utils';
 
 definePageMeta({ middleware: ['logged-in'] });
 useHead({ title: useI18n().t('my-applications.title') });
