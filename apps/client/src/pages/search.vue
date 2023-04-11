@@ -12,9 +12,15 @@ const query = ref('');
 const flairs = ref<string[]>([]);
 const tables = ref<Table[]>();
 const firstSearchMade = ref(false);
+const searching = ref(false);
+const noMoreTables = ref(false);
 
 const currentSearchPage = ref(0);
 const newSearch = async () => {
+  if (searching.value) {
+    return;
+  }
+  searching.value = true;
   currentSearchPage.value = 0;
   const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
   await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 2, page: currentSearchPage.value } });
@@ -22,10 +28,14 @@ const newSearch = async () => {
   if (!firstSearchMade.value) {
     firstSearchMade.value = true;
   }
+  searching.value = false;
 };
 
-const noMoreTables = ref(false);
 const searchMore = async () => {
+  if (searching.value || noMoreTables.value) {
+    return;
+  }
+  searching.value = true;
   currentSearchPage.value++;
   const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
   await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 2, page: currentSearchPage.value } });
@@ -34,6 +44,7 @@ const searchMore = async () => {
     noMoreTables.value = true;
   }
   tables.value?.push(...newTables);
+  searching.value = false;
 };
 
 useInfiniteScroll(pageRef, () => searchMore(), { distance: 60 });
@@ -79,8 +90,8 @@ onMounted(() => {
     <div class="flex flex-col p-3">
       <div v-if="tables?.length" class="flex flex-col gap-3">
         <TableCard v-for="table in tables" :key="table.id" :table="table" />
-        <button v-if="!noMoreTables" @click.prevent="searchMore" class="btn-accent">{{ $t('search.load-more') }}</button>
-        <p class="p-3 text-sm text-center">{{ $t('search.no-more-tables') }}</p>
+        <p v-if="noMoreTables" class="p-3 text-sm text-center">{{ $t('search.no-more-tables') }}</p>
+        <button v-else @click.prevent="searchMore" class="btn-accent">{{ $t('search.load-more') }}</button>
       </div>
       <LoadingCard v-else-if="!firstSearchMade" />
       <p v-else class="p-3 text-sm text-center text-secondary-dark">{{ $t('search.no-tables-found') }}</p>
@@ -89,7 +100,7 @@ onMounted(() => {
       <button
         v-if="showScrollToTopButton"
         @click.prevent="scrollToTop"
-        class="btn-accent fixed right-1 bottom-[68px] h-[46px] rounded-full"
+        class="btn-accent fixed right-2 bottom-[72px] h-[46px] rounded-full"
       >
         <NuxtIcon name="chevron-up" class="text-xl" />
       </button>
