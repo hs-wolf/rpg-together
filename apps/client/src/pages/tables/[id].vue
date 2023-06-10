@@ -75,7 +75,7 @@ const showApplicationMenu = ref(false);
         <p>{{ $t('tables.apply-to-table') }}</p>
       </button>
     </div>
-    <div v-else class="flex justify-center items-center gap-1 p-3 text-sm text-center text-secondary-dark">
+    <div v-else-if="table.ownerId !== firebaseUser?.uid" class="flex justify-center items-center gap-1 p-3 text-sm text-center text-secondary-dark">
       <NuxtIcon name="apply" />
       <p>{{ $t('tables.already-applied') }}</p>
     </div>

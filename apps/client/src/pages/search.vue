@@ -15,6 +15,7 @@ const firstSearchMade = ref(false);
 const searching = ref(false);
 const noMoreTables = ref(false);
 
+const hitsPerPage = ref(2);
 const currentSearchPage = ref(0);
 const newSearch = async () => {
   if (searching.value) {
@@ -23,7 +24,10 @@ const newSearch = async () => {
   searching.value = true;
   currentSearchPage.value = 0;
   const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
-  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 2, page: currentSearchPage.value } });
+  await search({
+    query: query.value,
+    requestOptions: { facetFilters, hitsPerPage: hitsPerPage.value, page: currentSearchPage.value },
+  });
   tables.value = result.value?.hits.length ? result.value?.hits.map((hit: unknown) => Table.fromMap(hit)) : [];
   if (!firstSearchMade.value) {
     firstSearchMade.value = true;
@@ -38,7 +42,10 @@ const searchMore = async () => {
   searching.value = true;
   currentSearchPage.value++;
   const facetFilters = flairs.value.length ? flairs.value.map((flair) => `flairs:${flair}`) : [];
-  await search({ query: query.value, requestOptions: { facetFilters, hitsPerPage: 2, page: currentSearchPage.value } });
+  await search({
+    query: query.value,
+    requestOptions: { facetFilters, hitsPerPage: hitsPerPage.value, page: currentSearchPage.value },
+  });
   const newTables = result.value?.hits.map((hit: unknown) => Table.fromMap(hit));
   if (!newTables.length) {
     noMoreTables.value = true;

@@ -80,7 +80,9 @@ export default defineNuxtConfig({
   // https://github.com/nuxt/image
   image: {},
   // https://github.com/nuxt-community/eslint-module
-  eslint: {},
+  eslint: {
+    lintOnStart: false,
+  },
   // https://algolia.nuxtjs.org/getting-started/quick-start
   algolia: {},
 });

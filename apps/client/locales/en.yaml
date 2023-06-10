@@ -196,12 +196,14 @@ my-tables:
   title: My Tables
   create-table: Create new table
   tables-limit: 'Tables limit: {limit}'
+my-tables-applications:
+  title: Applications for {table}
 my-tables-table-card:
   title: 'Title: {text}'
   description: 'Description: {text}'
   edit: Edit
   view: View
-  applicants: Applicants
+  applicants: No Applicants | Applicant | Applicants
   flairs: 'Flairs:'
   delete: Delete
 my-tables-delete-table:

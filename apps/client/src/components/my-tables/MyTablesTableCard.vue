@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { useFlairsStore } from '~/stores';
+import { useFlairsStore, useApplicationsStore } from '~/stores';
 import { Table } from '@rpg-together/models';
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
 
-defineProps<{ table: Table }>();
+const props = defineProps<{ table: Table }>();
 defineEmits<{ (eventName: 'delete', table: Table): void }>();
 
 const localePath = useLocalePath();
 const flairsStore = useFlairsStore();
+const applicationsStore = useApplicationsStore();
+
+const applications = ref(await applicationsStore.getApplicationsFromTable(props.table.id));
 
 const showInfo = ref(false);
 </script>
@@ -23,10 +26,16 @@ const showInfo = ref(false);
       format="webp"
       class="w-full h-32 rounded-t-sm object-cover"
     />
-    <button class="btn-primary absolute self-end m-1 gap-2">
-      <NuxtIcon name="message-plus" />
-      <p>{{ $t('my-tables-table-card.applicants') }}</p>
-    </button>
+    <NuxtLink
+      :to="localePath({ path: `/my-tables/${table?.id}/applications` })"
+      class="btn-primary absolute self-end m-1 gap-2 text-sm"
+    >
+      <NuxtIcon name="message-plus" :class="applications.length ? 'text-accent ' : 'opacity-50'" />
+      <p class="text-base font-semibold" :class="applications.length ? 'text-accent ' : 'opacity-50'">
+        {{ applications.length }}
+      </p>
+      <p>{{ $t('my-tables-table-card.applicants', applications.length) }}</p>
+    </NuxtLink>
     <div class="flex flex-col gap-[1px] shadow overflow-hidden">
       <button
         class="z-10 flex justify-between items-center p-3 bg-secondary"
