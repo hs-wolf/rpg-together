@@ -20,11 +20,6 @@
       "executor": "@nrwl/js:node",
       "options": {
         "buildTarget": "monolith:build"
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "monolith:build:production"
-        }
       }
     },
     "lint": {
