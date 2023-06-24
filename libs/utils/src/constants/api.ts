@@ -88,6 +88,14 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `applications/from-table/${tableId}/from-user/${userId}`,
     method: 'GET',
   }),
+  acceptApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
+    path: `applications/${applicationId}/accept`,
+    method: 'POST',
+  }),
+  declineApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
+    path: `applications/${applicationId}/decline`,
+    method: 'POST',
+  }),
   deleteApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
     path: `applications/${applicationId}`,
     method: 'DELETE',

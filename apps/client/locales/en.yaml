@@ -184,6 +184,7 @@ tables:
   title: Tables
   description: 'Description:'
   flairs: 'Flairs:'
+  youre-the-owner: You're the owner, click here to edit.
   apply-to-table: Apply to this table
   already-applied: You've already applied to this table.
 tables-apply:
@@ -198,6 +199,22 @@ my-tables:
   tables-limit: 'Tables limit: {limit}'
 my-tables-applications:
   title: Applications for {table}
+  no-applications: There is no applications for this table.
+my-tables-application-card:
+  their-message: 'Their message: {text}'
+  decline: Decline
+  profile: Profile
+  accept: Accept
+  accept-modal:
+    title: Accepting application
+    message: Are you sure you want to accept {user}'s application? This is an irreversible action.
+    yes-accept: Yes, Accept
+    back: Back
+  decline-modal:
+    title: Declining application
+    message: Are you sure you want to decline {user}'s application? This is an irreversible action.
+    yes-accept: Yes, Decline
+    back: Back
 my-tables-table-card:
   title: 'Title: {text}'
   description: 'Description: {text}'
@@ -301,7 +318,11 @@ applications-store:
   success:
     create-application: Application sent successfully!
     delete-application: The application was deleted successfully!
+    accept-application: The application was accepted successfully!
+    decline-application: The application was declined successfully!
   warning: {}
   error:
     create-application: Sorry, we could not send the application.
     delete-application: sorry, we could not delete the application.
+    accept-application: Sorry, we could not accept the application.
+    decline-application: Sorry, we could not decline the application.

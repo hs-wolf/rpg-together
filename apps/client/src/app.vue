@@ -6,7 +6,7 @@ const { direction } = storeToRefs(localesStore);
 </script>
 
 <template>
-  <div :dir="direction" class="fixed inset-0 flex flex-col min-h-screen">
+  <div :dir="direction" class="fixed inset-0 flex flex-col">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

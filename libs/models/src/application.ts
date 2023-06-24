@@ -25,17 +25,19 @@ export class Application {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromMap(map: any) {
-    return new Application(
-      map.id,
-      map.applicantId,
-      map.applicantHeader,
-      map.tableId,
-      map.tableHeader,
-      map.message,
-      map.status,
-      map.creationDate,
-      map.lastUpdateDate
-    );
+    return !map
+      ? null
+      : new Application(
+          map.id,
+          map.applicantId,
+          map.applicantHeader,
+          map.tableId,
+          map.tableHeader,
+          map.message,
+          map.status,
+          map.creationDate,
+          map.lastUpdateDate
+        );
   }
 
   toMap() {

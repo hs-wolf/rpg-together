@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { TABLE_CARD_DESCRIPTION_LENGTH } from '~/constants';
-import { useTablesStore, useFlairsStore } from '~/stores';
+import { useTablesStore } from '~/stores';
 import { Application, ApplicationStatus, Table } from '@rpg-together/models';
-import { LIMIT_OF_APPLICATIONS, DEFAULT_TABLE_BANNER, DEFAULT_USER_AVATAR } from '@rpg-together/utils';
+import { DEFAULT_TABLE_BANNER, DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
 const props = defineProps<{ application: Application }>();
 
 const localeRoute = useLocaleRoute();
 const tablesStore = useTablesStore();
-const flairsStore = useFlairsStore();
 
 const table = ref<Table>();
 
@@ -73,7 +71,7 @@ const statusIcon = computed(() => {
     </div>
     <div class="flex flex-col gap-[1px] shadow overflow-hidden">
       <button
-        class="z-10 flex justify-between items-center gap-2 px-3 py-4 bg-secondary"
+        class="z-10 flex justify-between items-center gap-2 p-3 bg-secondary"
         :class="{ 'rounded-b-sm': !showInfo }"
         @click.prevent="showInfo = !showInfo"
       >

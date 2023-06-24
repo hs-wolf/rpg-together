@@ -22,6 +22,7 @@ export const useAlertsStore = defineStore(ALERTS_STORE, {
       if (Object.values(ResponseMessages).includes((error as any).data.message)) {
         return t(`api-errors.${(error as any).data.message}`) as string;
       }
+      return (error as any).message as string;
     },
   },
 });

@@ -156,7 +156,7 @@ export default {
       ...options,
       method,
     });
-    return data.map((application) => Application.fromMap(application));
+    return data.map((application) => Application.fromMap(application)) as Application[];
   },
   async getApplicationsFromTable({ tableId }: { tableId: string }, options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationsFromTable({ tableId });
@@ -164,7 +164,21 @@ export default {
       ...options,
       method,
     });
-    return data.map((application) => Application.fromMap(application));
+    return data.map((application) => Application.fromMap(application)) as Application[];
+  },
+  async acceptApplication({ applicationId }: { applicationId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.acceptApplication({ applicationId });
+    return this.customFetch<void>(path, {
+      ...options,
+      method,
+    });
+  },
+  async declineApplication({ applicationId }: { applicationId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.declineApplication({ applicationId });
+    return this.customFetch<void>(path, {
+      ...options,
+      method,
+    });
   },
   async deleteApplication({ applicationId }: { applicationId: string }, options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.deleteApplication({ applicationId });

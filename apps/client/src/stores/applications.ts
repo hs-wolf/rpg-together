@@ -9,6 +9,8 @@ interface IState {
   myApplications: Application[];
   sendingApplication: boolean;
   deletingApplication: boolean;
+  acceptingApplication: boolean;
+  decliningApplication: boolean;
 }
 
 export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
@@ -16,6 +18,8 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
     myApplications: [],
     sendingApplication: false,
     deletingApplication: false,
+    acceptingApplication: false,
+    decliningApplication: false,
   }),
   getters: {},
   actions: {
@@ -77,6 +81,50 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
         return useAlertsStore().getErrorToShowUser(error);
       } finally {
         this.sendingApplication = false;
+      }
+    },
+    async acceptApplication(applicationId: string) {
+      try {
+        if (this.acceptingApplication) {
+          return;
+        }
+        this.acceptingApplication = true;
+        await useRpgTogetherAPI.acceptApplication({ applicationId });
+        useSnackbarStore().createSnack({
+          type: SnackType.SUCCESS,
+          message: 'applications-store.success.accept-application',
+        });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        useSnackbarStore().createSnack({
+          type: SnackType.ERROR,
+          message: 'applications-store.error.accept-application',
+        });
+        return useAlertsStore().getErrorToShowUser(error);
+      } finally {
+        this.acceptingApplication = false;
+      }
+    },
+    async declineApplication(applicationId: string) {
+      try {
+        if (this.decliningApplication) {
+          return;
+        }
+        this.decliningApplication = true;
+        await useRpgTogetherAPI.declineApplication({ applicationId });
+        useSnackbarStore().createSnack({
+          type: SnackType.SUCCESS,
+          message: 'applications-store.success.decline-application',
+        });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+        useSnackbarStore().createSnack({
+          type: SnackType.ERROR,
+          message: 'applications-store.error.decline-application',
+        });
+        return useAlertsStore().getErrorToShowUser(error);
+      } finally {
+        this.decliningApplication = false;
       }
     },
     async deleteApplication(applicationId: string, password: string) {
