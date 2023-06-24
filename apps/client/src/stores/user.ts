@@ -121,7 +121,7 @@ export const useUserStore = defineStore(USER_STORE, {
         this.changingAuthData = false;
       }
     },
-    async accountDelete(password: string) {
+    async deleteAuth(password: string) {
       if (this.deletingAccount) {
         return;
       }
@@ -133,7 +133,7 @@ export const useUserStore = defineStore(USER_STORE, {
         this.deletingAccount = true;
         const emailCred = EmailAuthProvider.credential(firebaseUser.email ?? '', password);
         await reauthenticateWithCredential(firebaseUser, emailCred);
-        await useRpgTogetherAPI.accountDelete();
+        await useRpgTogetherAPI.deleteAuth();
         await this.signOut();
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
@@ -150,9 +150,9 @@ export const useUserStore = defineStore(USER_STORE, {
         this.deletingAccount = false;
       }
     },
-    async fetchUser(userId: string, options?: { save?: boolean }) {
+    async getUser(userId: string, options?: { save?: boolean }) {
       try {
-        const user = await useRpgTogetherAPI.fetchUser({ userId });
+        const user = await useRpgTogetherAPI.getUser({ userId });
         if (options?.save) {
           this.user = user;
         }

@@ -135,7 +135,7 @@ useRouter().beforeEach((to, from) => {
 });
 
 onMounted(async () => {
-  table.value = await tablesStore.fetchTable(tableId);
+  table.value = await tablesStore.getTable(tableId);
   if (!table) {
     useSnackbarStore().createSnack({ type: SnackType.ERROR, message: 'edit-table.table-not-found' });
     return navigateTo(localeRoute({ name: 'my-tables' }));

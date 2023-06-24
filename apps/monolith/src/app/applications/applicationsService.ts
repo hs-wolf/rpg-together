@@ -26,42 +26,6 @@ export class ApplicationsService {
     this._applicationsRepo = applicationsRepo ?? new ApplicationsRepositoryFirestore();
   }
 
-  async getExistingApplication(tableId: string, userId: string): Promise<Application[]> {
-    try {
-      return await this._applicationsRepo.getExistingApplication(tableId, userId);
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
-  async getApplicationsFromUser(userId: string): Promise<Application[]> {
-    try {
-      return await this._applicationsRepo.getApplicationsFromUser(userId);
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
-  async getApplicationsFromTable(tabledId: string): Promise<Application[]> {
-    try {
-      return await this._applicationsRepo.getApplicationsFromTable(tabledId);
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
-  async getApplication(id: string): Promise<Application> {
-    try {
-      const application = await this._applicationsRepo.getApplication(id);
-      if (!application) {
-        throw new ApiError(ResponseCodes.NOT_FOUND, ResponseMessages.APPLICATION_NOT_FOUND);
-      }
-      return application;
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
   async createApplication(applicantId: string, body: ApplicationCreateBody): Promise<Application> {
     try {
       const existingApplications = await this.getApplicationsFromUser(applicantId);
@@ -85,6 +49,42 @@ export class ApplicationsService {
       newApplication.creationDate = currentDate;
       newApplication.lastUpdateDate = currentDate;
       return await this._applicationsRepo.createApplication(newApplication);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async getApplication(id: string): Promise<Application> {
+    try {
+      const application = await this._applicationsRepo.getApplication(id);
+      if (!application) {
+        throw new ApiError(ResponseCodes.NOT_FOUND, ResponseMessages.APPLICATION_NOT_FOUND);
+      }
+      return application;
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async getApplicationsFromUser(userId: string): Promise<Application[]> {
+    try {
+      return await this._applicationsRepo.getApplicationsFromUser(userId);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async getApplicationsFromTable(tabledId: string): Promise<Application[]> {
+    try {
+      return await this._applicationsRepo.getApplicationsFromTable(tabledId);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async getApplicationFromTableAndUser(tableId: string, userId: string): Promise<Application> {
+    try {
+      return await this._applicationsRepo.getApplicationFromTableAndUser(tableId, userId);
     } catch (error) {
       apiErrorHandler(error);
     }

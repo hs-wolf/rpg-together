@@ -10,7 +10,7 @@ const table = ref<Table>();
 const applications = ref<Application[]>([]);
 
 onBeforeMount(async () => {
-  table.value = await useRpgTogetherAPI.fetchTable({ tableId });
+  table.value = await useRpgTogetherAPI.getTable({ tableId });
   if (!table.value) {
     navigateTo({ path: router.options.history.state.back?.toString() ?? '/' });
   }

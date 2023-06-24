@@ -17,7 +17,7 @@ useHead({ title: computed(() => user.value?.username ?? t('profile.title')) });
 
 onBeforeMount(async () => {
   checkOwnProfile();
-  user.value = await userStore.fetchUser(userId);
+  user.value = await userStore.getUser(userId);
   if (!user.value) {
     navigateTo({ path: router.options.history.state.back?.toString() ?? '/' });
   }

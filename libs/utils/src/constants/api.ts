@@ -5,7 +5,69 @@ export const SECURITY_NAME_BEARER = 'Bearer';
 type RequestReturnType = { path: string; method: Uppercase<AvailableRouterMethod<NitroFetchRequest>> };
 
 export const API_ENDPOINTS_REQUESTS = {
-  // APPLICATIONS REQUESTS
+  // AUTH REQUESTS
+  register: (): RequestReturnType => ({
+    path: `auth/register/user`,
+    method: 'POST',
+  }),
+  updateAuth: (): RequestReturnType => ({
+    path: `auth/update`,
+    method: 'PUT',
+  }),
+  deleteAuth: (): RequestReturnType => ({
+    path: `auth/delete`,
+    method: 'DELETE',
+  }),
+
+  // USER REQUESTS
+  getUser: ({ userId }: { userId: string }): RequestReturnType => ({
+    path: `users/${userId}`,
+    method: 'GET',
+  }),
+  updateUser: (): RequestReturnType => ({
+    path: `users`,
+    method: 'PUT',
+  }),
+
+  // UPLOAD REQUESTS
+  uploadUserFile: (): RequestReturnType => ({
+    path: `upload/user-file`,
+    method: 'POST',
+  }),
+  uploadTableFile: ({ tableId }: { tableId: string }): RequestReturnType => ({
+    path: `upload/table-file/${tableId}`,
+    method: 'POST',
+  }),
+
+  // TABLE REQUESTS
+  createTable: (): RequestReturnType => ({
+    path: `flairs`,
+    method: 'POST',
+  }),
+  getTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
+    path: `tables/${tableId}`,
+    method: 'GET',
+  }),
+  getUserTables: ({ userId }: { userId: string }): RequestReturnType => ({
+    path: `tables/from-user/${userId}`,
+    method: 'GET',
+  }),
+  updateTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
+    path: `tables/${tableId}`,
+    method: 'PUT',
+  }),
+  deleteTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
+    path: `tables/${tableId}`,
+    method: 'DELETE',
+  }),
+
+  // FLAIR REQUESTS
+  getAllFlairs: (): RequestReturnType => ({
+    path: `flairs`,
+    method: 'GET',
+  }),
+
+  // APPLICATION REQUESTS
   createApplication: (): RequestReturnType => ({
     path: `applications`,
     method: 'POST',
@@ -14,16 +76,16 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `applications/${applicationId}`,
     method: 'GET',
   }),
-  getExistingApplication: ({ tableId, userId }: { tableId: string; userId: string }): RequestReturnType => ({
-    path: `applications/existing/${tableId}/${userId}`,
-    method: 'GET',
-  }),
   getApplicationsFromUser: ({ userId }: { userId: string }): RequestReturnType => ({
     path: `applications/from-user/${userId}`,
     method: 'GET',
   }),
   getApplicationsFromTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
     path: `applications/from-table/${tableId}`,
+    method: 'GET',
+  }),
+  getApplicationFromTableAndUser: ({ tableId, userId }: { tableId: string; userId: string }): RequestReturnType => ({
+    path: `applications/from-table/${tableId}/from-user/${userId}`,
     method: 'GET',
   }),
   deleteApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({

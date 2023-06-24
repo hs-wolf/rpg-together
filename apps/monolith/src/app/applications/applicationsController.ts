@@ -11,11 +11,6 @@ export class ApplicationsController extends Controller {
   @Inject
   private _applicationsService: ApplicationsService;
 
-  @Get('/existing/{tableId}/{userId}')
-  public async getExistingApplication(@Path() tableId: string, @Path() userId: string): Promise<Application[]> {
-    return this._applicationsService.getExistingApplication(tableId, userId);
-  }
-
   @Get('/from-user/{userId}')
   public async getApplicationsFromUser(@Path() userId: string): Promise<Application[]> {
     return this._applicationsService.getApplicationsFromUser(userId);
@@ -24,6 +19,11 @@ export class ApplicationsController extends Controller {
   @Get('/from-table/{tableId}')
   public async getApplicationsFromTable(@Path() tableId: string): Promise<Application[]> {
     return this._applicationsService.getApplicationsFromTable(tableId);
+  }
+
+  @Get('/from-table/{tableId}/from-user/{userId}')
+  public async getApplicationFromTableAndUser(@Path() tableId: string, @Path() userId: string): Promise<Application> {
+    return this._applicationsService.getApplicationFromTableAndUser(tableId, userId);
   }
 
   @Get('/{applicationId}')

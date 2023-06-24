@@ -13,99 +13,119 @@ export default {
       headers: { Authorization: `${SECURITY_NAME_BEARER} ${JWT}` },
     });
   },
+
+  // AUTH REQUESTS
   async register(options?: Options) {
-    const fetch = await this.customFetch<void>(`auth/register/user`, {
+    const { path, method } = API_ENDPOINTS_REQUESTS.register();
+    return this.customFetch<void>(path, {
       ...options,
-      method: 'POST',
+      method,
     });
-    return fetch;
   },
   async updateAuthUser(options?: Options) {
-    const fetch = await this.customFetch<void>(`auth/update`, {
+    const { path, method } = API_ENDPOINTS_REQUESTS.updateAuth();
+    return this.customFetch<void>(path, {
       ...options,
-      method: 'PUT',
+      method,
     });
-    return fetch;
   },
-  async accountDelete(options?: Options) {
-    const fetch = await this.customFetch<void>(`auth/delete`, {
+  async deleteAuth(options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.deleteAuth();
+    return this.customFetch<void>(path, {
       ...options,
-      method: 'DELETE',
+      method,
     });
-    return fetch;
   },
-  async fetchUser(args: { userId: string }, options?: Options) {
-    const fetch = await this.customFetch<User>(`users/${args.userId}`, {
+
+  // USER REQUESTS
+  async getUser({ userId }: { userId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getUser({ userId });
+    const fetch = await this.customFetch<User>(path, {
       ...options,
-      method: 'GET',
+      method,
     });
     return User.fromMap(fetch);
   },
   async updateUser(options?: Options) {
-    const fetch = await this.customFetch<User>(`users`, {
+    const { path, method } = API_ENDPOINTS_REQUESTS.updateUser();
+    const fetch = await this.customFetch<User>(path, {
       ...options,
-      method: 'PUT',
+      method,
     });
     return User.fromMap(fetch);
   },
+
+  // UPLOAD REQUESTS
   async uploadUserFile(options?: Options) {
-    const fetch = await this.customFetch<string>(`upload/user-file`, {
+    const { path, method } = API_ENDPOINTS_REQUESTS.uploadUserFile();
+    const fetch = await this.customFetch<string>(path, {
       ...options,
-      method: 'POST',
+      method,
     });
     return fetch;
   },
-  async uploadTableFile(args: { tableId: string }, options?: Options) {
-    const fetch = await this.customFetch<string>(`upload/table-file/${args.tableId}`, {
+  async uploadTableFile({ tableId }: { tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.uploadTableFile({ tableId });
+    const fetch = await this.customFetch<string>(path, {
       ...options,
-      method: 'POST',
+      method,
     });
     return fetch;
   },
-  async fetchMyTables(args: { userId: string }, options?: Options) {
-    const fetch = await this.customFetch<Table[]>(`tables/from-user/${args.userId}`, {
+
+  // TABLE REQUESTS
+  async createTable(options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.createTable();
+    const fetch = await this.customFetch<Table>(path, {
       ...options,
-      method: 'GET',
+      method,
+    });
+    return Table.fromMap(fetch);
+  },
+  async getTable({ tableId }: { tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getTable({ tableId });
+    const fetch = await this.customFetch<Table>(path, {
+      ...options,
+      method,
+    });
+    return Table.fromMap(fetch);
+  },
+  async getUserTables({ userId }: { userId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getUserTables({ userId });
+    const fetch = await this.customFetch<Table[]>(path, {
+      ...options,
+      method,
     });
     return fetch.map((table) => Table.fromMap(table));
   },
-  async fetchTable(args: { tableId: string }, options?: Options) {
-    const fetch = await this.customFetch<Table>(`tables/${args.tableId}`, {
+  async updateTable({ tableId }: { tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.updateTable({ tableId });
+    const fetch = await this.customFetch<Table>(path, {
       ...options,
-      method: 'GET',
+      method,
     });
     return Table.fromMap(fetch);
   },
-  async createTable(options?: Options) {
-    const fetch = await this.customFetch<Table>(`tables`, {
+  async deleteTable({ tableId }: { tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.deleteTable({ tableId });
+    const fetch = await this.customFetch<Table>(path, {
       ...options,
-      method: 'POST',
+      method,
     });
     return Table.fromMap(fetch);
   },
-  async updateTable(args: { tableId: string }, options?: Options) {
-    const fetch = await this.customFetch<Table>(`tables/${args.tableId}`, {
-      ...options,
-      method: 'PUT',
-    });
-    return Table.fromMap(fetch);
-  },
-  async deleteTable(args: { tableId: string }, options?: Options) {
-    const fetch = await this.customFetch<Table>(`tables/${args.tableId}`, {
-      ...options,
-      method: 'DELETE',
-    });
-    return Table.fromMap(fetch);
-  },
+
+  // FLAIR REQUESTS
   async fetchAllFlairs(options?: Options) {
-    const fetch = await this.customFetch<Flair[]>(`flairs`, {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getAllFlairs();
+    const fetch = await this.customFetch<Flair[]>(path, {
       ...options,
-      method: 'GET',
+      method,
     });
     return fetch.map((flair) => Flair.fromMap(flair));
   },
 
-  // APPLICATIONS REQUESTS
+  // APPLICATION REQUESTS
   async createApplication(options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.createApplication();
     const data = await this.customFetch<Application>(path, {
@@ -122,8 +142,8 @@ export default {
     });
     return Application.fromMap(data);
   },
-  async getExistingApplication({ tableId, userId }: { tableId: string; userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getExistingApplication({ tableId, userId });
+  async getApplicationFromTableAndUser({ tableId, userId }: { tableId: string; userId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationFromTableAndUser({ tableId, userId });
     const data = await this.customFetch<Application>(path, {
       ...options,
       method,
@@ -148,7 +168,7 @@ export default {
   },
   async deleteApplication({ applicationId }: { applicationId: string }, options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.deleteApplication({ applicationId });
-    await this.customFetch<void>(path, {
+    return this.customFetch<void>(path, {
       ...options,
       method,
     });

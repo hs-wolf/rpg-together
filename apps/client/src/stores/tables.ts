@@ -23,7 +23,7 @@ export const useTablesStore = defineStore(TABLES_STORE, {
   }),
   getters: {},
   actions: {
-    async fetchMyTables(options?: { save: boolean }) {
+    async getUserTables(options?: { save: boolean }) {
       if (this.fetchingMyTables) {
         return;
       }
@@ -33,7 +33,7 @@ export const useTablesStore = defineStore(TABLES_STORE, {
       }
       try {
         this.fetchingMyTables = true;
-        const tables = await useRpgTogetherAPI.fetchMyTables({ userId: firebaseUser.uid });
+        const tables = await useRpgTogetherAPI.getUserTables({ userId: firebaseUser.uid });
         if (options?.save) {
           this.myTables = tables;
         }
@@ -44,9 +44,9 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         this.fetchingMyTables = false;
       }
     },
-    async fetchTable(tableId: string) {
+    async getTable(tableId: string) {
       try {
-        return await useRpgTogetherAPI.fetchTable({ tableId });
+        return await useRpgTogetherAPI.getTable({ tableId });
       } catch (error) {
         useAlertsStore().handleError(error);
       }

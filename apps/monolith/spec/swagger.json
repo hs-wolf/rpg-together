@@ -387,45 +387,6 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/applications/existing/{tableId}/{userId}": {
-			"get": {
-				"operationId": "GetExistingApplication",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Application"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Applications Service"
-				],
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "tableId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
 		"/applications/from-user/{userId}": {
 			"get": {
 				"operationId": "GetApplicationsFromUser",
@@ -486,6 +447,45 @@
 					{
 						"in": "path",
 						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/applications/from-table/{tableId}/from-user/{userId}": {
+			"get": {
+				"operationId": "GetApplicationFromTableAndUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Application"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -730,7 +730,7 @@
 		},
 		"/auth/delete": {
 			"delete": {
-				"operationId": "AccountDelete",
+				"operationId": "DeleteAuth",
 				"responses": {
 					"204": {
 						"description": "No content"

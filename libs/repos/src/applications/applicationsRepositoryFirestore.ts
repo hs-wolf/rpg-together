@@ -7,15 +7,18 @@ export class ApplicationsRepositoryFirestore implements IApplicationsRepository 
   private firestore = getFirestore();
   private collRef = this.firestore.collection(FIREBASE_COLLECTION_APPLICATIONS);
 
-  async getExistingApplication(tableId: string, userId: string) {
-    const query = this.collRef.where('tableId', '==', tableId).where('applicantId', '==', userId);
-    const querySnapshot = await query.get();
-    if (querySnapshot.docs.length) {
-      return querySnapshot.docs
-        .map((snapshot) => Application.fromFirestore(snapshot))
-        .filter((table) => table) as Application[];
+  async createApplication(application: Application) {
+    if (application.id) {
+      await this.collRef.doc(application.id).set(application.toMap());
+      return application;
     }
-    return [];
+    const newApplication = await (await this.collRef.add(application.toMap())).get();
+    return Application.fromFirestore(newApplication);
+  }
+
+  async getApplication(applicationId: string) {
+    const snapshot = await this.collRef.doc(applicationId).get();
+    return Application.fromFirestore(snapshot);
   }
 
   async getApplicationsFromUser(userId: string) {
@@ -40,18 +43,13 @@ export class ApplicationsRepositoryFirestore implements IApplicationsRepository 
     return [];
   }
 
-  async getApplication(applicationId: string) {
-    const snapshot = await this.collRef.doc(applicationId).get();
-    return Application.fromFirestore(snapshot);
-  }
-
-  async createApplication(application: Application) {
-    if (application.id) {
-      await this.collRef.doc(application.id).set(application.toMap());
-      return application;
+  async getApplicationFromTableAndUser(tableId: string, userId: string) {
+    const query = this.collRef.where('tableId', '==', tableId).where('applicantId', '==', userId);
+    const querySnapshot = await query.get();
+    if (querySnapshot.docs.length) {
+      return querySnapshot.docs.map((snapshot) => Application.fromFirestore(snapshot)).filter((table) => table)[0];
     }
-    const newApplication = await (await this.collRef.add(application.toMap())).get();
-    return Application.fromFirestore(newApplication);
+    return null;
   }
 
   async updateApplication(application: Application) {

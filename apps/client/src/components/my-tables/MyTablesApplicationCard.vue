@@ -13,7 +13,7 @@ const flairsStore = useFlairsStore();
 const table = ref<Table>();
 
 onBeforeMount(async () => {
-  table.value = await tablesStore.fetchTable(props.application.tableId);
+  table.value = await tablesStore.getTable(props.application.tableId);
 });
 
 const showInfo = ref(false);

@@ -176,32 +176,6 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/applications/existing/:tableId/:userId',
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getExistingApplication)),
-
-            function ApplicationsController_getExistingApplication(request: any, response: any, next: any) {
-            const args = {
-                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
-                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ApplicationsController();
-
-
-              const promise = controller.getExistingApplication.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/applications/from-user/:userId',
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationsFromUser)),
@@ -246,6 +220,32 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.getApplicationsFromTable.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/applications/from-table/:tableId/from-user/:userId',
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationFromTableAndUser)),
+
+            function ApplicationsController_getApplicationFromTableAndUser(request: any, response: any, next: any) {
+            const args = {
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ApplicationsController();
+
+
+              const promise = controller.getApplicationFromTableAndUser.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -466,9 +466,9 @@ export function RegisterRoutes(app: express.Router) {
         app.delete('/auth/delete',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
-            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.accountDelete)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.deleteAuth)),
 
-            function AuthController_accountDelete(request: any, response: any, next: any) {
+            function AuthController_deleteAuth(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
@@ -482,7 +482,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new AuthController();
 
 
-              const promise = controller.accountDelete.apply(controller, validatedArgs as any);
+              const promise = controller.deleteAuth.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

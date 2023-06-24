@@ -17,7 +17,7 @@ const tableToDelete = ref<Table>();
 
 onMounted(async () => {
   if (!myTables.value.length) {
-    await tablesStore.fetchMyTables({ save: true });
+    await tablesStore.getUserTables({ save: true });
   }
 });
 </script>

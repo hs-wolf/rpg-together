@@ -89,7 +89,7 @@ export class AuthService {
     }
   }
 
-  async accountDelete(userId: string): Promise<void> {
+  async deleteAuth(userId: string): Promise<void> {
     try {
       await Promise.all([
         this._authRepo.deleteAuthUser(userId),

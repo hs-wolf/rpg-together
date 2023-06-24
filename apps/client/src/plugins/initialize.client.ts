@@ -28,7 +28,7 @@ export default defineNuxtPlugin(({ hook }) => {
         useFirebase.currentUser().value = user;
         useFirebase.checkedFirstTime().value = true;
         if (user) {
-          userStore.fetchUser(user.uid, { save: true });
+          userStore.getUser(user.uid, { save: true });
           if (route.query.redirect) {
             return navigateTo(route.query.redirect.toString());
           }

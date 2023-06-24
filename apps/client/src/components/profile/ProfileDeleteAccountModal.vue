@@ -42,7 +42,7 @@ const apiError = ref('');
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = '';
-  const response = await userStore.accountDelete(values.password);
+  const response = await userStore.deleteAuth(values.password);
   if (response) {
     apiError.value = response;
     return;
