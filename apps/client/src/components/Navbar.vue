@@ -28,7 +28,7 @@ const tabs = [
 const menus = [
   { name: 'my-applications', icon: 'message', link: 'my-applications' },
   { name: 'my-tables', icon: 'bar-table', link: 'my-tables' },
-  { name: 'settings', icon: 'settings-cog', link: 'settings' },
+  // { name: 'settings', icon: 'settings-cog', link: 'settings' },
   { name: 'about', icon: 'information-circle', link: 'about' },
 ];
 

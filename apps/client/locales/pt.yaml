@@ -271,7 +271,16 @@ edit-table:
 settings:
   title: Settings
 about:
-  title: About
+  title: Sobre nós
+  who-we-are: Quem somos nós
+  who-we-are-text:
+    Duis arcu mi, malesuada vehicula velit ac, porta aliquet metus. Nulla sed interdum lacus, nec consectetur quam.
+    Phasellus cursus libero nec leo sollicitudin tristique. Donec mattis, nunc id feugiat rhoncus, ipsum leo molestie magna,
+    sed accumsan tellus dolor quis felis. Duis ut diam mi.
+  our-mission: Nossa missão
+  our-mission-text:
+    Phasellus orci turpis, cursus ac nisi sed, cursus tempor ipsum. Maecenas nec metus sit amet nibh dictum vestibulum ut a
+    ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
 announcements:
   title: Announcements
 error-page:
