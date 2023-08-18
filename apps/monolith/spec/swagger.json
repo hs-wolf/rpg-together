@@ -212,6 +212,46 @@
 			"FlairUpdateBody": {
 				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels__"
 			},
+			"NotificationType": {
+				"enum": [
+					"application",
+					"report",
+					"system"
+				],
+				"type": "string"
+			},
+			"Notification": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"type": {
+						"$ref": "#/components/schemas/NotificationType"
+					},
+					"read": {
+						"type": "boolean"
+					},
+					"title": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"userId",
+					"type",
+					"read",
+					"title",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Table": {
 				"properties": {
 					"id": {
@@ -954,6 +994,95 @@
 					{
 						"in": "path",
 						"name": "flairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notifications/from-user/{userId}": {
+			"get": {
+				"operationId": "GetNotificationsFromUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Notification"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notifications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notifications/{notificationId}": {
+			"get": {
+				"operationId": "GetNotification",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Notification"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Notifications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "notificationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/notifications/{notificationId}/read": {
+			"put": {
+				"operationId": "ReadNotification",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Notifications Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "notificationId",
 						"required": true,
 						"schema": {
 							"type": "string"

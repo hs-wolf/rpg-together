@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { MiddlewareKey } from '~~/.nuxt/types/middleware';
 import { firebaseConfig } from '~/firebase-config';
-import { useAlertsStore, useLocalesStore, useUserStore, useFlairsStore } from '~/stores';
+import { useAlertsStore, useLocalesStore, useUserStore, useFlairsStore, useNotificationsStore } from '~/stores';
 
 export default defineNuxtPlugin(({ hook }) => {
   hook('app:created', () => {
@@ -16,6 +16,7 @@ export default defineNuxtPlugin(({ hook }) => {
     const route = useRoute();
     const pinia = usePinia();
     const alertsStore = useAlertsStore(pinia);
+    const notificationsStore = useNotificationsStore(pinia);
     const localesStore = useLocalesStore(pinia);
     const userStore = useUserStore(pinia);
     const flairsStore = useFlairsStore(pinia);
@@ -29,6 +30,7 @@ export default defineNuxtPlugin(({ hook }) => {
         useFirebase.checkedFirstTime().value = true;
         if (user) {
           userStore.getUser(user.uid, { save: true });
+          notificationsStore.getMyNotifications({ save: true });
           if (route.query.redirect) {
             return navigateTo(route.query.redirect.toString());
           }

@@ -1,49 +1,57 @@
+import { Notification } from '@rpg-together/models';
 import { NOTIFICATIONS_STORE } from '~/constants';
+import { useAlertsStore } from '~/stores';
 
 interface IState {
-  unreadNotificationsNumber: number;
+  notifications: Notification[];
+  firstSearch: boolean;
 }
 
 export const useNotificationsStore = defineStore(NOTIFICATIONS_STORE, {
-  state: (): IState => ({ unreadNotificationsNumber: 0 }),
-  getters: {},
+  state: (): IState => ({ notifications: [], firstSearch: false }),
+  getters: {
+    unreadNotifications(state) {
+      return state.notifications.filter((notification) => !notification.read).length;
+    },
+  },
   actions: {
-    getNotifications() {
-      return [
-        {
-          id: '1',
-          type: 'application',
-          read: false,
-          title: 'Alert number 1',
-          message: 'Cras eleifend bibendum libero, eu imperdiet libero consequat ut. Nullam.',
-        },
-        {
-          id: '2',
-          type: 'system',
-          read: true,
-          title: 'Alert number 2',
-          message: 'Vivamus nec est elit. Nullam rhoncus porttitor congue. Pellentesque auctor.',
-        },
-        {
-          id: '3',
-          type: 'report',
-          read: true,
-          title: 'Alert number 3',
-          message: 'Praesent convallis interdum tellus at auctor. Proin elit velit, volutpat.',
-        },
-      ];
-    },
-    async updateUnreadNotificationsNumber() {
+    async getMyNotifications(options?: { save: boolean }) {
+      const firebaseUser = useFirebase.currentUser().value;
+      if (!firebaseUser) {
+        return;
+      }
       try {
-        this.unreadNotificationsNumber = Math.round(Math.random() * 10);
-      } catch (error) {}
-    },
-    async markAsRead(id: string) {
-      try {
-        this.updateUnreadNotificationsNumber();
-        return true;
+        const applications = await useRpgTogetherAPI.getNotificationsFromUser({ userId: firebaseUser.uid });
+        if (options?.save) {
+          this.notifications = applications;
+        }
+        return applications;
       } catch (error) {
-        return false;
+        useAlertsStore().handleError(error);
+      } finally {
+        console.log('nice');
+        if (!this.firstSearch) {
+          this.firstSearch = true;
+        }
+      }
+    },
+    async readNotification(notificationId: string) {
+      try {
+        const existingIndex = this.notifications.findIndex((notification) => notification.id === notificationId);
+        if (existingIndex < 0) {
+          return;
+        }
+        this.notifications[existingIndex].read = true;
+        await useRpgTogetherAPI.readNotification({ notificationId });
+      } catch (error) {
+        useAlertsStore().handleError(error);
+      }
+    },
+    async readAllNotifications() {
+      try {
+        await Promise.all(this.notifications.map((notification) => this.readNotification(notification.id)));
+      } catch (error) {
+        useAlertsStore().handleError(error);
       }
     },
   },

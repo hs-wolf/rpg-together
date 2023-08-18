@@ -1,79 +1,71 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
+import { NotificationType } from '@rpg-together/models';
 import { AdvancedSelectOption } from '~/types';
 import { useNotificationsStore } from '~/stores';
 
+const { t } = useI18n();
+
 definePageMeta({ middleware: ['logged-in'] });
 
-useHead({ title: useI18n().t('notifications.title') });
+useHead({ title: t('pages.notifications.title') });
 
 const notificationsStore = useNotificationsStore();
-const { unreadNotificationsNumber } = storeToRefs(notificationsStore);
+const { notifications, firstSearch, unreadNotifications } = storeToRefs(notificationsStore);
 
-const alertTypesList = [
-  { name: 'application', label: 'Applications' },
-  { name: 'report', label: 'Reports' },
-  { name: 'system', label: 'System' },
-];
+const notificationTypes: AdvancedSelectOption[] = Object.values(NotificationType).map((notificationType) => ({
+  name: notificationType,
+  label: t(`notification-type.${notificationType}`),
+}));
 
-const selectedAlertTypes = ref<AdvancedSelectOption[]>([]);
+const selectedNotificationTypes = ref<AdvancedSelectOption[]>([]);
 
-const markAsRead = async (id: string) => {
-  const findAlert = alerts.value?.find((alert) => alert.id === id);
-  if (!findAlert || findAlert.read) {
-    return;
-  }
-  findAlert.read = await notificationsStore.markAsRead(id);
-};
-
-const markAllAsRead = async () => {
-  if (!alerts.value?.length) {
-    return;
-  }
-  await Promise.all(alerts.value.map(async (alert) => await markAsRead(alert.id)));
-};
-
-const filteredAlerts = computed(() => {
-  const filtersGroups = selectedAlertTypes.value.map((alertType) => alertType.name);
-  return filtersGroups.length ? alerts.value?.filter((alert) => filtersGroups.includes(alert.type)) : alerts.value;
+const filteredNotifications = computed(() => {
+  const filtersGroups = selectedNotificationTypes.value.map((notificationType) => notificationType.name);
+  return filtersGroups.length ? notifications.value.filter((alert) => filtersGroups.includes(alert.type)) : notifications.value;
 });
 
-// TODO: Change any for the alert cylass.
-const alerts = ref<any[]>();
-onMounted(() => {
-  alerts.value = notificationsStore.getNotifications();
-});
+const selectNotificationTypes = (options: AdvancedSelectOption[]) => {
+  selectedNotificationTypes.value = options;
+};
 </script>
 
 <template>
   <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
-    <PageTitle :title="$t('notifications.title')" />
+    <PageTitle :title="$t('pages.notifications.title')" />
     <div class="flex flex-col gap-3 p-3">
-      <button class="btn-primary gap-2" @click.prevent="markAllAsRead">
-        <p>Mark all as read</p>
+      <button class="btn-primary gap-2" @click.prevent="notificationsStore.readAllNotifications">
+        <p>{{ $t('pages.notifications.mark-all-read') }}</p>
         <NuxtIcon name="check" />
       </button>
-      <h1 class="p-3 text-center">
-        You have <strong>{{ unreadNotificationsNumber }}</strong> unread alerts.
-      </h1>
+      <i18n-t keypath="pages.notifications.unreads" tag="h1" scope="global" class="p-3 text-center">
+        <template #number>
+          <span class="font-semibold">{{ unreadNotifications }}</span>
+        </template>
+      </i18n-t>
     </div>
-    <div class="px-3">
+    <di v-if="filteredNotifications.length" class="px-3">
       <AdvancedSelect
         ref="systemsFilterRef"
-        :options="alertTypesList"
-        placeholderMessage="Alert types"
-        searchMessage="Search"
-        emptyMessage="No options left."
-        :enableSearch="false"
-        @change-options="(options) => (selectedAlertTypes = options)"
+        :options="notificationTypes"
+        :placeholder-message="$t('pages.notifications.notification-types')"
+        :search-message="$t('pages.notifications.serch-type')"
+        :empty-message="$t('pages.notifications.no-types-left')"
+        :enable-search="false"
+        @change-options="selectNotificationTypes"
       />
-    </div>
-    <div class="flex flex-col p-3">
-      <div v-if="filteredAlerts?.length" class="flex flex-col gap-1">
-        <AlertsAlertCard v-for="alert in filteredAlerts" :key="alert.id" :alert="alert" @markAsRead="markAsRead(alert.id)" />
-        <button class="btn-accent mt-2">Load more</button>
+    </di>
+    <div v-if="!firstSearch || filteredNotifications.length" class="flex flex-col p-3">
+      <LoadingCard v-if="!firstSearch" />
+      <div v-else-if="filteredNotifications.length" class="flex flex-col gap-1">
+        <NotificationsCard
+          v-for="notification in filteredNotifications"
+          :key="notification.id"
+          :notification="notification"
+          @markAsRead="notificationsStore.readNotification(notification.id)"
+        />
+        <button class="btn-accent mt-2">{{ $t('pages.notifications.load-more') }}</button>
       </div>
-      <LoadingCard v-else />
     </div>
   </div>
 </template>

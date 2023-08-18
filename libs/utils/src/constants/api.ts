@@ -100,4 +100,18 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `applications/${applicationId}`,
     method: 'DELETE',
   }),
+
+  // NOTIFICATION REQUESTS
+  getNotificationsFromUser: ({ userId }: { userId: string }): RequestReturnType => ({
+    path: `notifications/from-user/${userId}`,
+    method: 'GET',
+  }),
+  getNotification: ({ notificationId }: { notificationId: string }): RequestReturnType => ({
+    path: `notifications/${notificationId}`,
+    method: 'GET',
+  }),
+  readNotification: ({ notificationId }: { notificationId: string }): RequestReturnType => ({
+    path: `notifications/${notificationId}/read`,
+    method: 'PUT',
+  }),
 };

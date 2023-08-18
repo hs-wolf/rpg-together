@@ -1,6 +1,6 @@
 import type { NitroFetchRequest, NitroFetchOptions } from 'nitropack';
 import { SECURITY_NAME_BEARER, API_ENDPOINTS_REQUESTS } from '@rpg-together/utils';
-import { Application, Flair, Table, User } from '@rpg-together/models';
+import { Application, Flair, Notification, Table, User } from '@rpg-together/models';
 
 type Options = NitroFetchOptions<NitroFetchRequest>;
 
@@ -182,6 +182,31 @@ export default {
   },
   async deleteApplication({ applicationId }: { applicationId: string }, options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.deleteApplication({ applicationId });
+    return this.customFetch<void>(path, {
+      ...options,
+      method,
+    });
+  },
+
+  // NOTIFICATION REQUESTS
+  async getNotificationsFromUser({ userId }: { userId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getNotificationsFromUser({ userId });
+    const data = await this.customFetch<Notification[]>(path, {
+      ...options,
+      method,
+    });
+    return data.map((application) => Notification.fromMap(application)) as Notification[];
+  },
+  async getNotification({ notificationId }: { notificationId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getNotification({ notificationId });
+    const data = await this.customFetch<Notification>(path, {
+      ...options,
+      method,
+    });
+    return Notification.fromMap(data);
+  },
+  async readNotification({ notificationId }: { notificationId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.readNotification({ notificationId });
     return this.customFetch<void>(path, {
       ...options,
       method,

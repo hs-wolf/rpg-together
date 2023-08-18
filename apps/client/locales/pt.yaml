@@ -23,12 +23,16 @@ api-errors:
   EMAIL_TAKEN: This email is taken.
   COULD_NOT_UPLOAD: Could not upload file.
   TABLES_LIMIT_REACHED: Tables limit reached.
+notification-type:
+  application: Aplicações
+  report: Relatórios
+  system: Sistema
 navbar:
   tabs:
     menu: Menu
     home: Home
     search: Search
-    notifications: Alerts
+    notifications: Notifs
     profile: Profile
   menus:
     login: Login
@@ -95,8 +99,6 @@ flairs-menu:
   clear: Clear
   search-flair: Search flair
   no-options-left: No options left.
-notifications:
-  title: Alerts
 profile:
   title: Profile
   email: 'Email:'
@@ -330,3 +332,12 @@ applications-store:
     delete-application: sorry, we could not delete the application.
     accept-application: Sorry, we could not accept the application.
     decline-application: Sorry, we could not decline the application.
+pages:
+  notifications:
+    title: Notificações
+    mark-all-read: Marcar todas como lidas
+    unreads: 'Você tem {number} notificações não lidas'
+    notification-types: Tipos de notificação
+    serch-type: Procurar tipo
+    no-types-left: Sem tipos restantes.
+    load-more: Carregar mais
