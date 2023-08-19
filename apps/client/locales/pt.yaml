@@ -27,6 +27,12 @@ notification-type:
   application: Aplicações
   report: Relatórios
   system: Sistema
+notification-titles:
+  applied-to-your-table: Alguém se aplicou na sua mesa.
+  application-accepted: Sua aplicação foi aceita.
+  application-declined: Sua aplicação foi recusada.
+notification-messages:
+  applied-to-your-table: O usuário {name} se aplicou na sua mesa {table}.
 navbar:
   tabs:
     menu: Menu

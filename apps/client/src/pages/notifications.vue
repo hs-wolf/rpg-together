@@ -44,7 +44,7 @@ const selectNotificationTypes = (options: AdvancedSelectOption[]) => {
         </template>
       </i18n-t>
     </div>
-    <di v-if="filteredNotifications.length" class="px-3">
+    <div v-if="notifications.length" class="px-3">
       <AdvancedSelect
         ref="systemsFilterRef"
         :options="notificationTypes"
@@ -54,7 +54,7 @@ const selectNotificationTypes = (options: AdvancedSelectOption[]) => {
         :enable-search="false"
         @change-options="selectNotificationTypes"
       />
-    </di>
+    </div>
     <div v-if="!firstSearch || filteredNotifications.length" class="flex flex-col p-3">
       <LoadingCard v-if="!firstSearch" />
       <div v-else-if="filteredNotifications.length" class="flex flex-col gap-1">

@@ -1,6 +1,7 @@
 import { Inject, Singleton } from 'typescript-ioc';
 import { UsersService } from '../users/usersService';
 import { TablesService } from '../tables/tablesService';
+import { NotificationsService } from '../notifications/notificationsService';
 import {
   ApiError,
   ResponseCodes,
@@ -19,6 +20,8 @@ export class ApplicationsService {
   private usersService: UsersService;
   @Inject
   private tablesService: TablesService;
+  @Inject
+  private notificationsService: NotificationsService;
 
   private _applicationsRepo: IApplicationsRepository;
 
@@ -48,7 +51,14 @@ export class ApplicationsService {
       newApplication.status = ApplicationStatus.WAITING;
       newApplication.creationDate = currentDate;
       newApplication.lastUpdateDate = currentDate;
-      return await this._applicationsRepo.createApplication(newApplication);
+      const [application] = await Promise.all([
+        this._applicationsRepo.createApplication(newApplication),
+        this.notificationsService.notifyNewApplication(table.ownerId, {
+          yourTableId: table.id,
+          yourTableApplicantId: applicant.id,
+        }),
+      ]);
+      return application;
     } catch (error) {
       apiErrorHandler(error);
     }

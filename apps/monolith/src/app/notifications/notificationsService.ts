@@ -6,6 +6,9 @@ import {
   Notification,
   NotificationCreateBody,
   NotificationUpdateBody,
+  NotificationData,
+  NotificationType,
+  NotificationContent,
 } from '@rpg-together/models';
 import { INotificationsRepository, NotificationsRepositoryFirestore } from '@rpg-together/repos';
 import { apiErrorHandler } from '@rpg-together/utils';
@@ -21,7 +24,21 @@ export class NotificationsService {
   async createNotification(body: NotificationCreateBody): Promise<Notification> {
     try {
       const newNotification = Notification.fromMap({ ...body });
+      newNotification.read = false;
       return await this._notificationsRepo.createNotification(newNotification);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async notifyNewApplication(userId: string, data: Pick<NotificationData, 'yourTableId' | 'yourTableApplicantId'>) {
+    try {
+      await this.createNotification({
+        userId,
+        type: NotificationType.APPLICATION,
+        content: NotificationContent.APPLIED_TO_YOUR_TABLE,
+        data,
+      });
     } catch (error) {
       apiErrorHandler(error);
     }

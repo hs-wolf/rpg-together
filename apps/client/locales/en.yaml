@@ -27,6 +27,12 @@ notification-type:
   application: Application
   report: Report
   system: System
+notification-titles:
+  applied-to-your-table: Someone applied to your table.
+  application-accepted: Your appplication was accepted.
+  application-declined: Your appplication was declined.
+notification-messages:
+  applied-to-your-table: The user {name} applied to your table {table}.
 navbar:
   tabs:
     menu: Menu

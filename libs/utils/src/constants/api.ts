@@ -18,7 +18,6 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `auth/delete`,
     method: 'DELETE',
   }),
-
   // USER REQUESTS
   getUser: ({ userId }: { userId: string }): RequestReturnType => ({
     path: `users/${userId}`,
@@ -28,7 +27,6 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `users`,
     method: 'PUT',
   }),
-
   // UPLOAD REQUESTS
   uploadUserFile: (): RequestReturnType => ({
     path: `upload/user-file`,
@@ -38,7 +36,6 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `upload/table-file/${tableId}`,
     method: 'POST',
   }),
-
   // TABLE REQUESTS
   createTable: (): RequestReturnType => ({
     path: `flairs`,
@@ -60,13 +57,11 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `tables/${tableId}`,
     method: 'DELETE',
   }),
-
   // FLAIR REQUESTS
   getAllFlairs: (): RequestReturnType => ({
     path: `flairs`,
     method: 'GET',
   }),
-
   // APPLICATION REQUESTS
   createApplication: (): RequestReturnType => ({
     path: `applications`,
@@ -100,7 +95,6 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `applications/${applicationId}`,
     method: 'DELETE',
   }),
-
   // NOTIFICATION REQUESTS
   getNotificationsFromUser: ({ userId }: { userId: string }): RequestReturnType => ({
     path: `notifications/from-user/${userId}`,

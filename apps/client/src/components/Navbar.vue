@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { AppLang } from '~/types';
-import { useLocalesStore, useUserStore } from '~/stores';
+import { useLocalesStore, useUserStore, useNotificationsStore } from '~/stores';
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
 
 const localePath = useLocalePath();
 const firebaseUser = useFirebase.currentUser();
 const localesStore = useLocalesStore();
+const notificationsStore = useNotificationsStore();
+const { unreadNotifications } = storeToRefs(notificationsStore);
 const userStore = useUserStore();
 const { user } = storeToRefs(userStore);
 
@@ -57,6 +59,10 @@ const logout = async () => {
     >
       <NuxtIcon :name="tab.icon" />
       <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
+      <span
+        v-if="tab.name === 'notifications' && unreadNotifications"
+        class="absolute top-0 right-3 w-3 h-3 rounded-full bg-gradient-to-b from-danger-light to-danger"
+      />
     </NuxtLink>
     <Transition name="slide-left">
       <div v-if="showMobileMenu" class="modal">
@@ -121,7 +127,7 @@ const logout = async () => {
 
 <style scoped lang="scss">
 .tab-button {
-  @apply flex flex-col items-center gap-1 text-xl active:scale-90 transition-transform;
+  @apply relative flex flex-col items-center gap-1 text-xl active:scale-90 transition-transform;
   p {
     @apply text-xs;
   }

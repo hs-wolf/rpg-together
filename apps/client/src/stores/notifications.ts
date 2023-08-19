@@ -29,7 +29,6 @@ export const useNotificationsStore = defineStore(NOTIFICATIONS_STORE, {
       } catch (error) {
         useAlertsStore().handleError(error);
       } finally {
-        console.log('nice');
         if (!this.firstSearch) {
           this.firstSearch = true;
         }
