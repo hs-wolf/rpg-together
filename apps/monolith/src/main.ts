@@ -5,9 +5,10 @@ import cors from 'cors';
 import { initializeApp, getApps, applicationDefault, cert } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { initializeApp as initializeAppClient } from 'firebase/app';
+import { ApiError } from '@rpg-together/models';
 import { RegisterRoutes } from '../routes/routes';
 import { firebaseConfig } from '../client-firebase-config';
-import { ApiError } from '@rpg-together/models';
+import { ConnectMongoDB } from './mongodb';
 
 if (!getApps().length) {
   initializeApp({
@@ -17,6 +18,8 @@ if (!getApps().length) {
 }
 
 initializeAppClient(firebaseConfig);
+
+ConnectMongoDB();
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
