@@ -51,5 +51,5 @@ app.use(function errorHandler(err: unknown, req: ExRequest, res: ExResponse, nex
 const port = parseInt(process.env.PORT) || 3000;
 const hostname = process.env.HOST || '0.0.0.0';
 app.listen(port, hostname, () => {
-  console.log(`\u001b[32mAPI being listened at: \u001b[1;32mhttp://localhost:${port}`);
+  console.log(`\u001b[32mAPI being listened at: \u001b[1;32mhttp://${hostname}:${port}`);
 });

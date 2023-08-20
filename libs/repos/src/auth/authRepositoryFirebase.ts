@@ -5,19 +5,15 @@ import { TokenClaims } from '@rpg-together/models';
 export class AuthRepositoryFirebase implements IAuthRepository {
   private auth = getAuth();
 
+  async createAuthUserWithEmailAndPassword(request: CreateRequest): Promise<UserRecord> {
+    return this.auth.createUser(request);
+  }
+
   async getAuthUserByEmail(email: string): Promise<UserRecord | null> {
     return this.auth
       .getUserByEmail(email)
       .then((userRecord) => userRecord)
       .catch(() => null);
-  }
-
-  async setUserClaims(uid: string, claims: TokenClaims): Promise<void> {
-    return this.auth.setCustomUserClaims(uid, claims.toMap());
-  }
-
-  async createAuthUserWithEmailAndPassword(request: CreateRequest): Promise<UserRecord> {
-    return this.auth.createUser(request);
   }
 
   async updateAuthUser(uid: string, request: UpdateRequest): Promise<UserRecord> {
@@ -26,5 +22,9 @@ export class AuthRepositoryFirebase implements IAuthRepository {
 
   async deleteAuthUser(uid: string): Promise<void> {
     return this.auth.deleteUser(uid);
+  }
+
+  async setAuthUserClaims(uid: string, claims: TokenClaims): Promise<void> {
+    return this.auth.setCustomUserClaims(uid, claims.toMap());
   }
 }

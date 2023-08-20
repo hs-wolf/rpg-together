@@ -220,6 +220,29 @@
 				],
 				"type": "string"
 			},
+			"NotificationContent": {
+				"enum": [
+					"applied-to-your-table",
+					"application-accepted",
+					"application-declined"
+				],
+				"type": "string"
+			},
+			"Partial_NotificationData_": {
+				"properties": {
+					"yourTableId": {
+						"type": "string"
+					},
+					"yourTableApplicantId": {
+						"type": "string"
+					},
+					"yourApplicationId": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
 			"Notification": {
 				"properties": {
 					"id": {
@@ -234,11 +257,11 @@
 					"read": {
 						"type": "boolean"
 					},
-					"title": {
-						"type": "boolean"
+					"content": {
+						"$ref": "#/components/schemas/NotificationContent"
 					},
-					"message": {
-						"type": "boolean"
+					"data": {
+						"$ref": "#/components/schemas/Partial_NotificationData_"
 					}
 				},
 				"required": [
@@ -246,8 +269,7 @@
 					"userId",
 					"type",
 					"read",
-					"title",
-					"message"
+					"content"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -382,6 +404,7 @@
 				},
 				"required": [
 					"id",
+					"role",
 					"username",
 					"email",
 					"avatar",
@@ -770,7 +793,7 @@
 		},
 		"/auth/delete": {
 			"delete": {
-				"operationId": "DeleteAuth",
+				"operationId": "DeleteAuthUser",
 				"responses": {
 					"204": {
 						"description": "No content"

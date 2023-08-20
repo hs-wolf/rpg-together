@@ -3,12 +3,11 @@ import { UserRoles } from './user';
 export class TokenClaims {
   constructor(public role: UserRoles) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromMap(map: any) {
-    return !map ? null : new TokenClaims(map.role);
+  static fromMap(map: Record<string, unknown>) {
+    return !map ? null : new TokenClaims(map['role'] as UserRoles);
   }
 
-  toMap() {
+  toMap(): Omit<TokenClaims, 'toMap'> {
     return {
       role: this.role,
     };

@@ -29,7 +29,7 @@ export class AuthController extends Controller {
 
   @Security(SECURITY_NAME_BEARER)
   @Delete('/delete')
-  public async deleteAuth(@Request() request: TsoaRequest): Promise<void> {
-    return this.service.deleteAuth(request.user.uid);
+  public async deleteAuthUser(@Request() request: TsoaRequest): Promise<void> {
+    return this.service.deleteAuthUser(request.user.uid);
   }
 }

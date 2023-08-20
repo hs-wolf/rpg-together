@@ -112,6 +112,16 @@ const models: TsoaRoute.Models = {
         "enums": ["application","report","system"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "NotificationContent": {
+        "dataType": "refEnum",
+        "enums": ["applied-to-your-table","application-accepted","application-declined"],
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_NotificationData_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"yourTableId":{"dataType":"string"},"yourTableApplicantId":{"dataType":"string"},"yourApplicationId":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Notification": {
         "dataType": "refObject",
         "properties": {
@@ -119,8 +129,8 @@ const models: TsoaRoute.Models = {
             "userId": {"dataType":"string","required":true},
             "type": {"ref":"NotificationType","required":true},
             "read": {"dataType":"boolean","required":true},
-            "title": {"dataType":"boolean","required":true},
-            "message": {"dataType":"boolean","required":true},
+            "content": {"ref":"NotificationContent","required":true},
+            "data": {"ref":"Partial_NotificationData_"},
         },
         "additionalProperties": false,
     },
@@ -166,7 +176,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
-            "role": {"ref":"UserRoles","default":"USER"},
+            "role": {"ref":"UserRoles","required":true},
             "username": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
             "avatar": {"dataType":"string","required":true},
@@ -486,9 +496,9 @@ export function RegisterRoutes(app: express.Router) {
         app.delete('/auth/delete',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
-            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.deleteAuth)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.deleteAuthUser)),
 
-            function AuthController_deleteAuth(request: any, response: any, next: any) {
+            function AuthController_deleteAuthUser(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
             };
@@ -502,7 +512,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new AuthController();
 
 
-              const promise = controller.deleteAuth.apply(controller, validatedArgs as any);
+              const promise = controller.deleteAuthUser.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

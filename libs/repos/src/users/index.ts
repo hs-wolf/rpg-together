@@ -1,2 +1,2 @@
 export * from './usersRepositoryInterface';
-export * from './usersRepositoryFirestore';
+export * from './usersRepositoryMongoDB';

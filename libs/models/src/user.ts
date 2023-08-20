@@ -1,9 +1,10 @@
 import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
+import { Document } from 'mongodb';
 
 export class User {
   constructor(
     public id: string,
-    public role: UserRoles = UserRoles.USER,
+    public role: UserRoles,
     public username: string,
     public email: string,
     public avatar: string,
@@ -15,12 +16,28 @@ export class User {
     return !snapshot || !snapshot.exists ? null : User.fromMap({ ...snapshot.data(), id: snapshot.id });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromMap(map: any) {
-    return !map ? null : new User(map.id, map.role, map.username, map.email, map.avatar, map.creationDate, map.lastUpdateDate);
+  static fromMongoDB(doc: Document | null): User | null {
+    if (!doc) {
+      return null;
+    }
+    return User.fromMap({ ...doc });
   }
 
-  toMap() {
+  static fromMap(map: Record<string, unknown>) {
+    return !map
+      ? null
+      : new User(
+          map['id'] as string,
+          map['role'] as UserRoles,
+          map['username'] as string,
+          map['email'] as string,
+          map['avatar'] as string,
+          map['creationDate'] as Date,
+          map['lastUpdateDate'] as Date
+        );
+  }
+
+  toMap(): Omit<User, 'toMap'> {
     return {
       id: this.id,
       role: this.role,
