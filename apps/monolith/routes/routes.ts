@@ -382,7 +382,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/applications/:applicationId/accept',
+        app.post('/applications/:applicationId/accept',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.acceptApplication)),
@@ -409,7 +409,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/applications/:applicationId/decline',
+        app.post('/applications/:applicationId/decline',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.declineApplication)),
@@ -636,33 +636,6 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.getFlair.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/flairs/:flairId/change-uses',
-            authenticateMiddleware([{"Bearer":[]}]),
-            ...(fetchMiddlewares<RequestHandler>(FlairsController)),
-            ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.changeNumberOfUses)),
-
-            function FlairsController_changeNumberOfUses(request: any, response: any, next: any) {
-            const args = {
-                    flairId: {"in":"path","name":"flairId","required":true,"dataType":"string"},
-                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"action":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["increase"]},{"dataType":"enum","enums":["decrease"]}],"required":true}}},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new FlairsController();
-
-
-              const promise = controller.changeNumberOfUses.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
