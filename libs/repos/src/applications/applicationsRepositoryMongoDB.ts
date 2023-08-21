@@ -1,11 +1,11 @@
 import { Db, ObjectId } from 'mongodb';
-import { IApplicationsRepository } from './applicationsRepositoryInterface';
 import { Application } from '@rpg-together/models';
 import {
   MONGODB_COLLECTION_APPLICATIONS,
   mongodbPipelineGetTableHeader,
   mongodbPipelineGetUserHeader,
 } from '@rpg-together/utils';
+import { IApplicationsRepository } from './applicationsRepositoryInterface';
 
 export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
   constructor(private mongoDB: Db) {}

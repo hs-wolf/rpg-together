@@ -1,7 +1,7 @@
 import { Db, ObjectId } from 'mongodb';
-import { ITablesRepository } from './tablesRepositoryInterface';
 import { Table } from '@rpg-together/models';
 import { MONGODB_COLLECTION_TABLES, mongodbPipelineGetUserHeader } from '@rpg-together/utils';
+import { ITablesRepository } from './tablesRepositoryInterface';
 
 export class TablesRepositoryMongoDB implements ITablesRepository {
   constructor(private mongoDB: Db) {}

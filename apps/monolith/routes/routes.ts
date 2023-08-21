@@ -145,9 +145,19 @@ const models: TsoaRoute.Models = {
         "enums": ["applied-to-your-table","application-accepted","application-declined"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_NotificationData_": {
+    "Partial_Pick_Application.id-or-applicant-or-table__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"yourTableId":{"dataType":"string"},"yourTableApplicantId":{"dataType":"string"},"yourApplicationId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"applicant":{"ref":"UserHeader"},"table":{"ref":"TableHeader"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ApplicationHeader": {
+        "dataType": "refAlias",
+        "type": {"ref":"Partial_Pick_Application.id-or-applicant-or-table__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "NotificationData": {
+        "dataType": "refAlias",
+        "type": {"ref":"ApplicationHeader","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Notification": {
@@ -156,9 +166,11 @@ const models: TsoaRoute.Models = {
             "id": {"dataType":"string","required":true},
             "userId": {"dataType":"string","required":true},
             "type": {"ref":"NotificationType","required":true},
-            "read": {"dataType":"boolean","required":true},
             "content": {"ref":"NotificationContent","required":true},
-            "data": {"ref":"Partial_NotificationData_"},
+            "read": {"dataType":"boolean","required":true},
+            "creationDate": {"dataType":"datetime","required":true},
+            "lastUpdateDate": {"dataType":"datetime","required":true},
+            "data": {"ref":"NotificationData"},
         },
         "additionalProperties": false,
     },
@@ -760,7 +772,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/notifications/:notificationId/read',
+        app.post('/notifications/:notificationId/read',
             ...(fetchMiddlewares<RequestHandler>(NotificationsController)),
             ...(fetchMiddlewares<RequestHandler>(NotificationsController.prototype.readNotification)),
 

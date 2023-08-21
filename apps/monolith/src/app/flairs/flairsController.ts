@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
-import { FlairsService } from './flairsService';
 import { Flair, FlairCreationBodyRequest, FlairUpdateBodyRequest, UserRoles } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
+import { FlairsService } from './flairsService';
 
 @Tags('Flairs Service')
 @Route('/flairs')

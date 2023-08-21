@@ -57,6 +57,8 @@ export enum ApplicationStatus {
   DECLINED = 'DECLINED',
 }
 
+export type ApplicationHeader = Partial<Pick<Application, 'id' | 'applicant' | 'table'>>;
+
 export type ApplicationCreateBody = Partial<Pick<Application, 'status' | 'applicant' | 'table' | 'message'>>;
 export type ApplicationCreateBodyRequest = Pick<ApplicationCreateBody, 'applicant' | 'table' | 'message'>;
 

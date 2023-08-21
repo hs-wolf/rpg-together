@@ -6,11 +6,11 @@ import { mongoDB } from '../../mongodb';
 
 @Singleton
 export class FlairsService {
-  private _flairsRepo: IFlairsRepository;
-
   constructor(flairsRepo: IFlairsRepository) {
     this._flairsRepo = flairsRepo ?? new FlairsRepositoryMongoDB(mongoDB);
   }
+
+  private _flairsRepo: IFlairsRepository;
 
   async createFlair(body: FlairCreationBody): Promise<Flair> {
     try {

@@ -6,19 +6,32 @@ import {
   Notification,
   NotificationCreateBody,
   NotificationUpdateBody,
-  NotificationData,
   NotificationType,
   NotificationContent,
 } from '@rpg-together/models';
-import { INotificationsRepository, NotificationsRepositoryFirestore } from '@rpg-together/repos';
+import { INotificationsRepository, NotificationsRepositoryMongoDB } from '@rpg-together/repos';
 import { apiErrorHandler } from '@rpg-together/utils';
+import { mongoDB } from '../../mongodb';
 
 @Singleton
 export class NotificationsService {
   private _notificationsRepo: INotificationsRepository;
 
   constructor(notificationsRepo: INotificationsRepository) {
-    this._notificationsRepo = notificationsRepo ?? new NotificationsRepositoryFirestore();
+    this._notificationsRepo = notificationsRepo ?? new NotificationsRepositoryMongoDB(mongoDB);
+  }
+
+  async notifyNewApplication(userId: string, applicationId: string) {
+    try {
+      await this.createNotification({
+        userId,
+        type: NotificationType.APPLICATION,
+        content: NotificationContent.APPLIED_TO_YOUR_TABLE,
+        data: { id: applicationId },
+      });
+    } catch (error) {
+      apiErrorHandler(error);
+    }
   }
 
   async createNotification(body: NotificationCreateBody): Promise<Notification> {
@@ -26,19 +39,6 @@ export class NotificationsService {
       const newNotification = Notification.fromMap({ ...body });
       newNotification.read = false;
       return await this._notificationsRepo.createNotification(newNotification);
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
-  async notifyNewApplication(userId: string, data: Pick<NotificationData, 'yourTableId' | 'yourTableApplicantId'>) {
-    try {
-      await this.createNotification({
-        userId,
-        type: NotificationType.APPLICATION,
-        content: NotificationContent.APPLIED_TO_YOUR_TABLE,
-        data,
-      });
     } catch (error) {
       apiErrorHandler(error);
     }
@@ -96,9 +96,10 @@ export class NotificationsService {
     }
   }
 
-  async deleteNotification(notification: Notification | string) {
+  async deleteNotification(notificationId: Notification | string) {
     try {
-      const notificationToDelete = typeof notification === 'string' ? await this.getNotification(notification) : notification;
+      const notificationToDelete =
+        typeof notificationId === 'string' ? await this.getNotification(notificationId) : notificationId;
       await this._notificationsRepo.deleteNotification(notificationToDelete.id);
     } catch (error) {
       apiErrorHandler(error);

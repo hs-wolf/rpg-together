@@ -1,7 +1,7 @@
 import { Db, ObjectId } from 'mongodb';
-import { IUsersRepository } from './usersRepositoryInterface';
 import { User } from '@rpg-together/models';
 import { MONGODB_COLLECTION_USERS } from '@rpg-together/utils';
+import { IUsersRepository } from './usersRepositoryInterface';
 
 export class UsersRepositoryMongoDB implements IUsersRepository {
   constructor(private mongoDB: Db) {}

@@ -1,7 +1,7 @@
 import { Db, ObjectId } from 'mongodb';
-import { IFlairsRepository } from './flairsRepositoryInterface';
 import { Flair } from '@rpg-together/models';
 import { MONGODB_COLLECTION_APPLICATIONS } from '@rpg-together/utils';
+import { IFlairsRepository } from './flairsRepositoryInterface';
 
 export class FlairsRepositoryMongoDB implements IFlairsRepository {
   constructor(private mongoDB: Db) {}

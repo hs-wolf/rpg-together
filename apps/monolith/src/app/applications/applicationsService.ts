@@ -16,16 +16,17 @@ import { NotificationsService } from '../notifications/notificationsService';
 
 @Singleton
 export class ApplicationsService {
-  @Inject
-  private tablesService: TablesService;
-  @Inject
-  private notificationsService: NotificationsService;
-
-  private _applicationsRepo: IApplicationsRepository;
-
   constructor(applicationsRepo: IApplicationsRepository) {
     this._applicationsRepo = applicationsRepo ?? new ApplicationsRepositoryMongoDB(mongoDB);
   }
+
+  private _applicationsRepo: IApplicationsRepository;
+
+  @Inject
+  private tablesService: TablesService;
+
+  @Inject
+  private notificationsService: NotificationsService;
 
   async createApplication(applicantId: string, body: ApplicationCreateBody): Promise<Application> {
     try {
@@ -48,10 +49,7 @@ export class ApplicationsService {
       newApplication.creationDate = currentDate;
       newApplication.lastUpdateDate = currentDate;
       newApplication = await this._applicationsRepo.createApplication(newApplication);
-      this.notificationsService.notifyNewApplication(table.owner.id, {
-        yourTableId: table.id,
-        yourTableApplicantId: applicantId,
-      });
+      this.notificationsService.notifyNewApplication(table.owner.id, newApplication.id);
       return newApplication;
     } catch (error) {
       apiErrorHandler(error);

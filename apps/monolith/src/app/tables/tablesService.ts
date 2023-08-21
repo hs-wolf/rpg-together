@@ -8,16 +8,17 @@ import { UploadService } from '../upload/uploadService';
 
 @Singleton
 export class TablesService {
-  @Inject
-  private flairsService: FlairsService;
-  @Inject
-  private uploadService: UploadService;
-
-  private _tablesRepo: ITablesRepository;
-
   constructor(tablesRepo: ITablesRepository) {
     this._tablesRepo = tablesRepo ?? new TablesRepositoryMongoDB(mongoDB);
   }
+
+  private _tablesRepo: ITablesRepository;
+
+  @Inject
+  private flairsService: FlairsService;
+
+  @Inject
+  private uploadService: UploadService;
 
   async createTable(ownerId: string, body: TableCreateBody): Promise<Table> {
     try {

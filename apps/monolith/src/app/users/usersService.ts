@@ -1,16 +1,24 @@
-import { Singleton } from 'typescript-ioc';
+import { Inject, Singleton } from 'typescript-ioc';
 import { ApiError, ResponseCodes, ResponseMessages, User, UserCreateBody, UserUpdateBody } from '@rpg-together/models';
 import { IUsersRepository, UsersRepositoryMongoDB } from '@rpg-together/repos';
 import { apiErrorHandler } from '@rpg-together/utils';
 import { mongoDB } from '../../mongodb';
+import { TablesService } from '../tables/tablesService';
+import { UploadService } from '../upload/uploadService';
 
 @Singleton
 export class UsersService {
-  private _usersRepo: IUsersRepository;
-
   constructor(usersRepo: IUsersRepository) {
     this._usersRepo = usersRepo ?? new UsersRepositoryMongoDB(mongoDB);
   }
+
+  private _usersRepo: IUsersRepository;
+
+  @Inject
+  private tablesService: TablesService;
+
+  @Inject
+  private uploadService: UploadService;
 
   async createUser(body: UserCreateBody): Promise<User> {
     try {
@@ -52,9 +60,11 @@ export class UsersService {
     }
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(userId: string) {
     try {
-      await this._usersRepo.deleteUser(id);
+      await this.tablesService.deleteTablesFromUser(userId);
+      await this.uploadService.deleteAllUserFiles(userId);
+      await this._usersRepo.deleteUser(userId);
     } catch (error) {
       apiErrorHandler(error);
     }

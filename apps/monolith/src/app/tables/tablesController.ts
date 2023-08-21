@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Path, Post, Put, Request, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
-import { TablesService } from './tablesService';
 import { selfOnly } from '@rpg-together/middlewares';
 import { Table, TableCreateBodyRequest, TableUpdateBodyRequest, TsoaRequest } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
+import { TablesService } from './tablesService';
 
 @Tags('Tables Service')
 @Route('/tables')

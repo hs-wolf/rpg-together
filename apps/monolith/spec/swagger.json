@@ -272,20 +272,26 @@
 				],
 				"type": "string"
 			},
-			"Partial_NotificationData_": {
+			"Partial_Pick_Application.id-or-applicant-or-table__": {
 				"properties": {
-					"yourTableId": {
+					"id": {
 						"type": "string"
 					},
-					"yourTableApplicantId": {
-						"type": "string"
+					"applicant": {
+						"$ref": "#/components/schemas/UserHeader"
 					},
-					"yourApplicationId": {
-						"type": "string"
+					"table": {
+						"$ref": "#/components/schemas/TableHeader"
 					}
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
+			},
+			"ApplicationHeader": {
+				"$ref": "#/components/schemas/Partial_Pick_Application.id-or-applicant-or-table__"
+			},
+			"NotificationData": {
+				"$ref": "#/components/schemas/ApplicationHeader"
 			},
 			"Notification": {
 				"properties": {
@@ -298,22 +304,32 @@
 					"type": {
 						"$ref": "#/components/schemas/NotificationType"
 					},
-					"read": {
-						"type": "boolean"
-					},
 					"content": {
 						"$ref": "#/components/schemas/NotificationContent"
 					},
+					"read": {
+						"type": "boolean"
+					},
+					"creationDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"lastUpdateDate": {
+						"type": "string",
+						"format": "date-time"
+					},
 					"data": {
-						"$ref": "#/components/schemas/Partial_NotificationData_"
+						"$ref": "#/components/schemas/NotificationData"
 					}
 				},
 				"required": [
 					"id",
 					"userId",
 					"type",
+					"content",
 					"read",
-					"content"
+					"creationDate",
+					"lastUpdateDate"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -1174,7 +1190,7 @@
 			}
 		},
 		"/notifications/{notificationId}/read": {
-			"put": {
+			"post": {
 				"operationId": "ReadNotification",
 				"responses": {
 					"204": {

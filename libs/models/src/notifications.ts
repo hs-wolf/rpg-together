@@ -1,4 +1,58 @@
 import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
+import { Document } from 'mongodb';
+import { ApplicationHeader } from '.';
+
+export class Notification {
+  constructor(
+    public id: string,
+    public userId: string,
+    public type: NotificationType,
+    public content: NotificationContent,
+    public read: boolean,
+    public creationDate: Date,
+    public lastUpdateDate: Date,
+    public data?: NotificationData
+  ) {}
+
+  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
+    return !snapshot || !snapshot.exists ? null : Notification.fromMap({ ...snapshot.data(), id: snapshot.id });
+  }
+
+  static fromMongoDB(doc: Document | null): Notification | null {
+    if (!doc) {
+      return null;
+    }
+    return Notification.fromMap({ ...doc });
+  }
+
+  static fromMap(map: Record<string, unknown>) {
+    return !map
+      ? null
+      : new Notification(
+          map['id'] as string,
+          map['userId'] as string,
+          map['type'] as NotificationType,
+          map['content'] as NotificationContent,
+          map['read'] as boolean,
+          map['creationDate'] as Date,
+          map['lastUpdateDate'] as Date,
+          map['data'] as NotificationData
+        );
+  }
+
+  toMap(): Omit<Notification, 'toMap'> {
+    return {
+      id: this.id,
+      userId: this.userId,
+      type: this.type,
+      content: this.content,
+      read: this.read,
+      creationDate: this.creationDate,
+      lastUpdateDate: this.lastUpdateDate,
+      data: this.data,
+    };
+  }
+}
 
 export enum NotificationType {
   APPLICATION = 'application',
@@ -12,43 +66,8 @@ export enum NotificationContent {
   APPLICATION_DECLINED = 'application-declined',
 }
 
-export type NotificationData = {
-  yourTableId: string;
-  yourTableApplicantId: string;
-  yourApplicationId: string;
-};
-
-export class Notification {
-  constructor(
-    public id: string,
-    public userId: string,
-    public type: NotificationType,
-    public read: boolean,
-    public content: NotificationContent,
-    public data?: Partial<NotificationData>
-  ) {}
-
-  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
-    return !snapshot || !snapshot.exists ? null : Notification.fromMap({ ...snapshot.data(), id: snapshot.id });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromMap(map: any) {
-    return !map ? null : new Notification(map.id, map.userId, map.type, map.read, map.content, map.data);
-  }
-
-  toMap() {
-    return {
-      id: this.id,
-      userId: this.userId,
-      type: this.type,
-      read: this.read,
-      content: this.content,
-      data: this.data,
-    };
-  }
-}
+export type NotificationData = ApplicationHeader;
 
 export type NotificationCreateBody = Partial<Pick<Notification, 'userId' | 'type' | 'content' | 'data'>>;
 
-export type NotificationUpdateBody = Partial<Pick<Notification, 'read'>>;
+export type NotificationUpdateBody = Partial<Pick<Notification, 'read' | 'lastUpdateDate'>>;

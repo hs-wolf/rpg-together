@@ -1,7 +1,4 @@
 import { Inject, Singleton } from 'typescript-ioc';
-import { UsersService } from '../users/usersService';
-import { TablesService } from '../tables/tablesService';
-import { UploadService } from '../upload/uploadService';
 import {
   TokenClaims,
   AuthUserRegisterBody,
@@ -13,21 +10,18 @@ import {
 } from '@rpg-together/models';
 import { IAuthRepository, AuthRepositoryFirebase } from '@rpg-together/repos';
 import { apiErrorHandler, DEFAULT_USER_AVATAR } from '@rpg-together/utils';
+import { UsersService } from '../users/usersService';
 
 @Singleton
 export class AuthService {
-  @Inject
-  private usersService: UsersService;
-  @Inject
-  private tablesService: TablesService;
-  @Inject
-  private uploadService: UploadService;
-
-  private _authRepo: IAuthRepository;
-
   constructor(authRepo: IAuthRepository) {
     this._authRepo = authRepo ?? new AuthRepositoryFirebase();
   }
+
+  private _authRepo: IAuthRepository;
+
+  @Inject
+  private usersService: UsersService;
 
   async userRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
@@ -81,12 +75,8 @@ export class AuthService {
 
   async deleteAuthUser(userId: string): Promise<void> {
     try {
-      await Promise.all([
-        this._authRepo.deleteAuthUser(userId),
-        this.usersService.deleteUser(userId),
-        this.uploadService.deleteAllUserFiles(userId),
-        this.tablesService.deleteTablesFromUser(userId),
-      ]);
+      await this.usersService.deleteUser(userId);
+      await this._authRepo.deleteAuthUser(userId);
     } catch (error) {
       apiErrorHandler(error);
     }

@@ -1,2 +1,2 @@
 export * from './notificationsRepositoryInterface';
-export * from './notificationsRepositoryFirestore';
+export * from './notificationsRepositoryMongoDB';

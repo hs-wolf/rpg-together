@@ -1,6 +1,6 @@
-import { IAuthRepository } from './authRepositoryInterface';
 import { CreateRequest, getAuth, UpdateRequest, UserRecord } from 'firebase-admin/auth';
 import { TokenClaims } from '@rpg-together/models';
+import { IAuthRepository } from './authRepositoryInterface';
 
 export class AuthRepositoryFirebase implements IAuthRepository {
   private auth = getAuth();

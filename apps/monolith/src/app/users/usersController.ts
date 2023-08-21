@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Path, Put, Request, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
-import { UsersService } from './usersService';
 import { User, TsoaRequest, UserUpdateBodyRequest } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
+import { UsersService } from './usersService';
 
 @Tags('Users Service')
 @Route('/users')
