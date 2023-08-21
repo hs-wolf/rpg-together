@@ -1,4 +1,3 @@
-import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
 import { Document } from 'mongodb';
 import { SupportedLanguages } from '.';
 
@@ -12,10 +11,6 @@ export class Flair {
     public creationDate: Date,
     public lastUpdateDate: Date
   ) {}
-
-  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
-    return !snapshot || !snapshot.exists ? null : Flair.fromMap({ ...snapshot.data(), id: snapshot.id });
-  }
 
   static fromMongoDB(doc: Document | null): Flair | null {
     if (!doc) {

@@ -45,13 +45,13 @@ export class ApplicationsController extends Controller {
   }
 
   @Security(SECURITY_NAME_BEARER)
-  @Put('/{applicationId}/accept')
+  @Post('/{applicationId}/accept')
   public async acceptApplication(@Request() request: TsoaRequest, @Path() applicationId: string): Promise<void> {
     return this._applicationsService.changeApplicationStatus(applicationId, request.user.uid, ApplicationStatus.ACCEPTED);
   }
 
   @Security(SECURITY_NAME_BEARER)
-  @Put('/{applicationId}/decline')
+  @Post('/{applicationId}/decline')
   public async declineApplication(@Request() request: TsoaRequest, @Path() applicationId: string): Promise<void> {
     return this._applicationsService.changeApplicationStatus(applicationId, request.user.uid, ApplicationStatus.DECLINED);
   }

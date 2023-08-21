@@ -1,4 +1,3 @@
-import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
 import { Document } from 'mongodb';
 
 export class User {
@@ -11,10 +10,6 @@ export class User {
     public creationDate: Date,
     public lastUpdateDate: Date
   ) {}
-
-  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
-    return !snapshot || !snapshot.exists ? null : User.fromMap({ ...snapshot.data(), id: snapshot.id });
-  }
 
   static fromMongoDB(doc: Document | null): User | null {
     if (!doc) {

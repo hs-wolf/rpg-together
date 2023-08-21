@@ -6,8 +6,12 @@ type RequestReturnType = { path: string; method: Uppercase<AvailableRouterMethod
 
 export const API_ENDPOINTS_REQUESTS = {
   // AUTH REQUESTS
-  register: (): RequestReturnType => ({
+  userRegister: (): RequestReturnType => ({
     path: `auth/register/user`,
+    method: 'POST',
+  }),
+  adminRegister: (): RequestReturnType => ({
+    path: `auth/register/admin`,
     method: 'POST',
   }),
   updateAuth: (): RequestReturnType => ({
@@ -41,12 +45,12 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `flairs`,
     method: 'POST',
   }),
-  getTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
-    path: `tables/${tableId}`,
+  getTablesFromUser: ({ userId }: { userId: string }): RequestReturnType => ({
+    path: `tables/from-user/${userId}`,
     method: 'GET',
   }),
-  getUserTables: ({ userId }: { userId: string }): RequestReturnType => ({
-    path: `tables/from-user/${userId}`,
+  getTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
+    path: `tables/${tableId}`,
     method: 'GET',
   }),
   updateTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
@@ -58,18 +62,30 @@ export const API_ENDPOINTS_REQUESTS = {
     method: 'DELETE',
   }),
   // FLAIR REQUESTS
+  createFlair: (): RequestReturnType => ({
+    path: `flairs`,
+    method: 'POST',
+  }),
   getAllFlairs: (): RequestReturnType => ({
     path: `flairs`,
     method: 'GET',
+  }),
+  getFlair: (): RequestReturnType => ({
+    path: `flairs/{flairId}`,
+    method: 'GET',
+  }),
+  updateFlair: (): RequestReturnType => ({
+    path: `flairs/{flairId}`,
+    method: 'PUT',
+  }),
+  deleteFlair: (): RequestReturnType => ({
+    path: `flairs/{flairId}`,
+    method: 'DELETE',
   }),
   // APPLICATION REQUESTS
   createApplication: (): RequestReturnType => ({
     path: `applications`,
     method: 'POST',
-  }),
-  getApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
-    path: `applications/${applicationId}`,
-    method: 'GET',
   }),
   getApplicationsFromUser: ({ userId }: { userId: string }): RequestReturnType => ({
     path: `applications/from-user/${userId}`,
@@ -79,8 +95,12 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `applications/from-table/${tableId}`,
     method: 'GET',
   }),
-  getApplicationFromTableAndUser: ({ tableId, userId }: { tableId: string; userId: string }): RequestReturnType => ({
+  getApplicationFromUserAndTable: ({ tableId, userId }: { tableId: string; userId: string }): RequestReturnType => ({
     path: `applications/from-table/${tableId}/from-user/${userId}`,
+    method: 'GET',
+  }),
+  getApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
+    path: `applications/${applicationId}`,
     method: 'GET',
   }),
   acceptApplication: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
@@ -106,6 +126,6 @@ export const API_ENDPOINTS_REQUESTS = {
   }),
   readNotification: ({ notificationId }: { notificationId: string }): RequestReturnType => ({
     path: `notifications/${notificationId}/read`,
-    method: 'PUT',
+    method: 'POST',
   }),
 };

@@ -26,12 +26,6 @@ export class FlairsController extends Controller {
     return this._flairService.getFlair(flairId);
   }
 
-  @Security(SECURITY_NAME_BEARER)
-  @Post('/{flairId}/change-uses')
-  public async changeNumberOfUses(@Path() flairId: string, @Body() body: { action: 'increase' | 'decrease' }): Promise<void> {
-    return this._flairService.changeNumberOfUses(flairId, body.action);
-  }
-
   @Security(SECURITY_NAME_BEARER, [UserRoles.ADMIN])
   @Put('/{flairId}')
   public async updateFlair(@Path() flairId: string, @Body() body: FlairUpdateBodyRequest): Promise<Flair> {

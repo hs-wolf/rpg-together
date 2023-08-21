@@ -1,4 +1,3 @@
-import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
 import { Document } from 'mongodb';
 import { ApplicationHeader } from '.';
 
@@ -13,10 +12,6 @@ export class Notification {
     public lastUpdateDate: Date,
     public data?: NotificationData
   ) {}
-
-  static fromFirestore(snapshot: DocumentSnapshot<DocumentData>) {
-    return !snapshot || !snapshot.exists ? null : Notification.fromMap({ ...snapshot.data(), id: snapshot.id });
-  }
 
   static fromMongoDB(doc: Document | null): Notification | null {
     if (!doc) {
