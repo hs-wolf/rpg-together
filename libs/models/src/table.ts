@@ -55,6 +55,8 @@ export class Table {
   }
 }
 
+export type TableHeader = Partial<Pick<Table, 'id' | 'owner' | 'title' | 'banner'>>;
+
 export type TableCreateBody = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;
 
 export type TableUpdateBody = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;

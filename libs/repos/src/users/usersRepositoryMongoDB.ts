@@ -21,8 +21,8 @@ export class UsersRepositoryMongoDB implements IUsersRepository {
     return User.fromMongoDB(doc);
   }
 
-  async getUser(id: string) {
-    const doc = await this._collection.findOne({ id });
+  async getUser(userId: string) {
+    const doc = await this._collection.findOne({ id: userId });
     return User.fromMongoDB(doc);
   }
 
@@ -30,7 +30,7 @@ export class UsersRepositoryMongoDB implements IUsersRepository {
     await this._collection.updateOne({ id: user.id }, { $set: user.toMap() });
   }
 
-  async deleteUser(id: string) {
-    await this._collection.deleteOne({ id });
+  async deleteUser(userId: string) {
+    await this._collection.deleteOne({ id: userId });
   }
 }

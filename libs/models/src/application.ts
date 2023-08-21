@@ -1,20 +1,14 @@
 import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
+import { Document } from 'mongodb';
+import { TableHeader, UserHeader } from '.';
 
 export class Application {
   constructor(
     public id: string,
-    public applicantId: string,
-    public applicantHeader: {
-      username: string;
-      avatar: string;
-    },
-    public tableId: string,
-    public tableHeader: {
-      title: string;
-      banner: string;
-    },
-    public message: string,
     public status: ApplicationStatus,
+    public table: TableHeader,
+    public applicant: UserHeader,
+    public message: string,
     public creationDate: Date,
     public lastUpdateDate: Date
   ) {}
@@ -23,32 +17,34 @@ export class Application {
     return !snapshot || !snapshot.exists ? null : Application.fromMap({ ...snapshot.data(), id: snapshot.id });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromMap(map: any) {
+  static fromMongoDB(doc: Document | null): Application | null {
+    if (!doc) {
+      return null;
+    }
+    return Application.fromMap({ ...doc });
+  }
+
+  static fromMap(map: Record<string, unknown>) {
     return !map
       ? null
       : new Application(
-          map.id,
-          map.applicantId,
-          map.applicantHeader,
-          map.tableId,
-          map.tableHeader,
-          map.message,
-          map.status,
-          map.creationDate,
-          map.lastUpdateDate
+          map['id'] as string,
+          map['status'] as ApplicationStatus,
+          map['table'] as TableHeader,
+          map['applicant'] as UserHeader,
+          map['message'] as string,
+          map['creationDate'] as Date,
+          map['lastUpdateDate'] as Date
         );
   }
 
-  toMap() {
+  toMap(): Omit<Application, 'toMap'> {
     return {
       id: this.id,
-      applicantId: this.applicantId,
-      applicantHeader: this.applicantHeader,
-      tableId: this.tableId,
-      tableHeader: this.tableHeader,
-      message: this.message,
       status: this.status,
+      table: this.table,
+      applicant: this.applicant,
+      message: this.message,
       creationDate: this.creationDate,
       lastUpdateDate: this.lastUpdateDate,
     };
@@ -61,6 +57,6 @@ export enum ApplicationStatus {
   DECLINED = 'DECLINED',
 }
 
-export type ApplicationCreateBody = Partial<Pick<Application, 'message' | 'tableId'>>;
+export type ApplicationCreateBody = Partial<Pick<Application, 'applicant' | 'table' | 'message'>>;
 
-export type ApplicationUpdateBody = Partial<Pick<Application, 'applicantHeader' | 'tableHeader' | 'status'>>;
+export type ApplicationUpdateBody = Partial<Pick<Application, 'status' | 'lastUpdateDate'>>;

@@ -32,30 +32,48 @@ const models: TsoaRoute.Models = {
         "enums": ["WAITING","ACCEPTED","DECLINED"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_User.id-or-username-or-avatar__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"username":{"dataType":"string"},"avatar":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserHeader": {
+        "dataType": "refAlias",
+        "type": {"ref":"Partial_Pick_User.id-or-username-or-avatar__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_Table.id-or-owner-or-title-or-banner__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"owner":{"ref":"UserHeader"},"title":{"dataType":"string"},"banner":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TableHeader": {
+        "dataType": "refAlias",
+        "type": {"ref":"Partial_Pick_Table.id-or-owner-or-title-or-banner__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Application": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
-            "applicantId": {"dataType":"string","required":true},
-            "applicantHeader": {"dataType":"nestedObjectLiteral","nestedProperties":{"avatar":{"dataType":"string","required":true},"username":{"dataType":"string","required":true}},"required":true},
-            "tableId": {"dataType":"string","required":true},
-            "tableHeader": {"dataType":"nestedObjectLiteral","nestedProperties":{"banner":{"dataType":"string","required":true},"title":{"dataType":"string","required":true}},"required":true},
-            "message": {"dataType":"string","required":true},
             "status": {"ref":"ApplicationStatus","required":true},
+            "table": {"ref":"TableHeader","required":true},
+            "applicant": {"ref":"UserHeader","required":true},
+            "message": {"dataType":"string","required":true},
             "creationDate": {"dataType":"datetime","required":true},
             "lastUpdateDate": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_Application.message-or-tableId__": {
+    "Partial_Pick_Application.applicant-or-table-or-message__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string"},"tableId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"applicant":{"ref":"UserHeader"},"table":{"ref":"TableHeader"},"message":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ApplicationCreateBody": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Application.message-or-tableId__","validators":{}},
+        "type": {"ref":"Partial_Pick_Application.applicant-or-table-or-message__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "AuthUserRegisterBody": {
@@ -135,16 +153,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_User.id-or-username-or-avatar__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"username":{"dataType":"string"},"avatar":{"dataType":"string"}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UserHeader": {
-        "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_User.id-or-username-or-avatar__","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Table": {
         "dataType": "refObject",
         "properties": {
@@ -163,7 +171,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"description":{"dataType":"string"},"banner":{"dataType":"string"},"flairs":{"dataType":"array","array":{"dataType":"string"}},"acceptMessage":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"banner":{"dataType":"string"},"description":{"dataType":"string"},"flairs":{"dataType":"array","array":{"dataType":"string"}},"acceptMessage":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TableCreateBody": {
@@ -197,7 +205,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Pick_User.username-or-email-or-avatar__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string"},"username":{"dataType":"string"},"avatar":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string"},"avatar":{"dataType":"string"},"email":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserUpdateBody": {
@@ -215,107 +223,6 @@ export function RegisterRoutes(app: express.Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/applications/from-user/:userId',
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationsFromUser)),
-
-            function ApplicationsController_getApplicationsFromUser(request: any, response: any, next: any) {
-            const args = {
-                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ApplicationsController();
-
-
-              const promise = controller.getApplicationsFromUser.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/applications/from-table/:tableId',
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationsFromTable)),
-
-            function ApplicationsController_getApplicationsFromTable(request: any, response: any, next: any) {
-            const args = {
-                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ApplicationsController();
-
-
-              const promise = controller.getApplicationsFromTable.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/applications/from-table/:tableId/from-user/:userId',
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationFromTableAndUser)),
-
-            function ApplicationsController_getApplicationFromTableAndUser(request: any, response: any, next: any) {
-            const args = {
-                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
-                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ApplicationsController();
-
-
-              const promise = controller.getApplicationFromTableAndUser.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/applications/:applicationId',
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplication)),
-
-            function ApplicationsController_getApplication(request: any, response: any, next: any) {
-            const args = {
-                    applicationId: {"in":"path","name":"applicationId","required":true,"dataType":"string"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new ApplicationsController();
-
-
-              const promise = controller.getApplication.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/applications',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
@@ -343,7 +250,112 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/applications/:applicationId/accept',
+        app.get('/applications/from-user/:userId',
+            authenticateMiddleware([{"Bearer":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationsFromUser)),
+
+            function ApplicationsController_getApplicationsFromUser(request: any, response: any, next: any) {
+            const args = {
+                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ApplicationsController();
+
+
+              const promise = controller.getApplicationsFromUser.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/applications/from-table/:tableId',
+            authenticateMiddleware([{"Bearer":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationsFromTable)),
+
+            function ApplicationsController_getApplicationsFromTable(request: any, response: any, next: any) {
+            const args = {
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ApplicationsController();
+
+
+              const promise = controller.getApplicationsFromTable.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/applications/from-table/:tableId/from-user/:userId',
+            authenticateMiddleware([{"Bearer":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationFromTableAndUser)),
+
+            function ApplicationsController_getApplicationFromTableAndUser(request: any, response: any, next: any) {
+            const args = {
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+                    userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ApplicationsController();
+
+
+              const promise = controller.getApplicationFromTableAndUser.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/applications/:applicationId',
+            authenticateMiddleware([{"Bearer":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplication)),
+
+            function ApplicationsController_getApplication(request: any, response: any, next: any) {
+            const args = {
+                    applicationId: {"in":"path","name":"applicationId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ApplicationsController();
+
+
+              const promise = controller.getApplication.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/applications/:applicationId/accept',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.acceptApplication)),
@@ -370,7 +382,7 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/applications/:applicationId/decline',
+        app.put('/applications/:applicationId/decline',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.declineApplication)),
@@ -759,6 +771,7 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/tables',
+            authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(TablesController)),
             ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.createTable)),
 

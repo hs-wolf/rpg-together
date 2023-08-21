@@ -1,7 +1,7 @@
 import { Db, ObjectId } from 'mongodb';
 import { ITablesRepository } from './tablesRepositoryInterface';
 import { Table } from '@rpg-together/models';
-import { MONGODB_COLLECTION_TABLES, MONGODB_COLLECTION_USERS } from '@rpg-together/utils';
+import { MONGODB_COLLECTION_TABLES, mongodbPipelineGetUserHeader } from '@rpg-together/utils';
 
 export class TablesRepositoryMongoDB implements ITablesRepository {
   constructor(private mongoDB: Db) {}
@@ -17,12 +17,16 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
   }
 
   async getTablesFromUser(userId: string) {
-    const docs = await this._collection.aggregate([{ $match: { owner: { id: userId } } }, this._getOwnerPipeline]).toArray();
+    const docs = await this._collection
+      .aggregate([{ $match: { owner: { id: userId } } }, mongodbPipelineGetUserHeader('owner')])
+      .toArray();
     return docs.map((doc) => Table.fromMongoDB(doc)).filter((table) => table) as Table[];
   }
 
-  async getTable(id: string) {
-    const docs = await this._collection.aggregate([{ $match: { id } }, this._getOwnerPipeline]).toArray();
+  async getTable(tableId: string) {
+    const docs = await this._collection
+      .aggregate([{ $match: { id: tableId } }, mongodbPipelineGetUserHeader('owner')])
+      .toArray();
     return Table.fromMongoDB(docs[0]);
   }
 
@@ -30,26 +34,7 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
     await this._collection.updateOne({ id: table.id }, { $set: table.toMap() });
   }
 
-  async deleteTable(id: string) {
-    await this._collection.deleteOne({ id });
+  async deleteTable(tableId: string) {
+    await this._collection.deleteOne({ id: tableId });
   }
-
-  private _getOwnerPipeline = {
-    $lookup: {
-      from: MONGODB_COLLECTION_USERS,
-      localField: 'owner.id',
-      foreignField: 'id',
-      pipeline: [
-        {
-          $project: {
-            _id: 0,
-            id: 1,
-            username: 1,
-            avatar: 1,
-          },
-        },
-      ],
-      as: 'owner',
-    },
-  };
 }

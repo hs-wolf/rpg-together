@@ -11,11 +11,10 @@ export class TablesController extends Controller {
   @Inject
   private _tableService: TablesService;
 
-  // @Security(SECURITY_NAME_BEARER)
+  @Security(SECURITY_NAME_BEARER)
   @Post('/')
   public async createTable(@Request() request: TsoaRequest, @Body() body: TableCreateBody): Promise<Table> {
-    // return this._tableService.createTable(request.user.uid, body);
-    return this._tableService.createTable('64e29ff6f384f2ee6b31a6ac', body);
+    return this._tableService.createTable(request.user.uid, body);
   }
 
   @Get('/from-user/{userId}')

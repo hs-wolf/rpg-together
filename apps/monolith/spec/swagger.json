@@ -14,52 +14,61 @@
 				],
 				"type": "string"
 			},
+			"Partial_Pick_User.id-or-username-or-avatar__": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"UserHeader": {
+				"$ref": "#/components/schemas/Partial_Pick_User.id-or-username-or-avatar__"
+			},
+			"Partial_Pick_Table.id-or-owner-or-title-or-banner__": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"owner": {
+						"$ref": "#/components/schemas/UserHeader"
+					},
+					"title": {
+						"type": "string"
+					},
+					"banner": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"TableHeader": {
+				"$ref": "#/components/schemas/Partial_Pick_Table.id-or-owner-or-title-or-banner__"
+			},
 			"Application": {
 				"properties": {
 					"id": {
 						"type": "string"
 					},
-					"applicantId": {
-						"type": "string"
+					"status": {
+						"$ref": "#/components/schemas/ApplicationStatus"
 					},
-					"applicantHeader": {
-						"properties": {
-							"avatar": {
-								"type": "string"
-							},
-							"username": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"avatar",
-							"username"
-						],
-						"type": "object"
+					"table": {
+						"$ref": "#/components/schemas/TableHeader"
 					},
-					"tableId": {
-						"type": "string"
-					},
-					"tableHeader": {
-						"properties": {
-							"banner": {
-								"type": "string"
-							},
-							"title": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"banner",
-							"title"
-						],
-						"type": "object"
+					"applicant": {
+						"$ref": "#/components/schemas/UserHeader"
 					},
 					"message": {
 						"type": "string"
-					},
-					"status": {
-						"$ref": "#/components/schemas/ApplicationStatus"
 					},
 					"creationDate": {
 						"type": "string",
@@ -72,24 +81,25 @@
 				},
 				"required": [
 					"id",
-					"applicantId",
-					"applicantHeader",
-					"tableId",
-					"tableHeader",
-					"message",
 					"status",
+					"table",
+					"applicant",
+					"message",
 					"creationDate",
 					"lastUpdateDate"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Application.message-or-tableId__": {
+			"Partial_Pick_Application.applicant-or-table-or-message__": {
 				"properties": {
-					"message": {
-						"type": "string"
+					"applicant": {
+						"$ref": "#/components/schemas/UserHeader"
 					},
-					"tableId": {
+					"table": {
+						"$ref": "#/components/schemas/TableHeader"
+					},
+					"message": {
 						"type": "string"
 					}
 				},
@@ -97,7 +107,7 @@
 				"description": "Make all properties in T optional"
 			},
 			"ApplicationCreateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Application.message-or-tableId__"
+				"$ref": "#/components/schemas/Partial_Pick_Application.applicant-or-table-or-message__"
 			},
 			"AuthUserRegisterBody": {
 				"properties": {
@@ -274,24 +284,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_User.id-or-username-or-avatar__": {
-				"properties": {
-					"id": {
-						"type": "string"
-					},
-					"username": {
-						"type": "string"
-					},
-					"avatar": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
-			"UserHeader": {
-				"$ref": "#/components/schemas/Partial_Pick_User.id-or-username-or-avatar__"
-			},
 			"Table": {
 				"properties": {
 					"id": {
@@ -346,10 +338,10 @@
 					"title": {
 						"type": "string"
 					},
-					"description": {
+					"banner": {
 						"type": "string"
 					},
-					"banner": {
+					"description": {
 						"type": "string"
 					},
 					"flairs": {
@@ -418,13 +410,13 @@
 			},
 			"Partial_Pick_User.username-or-email-or-avatar__": {
 				"properties": {
-					"email": {
-						"type": "string"
-					},
 					"username": {
 						"type": "string"
 					},
 					"avatar": {
+						"type": "string"
+					},
+					"email": {
 						"type": "string"
 					}
 				},
@@ -452,6 +444,42 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
+		"/applications": {
+			"post": {
+				"operationId": "CreateApplication",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Application"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ApplicationCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/applications/from-user/{userId}": {
 			"get": {
 				"operationId": "GetApplicationsFromUser",
@@ -473,7 +501,11 @@
 				"tags": [
 					"Applications Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -507,7 +539,11 @@
 				"tags": [
 					"Applications Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -538,7 +574,11 @@
 				"tags": [
 					"Applications Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -577,7 +617,11 @@
 				"tags": [
 					"Applications Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -616,44 +660,8 @@
 				]
 			}
 		},
-		"/applications": {
-			"post": {
-				"operationId": "CreateApplication",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Application"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Applications Service"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ApplicationCreateBody"
-							}
-						}
-					}
-				}
-			}
-		},
 		"/applications/{applicationId}/accept": {
-			"post": {
+			"put": {
 				"operationId": "AcceptApplication",
 				"responses": {
 					"204": {
@@ -681,7 +689,7 @@
 			}
 		},
 		"/applications/{applicationId}/decline": {
-			"post": {
+			"put": {
 				"operationId": "DeclineApplication",
 				"responses": {
 					"204": {
@@ -1134,7 +1142,11 @@
 				"tags": [
 					"Tables Service"
 				],
-				"security": [],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
