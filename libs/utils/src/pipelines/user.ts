@@ -1,9 +1,9 @@
 import { MONGODB_COLLECTION_USERS } from '..';
 
-export const mongodbPipelineGetUserHeader = (fieldName: string) => ({
+export const mongodbPipelineGetUserHeader = (field: string) => ({
   $lookup: {
     from: MONGODB_COLLECTION_USERS,
-    localField: `${fieldName}.id`,
+    localField: `${field}.id`,
     foreignField: 'id',
     pipeline: [
       {
@@ -15,6 +15,6 @@ export const mongodbPipelineGetUserHeader = (fieldName: string) => ({
         },
       },
     ],
-    as: fieldName,
+    as: field,
   },
 });

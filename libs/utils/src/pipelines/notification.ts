@@ -1,7 +1,7 @@
 import { NotificationContent } from '@rpg-together/models';
 import { mongodbPipelineGetApplicationHeader } from '.';
 
-export const mongodbPipelineGetNotification = [
+export const mongodbPipelineGetNotification = () => [
   {
     $facet: {
       [NotificationContent.APPLIED_TO_YOUR_TABLE]: [

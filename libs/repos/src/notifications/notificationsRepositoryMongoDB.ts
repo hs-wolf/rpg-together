@@ -17,13 +17,13 @@ export class NotificationsRepositoryMongoDB implements INotificationsRepository 
   }
 
   async getNotificationsFromUser(userId: string) {
-    const docs = await this._collection.aggregate([{ $match: { userId } }, ...mongodbPipelineGetNotification]).toArray();
+    const docs = await this._collection.aggregate([{ $match: { userId } }, ...mongodbPipelineGetNotification()]).toArray();
     return docs.map((doc) => Notification.fromMongoDB(doc)).filter((notification) => notification) as Notification[];
   }
 
   async getNotification(notificationId: string) {
     const docs = await this._collection
-      .aggregate([{ $match: { id: notificationId } }, ...mongodbPipelineGetNotification])
+      .aggregate([{ $match: { id: notificationId } }, ...mongodbPipelineGetNotification()])
       .toArray();
     return Notification.fromMongoDB(docs[0]);
   }
