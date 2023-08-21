@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Path, Post, Put, Request, Route, Security, Tags } from 'tsoa';
+import { Body, Controller, Delete, Get, Path, Post, Request, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
 import { selfOnly } from '@rpg-together/middlewares';
 import { Application, ApplicationCreateBodyRequest, ApplicationStatus, TsoaRequest } from '@rpg-together/models';
