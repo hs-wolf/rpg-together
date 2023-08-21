@@ -39,7 +39,7 @@ export class ApplicationsService {
         throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.ALREADY_APPLIED_TO_TABLE);
       }
       const table = await this.tablesService.getTable(body.tableId ?? '');
-      if (table.ownerId === applicantId) {
+      if (table.owner.id === applicantId) {
         throw new ApiError(ResponseCodes.BAD_REQUEST, ResponseMessages.APPLICATING_TO_SELF);
       }
       const applicant = await this.usersService.getUser(applicantId);
@@ -53,7 +53,7 @@ export class ApplicationsService {
       newApplication.lastUpdateDate = currentDate;
       const [application] = await Promise.all([
         this._applicationsRepo.createApplication(newApplication),
-        this.notificationsService.notifyNewApplication(table.ownerId, {
+        this.notificationsService.notifyNewApplication(table.owner.id, {
           yourTableId: table.id,
           yourTableApplicantId: applicant.id,
         }),
@@ -121,7 +121,7 @@ export class ApplicationsService {
     try {
       const application = await this.getApplication(applicationId);
       const table = await this.tablesService.getTable(application.tableId);
-      if (table.ownerId !== tableOwnerId) {
+      if (table.owner.id !== tableOwnerId) {
         let message = '';
         switch (status) {
           case ApplicationStatus.ACCEPTED:

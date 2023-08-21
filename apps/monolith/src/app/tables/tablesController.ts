@@ -11,6 +11,13 @@ export class TablesController extends Controller {
   @Inject
   private _tableService: TablesService;
 
+  // @Security(SECURITY_NAME_BEARER)
+  @Post('/')
+  public async createTable(@Request() request: TsoaRequest, @Body() body: TableCreateBody): Promise<Table> {
+    // return this._tableService.createTable(request.user.uid, body);
+    return this._tableService.createTable('64e29ff6f384f2ee6b31a6ac', body);
+  }
+
   @Get('/from-user/{userId}')
   public async getTablesFromUser(@Path() userId: string): Promise<Table[]> {
     return this._tableService.getTablesFromUser(userId);
@@ -22,12 +29,6 @@ export class TablesController extends Controller {
   }
 
   @Security(SECURITY_NAME_BEARER)
-  @Post('/')
-  public async createTable(@Request() request: TsoaRequest, @Body() body: TableCreateBody): Promise<Table> {
-    return this._tableService.createTable(request.user.uid, body);
-  }
-
-  @Security(SECURITY_NAME_BEARER)
   @Put('/{tableId}')
   public async updateTable(
     @Request() request: TsoaRequest,
@@ -35,7 +36,7 @@ export class TablesController extends Controller {
     @Body() body: TableUpdateBody
   ): Promise<Table> {
     const table = await this._tableService.getTable(tableId);
-    selfOnly(request, table.ownerId);
+    selfOnly(request, table.owner.id);
     return this._tableService.updateTable(table, body);
   }
 
@@ -43,7 +44,7 @@ export class TablesController extends Controller {
   @Delete('/{tableId}')
   public async deleteTable(@Request() request: TsoaRequest, @Path() tableId: string): Promise<void> {
     const table = await this._tableService.getTable(tableId);
-    selfOnly(request, table.ownerId);
+    selfOnly(request, table.owner.id);
     return this._tableService.deleteTable(table);
   }
 }

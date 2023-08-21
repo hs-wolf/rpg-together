@@ -274,28 +274,31 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"Partial_Pick_User.id-or-username-or-avatar__": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"username": {
+						"type": "string"
+					},
+					"avatar": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"UserHeader": {
+				"$ref": "#/components/schemas/Partial_Pick_User.id-or-username-or-avatar__"
+			},
 			"Table": {
 				"properties": {
 					"id": {
 						"type": "string"
 					},
-					"ownerId": {
-						"type": "string"
-					},
-					"ownerHeader": {
-						"properties": {
-							"avatar": {
-								"type": "string"
-							},
-							"username": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"avatar",
-							"username"
-						],
-						"type": "object"
+					"owner": {
+						"$ref": "#/components/schemas/UserHeader"
 					},
 					"title": {
 						"type": "string"
@@ -326,8 +329,7 @@
 				},
 				"required": [
 					"id",
-					"ownerId",
-					"ownerHeader",
+					"owner",
 					"title",
 					"description",
 					"banner",
@@ -1114,6 +1116,38 @@
 				]
 			}
 		},
+		"/tables": {
+			"post": {
+				"operationId": "CreateTable",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Table"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TableCreateBody"
+							}
+						}
+					}
+				}
+			}
+		},
 		"/tables/from-user/{userId}": {
 			"get": {
 				"operationId": "GetTablesFromUser",
@@ -1246,42 +1280,6 @@
 						}
 					}
 				]
-			}
-		},
-		"/tables": {
-			"post": {
-				"operationId": "CreateTable",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Table"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Tables Service"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/TableCreateBody"
-							}
-						}
-					}
-				}
 			}
 		},
 		"/upload/user-file": {

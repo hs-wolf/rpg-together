@@ -55,6 +55,8 @@ export enum UserRoles {
   ADMIN = 'ADMIN',
 }
 
+export type UserHeader = Partial<Pick<User, 'id' | 'username' | 'avatar'>>;
+
 export type UserCreateBody = Partial<Pick<User, 'id' | 'role' | 'username' | 'email' | 'avatar'>>;
 
 export type UserUpdateBody = Partial<Pick<User, 'username' | 'email' | 'avatar'>>;

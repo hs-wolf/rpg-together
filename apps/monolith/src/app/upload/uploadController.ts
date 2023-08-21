@@ -28,7 +28,7 @@ export class UploadController extends Controller {
     @UploadedFile() file: Express.Multer.File
   ): Promise<string> {
     const table = await this.tablesService.getTable(tableId);
-    selfOnly(request, table.ownerId);
+    selfOnly(request, table.owner.id);
     return this.service.uploadTableFile(tableId, file);
   }
 }

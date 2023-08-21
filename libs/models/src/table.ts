@@ -1,13 +1,11 @@
 import { DocumentSnapshot, DocumentData } from 'firebase-admin/firestore';
+import { Document } from 'mongodb';
+import { UserHeader } from '.';
 
 export class Table {
   constructor(
     public id: string,
-    public ownerId: string,
-    public ownerHeader: {
-      username: string;
-      avatar: string;
-    },
+    public owner: UserHeader,
     public title: string,
     public description: string,
     public banner: string,
@@ -21,27 +19,31 @@ export class Table {
     return !snapshot || !snapshot.exists ? null : Table.fromMap({ ...snapshot.data(), id: snapshot.id });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static fromMap(map: any) {
+  static fromMongoDB(doc: Document | null): Table | null {
+    if (!doc) {
+      return null;
+    }
+    return Table.fromMap({ ...doc });
+  }
+
+  static fromMap(map: Record<string, unknown>) {
     return new Table(
-      map.id,
-      map.ownerId,
-      map.ownerHeader,
-      map.title,
-      map.description,
-      map.banner,
-      map.flairs,
-      map.acceptMessage,
-      map.creationDate,
-      map.lastUpdateDate
+      map['id'] as string,
+      map['owner'] as UserHeader,
+      map['title'] as string,
+      map['description'] as string,
+      map['banner'] as string,
+      map['flairs'] as string[],
+      map['acceptMessage'] as string,
+      map['creationDate'] as Date,
+      map['lastUpdateDate'] as Date
     );
   }
 
-  toMap() {
+  toMap(): Omit<Table, 'toMap'> {
     return {
       id: this.id,
-      ownerId: this.ownerId,
-      ownerHeader: this.ownerHeader,
+      owner: this.owner,
       title: this.title,
       description: this.description,
       banner: this.banner,

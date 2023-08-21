@@ -12,17 +12,17 @@ export class UsersRepositoryMongoDB implements IUsersRepository {
     const newUser = user;
     const _id = new ObjectId();
     newUser.id = _id.toString();
-    await this._collection.insertOne({ _id, ...user.toMap() });
+    await this._collection.insertOne({ _id, ...newUser.toMap() });
     return newUser;
-  }
-
-  async getUser(id: string) {
-    const doc = await this._collection.findOne({ id });
-    return User.fromMongoDB(doc);
   }
 
   async getUserByUsername(username: string) {
     const doc = await this._collection.findOne({ username });
+    return User.fromMongoDB(doc);
+  }
+
+  async getUser(id: string) {
+    const doc = await this._collection.findOne({ id });
     return User.fromMongoDB(doc);
   }
 

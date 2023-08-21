@@ -135,12 +135,21 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_User.id-or-username-or-avatar__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"username":{"dataType":"string"},"avatar":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserHeader": {
+        "dataType": "refAlias",
+        "type": {"ref":"Partial_Pick_User.id-or-username-or-avatar__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Table": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
-            "ownerId": {"dataType":"string","required":true},
-            "ownerHeader": {"dataType":"nestedObjectLiteral","nestedProperties":{"avatar":{"dataType":"string","required":true},"username":{"dataType":"string","required":true}},"required":true},
+            "owner": {"ref":"UserHeader","required":true},
             "title": {"dataType":"string","required":true},
             "description": {"dataType":"string","required":true},
             "banner": {"dataType":"string","required":true},
@@ -749,6 +758,32 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/tables',
+            ...(fetchMiddlewares<RequestHandler>(TablesController)),
+            ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.createTable)),
+
+            function TablesController_createTable(request: any, response: any, next: any) {
+            const args = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    body: {"in":"body","name":"body","required":true,"ref":"TableCreateBody"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new TablesController();
+
+
+              const promise = controller.createTable.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.get('/tables/from-user/:userId',
             ...(fetchMiddlewares<RequestHandler>(TablesController)),
             ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.getTablesFromUser)),
@@ -793,33 +828,6 @@ export function RegisterRoutes(app: express.Router) {
 
 
               const promise = controller.getTable.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/tables',
-            authenticateMiddleware([{"Bearer":[]}]),
-            ...(fetchMiddlewares<RequestHandler>(TablesController)),
-            ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.createTable)),
-
-            function TablesController_createTable(request: any, response: any, next: any) {
-            const args = {
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"ref":"TableCreateBody"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new TablesController();
-
-
-              const promise = controller.createTable.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
