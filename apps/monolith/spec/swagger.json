@@ -61,11 +61,11 @@
 					"status": {
 						"$ref": "#/components/schemas/ApplicationStatus"
 					},
-					"table": {
-						"$ref": "#/components/schemas/TableHeader"
-					},
 					"applicant": {
 						"$ref": "#/components/schemas/UserHeader"
+					},
+					"table": {
+						"$ref": "#/components/schemas/TableHeader"
 					},
 					"message": {
 						"type": "string"
@@ -82,8 +82,8 @@
 				"required": [
 					"id",
 					"status",
-					"table",
 					"applicant",
+					"table",
 					"message",
 					"creationDate",
 					"lastUpdateDate"
@@ -91,7 +91,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Application.applicant-or-table-or-message__": {
+			"Pick_ApplicationCreateBody.applicant-or-table-or-message_": {
 				"properties": {
 					"applicant": {
 						"$ref": "#/components/schemas/UserHeader"
@@ -103,11 +103,16 @@
 						"type": "string"
 					}
 				},
+				"required": [
+					"applicant",
+					"table",
+					"message"
+				],
 				"type": "object",
-				"description": "Make all properties in T optional"
+				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"ApplicationCreateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Application.applicant-or-table-or-message__"
+			"ApplicationCreateBodyRequest": {
+				"$ref": "#/components/schemas/Pick_ApplicationCreateBody.applicant-or-table-or-message_"
 			},
 			"AuthUserRegisterBody": {
 				"properties": {
@@ -154,6 +159,18 @@
 				],
 				"type": "string"
 			},
+			"Record_SupportedLanguages.string_": {
+				"properties": {
+					"en": {
+						"type": "string"
+					},
+					"pt": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
 			"Flair": {
 				"properties": {
 					"id": {
@@ -166,11 +183,7 @@
 						"type": "string"
 					},
 					"labels": {
-						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
-						"type": "object"
+						"$ref": "#/components/schemas/Record_SupportedLanguages.string_"
 					},
 					"numberOfUses": {
 						"type": "number",
@@ -197,7 +210,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Flair.type-or-name-or-labels__": {
+			"Pick_FlairCreationBody.type-or-name-or-labels_": {
 				"properties": {
 					"type": {
 						"$ref": "#/components/schemas/FlairTypes"
@@ -206,21 +219,42 @@
 						"type": "string"
 					},
 					"labels": {
-						"properties": {},
-						"additionalProperties": {
-							"type": "string"
-						},
-						"type": "object"
+						"$ref": "#/components/schemas/Record_SupportedLanguages.string_"
 					}
 				},
+				"required": [
+					"type",
+					"name",
+					"labels"
+				],
 				"type": "object",
-				"description": "Make all properties in T optional"
+				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"FlairCreationBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels__"
+			"FlairCreationBodyRequest": {
+				"$ref": "#/components/schemas/Pick_FlairCreationBody.type-or-name-or-labels_"
 			},
-			"FlairUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Flair.type-or-name-or-labels__"
+			"Pick_FlairUpdateBody.type-or-name-or-labels_": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/FlairTypes"
+					},
+					"name": {
+						"type": "string"
+					},
+					"labels": {
+						"$ref": "#/components/schemas/Record_SupportedLanguages.string_"
+					}
+				},
+				"required": [
+					"type",
+					"name",
+					"labels"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"FlairUpdateBodyRequest": {
+				"$ref": "#/components/schemas/Pick_FlairUpdateBody.type-or-name-or-labels_"
 			},
 			"NotificationType": {
 				"enum": [
@@ -333,7 +367,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__": {
+			"Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
 				"properties": {
 					"title": {
 						"type": "string"
@@ -354,14 +388,52 @@
 						"type": "string"
 					}
 				},
+				"required": [
+					"title",
+					"banner",
+					"description",
+					"flairs",
+					"acceptMessage"
+				],
 				"type": "object",
-				"description": "Make all properties in T optional"
+				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"TableCreateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__"
+			"TableCreateBodyRequest": {
+				"$ref": "#/components/schemas/Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_"
 			},
-			"TableUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__"
+			"Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
+				"properties": {
+					"title": {
+						"type": "string"
+					},
+					"banner": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"flairs": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"acceptMessage": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"title",
+					"banner",
+					"description",
+					"flairs",
+					"acceptMessage"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"TableUpdateBodyRequest": {
+				"$ref": "#/components/schemas/Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_"
 			},
 			"UserRoles": {
 				"enum": [
@@ -408,23 +480,24 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_User.username-or-email-or-avatar__": {
+			"Pick_UserUpdateBody.username-or-avatar_": {
 				"properties": {
 					"username": {
 						"type": "string"
 					},
 					"avatar": {
 						"type": "string"
-					},
-					"email": {
-						"type": "string"
 					}
 				},
+				"required": [
+					"username",
+					"avatar"
+				],
 				"type": "object",
-				"description": "Make all properties in T optional"
+				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
-			"UserUpdateBody": {
-				"$ref": "#/components/schemas/Partial_Pick_User.username-or-email-or-avatar__"
+			"UserUpdateBodyRequest": {
+				"$ref": "#/components/schemas/Pick_UserUpdateBody.username-or-avatar_"
 			}
 		},
 		"securitySchemes": {
@@ -473,7 +546,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/ApplicationCreateBody"
+								"$ref": "#/components/schemas/ApplicationCreateBodyRequest"
 							}
 						}
 					}
@@ -556,9 +629,9 @@
 				]
 			}
 		},
-		"/applications/from-table/{tableId}/from-user/{userId}": {
+		"/applications/from-user/{userId}/from-table/{tableId}": {
 			"get": {
-				"operationId": "GetApplicationFromTableAndUser",
+				"operationId": "GetApplicationFromUserAndTable",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -582,7 +655,7 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "tableId",
+						"name": "userId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -590,7 +663,7 @@
 					},
 					{
 						"in": "path",
-						"name": "userId",
+						"name": "tableId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -820,80 +893,7 @@
 				"parameters": []
 			}
 		},
-		"/flairs/{flairId}/change-uses": {
-			"post": {
-				"operationId": "ChangeNumberOfUses",
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"tags": [
-					"Flairs Service"
-				],
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "flairId",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"properties": {
-									"action": {
-										"type": "string",
-										"enum": [
-											"increase",
-											"decrease"
-										]
-									}
-								},
-								"required": [
-									"action"
-								],
-								"type": "object"
-							}
-						}
-					}
-				}
-			}
-		},
 		"/flairs": {
-			"get": {
-				"operationId": "GetAllFlairs",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/Flair"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"tags": [
-					"Flairs Service"
-				],
-				"security": [],
-				"parameters": []
-			},
 			"post": {
 				"operationId": "CreateFlair",
 				"responses": {
@@ -924,11 +924,34 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/FlairCreationBody"
+								"$ref": "#/components/schemas/FlairCreationBodyRequest"
 							}
 						}
 					}
 				}
+			},
+			"get": {
+				"operationId": "GetAllFlairs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Flair"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [],
+				"parameters": []
 			}
 		},
 		"/flairs/{flairId}": {
@@ -1000,7 +1023,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/FlairUpdateBody"
+								"$ref": "#/components/schemas/FlairUpdateBodyRequest"
 							}
 						}
 					}
@@ -1033,6 +1056,56 @@
 						}
 					}
 				]
+			}
+		},
+		"/flairs/{flairId}/change-uses": {
+			"post": {
+				"operationId": "ChangeNumberOfUses",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Flairs Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "flairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"action": {
+										"type": "string",
+										"enum": [
+											"increase",
+											"decrease"
+										]
+									}
+								},
+								"required": [
+									"action"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/notifications/from-user/{userId}": {
@@ -1153,7 +1226,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/TableCreateBody"
+								"$ref": "#/components/schemas/TableCreateBodyRequest"
 							}
 						}
 					}
@@ -1261,7 +1334,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/TableUpdateBody"
+								"$ref": "#/components/schemas/TableUpdateBodyRequest"
 							}
 						}
 					}
@@ -1453,7 +1526,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserUpdateBody"
+								"$ref": "#/components/schemas/UserUpdateBodyRequest"
 							}
 						}
 					}

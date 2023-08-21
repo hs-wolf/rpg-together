@@ -42,3 +42,8 @@ export enum ResponseMessages {
 }
 
 export type TsoaRequest = Request & { user: DecodedIdToken };
+
+export enum SupportedLanguages {
+  EN = 'en',
+  PT = 'pt',
+}

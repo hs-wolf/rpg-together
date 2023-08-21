@@ -58,14 +58,6 @@ export class ApplicationsService {
     }
   }
 
-  async getApplicationsFromTable(tabledId: string): Promise<Application[]> {
-    try {
-      return await this._applicationsRepo.getApplicationsFromTable(tabledId);
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
   async getApplicationsFromUser(userId: string): Promise<Application[]> {
     try {
       return await this._applicationsRepo.getApplicationsFromUser(userId);
@@ -74,9 +66,17 @@ export class ApplicationsService {
     }
   }
 
-  async getApplicationFromTableAndUser(tableId: string, userId: string): Promise<Application> {
+  async getApplicationsFromTable(tabledId: string): Promise<Application[]> {
     try {
-      const application = await this._applicationsRepo.getApplicationFromTableAndUser(tableId, userId);
+      return await this._applicationsRepo.getApplicationsFromTable(tabledId);
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async getApplicationFromUserAndTable(userId: string, tableId: string): Promise<Application> {
+    try {
+      const application = await this._applicationsRepo.getApplicationFromUserAndTable(userId, tableId);
       if (!application) {
         throw new ApiError(ResponseCodes.NOT_FOUND, ResponseMessages.APPLICATION_NOT_FOUND);
       }
@@ -138,15 +138,6 @@ export class ApplicationsService {
     }
   }
 
-  async deleteApplication(application: Application | string) {
-    try {
-      const applicationToDelete = typeof application === 'string' ? await this.getApplication(application) : application;
-      await this._applicationsRepo.deleteApplication(applicationToDelete.id);
-    } catch (error) {
-      apiErrorHandler(error);
-    }
-  }
-
   async deleteApplicationsFromUser(userId: string) {
     try {
       const applicationsToDelete = await this.getApplicationsFromUser(userId);
@@ -160,6 +151,15 @@ export class ApplicationsService {
     try {
       const applicationsToDelete = await this.getApplicationsFromTable(tableId);
       await Promise.all(applicationsToDelete.map((application) => this.deleteApplication(application)));
+    } catch (error) {
+      apiErrorHandler(error);
+    }
+  }
+
+  async deleteApplication(application: Application | string) {
+    try {
+      const applicationToDelete = typeof application === 'string' ? await this.getApplication(application) : application;
+      await this._applicationsRepo.deleteApplication(applicationToDelete.id);
     } catch (error) {
       apiErrorHandler(error);
     }

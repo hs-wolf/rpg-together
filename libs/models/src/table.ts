@@ -58,5 +58,9 @@ export class Table {
 export type TableHeader = Partial<Pick<Table, 'id' | 'owner' | 'title' | 'banner'>>;
 
 export type TableCreateBody = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;
+export type TableCreateBodyRequest = Pick<TableCreateBody, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>;
 
-export type TableUpdateBody = Partial<Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>>;
+export type TableUpdateBody = Partial<
+  Pick<Table, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage' | 'lastUpdateDate'>
+>;
+export type TableUpdateBodyRequest = Pick<TableUpdateBody, 'title' | 'description' | 'banner' | 'flairs' | 'acceptMessage'>;

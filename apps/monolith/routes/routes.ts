@@ -57,8 +57,8 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": {"dataType":"string","required":true},
             "status": {"ref":"ApplicationStatus","required":true},
-            "table": {"ref":"TableHeader","required":true},
             "applicant": {"ref":"UserHeader","required":true},
+            "table": {"ref":"TableHeader","required":true},
             "message": {"dataType":"string","required":true},
             "creationDate": {"dataType":"datetime","required":true},
             "lastUpdateDate": {"dataType":"datetime","required":true},
@@ -66,14 +66,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_Application.applicant-or-table-or-message__": {
+    "Pick_ApplicationCreateBody.applicant-or-table-or-message_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"applicant":{"ref":"UserHeader"},"table":{"ref":"TableHeader"},"message":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"applicant":{"ref":"UserHeader","required":true},"table":{"ref":"TableHeader","required":true},"message":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ApplicationCreateBody": {
+    "ApplicationCreateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Application.applicant-or-table-or-message__","validators":{}},
+        "type": {"ref":"Pick_ApplicationCreateBody.applicant-or-table-or-message_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "AuthUserRegisterBody": {
@@ -96,13 +96,18 @@ const models: TsoaRoute.Models = {
         "enums": ["SYSTEM","LANGUAGES","RATINGS","VACANCIES","GENRES","CUSTOM"],
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Record_SupportedLanguages.string_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"en":{"dataType":"string"},"pt":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Flair": {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"string","required":true},
             "type": {"ref":"FlairTypes","required":true},
             "name": {"dataType":"string","required":true},
-            "labels": {"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"},"required":true},
+            "labels": {"ref":"Record_SupportedLanguages.string_","required":true},
             "numberOfUses": {"dataType":"double","required":true},
             "creationDate": {"dataType":"datetime","required":true},
             "lastUpdateDate": {"dataType":"datetime","required":true},
@@ -110,19 +115,24 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_Flair.type-or-name-or-labels__": {
+    "Pick_FlairCreationBody.type-or-name-or-labels_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"type":{"ref":"FlairTypes"},"name":{"dataType":"string"},"labels":{"dataType":"nestedObjectLiteral","nestedProperties":{},"additionalProperties":{"dataType":"string"}}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"type":{"ref":"FlairTypes","required":true},"name":{"dataType":"string","required":true},"labels":{"ref":"Record_SupportedLanguages.string_","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FlairCreationBody": {
+    "FlairCreationBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Flair.type-or-name-or-labels__","validators":{}},
+        "type": {"ref":"Pick_FlairCreationBody.type-or-name-or-labels_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "FlairUpdateBody": {
+    "Pick_FlairUpdateBody.type-or-name-or-labels_": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Flair.type-or-name-or-labels__","validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"type":{"ref":"FlairTypes","required":true},"name":{"dataType":"string","required":true},"labels":{"ref":"Record_SupportedLanguages.string_","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "FlairUpdateBodyRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_FlairUpdateBody.type-or-name-or-labels_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "NotificationType": {
@@ -169,19 +179,24 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__": {
+    "Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"banner":{"dataType":"string"},"description":{"dataType":"string"},"flairs":{"dataType":"array","array":{"dataType":"string"}},"acceptMessage":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"banner":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"flairs":{"dataType":"array","array":{"dataType":"string"},"required":true},"acceptMessage":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "TableCreateBody": {
+    "TableCreateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__","validators":{}},
+        "type": {"ref":"Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "TableUpdateBody": {
+    "Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Table.title-or-description-or-banner-or-flairs-or-acceptMessage__","validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"banner":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"flairs":{"dataType":"array","array":{"dataType":"string"},"required":true},"acceptMessage":{"dataType":"string","required":true}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "TableUpdateBodyRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserRoles": {
@@ -203,14 +218,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_User.username-or-email-or-avatar__": {
+    "Pick_UserUpdateBody.username-or-avatar_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string"},"avatar":{"dataType":"string"},"email":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string","required":true},"avatar":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "UserUpdateBody": {
+    "UserUpdateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_User.username-or-email-or-avatar__","validators":{}},
+        "type": {"ref":"Pick_UserUpdateBody.username-or-avatar_","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -231,7 +246,7 @@ export function RegisterRoutes(app: express.Router) {
             function ApplicationsController_createApplication(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"ref":"ApplicationCreateBody"},
+                    body: {"in":"body","name":"body","required":true,"ref":"ApplicationCreateBodyRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -302,15 +317,15 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/applications/from-table/:tableId/from-user/:userId',
+        app.get('/applications/from-user/:userId/from-table/:tableId',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
-            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationFromTableAndUser)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getApplicationFromUserAndTable)),
 
-            function ApplicationsController_getApplicationFromTableAndUser(request: any, response: any, next: any) {
+            function ApplicationsController_getApplicationFromUserAndTable(request: any, response: any, next: any) {
             const args = {
-                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
                     userId: {"in":"path","name":"userId","required":true,"dataType":"string"},
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -322,7 +337,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new ApplicationsController();
 
 
-              const promise = controller.getApplicationFromTableAndUser.apply(controller, validatedArgs as any);
+              const promise = controller.getApplicationFromUserAndTable.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -540,15 +555,14 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/flairs/:flairId/change-uses',
-            authenticateMiddleware([{"Bearer":[]}]),
+        app.post('/flairs',
+            authenticateMiddleware([{"Bearer":["ADMIN"]}]),
             ...(fetchMiddlewares<RequestHandler>(FlairsController)),
-            ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.changeNumberOfUses)),
+            ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.createFlair)),
 
-            function FlairsController_changeNumberOfUses(request: any, response: any, next: any) {
+            function FlairsController_createFlair(request: any, response: any, next: any) {
             const args = {
-                    flairId: {"in":"path","name":"flairId","required":true,"dataType":"string"},
-                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"action":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["increase"]},{"dataType":"enum","enums":["decrease"]}],"required":true}}},
+                    body: {"in":"body","name":"body","required":true,"ref":"FlairCreationBodyRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -560,7 +574,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new FlairsController();
 
 
-              const promise = controller.changeNumberOfUses.apply(controller, validatedArgs as any);
+              const promise = controller.createFlair.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -616,14 +630,15 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/flairs',
-            authenticateMiddleware([{"Bearer":["ADMIN"]}]),
+        app.post('/flairs/:flairId/change-uses',
+            authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(FlairsController)),
-            ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.createFlair)),
+            ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.changeNumberOfUses)),
 
-            function FlairsController_createFlair(request: any, response: any, next: any) {
+            function FlairsController_changeNumberOfUses(request: any, response: any, next: any) {
             const args = {
-                    body: {"in":"body","name":"body","required":true,"ref":"FlairCreationBody"},
+                    flairId: {"in":"path","name":"flairId","required":true,"dataType":"string"},
+                    body: {"in":"body","name":"body","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"action":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["increase"]},{"dataType":"enum","enums":["decrease"]}],"required":true}}},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -635,7 +650,7 @@ export function RegisterRoutes(app: express.Router) {
                 const controller = new FlairsController();
 
 
-              const promise = controller.createFlair.apply(controller, validatedArgs as any);
+              const promise = controller.changeNumberOfUses.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);
@@ -650,7 +665,7 @@ export function RegisterRoutes(app: express.Router) {
             function FlairsController_updateFlair(request: any, response: any, next: any) {
             const args = {
                     flairId: {"in":"path","name":"flairId","required":true,"dataType":"string"},
-                    body: {"in":"body","name":"body","required":true,"ref":"FlairUpdateBody"},
+                    body: {"in":"body","name":"body","required":true,"ref":"FlairUpdateBodyRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -778,7 +793,7 @@ export function RegisterRoutes(app: express.Router) {
             function TablesController_createTable(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"ref":"TableCreateBody"},
+                    body: {"in":"body","name":"body","required":true,"ref":"TableCreateBodyRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -856,7 +871,7 @@ export function RegisterRoutes(app: express.Router) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
-                    body: {"in":"body","name":"body","required":true,"ref":"TableUpdateBody"},
+                    body: {"in":"body","name":"body","required":true,"ref":"TableUpdateBodyRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -992,7 +1007,7 @@ export function RegisterRoutes(app: express.Router) {
             function UsersController_updateUser(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"ref":"UserUpdateBody"},
+                    body: {"in":"body","name":"body","required":true,"ref":"UserUpdateBodyRequest"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

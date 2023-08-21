@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Path, Post, Put, Request, Route, Securit
 import { Inject } from 'typescript-ioc';
 import { TablesService } from './tablesService';
 import { selfOnly } from '@rpg-together/middlewares';
-import { Table, TableCreateBody, TableUpdateBody, TsoaRequest } from '@rpg-together/models';
+import { Table, TableCreateBodyRequest, TableUpdateBodyRequest, TsoaRequest } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
 
 @Tags('Tables Service')
@@ -13,7 +13,7 @@ export class TablesController extends Controller {
 
   @Security(SECURITY_NAME_BEARER)
   @Post('/')
-  public async createTable(@Request() request: TsoaRequest, @Body() body: TableCreateBody): Promise<Table> {
+  public async createTable(@Request() request: TsoaRequest, @Body() body: TableCreateBodyRequest): Promise<Table> {
     return this._tableService.createTable(request.user.uid, body);
   }
 
@@ -32,7 +32,7 @@ export class TablesController extends Controller {
   public async updateTable(
     @Request() request: TsoaRequest,
     @Path() tableId: string,
-    @Body() body: TableUpdateBody
+    @Body() body: TableUpdateBodyRequest
   ): Promise<Table> {
     const table = await this._tableService.getTable(tableId);
     selfOnly(request, table.owner.id);

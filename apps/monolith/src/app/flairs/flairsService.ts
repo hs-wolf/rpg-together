@@ -1,24 +1,26 @@
 import { Singleton } from 'typescript-ioc';
 import { ApiError, ResponseCodes, ResponseMessages, Flair, FlairCreationBody, FlairUpdateBody } from '@rpg-together/models';
-import { IFlairsRepository, FlairsRepositoryFirestore } from '@rpg-together/repos';
+import { IFlairsRepository, FlairsRepositoryMongoDB } from '@rpg-together/repos';
 import { apiErrorHandler } from '@rpg-together/utils';
+import { mongoDB } from '../../mongodb';
 
 @Singleton
 export class FlairsService {
   private _flairsRepo: IFlairsRepository;
 
   constructor(flairsRepo: IFlairsRepository) {
-    this._flairsRepo = flairsRepo ?? new FlairsRepositoryFirestore();
+    this._flairsRepo = flairsRepo ?? new FlairsRepositoryMongoDB(mongoDB);
   }
 
-  async changeNumberOfUses(flairId: string, action: 'increase' | 'decrease'): Promise<void> {
+  async createFlair(body: FlairCreationBody): Promise<Flair> {
     try {
-      const flair = await this.getFlair(flairId);
-      flair.numberOfUses = action === 'increase' ? flair.numberOfUses + 1 : flair.numberOfUses - 1;
-      if (flair.numberOfUses < 0) {
-        flair.numberOfUses = 0;
-      }
-      this.updateFlair(flair);
+      const currentDate = new Date();
+      let newFlair = Flair.fromMap({ ...body });
+      newFlair.numberOfUses = 0;
+      newFlair.creationDate = currentDate;
+      newFlair.lastUpdateDate = currentDate;
+      newFlair = await this._flairsRepo.createFlair(newFlair);
+      return newFlair;
     } catch (error) {
       apiErrorHandler(error);
     }
@@ -45,15 +47,14 @@ export class FlairsService {
     }
   }
 
-  async createFlair(body: FlairCreationBody): Promise<Flair> {
+  async changeNumberOfUses(flairId: string, action: 'increase' | 'decrease'): Promise<void> {
     try {
-      const currentDate = new Date();
-      let newFlair = Flair.fromMap({ ...body });
-      newFlair.numberOfUses = 0;
-      newFlair.creationDate = currentDate;
-      newFlair.lastUpdateDate = currentDate;
-      newFlair = await this._flairsRepo.createFlair(newFlair);
-      return newFlair;
+      const flair = await this.getFlair(flairId);
+      flair.numberOfUses = action === 'increase' ? flair.numberOfUses + 1 : flair.numberOfUses - 1;
+      if (flair.numberOfUses < 0) {
+        flair.numberOfUses = 0;
+      }
+      this.updateFlair(flair);
     } catch (error) {
       apiErrorHandler(error);
     }

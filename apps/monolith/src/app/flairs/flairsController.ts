@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Path, Post, Put, Route, Security, Tags } from 'tsoa';
 import { Inject } from 'typescript-ioc';
 import { FlairsService } from './flairsService';
-import { Flair, FlairCreationBody, FlairUpdateBody, UserRoles } from '@rpg-together/models';
+import { Flair, FlairCreationBodyRequest, FlairUpdateBodyRequest, UserRoles } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
 
 @Tags('Flairs Service')
@@ -10,10 +10,10 @@ export class FlairsController extends Controller {
   @Inject
   private _flairService: FlairsService;
 
-  @Security(SECURITY_NAME_BEARER)
-  @Post('/{flairId}/change-uses')
-  public async changeNumberOfUses(@Path() flairId: string, @Body() body: { action: 'increase' | 'decrease' }): Promise<void> {
-    return this._flairService.changeNumberOfUses(flairId, body.action);
+  @Security(SECURITY_NAME_BEARER, [UserRoles.ADMIN])
+  @Post('/')
+  public async createFlair(@Body() body: FlairCreationBodyRequest): Promise<Flair> {
+    return this._flairService.createFlair(body);
   }
 
   @Get('/')
@@ -26,15 +26,15 @@ export class FlairsController extends Controller {
     return this._flairService.getFlair(flairId);
   }
 
-  @Security(SECURITY_NAME_BEARER, [UserRoles.ADMIN])
-  @Post('/')
-  public async createFlair(@Body() body: FlairCreationBody): Promise<Flair> {
-    return this._flairService.createFlair(body);
+  @Security(SECURITY_NAME_BEARER)
+  @Post('/{flairId}/change-uses')
+  public async changeNumberOfUses(@Path() flairId: string, @Body() body: { action: 'increase' | 'decrease' }): Promise<void> {
+    return this._flairService.changeNumberOfUses(flairId, body.action);
   }
 
   @Security(SECURITY_NAME_BEARER, [UserRoles.ADMIN])
   @Put('/{flairId}')
-  public async updateFlair(@Path() flairId: string, @Body() body: FlairUpdateBody): Promise<Flair> {
+  public async updateFlair(@Path() flairId: string, @Body() body: FlairUpdateBodyRequest): Promise<Flair> {
     return this._flairService.updateFlair(flairId, body);
   }
 

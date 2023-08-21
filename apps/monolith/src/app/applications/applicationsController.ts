@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Path, Post, Put, Request, Route, Securit
 import { Inject } from 'typescript-ioc';
 import { ApplicationsService } from './applicationsService';
 import { selfOnly } from '@rpg-together/middlewares';
-import { Application, ApplicationCreateBody, ApplicationStatus, TsoaRequest } from '@rpg-together/models';
+import { Application, ApplicationCreateBodyRequest, ApplicationStatus, TsoaRequest } from '@rpg-together/models';
 import { SECURITY_NAME_BEARER } from '@rpg-together/utils';
 
 @Tags('Applications Service')
@@ -13,7 +13,10 @@ export class ApplicationsController extends Controller {
 
   @Security(SECURITY_NAME_BEARER)
   @Post('/')
-  public async createApplication(@Request() request: TsoaRequest, @Body() body: ApplicationCreateBody): Promise<Application> {
+  public async createApplication(
+    @Request() request: TsoaRequest,
+    @Body() body: ApplicationCreateBodyRequest
+  ): Promise<Application> {
     return this._applicationsService.createApplication(request.user.uid, body);
   }
 
@@ -30,9 +33,9 @@ export class ApplicationsController extends Controller {
   }
 
   @Security(SECURITY_NAME_BEARER)
-  @Get('/from-table/{tableId}/from-user/{userId}')
-  public async getApplicationFromTableAndUser(@Path() tableId: string, @Path() userId: string): Promise<Application> {
-    return this._applicationsService.getApplicationFromTableAndUser(tableId, userId);
+  @Get('/from-user/{userId}/from-table/{tableId}')
+  public async getApplicationFromUserAndTable(@Path() userId: string, @Path() tableId: string): Promise<Application> {
+    return this._applicationsService.getApplicationFromUserAndTable(userId, tableId);
   }
 
   @Security(SECURITY_NAME_BEARER)

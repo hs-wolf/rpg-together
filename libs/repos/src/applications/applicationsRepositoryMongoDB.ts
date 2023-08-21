@@ -20,34 +20,34 @@ export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
     return newApplication;
   }
 
-  async getApplicationsFromTable(tableId: string) {
-    const docs = await this._collection
-      .aggregate([
-        { $match: { table: { id: tableId } } },
-        mongodbPipelineGetTableHeader('table'),
-        mongodbPipelineGetUserHeader('applicant'),
-      ])
-      .toArray();
-    return docs.map((doc) => Application.fromMongoDB(doc)).filter((table) => table) as Application[];
-  }
-
   async getApplicationsFromUser(userId: string) {
     const docs = await this._collection
       .aggregate([
         { $match: { applicant: { id: userId } } },
-        mongodbPipelineGetTableHeader('table'),
         mongodbPipelineGetUserHeader('applicant'),
+        mongodbPipelineGetTableHeader('table'),
       ])
       .toArray();
     return docs.map((doc) => Application.fromMongoDB(doc)).filter((table) => table) as Application[];
   }
 
-  async getApplicationFromTableAndUser(tableId: string, userId: string) {
+  async getApplicationsFromTable(tableId: string) {
     const docs = await this._collection
       .aggregate([
-        { $match: { table: { id: tableId }, applicant: { id: userId } } },
-        mongodbPipelineGetTableHeader('table'),
+        { $match: { table: { id: tableId } } },
         mongodbPipelineGetUserHeader('applicant'),
+        mongodbPipelineGetTableHeader('table'),
+      ])
+      .toArray();
+    return docs.map((doc) => Application.fromMongoDB(doc)).filter((table) => table) as Application[];
+  }
+
+  async getApplicationFromUserAndTable(userId: string, tableId: string) {
+    const docs = await this._collection
+      .aggregate([
+        { $match: { applicant: { id: userId }, table: { id: tableId } } },
+        mongodbPipelineGetUserHeader('applicant'),
+        mongodbPipelineGetTableHeader('table'),
       ])
       .toArray();
     return Application.fromMongoDB(docs[0]);
@@ -57,8 +57,8 @@ export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
     const docs = await this._collection
       .aggregate([
         { $match: { id: applicationId } },
-        mongodbPipelineGetTableHeader('table'),
         mongodbPipelineGetUserHeader('applicant'),
+        mongodbPipelineGetTableHeader('table'),
       ])
       .toArray();
     return Application.fromMongoDB(docs[0]);
