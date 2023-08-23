@@ -4,9 +4,25 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@nuxtjs/robots": "^3.0.0",
+    "@pinia/nuxt": "^0.4.11",
+    "nuxt-icons": "^3.2.1",
+    "pinia": "^2.1.6"
+  },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.40.2",
+    "@nuxt/devtools": "latest",
+    "@nuxt/image": "1.0.0-rc.1",
+    "@nuxtjs/eslint-module": "^4.1.0",
+    "@nuxtjs/i18n": "8.0.0-rc.3",
+    "@nuxtjs/tailwindcss": "^6.8.0",
     "@nx/workspace": "16.7.3",
+    "@types/node": "^18.17.3",
+    "@vueuse/core": "^10.3.0",
+    "@vueuse/nuxt": "^10.3.0",
+    "eslint": "^8.47.0",
+    "nuxt": "^3.6.5",
     "nx": "16.7.3",
     "nx-cloud": "latest"
   }

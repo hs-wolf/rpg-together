@@ -1,0 +1,45 @@
+{
+  "name": "client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/client/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nuxt build ./apps/client"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nuxt dev ./apps/client"
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nuxt generate ./apps/client"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nuxt preview ./dist/apps/client"
+      }
+    },
+    "prepare": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nuxt prepare ./apps/client"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx eslint --fix ./apps/client"
+      }
+    }
+  },
+  "tags": []
+}

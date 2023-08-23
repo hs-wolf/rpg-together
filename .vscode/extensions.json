@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "nrwl.angular-console",
+    "dbaeumer.vscode-eslint", 
+    "Vue.volar",
+    "lokalise.i18n-ally"
+  ]
+}
