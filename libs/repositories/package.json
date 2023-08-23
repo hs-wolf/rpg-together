@@ -1,0 +1,8 @@
+{
+  "name": "@rpg-together/repositories",
+  "type": "commonjs",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "2.6.2"
+  }
+}

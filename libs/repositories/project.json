@@ -1,0 +1,27 @@
+{
+  "name": "repositories",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/repositories/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/repositories",
+        "main": "libs/repositories/src/index.ts",
+        "tsConfig": "libs/repositories/tsconfig.lib.json",
+        "assets": []
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/repositories/**/*.ts"],
+        "fix": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -61,3 +61,8 @@ logs
 # Local env files
 .env
 .env.*
+!.env.example
+
+# Custom
+gc-service-account.json
+firebase-config.json

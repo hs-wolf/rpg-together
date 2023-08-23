@@ -1,0 +1,27 @@
+{
+  "entryFile": "apps/monolith/src/main.ts",
+  "noImplicitAdditionalProperties": "silently-remove-extras",
+  "controllerPathGlobs": ["apps/monolith/src/**/*Controller.ts"],
+  "spec": {
+    "outputDirectory": "apps/monolith/spec",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "apps/monolith/routes",
+    "authenticationModule": "apps/monolith/src/authentication.ts"
+  },
+  "compilerOptions": {
+    "paths": {
+      "@rpg-together/middlewares": ["libs/middlewares/src/index.ts"],
+      "@rpg-together/models": ["libs/models/src/index.ts"],
+      "@rpg-together/repositories": ["libs/repositories/src/index.ts"],
+      "@rpg-together/utilities": ["libs/utilities/src/index.ts"]
+    }
+  }
+}

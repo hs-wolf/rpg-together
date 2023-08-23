@@ -1,0 +1,63 @@
+{
+  "name": "monolith",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/monolith/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/monolith",
+        "main": "apps/monolith/src/main.ts",
+        "tsConfig": "apps/monolith/tsconfig.app.json",
+        "assets": ["apps/monolith/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/monolith/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "monolith:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "monolith:build:development"
+        },
+        "production": {
+          "buildTarget": "monolith:build:production"
+        }
+      }
+    },
+    "watch-tsoa": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nodemon --config apps/monolith/monolith.nodemon.json -x tsoa spec-and-routes -c=apps/monolith/monolith.tsoa.json"
+      }
+    },
+    "build-tsoa": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsoa spec-and-routes -c=apps/monolith/monolith.tsoa.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/monolith/src/**/*.ts"],
+        "fix": true
+      }
+    }
+  },
+  "tags": []
+}

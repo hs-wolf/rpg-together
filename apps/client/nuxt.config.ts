@@ -1,5 +1,7 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import process from 'node:process'
+import firebaseConfig from '../../firebase-config.json'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -13,6 +15,17 @@ export default defineNuxtConfig({
     },
   },
   srcDir: 'src/',
+  alias: {
+    '@rpg-together/models': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/models/src/index.ts'),
+    '@rpg-together/repositories': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/repositories/src/index.ts'),
+    '@rpg-together/utilities': resolve(dirname(fileURLToPath(import.meta.url)), '../../libs/utilities/src/index.ts'),
+  },
+  runtimeConfig: {
+    public: {
+      API_URL: process.env.API_URL,
+      FIREBASE_CONFIG: { ...firebaseConfig },
+    },
+  },
   app: {
     head: {
       htmlAttrs: {
@@ -37,6 +50,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'nuxt-icons',
     '@nuxtjs/robots',
+    '@nuxtjs/algolia',
   ],
   // https://github.com/nuxt-modules/eslint
   eslint: { lintOnStart: false },
@@ -78,4 +92,6 @@ export default defineNuxtConfig({
   nuxtIcons: {},
   // https://github.com/nuxt-community/robots-module
   robots: {},
+  // https://github.com/nuxt-modules/algolia
+  algolia: {},
 })
