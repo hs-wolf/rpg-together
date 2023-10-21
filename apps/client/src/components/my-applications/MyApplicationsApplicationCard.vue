@@ -1,70 +1,71 @@
 <script setup lang="ts">
-import { useTablesStore } from '~/stores';
-import { Application, ApplicationStatus, Table } from '@rpg-together/models';
-import { DEFAULT_TABLE_BANNER, DEFAULT_USER_AVATAR } from '@rpg-together/utils';
+import type { AcceptMessage, Application } from '@rpg-together/models'
+import { ApplicationStatus } from '@rpg-together/models'
+import { DEFAULT_TABLE_BANNER, DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 
-const props = defineProps<{ application: Application }>();
+const props = defineProps<{ application: Application }>()
 
-const localeRoute = useLocaleRoute();
-const tablesStore = useTablesStore();
+const localeRoute = useLocaleRoute()
 
-const table = ref<Table>();
-
-onBeforeMount(async () => {
-  table.value = await tablesStore.getTable(props.application.tableId);
-});
-
-const showInfo = ref(false);
-const showDeleteModal = ref(false);
+const showInfo = ref(false)
+const showDeleteModal = ref(false)
+const acceptMessage = ref<AcceptMessage>()
 
 const statusColor = computed(() => {
   switch (props.application.status) {
     case ApplicationStatus.WAITING:
-      return 'text-blue-500';
+      return 'text-blue-500'
     case ApplicationStatus.ACCEPTED:
-      return 'text-green-500';
+      return 'text-green-500'
     case ApplicationStatus.DECLINED:
-      return 'text-danger';
+      return 'text-danger'
     default:
-      return 'text-blue-500';
+      return 'text-blue-500'
   }
-});
+})
 
 const statusIcon = computed(() => {
   switch (props.application.status) {
     case ApplicationStatus.WAITING:
-      return 'analog-clock';
+      return 'analog-clock'
     case ApplicationStatus.ACCEPTED:
-      return 'check';
+      return 'check'
     case ApplicationStatus.DECLINED:
-      return 'danger';
+      return 'danger'
     default:
-      return 'analog-clock';
+      return 'analog-clock'
   }
-});
+})
+
+onMounted(async () => {
+  if (props.application.status === ApplicationStatus.ACCEPTED)
+    acceptMessage.value = await useRpgTogetherAPI.getApplicationAcceptMessage({ applicationId: props.application.id })
+})
 </script>
 
 <template>
   <div class="relative flex flex-col text-primary">
     <NuxtImg
-      :src="application.tableHeader.banner ?? DEFAULT_TABLE_BANNER"
-      :alt="application.tableHeader.title"
+      :src="application.table.banner ?? DEFAULT_TABLE_BANNER"
+      :alt="application.table.title"
       width="auto"
       height="128px"
       class="min-h-[128px] max-h-[128px] shadow rounded-t object-cover"
     />
     <div class="absolute top-2 inset-x-2 flex justify-end gap-2">
-      <NuxtLink :to="localeRoute({ path: `/profile/${table?.ownerId}` })" class="btn-primary gap-2 overflow-hidden">
+      <NuxtLink :to="localeRoute({ path: `/profile/${application.table?.owner?.id}` })" class="btn-primary gap-2 overflow-hidden">
         <NuxtImg
-          :src="table?.ownerHeader?.avatar ?? DEFAULT_USER_AVATAR"
-          :alt="table?.ownerHeader?.username"
+          :src="application.table?.owner?.avatar ?? DEFAULT_USER_AVATAR"
+          :alt="application.table?.owner?.username"
           width="20px"
           height="20px"
           class="shadow rounded-full"
         />
-        <h1 class="truncate">{{ table?.ownerHeader?.username }}</h1>
+        <h1 class="truncate">
+          {{ application.table?.owner?.username }}
+        </h1>
       </NuxtLink>
-      <NuxtLink :to="localeRoute({ path: `/tables/${table?.id}` })" class="btn-secondary gap-2">
+      <NuxtLink :to="localeRoute({ path: `/tables/${application.table?.id}` })" class="btn-secondary gap-2">
         <NuxtIcon name="bar-table" class="text-xl" />
         <p>{{ $t('my-applications-application-card.view-table') }}</p>
       </NuxtLink>
@@ -79,7 +80,7 @@ const statusIcon = computed(() => {
           <NuxtIcon :name="statusIcon" class="text-xl" :class="statusColor" />
           <i18n-t keypath="my-applications-application-card.applying-to" tag="span" scope="global" class="text-sm">
             <template #text>
-              <span class="text-base font-semibold break-all">{{ application.tableHeader.title }}</span>
+              <span class="text-base font-semibold break-all">{{ application.table.title }}</span>
             </template>
           </i18n-t>
         </div>
@@ -99,7 +100,7 @@ const statusIcon = computed(() => {
               </span>
             </template>
           </i18n-t>
-          <hr class="border-secondary-dark" />
+          <hr class="border-secondary-dark">
           <i18n-t keypath="my-applications-application-card.status" tag="p" scope="global" class="text-sm font-semibold">
             <template #text>
               <span class="text-base" :class="statusColor">
@@ -116,7 +117,7 @@ const statusIcon = computed(() => {
           >
             <template #text>
               <span class="text-base font-roboto-slab font-normal leading-5 whitespace-pre-line">
-                {{ table?.acceptMessage }}
+                {{ acceptMessage?.message }}
               </span>
             </template>
           </i18n-t>
@@ -124,7 +125,7 @@ const statusIcon = computed(() => {
             {{ $t('my-applications-application-card.declined-message') }}
           </p>
           <div class="flex justify-end">
-            <button @click.prevent="showDeleteModal = !showDeleteModal" class="btn-danger">
+            <button class="btn-danger" @click.prevent="showDeleteModal = !showDeleteModal">
               <NuxtIcon name="trash" class="text-lg" />
             </button>
           </div>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-const props = defineProps<{ title?: string; back?: string | boolean }>();
+const props = defineProps<{ title?: string; back?: string | boolean }>()
 
-const previousRoute = useRouter().options.history.state.back;
+const previousRoute = useRouter().options.history.state.back
 
 const finalPreviousRoute = computed(() => {
-  if (!props.back) {
-    return;
-  }
-  return typeof props.back === 'string' ? `/${props.back}` : previousRoute?.toString() ?? '/';
-});
+  if (!props.back)
+    return
+
+  return typeof props.back === 'string' ? `/${props.back}` : previousRoute?.toString() ?? '/'
+})
 </script>
 
 <template>
@@ -21,7 +21,9 @@ const finalPreviousRoute = computed(() => {
     </NuxtLink>
     <div class="flex items-center gap-2">
       <NuxtIcon name="logo" class="text-2xl" />
-      <p class="text-2xl text-accent font-righteous">{{ title ?? $t('home.title') }}</p>
+      <p class="text-2xl text-accent font-righteous">
+        {{ title ?? $t('home.title') }}
+      </p>
     </div>
   </div>
 </template>

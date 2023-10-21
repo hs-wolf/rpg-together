@@ -1,42 +1,43 @@
 <script setup lang="ts">
-import { useApplicationsStore } from '~/stores';
-import { Application } from '@rpg-together/models';
+import type { Application } from '@rpg-together/models'
+import { useApplicationsStore } from '~/stores'
 
-const props = defineProps<{ show: boolean; application: Application }>();
+const props = defineProps<{ show: boolean; application: Application }>()
 
-const emits = defineEmits<{ (e: 'close'): void; (e: 'accept'): void }>();
+const emits = defineEmits<{ (_e: 'close'): void; (_e: 'accept'): void }>()
 
-const applicationsStore = useApplicationsStore();
-const { acceptingApplication } = storeToRefs(applicationsStore);
+const applicationsStore = useApplicationsStore()
+const { acceptingApplication } = storeToRefs(applicationsStore)
 
-const cardRef = ref<HTMLElement>();
-onClickOutside(cardRef, () => emits('close'));
+const cardRef = ref<HTMLElement>()
 
-const closeModal = () => {
-  if (acceptingApplication.value) {
-    return;
-  }
-  emits('close');
-};
+function closeModal() {
+  if (acceptingApplication.value)
+    return
+  emits('close')
+}
 
-const acceptApplication = async () => {
-  const error = await applicationsStore.acceptApplication(props.application.id);
-  if (!error) {
-    emits('accept');
-  }
-  closeModal();
-};
+async function acceptApplication() {
+  const error = await applicationsStore.acceptApplication(props.application.id)
+  if (!error)
+    emits('accept')
+  closeModal()
+}
+
+onClickOutside(cardRef, () => closeModal())
 </script>
 
 <template>
   <Transition name="fade">
     <div v-if="show" class="modal justify-center p-3">
       <div ref="cardRef" class="card-primary gap-3">
-        <h1 class="text-accent font-semibold">{{ $t('my-tables-application-card.accept-modal.title') }}</h1>
+        <h1 class="text-accent font-semibold">
+          {{ $t('my-tables-application-card.accept-modal.title') }}
+        </h1>
         <i18n-t keypath="my-tables-application-card.accept-modal.message" tag="p" scope="global" class="text-sm">
           <template #user>
             <span class="font-semibold">
-              {{ application?.applicantHeader.username }}
+              {{ application?.applicant.username }}
             </span>
           </template>
         </i18n-t>

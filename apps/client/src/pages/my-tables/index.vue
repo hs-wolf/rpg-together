@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { useTablesStore } from '~/stores';
-import { Table } from '@rpg-together/models';
-import { LIMIT_OF_TABLES } from '@rpg-together/utils';
+import { useI18n } from 'vue-i18n'
+import type { Table } from '@rpg-together/models'
+import { LIMIT_OF_TABLES } from '@rpg-together/utilities'
+import { useTablesStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] });
-useHead({ title: useI18n().t('my-tables.title') });
+definePageMeta({ middleware: ['logged-in'] })
+useHead({ title: useI18n().t('my-tables.title') })
 
-const localePath = useLocalePath();
-const tablesStore = useTablesStore();
-const { myTables } = storeToRefs(tablesStore);
+const localePath = useLocalePath()
+const tablesStore = useTablesStore()
+const { myTables } = storeToRefs(tablesStore)
 
-const enableCreateTable = computed(() => (myTables.value.length >= LIMIT_OF_TABLES ? false : true));
+const enableCreateTable = computed(() => (!(myTables.value.length >= LIMIT_OF_TABLES)))
 
-const tableToDelete = ref<Table>();
+const tableToDelete = ref<Table>()
 
 onMounted(async () => {
-  if (!myTables.value.length) {
-    await tablesStore.getUserTables({ save: true });
-  }
-});
+  if (!myTables.value.length)
+    await tablesStore.getUserTables({ save: true })
+})
 </script>
 
 <template>
@@ -27,7 +26,7 @@ onMounted(async () => {
     <PageTitle :title="$t('my-tables.title')" />
     <div class="flex justify-between items-center gap-3 p-3">
       <i18n-t keypath="my-tables.tables-limit" tag="p" scope="global" class="text-sm leading-none">
-        <template v-slot:limit>
+        <template #limit>
           <span class="font-semibold">{{ `${myTables.length} / ${LIMIT_OF_TABLES}` }}</span>
         </template>
       </i18n-t>
@@ -42,7 +41,7 @@ onMounted(async () => {
       <MyTablesTableCard
         v-for="table in myTables"
         :key="table.id"
-        :table="(table as any)"
+        :table="table"
         @delete="(table: Table) => (tableToDelete = table)"
       />
     </div>

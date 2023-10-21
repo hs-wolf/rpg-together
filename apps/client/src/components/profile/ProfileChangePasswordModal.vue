@@ -1,75 +1,78 @@
 <script setup lang="ts">
-import { object, string } from 'zod';
-import { useForm, useField } from 'vee-validate';
-import { toFormValidator } from '@vee-validate/zod';
-import { useUserStore } from '~/stores';
-import { User } from '@rpg-together/models';
+import { object, string } from 'zod'
+import { useField, useForm } from 'vee-validate'
+import { toFormValidator } from '@vee-validate/zod'
+import type { User } from '@rpg-together/models'
+import { useUserStore } from '~/stores'
 
-defineProps<{ user: User | null }>();
-const emits = defineEmits<{ (e: 'close'): void }>();
+defineProps<{ user: User | null }>()
+const emits = defineEmits<{ (_e: 'close'): void }>()
 
-const userStore = useUserStore();
-const { changingAuthData } = storeToRefs(userStore);
+const userStore = useUserStore()
+const { changingAuthData } = storeToRefs(userStore)
 
-const cardRef = ref<HTMLElement>();
+const cardRef = ref<HTMLElement>()
 onClickOutside(cardRef, () => {
-  emits('close');
-});
+  emits('close')
+})
 
 const formFields = {
-  ['old-password']: {
+  'old-password': {
     name: 'old-password',
     label: 'profile-change-password-modal.form.old-password.label',
     placeholder: 'profile-change-password-modal.form.old-password.placeholder',
   },
-  ['new-password']: {
+  'new-password': {
     name: 'new-password',
     label: 'profile-change-password-modal.form.new-password.label',
     placeholder: 'profile-change-password-modal.form.new-password.placeholder',
   },
-  ['confirm-password']: {
+  'confirm-password': {
     name: 'confirm-password',
     label: 'profile-change-password-modal.form.confirm-password.label',
     placeholder: 'profile-change-password-modal.form.confirm-password.placeholder',
   },
-};
+}
 
 const validationSchema = toFormValidator(
   object({
-    ['old-password']: string().min(6),
-    ['new-password']: string().min(6),
-    ['confirm-password']: string().min(6),
-  }).refine((data) => data['new-password'] === data['confirm-password'], {
+    'old-password': string().min(6),
+    'new-password': string().min(6),
+    'confirm-password': string().min(6),
+  }).refine(data => data['new-password'] === data['confirm-password'], {
     message: 'zod-errors.password-match',
     path: ['confirm-password'],
-  })
-);
+  }),
+)
 
-const { errors, handleSubmit } = useForm({ validationSchema });
-const { value: oldPasswordValue } = useField(formFields['old-password'].name);
-const { value: newPasswordValue } = useField(formFields['new-password'].name);
-const { value: confirmPasswordValue } = useField(formFields['confirm-password'].name);
-const apiError = ref('');
+const { errors, handleSubmit } = useForm({ validationSchema })
+const { value: oldPasswordValue } = useField(formFields['old-password'].name)
+const { value: newPasswordValue } = useField(formFields['new-password'].name)
+const { value: confirmPasswordValue } = useField(formFields['confirm-password'].name)
+const apiError = ref('')
 
 const onSubmit = handleSubmit(async (values) => {
-  apiError.value = '';
+  apiError.value = ''
   const response = await userStore.changeAuthData({
     password: values['old-password'],
     newPassword: values['new-password'],
-  });
+  })
   if (response) {
-    apiError.value = response;
-    return;
+    apiError.value = response
+    return
   }
-  emits('close');
-});
+  emits('close')
+})
 </script>
 
 <template>
   <div class="modal justify-center p-3">
     <div ref="cardRef" class="card-primary gap-3">
-      <h1 class="font-semibold">{{ $t('profile-change-password-modal.title') }}</h1>
+      <h1 class="font-semibold">
+        {{ $t('profile-change-password-modal.title') }}
+      </h1>
       <FormInput
+        v-model="oldPasswordValue"
         :name="formFields['old-password'].name"
         :label="$t(formFields['old-password'].label)"
         :placeholder="$t(formFields['old-password'].placeholder)"
@@ -77,16 +80,22 @@ const onSubmit = handleSubmit(async (values) => {
           errors['old-password'] ? $t(errors['old-password'], { label: $t(formFields['old-password'].label), min: 6 }) : ''
         "
         :disabled="changingAuthData"
-        v-model="oldPasswordValue"
         autocomplete="off"
         type="password"
         class="mb-3"
       >
-        <template #field-icon><NuxtIcon name="key" /></template>
-        <template #show-password-icon><NuxtIcon name="eye-open" /></template>
-        <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
+        <template #field-icon>
+          <NuxtIcon name="key" />
+        </template>
+        <template #show-password-icon>
+          <NuxtIcon name="eye-open" />
+        </template>
+        <template #hide-password-icon>
+          <NuxtIcon name="eye-closed" />
+        </template>
       </FormInput>
       <FormInput
+        v-model="newPasswordValue"
         :name="formFields['new-password'].name"
         :label="$t(formFields['new-password'].label)"
         :placeholder="$t(formFields['new-password'].placeholder)"
@@ -94,15 +103,21 @@ const onSubmit = handleSubmit(async (values) => {
           errors['new-password'] ? $t(errors['new-password'], { label: $t(formFields['new-password'].label), min: 6 }) : ''
         "
         :disabled="changingAuthData"
-        v-model="newPasswordValue"
         autocomplete="off"
         type="password"
       >
-        <template #field-icon><NuxtIcon name="key" /></template>
-        <template #show-password-icon><NuxtIcon name="eye-open" /></template>
-        <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
+        <template #field-icon>
+          <NuxtIcon name="key" />
+        </template>
+        <template #show-password-icon>
+          <NuxtIcon name="eye-open" />
+        </template>
+        <template #hide-password-icon>
+          <NuxtIcon name="eye-closed" />
+        </template>
       </FormInput>
       <FormInput
+        v-model="confirmPasswordValue"
         :name="formFields['confirm-password'].name"
         :label="$t(formFields['confirm-password'].label)"
         :placeholder="$t(formFields['confirm-password'].placeholder)"
@@ -112,13 +127,18 @@ const onSubmit = handleSubmit(async (values) => {
             : ''
         "
         :disabled="changingAuthData"
-        v-model="confirmPasswordValue"
         autocomplete="off"
         type="password"
       >
-        <template #field-icon><NuxtIcon name="key" /></template>
-        <template #show-password-icon><NuxtIcon name="eye-open" /></template>
-        <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
+        <template #field-icon>
+          <NuxtIcon name="key" />
+        </template>
+        <template #show-password-icon>
+          <NuxtIcon name="eye-open" />
+        </template>
+        <template #hide-password-icon>
+          <NuxtIcon name="eye-closed" />
+        </template>
       </FormInput>
       <LoadingCard v-if="changingAuthData" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
@@ -126,11 +146,13 @@ const onSubmit = handleSubmit(async (values) => {
           <button class="btn-primary" @click.prevent="emits('close')">
             {{ $t('profile-change-password-modal.back') }}
           </button>
-          <button class="btn-accent" @click.prevent="onSubmit">{{ $t('profile-change-password-modal.save') }}</button>
+          <button class="btn-accent" @click.prevent="onSubmit">
+            {{ $t('profile-change-password-modal.save') }}
+          </button>
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
-          <div class="absolute bottom-full"></div>
+          <div class="absolute bottom-full" />
         </span>
       </div>
     </div>

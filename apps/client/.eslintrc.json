@@ -1,27 +1,18 @@
 {
-  "extends": ["@nuxtjs/eslint-config-typescript"],
-  "rules": {
-    "array-bracket-spacing": ["error", "never"],
-    "comma-dangle": ["error", "always-multiline"],
-    "computed-property-spacing": ["error", "never"],
-    "curly": "error",
-    "indent": ["error", 2],
-    "no-confusing-arrow": "error",
-    "no-console": "off",
-    "no-tabs": "error",
-    "no-unused-vars": "error",
-    "object-curly-spacing": ["error", "always"],
-    "quotes": ["error", "single", { "avoidEscape": true }],
-    "semi": ["error", "always"],
-    "space-before-function-paren": "off",
-    "space-in-parens": ["error", "never"],
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_"
-      }
-    ]
-  }
+  "extends": ["../../.eslintrc.json", "@antfu"],
+  "ignorePatterns": ["!**/*", "apps/client/.nuxt/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
 }

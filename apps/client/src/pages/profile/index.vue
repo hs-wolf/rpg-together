@@ -1,38 +1,40 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { useUserStore } from '~/stores';
-import { DEFAULT_USER_AVATAR, firebaseTimestampToDate } from '@rpg-together/utils';
+import { useI18n } from 'vue-i18n'
+import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
+import { useUserStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] });
-useHead({ title: useI18n().t('profile.title') });
+const { t, locale } = useI18n()
+const userStore = useUserStore()
+const { user, changingAvatar } = storeToRefs(userStore)
 
-const userStore = useUserStore();
-const { user, changingAvatar } = storeToRefs(userStore);
+definePageMeta({ middleware: ['logged-in'] })
 
-const userAvatarImageFile = ref<File>();
-const userAvatarImageUrl = ref('');
-const onUserAvatarFileUploaded = async (e: Event) => {
-  const files = (e.target as HTMLInputElement).files;
-  if (!files?.length) {
-    return;
-  }
-  userAvatarImageFile.value = files[0];
-  userAvatarImageUrl.value = URL.createObjectURL(userAvatarImageFile.value);
-  userStore.changeAvatar(userAvatarImageFile.value);
-};
+useHead({ title: t('profile.title') })
 
-const showChangeUsernameModal = ref(false);
-const showChangeEmailModal = ref(false);
-const showChangePasswordModal = ref(false);
-const showDeleteAccountModal = ref(false);
+const userAvatarImageFile = ref<File>()
+const userAvatarImageUrl = ref('')
+async function onUserAvatarFileUploaded(e: Event) {
+  const files = (e.target as HTMLInputElement).files
+  if (!files?.length)
+    return
+
+  userAvatarImageFile.value = files[0]
+  userAvatarImageUrl.value = URL.createObjectURL(userAvatarImageFile.value)
+  userStore.changeAvatar(userAvatarImageFile.value)
+}
+
+const showChangeUsernameModal = ref(false)
+const showChangeEmailModal = ref(false)
+const showChangePasswordModal = ref(false)
+const showDeleteAccountModal = ref(false)
 
 const currentAvatarUrl = computed(() =>
   userAvatarImageUrl.value.length
     ? userAvatarImageUrl.value
     : user.value?.avatar.length
-    ? user.value?.avatar
-    : DEFAULT_USER_AVATAR
-);
+      ? user.value?.avatar
+      : DEFAULT_USER_AVATAR,
+)
 </script>
 
 <template>
@@ -40,13 +42,13 @@ const currentAvatarUrl = computed(() =>
     <PageTitle :title="$t('profile.title')" />
     <div class="flex flex-col items-center gap-3 px-3">
       <input
+        id="userAvatar"
         type="file"
         name="userAvatar"
-        id="userAvatar"
-        @change="onUserAvatarFileUploaded"
         :disabled="changingAvatar"
         hidden
-      />
+        @change="onUserAvatarFileUploaded"
+      >
       <label for="userAvatar" class="flex justify-center items-center transition-transform active:scale-90 cursor-pointer">
         <NuxtImg
           :src="currentAvatarUrl"
@@ -62,7 +64,9 @@ const currentAvatarUrl = computed(() =>
         </div>
       </label>
       <div class="flex flex-wrap justify-center items-center gap-2">
-        <h1 class="text-2xl font-semibold">{{ user?.username }}</h1>
+        <h1 class="text-2xl font-semibold">
+          {{ user?.username }}
+        </h1>
         <button class="transition-transform active:scale-90" @click.prevent="showChangeUsernameModal = true">
           <NuxtIcon name="edit-pencil" class="text-xl" />
         </button>
@@ -71,27 +75,33 @@ const currentAvatarUrl = computed(() =>
     <div class="flex flex-col gap-3 px-3 py-6 text-center">
       <div class="flex flex-wrap justify-center items-center gap-2">
         <p>{{ $t('profile.email') }}</p>
-        <p class="text-accent-light font-semibold break-all">{{ user?.email }}</p>
+        <p class="text-accent-light font-semibold break-all">
+          {{ user?.email }}
+        </p>
         <button class="transition-transform active:scale-90" @click.prevent="showChangeEmailModal = true">
           <NuxtIcon name="edit-pencil" class="text-xl" />
         </button>
       </div>
-      <p class="text-xs">{{ $t('profile.creation-date', { date: firebaseTimestampToDate(user?.creationDate as any) }) }}</p>
       <p class="text-xs">
-        {{ $t('profile.last-update-date', { date: firebaseTimestampToDate(user?.lastUpdateDate as any) }) }}
+        {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
+      </p>
+      <p class="text-xs">
+        {{ $t('profile.last-update-date', { date: user?.lastUpdateDate.toLocaleString(locale) }) }}
       </p>
     </div>
     <div class="flex flex-col p-3 gap-3">
-      <button class="btn-secondary" @click.prevent="showChangePasswordModal = true">{{ $t('profile.change-password') }}</button>
+      <button class="btn-secondary" @click.prevent="showChangePasswordModal = true">
+        {{ $t('profile.change-password') }}
+      </button>
       <button class="btn-danger self-end" @click.prevent="showDeleteAccountModal = true">
         {{ $t('profile.delete-account') }}
       </button>
     </div>
     <TransitionGroup name="fade" tag="div">
-      <ProfileChangeUsernameModal :user="user" v-if="showChangeUsernameModal" @close="showChangeUsernameModal = false" />
-      <ProfileChangeEmailModal :user="user" v-if="showChangeEmailModal" @close="showChangeEmailModal = false" />
-      <ProfileChangePasswordModal :user="user" v-if="showChangePasswordModal" @close="showChangePasswordModal = false" />
-      <ProfileDeleteAccountModal :user="user" v-if="showDeleteAccountModal" @close="showDeleteAccountModal = false" />
+      <ProfileChangeUsernameModal v-if="showChangeUsernameModal" :user="user" @close="showChangeUsernameModal = false" />
+      <ProfileChangeEmailModal v-if="showChangeEmailModal" :user="user" @close="showChangeEmailModal = false" />
+      <ProfileChangePasswordModal v-if="showChangePasswordModal" :user="user" @close="showChangePasswordModal = false" />
+      <ProfileDeleteAccountModal v-if="showDeleteAccountModal" :user="user" @close="showDeleteAccountModal = false" />
     </TransitionGroup>
   </div>
 </template>

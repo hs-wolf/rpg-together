@@ -13,12 +13,12 @@ export enum SnackType {
   ERROR = 'ERROR',
 }
 export interface ISnack {
-  type: SnackType;
-  message: string;
+  type: SnackType
+  message: string
 }
 
-export type AdvancedSelectOption = {
-  id?: string;
-  name: string;
-  label: string;
-};
+export interface AdvancedSelectOption {
+  id?: string
+  name: string
+  label: string
+}

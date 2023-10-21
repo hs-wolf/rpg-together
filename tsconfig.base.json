@@ -10,15 +10,15 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@rpg-together/middlewares": ["libs/middlewares/src/index.ts"],
       "@rpg-together/models": ["libs/models/src/index.ts"],
-      "@rpg-together/repos": ["libs/repos/src/index.ts"],
-      "@rpg-together/utils": ["libs/utils/src/index.ts"]
+      "@rpg-together/repositories": ["libs/repositories/src/index.ts"],
+      "@rpg-together/utilities": ["libs/utilities/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

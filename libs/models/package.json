@@ -1,5 +1,8 @@
 {
   "name": "@rpg-together/models",
+  "type": "commonjs",
   "version": "0.0.1",
-  "type": "commonjs"
+  "dependencies": {
+    "tslib": "2.6.2"
+  }
 }

@@ -1,29 +1,29 @@
 <script setup lang="ts">
 const props = defineProps<{
-  name: string;
-  label: string;
-  placeholder: string;
-  modelValue?: string;
-  maxlength?: number;
-  rows?: number;
-  resize?: boolean;
-  disabled?: boolean;
-  error?: string;
-}>();
-defineEmits<{ (e: 'update:modelValue'): void }>();
+  name: string
+  label: string
+  placeholder: string
+  modelValue?: string
+  maxlength?: number
+  rows?: number
+  resize?: boolean
+  disabled?: boolean
+  error?: string
+}>()
+defineEmits<{ (_e: 'update:modelValue'): void }>()
 
-const slots = useSlots();
+const slots = useSlots()
 
 const textareaFinalClass = computed(() => {
-  let classes = '';
-  if (slots['field-icon']) {
-    classes = 'my-2 pr-2 pl-0';
-  } else {
-    classes = 'my-2 px-2';
-  }
-  classes = props.resize ? classes : `${classes} resize-none`;
-  return classes;
-});
+  let classes = ''
+  if (slots['field-icon'])
+    classes = 'my-2 pr-2 pl-0'
+  else
+    classes = 'my-2 px-2'
+
+  classes = props.resize ? classes : `${classes} resize-none`
+  return classes
+})
 </script>
 
 <template>
@@ -39,10 +39,10 @@ const textareaFinalClass = computed(() => {
           :value="modelValue"
           :maxlength="maxlength"
           :rows="rows"
-          @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
           class="flex items-center w-full h-auto outline-none bg-transparent rounded text-secondary leading-6"
           :class="textareaFinalClass"
-        ></textarea>
+          @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        />
       </div>
       <div v-if="maxlength && modelValue?.length" class="flex justify-end p-2 pt-0 text-sm text-secondary-dark">
         {{ `${modelValue?.length} / ${maxlength}` }}
@@ -50,7 +50,7 @@ const textareaFinalClass = computed(() => {
     </div>
     <span v-if="error" class="relative self-end p-2 bg-danger rounded text-xs">
       <p>{{ error }}</p>
-      <div class="absolute bottom-full error-message-arrow-up"></div>
+      <div class="absolute bottom-full error-message-arrow-up" />
     </span>
   </div>
 </template>

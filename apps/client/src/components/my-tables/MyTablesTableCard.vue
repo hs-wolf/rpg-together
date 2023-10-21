@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useFlairsStore, useApplicationsStore } from '~/stores';
-import { Table } from '@rpg-together/models';
-import { DEFAULT_TABLE_BANNER } from '@rpg-together/utils';
+import type { Table } from '@rpg-together/models'
+import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
+import { useApplicationsStore, useFlairsStore } from '~/stores'
 
-const props = defineProps<{ table: Table }>();
-defineEmits<{ (eventName: 'delete', table: Table): void }>();
+const props = defineProps<{ table: Table }>()
+defineEmits<{ (_eventName: 'delete', _table: Table): void }>()
 
-const localePath = useLocalePath();
-const flairsStore = useFlairsStore();
-const applicationsStore = useApplicationsStore();
+const localePath = useLocalePath()
+const flairsStore = useFlairsStore()
+const applicationsStore = useApplicationsStore()
 
-const applications = ref(await applicationsStore.getApplicationsFromTable(props.table.id));
+const applications = ref(await applicationsStore.getApplicationsFromTable(props.table.id))
 
-const showInfo = ref(false);
+const showInfo = ref(false)
 </script>
 
 <template>
@@ -67,15 +67,18 @@ const showInfo = ref(false);
             </template>
           </i18n-t>
           <div v-if="table.flairs && table.flairs.length" class="flex flex-wrap items-center gap-1">
-            <p class="font-semibold">{{ $t('my-tables-table-card.flairs') }}</p>
+            <p class="font-semibold">
+              {{ $t('my-tables-table-card.flairs') }}
+            </p>
             <div
               v-for="flair in table.flairs"
+              :key="flair"
               class="flex items-center px-1.5 py-1 bg-accent shadow rounded-sm text-sm text-secondary"
             >
               {{ flairsStore.getFlairLabel(flair) }}
             </div>
           </div>
-          <button @click.prevent="$emit('delete', table)" class="btn-danger self-end">
+          <button class="btn-danger self-end" @click.prevent="$emit('delete', table)">
             {{ $t('my-tables-table-card.delete') }}
           </button>
         </div>

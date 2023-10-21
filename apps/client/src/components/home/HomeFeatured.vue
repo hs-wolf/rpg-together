@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import { useTablesStore } from '~/stores';
-import { Table } from '@rpg-together/models';
+import { Table } from '@rpg-together/models'
 
-const tablesStore = useTablesStore();
+const { result, search } = useAlgoliaSearch('dev_tables')
 
-const { result, search } = useAlgoliaSearch('dev_tables');
+const tables = ref<Table[]>()
 
-const tables = ref<Table[]>();
-
-const newSearch = async () => {
-  await search({ query: '', requestOptions: { facetFilters: [], hitsPerPage: 10, page: 0 } });
-  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: unknown) => Table.fromMap(hit)) : [];
-};
+async function newSearch() {
+  await search({ query: '', requestOptions: { facetFilters: [], hitsPerPage: 10, page: 0 } })
+  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit)) : []
+}
 
 onMounted(() => {
-  newSearch();
-});
+  newSearch()
+})
 </script>
 
 <template>

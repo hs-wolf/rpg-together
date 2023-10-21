@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { object, string } from 'zod';
-import { useForm, useField } from 'vee-validate';
-import { toFormValidator } from '@vee-validate/zod';
-import { useUserStore } from '~/stores';
-import { User } from '@rpg-together/models';
+import { object, string } from 'zod'
+import { useField, useForm } from 'vee-validate'
+import { toFormValidator } from '@vee-validate/zod'
+import type { User } from '@rpg-together/models'
+import { useUserStore } from '~/stores'
 
-defineProps<{ user: User | null }>();
-const emits = defineEmits<{ (e: 'close'): void }>();
+defineProps<{ user: User | null }>()
+const emits = defineEmits<{ (_e: 'close'): void }>()
 
-const userStore = useUserStore();
-const { deletingAccount } = storeToRefs(userStore);
+const userStore = useUserStore()
+const { deletingAccount } = storeToRefs(userStore)
 
-const cardRef = ref<HTMLElement>();
-const confirmCardRef = ref<HTMLElement>();
+const cardRef = ref<HTMLElement>()
+const confirmCardRef = ref<HTMLElement>()
 onClickOutside(cardRef, () => {
-  emits('close');
-});
+  emits('close')
+})
 onClickOutside(confirmCardRef, () => {
-  emits('close');
-});
+  emits('close')
+})
 
-const showConfirmCard = ref(false);
+const showConfirmCard = ref(false)
 
 const formFields = {
   password: {
@@ -28,47 +28,57 @@ const formFields = {
     label: 'profile-delete-account-modal.form.password.label',
     placeholder: 'profile-delete-account-modal.form.password.placeholder',
   },
-};
+}
 
 const validationSchema = toFormValidator(
   object({
     password: string().min(6),
-  })
-);
+  }),
+)
 
-const { errors, handleSubmit } = useForm({ validationSchema });
-const { value: passwordValue } = useField(formFields.password.name);
-const apiError = ref('');
+const { errors, handleSubmit } = useForm({ validationSchema })
+const { value: passwordValue } = useField(formFields.password.name)
+const apiError = ref('')
 
 const onSubmit = handleSubmit(async (values) => {
-  apiError.value = '';
-  const response = await userStore.deleteAuth(values.password);
+  apiError.value = ''
+  const response = await userStore.deleteAuth(values.password)
   if (response) {
-    apiError.value = response;
-    return;
+    apiError.value = response
+    return
   }
-  emits('close');
-});
+  emits('close')
+})
 </script>
 
 <template>
   <div class="modal justify-center p-3">
     <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3">
-      <h1 class="text-danger font-semibold">{{ $t('profile-delete-account-modal.title') }}</h1>
-      <p class="text-sm">{{ $t('profile-delete-account-modal.confirmation') }}</p>
+      <h1 class="text-danger font-semibold">
+        {{ $t('profile-delete-account-modal.title') }}
+      </h1>
+      <p class="text-sm">
+        {{ $t('profile-delete-account-modal.confirmation') }}
+      </p>
       <FormInput
+        v-model="passwordValue"
         :name="formFields.password.name"
         :label="$t(formFields.password.label)"
         :placeholder="$t(formFields.password.placeholder)"
         :error="errors.password ? $t(errors.password, { label: $t(formFields.password.label), min: 6 }) : ''"
         :disabled="deletingAccount"
-        v-model="passwordValue"
         autocomplete="off"
         type="password"
       >
-        <template #field-icon><NuxtIcon name="key" /></template>
-        <template #show-password-icon><NuxtIcon name="eye-open" /></template>
-        <template #hide-password-icon><NuxtIcon name="eye-closed" /></template>
+        <template #field-icon>
+          <NuxtIcon name="key" />
+        </template>
+        <template #show-password-icon>
+          <NuxtIcon name="eye-open" />
+        </template>
+        <template #hide-password-icon>
+          <NuxtIcon name="eye-closed" />
+        </template>
       </FormInput>
       <LoadingCard v-if="deletingAccount" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
@@ -82,16 +92,20 @@ const onSubmit = handleSubmit(async (values) => {
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
-          <div class="absolute bottom-full"></div>
+          <div class="absolute bottom-full" />
         </span>
       </div>
     </div>
     <div v-else ref="cardRef" class="card-primary gap-3">
-      <h1 class="text-danger font-semibold">{{ $t('profile-delete-account-modal.title') }}</h1>
+      <h1 class="text-danger font-semibold">
+        {{ $t('profile-delete-account-modal.title') }}
+      </h1>
       <div class="flex flex-col gap-2 text-sm">
         <p>{{ $t('profile-delete-account-modal.warnings[0]') }}</p>
         <p>{{ $t('profile-delete-account-modal.warnings[1]') }}</p>
-        <p class="font-semibold">{{ $t('profile-delete-account-modal.warnings[2]') }}</p>
+        <p class="font-semibold">
+          {{ $t('profile-delete-account-modal.warnings[2]') }}
+        </p>
       </div>
       <LoadingCard v-if="deletingAccount" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
@@ -105,7 +119,7 @@ const onSubmit = handleSubmit(async (values) => {
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
-          <div class="absolute bottom-full"></div>
+          <div class="absolute bottom-full" />
         </span>
       </div>
     </div>

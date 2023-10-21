@@ -5,36 +5,37 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/webpack:webpack",
+      "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/monolith",
         "main": "apps/monolith/src/main.ts",
         "tsConfig": "apps/monolith/tsconfig.app.json",
-        "assets": ["apps/monolith/src/assets"]
+        "assets": ["apps/monolith/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/monolith/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
       }
     },
     "serve": {
-      "executor": "@nrwl/js:node",
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
       "options": {
         "buildTarget": "monolith:build"
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/monolith/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "apps/monolith/jest.config.ts",
-        "passWithNoTests": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "monolith:build:development"
+        },
+        "production": {
+          "buildTarget": "monolith:build:production"
+        }
       }
     },
     "watch-tsoa": {
@@ -47,6 +48,14 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "tsoa spec-and-routes -c=apps/monolith/monolith.tsoa.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/monolith/src/**/*.ts"],
+        "fix": true
       }
     }
   },

@@ -1,5 +1,5 @@
-import { Document } from 'mongodb';
-import { TableHeader, UserHeader } from '.';
+import type { Document } from 'mongodb'
+import type { TableHeader, UserHeader } from '.'
 
 export class Application {
   constructor(
@@ -9,28 +9,28 @@ export class Application {
     public table: TableHeader,
     public message: string,
     public creationDate: Date,
-    public lastUpdateDate: Date
+    public lastUpdateDate: Date,
   ) {}
 
   static fromMongoDB(doc: Document | null): Application | null {
-    if (!doc) {
-      return null;
-    }
-    return Application.fromMap({ ...doc });
+    if (!doc)
+      return null
+
+    return Application.fromMap({ ...doc })
   }
 
-  static fromMap(map: Record<string, unknown>) {
+  static fromMap(map: Application | Record<string, unknown>) {
     return !map
       ? null
       : new Application(
-          map['id'] as string,
-          map['status'] as ApplicationStatus,
-          map['applicant'] as UserHeader,
-          map['table'] as TableHeader,
-          map['message'] as string,
-          map['creationDate'] as Date,
-          map['lastUpdateDate'] as Date
-        );
+        map.id as string,
+        map.status as ApplicationStatus,
+        map.applicant as UserHeader,
+        map.table as TableHeader,
+        map.message as string,
+        new Date(map.creationDate as Date),
+        new Date(map.lastUpdateDate as Date),
+      )
   }
 
   toMap(): Omit<Application, 'toMap'> {
@@ -42,7 +42,7 @@ export class Application {
       message: this.message,
       creationDate: this.creationDate,
       lastUpdateDate: this.lastUpdateDate,
-    };
+    }
   }
 }
 
@@ -52,9 +52,19 @@ export enum ApplicationStatus {
   DECLINED = 'DECLINED',
 }
 
-export type ApplicationHeader = Partial<Pick<Application, 'id' | 'applicant' | 'table'>>;
+export type ApplicationHeader = Partial<
+  Pick<Application, 'id' | 'applicant' | 'table'>
+>
 
-export type ApplicationCreateBody = Partial<Pick<Application, 'status' | 'applicant' | 'table' | 'message'>>;
-export type ApplicationCreateBodyRequest = Pick<ApplicationCreateBody, 'applicant' | 'table' | 'message'>;
+export type ApplicationCreateBody = Partial<
+  Pick<Application, 'status' | 'applicant' | 'table' | 'message'>
+>
 
-export type ApplicationUpdateBody = Partial<Pick<Application, 'status' | 'lastUpdateDate'>>;
+export type ApplicationCreateBodyRequest = Pick<
+  ApplicationCreateBody,
+  'table' | 'message'
+>
+
+export type ApplicationUpdateBody = Partial<
+  Pick<Application, 'status' | 'lastUpdateDate'>
+>

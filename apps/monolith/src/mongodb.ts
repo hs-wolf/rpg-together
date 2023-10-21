@@ -1,10 +1,14 @@
-import { Db, MongoClient, ServerApiVersion } from 'mongodb';
+import process from 'node:process'
+import type { Db } from 'mongodb'
+import { MongoClient, ServerApiVersion } from 'mongodb'
 
-const uri = process.env.MONGODB_URI ?? '';
-const database = process.env.MONGODB_DB ?? '';
+const uri = process.env.MONGODB_URI ?? ''
+const database = process.env.MONGODB_DB ?? ''
 
-export let mongoClient: MongoClient;
-export let mongoDB: Db;
+// eslint-disable-next-line import/no-mutable-exports
+export let mongoClient: MongoClient
+// eslint-disable-next-line import/no-mutable-exports
+export let mongoDB: Db
 
 export async function ConnectMongoDB() {
   try {
@@ -14,12 +18,15 @@ export async function ConnectMongoDB() {
         strict: true,
         deprecationErrors: true,
       },
-    });
-    await mongoClient.connect();
-    mongoDB = mongoClient.db(database);
-    await mongoDB.command({ ping: 1 });
-    console.log('Successfully connected to MongoDB.');
-  } catch (error) {
-    console.log('Failed to connect to MongoDB.', error);
+    })
+    await mongoClient.connect()
+    mongoDB = mongoClient.db(database)
+    await mongoDB.command({ ping: 1 })
+    // eslint-disable-next-line no-console
+    console.log('Successfully connected to MongoDB.')
+  }
+  catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('Failed to connect to MongoDB.', error)
   }
 }

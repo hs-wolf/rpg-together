@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useLocalesStore } from '~/stores';
+import { useLocalesStore } from '~/stores'
 
-const localesStore = useLocalesStore();
-const { direction } = storeToRefs(localesStore);
+const localesStore = useLocalesStore()
+const { direction } = storeToRefs(localesStore)
 </script>
 
 <template>

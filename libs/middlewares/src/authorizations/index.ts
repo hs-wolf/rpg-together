@@ -1,1 +1,1 @@
-export * from './selfOnly';
+export * from './selfOnly'

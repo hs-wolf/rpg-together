@@ -1,5 +1,5 @@
-import { Document } from 'mongodb';
-import { ApplicationHeader } from '.';
+import type { Document } from 'mongodb'
+import type { ApplicationHeader } from '.'
 
 export class Notification {
   constructor(
@@ -10,29 +10,29 @@ export class Notification {
     public read: boolean,
     public creationDate: Date,
     public lastUpdateDate: Date,
-    public data?: NotificationData
+    public data?: NotificationData,
   ) {}
 
   static fromMongoDB(doc: Document | null): Notification | null {
-    if (!doc) {
-      return null;
-    }
-    return Notification.fromMap({ ...doc });
+    if (!doc)
+      return null
+
+    return Notification.fromMap({ ...doc })
   }
 
-  static fromMap(map: Record<string, unknown>) {
+  static fromMap(map: Notification | Record<string, unknown>) {
     return !map
       ? null
       : new Notification(
-          map['id'] as string,
-          map['userId'] as string,
-          map['type'] as NotificationType,
-          map['content'] as NotificationContent,
-          map['read'] as boolean,
-          map['creationDate'] as Date,
-          map['lastUpdateDate'] as Date,
-          map['data'] as NotificationData
-        );
+        map.id as string,
+        map.userId as string,
+        map.type as NotificationType,
+        map.content as NotificationContent,
+        map.read as boolean,
+        new Date(map.creationDate as Date),
+        new Date(map.lastUpdateDate as Date),
+        map.data as NotificationData,
+      )
   }
 
   toMap(): Omit<Notification, 'toMap'> {
@@ -45,7 +45,7 @@ export class Notification {
       creationDate: this.creationDate,
       lastUpdateDate: this.lastUpdateDate,
       data: this.data,
-    };
+    }
   }
 }
 
@@ -61,8 +61,12 @@ export enum NotificationContent {
   APPLICATION_DECLINED = 'application-declined',
 }
 
-export type NotificationData = ApplicationHeader;
+export type NotificationData = ApplicationHeader
 
-export type NotificationCreateBody = Partial<Pick<Notification, 'userId' | 'type' | 'content' | 'data'>>;
+export type NotificationCreateBody = Partial<
+  Pick<Notification, 'userId' | 'type' | 'content' | 'data'>
+>
 
-export type NotificationUpdateBody = Partial<Pick<Notification, 'read' | 'lastUpdateDate'>>;
+export type NotificationUpdateBody = Partial<
+  Pick<Notification, 'read' | 'lastUpdateDate'>
+>

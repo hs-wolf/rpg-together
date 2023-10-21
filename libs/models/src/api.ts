@@ -1,15 +1,19 @@
-import { Request } from 'express';
-import { DecodedIdToken } from 'firebase-admin/auth';
+import type { Request } from 'express'
+import type { DecodedIdToken } from 'firebase-admin/auth'
 
 export class ApiError {
-  constructor(public code: ResponseCodes, public message: string, public status?: number) {}
+  constructor(
+    public code: ResponseCodes,
+    public message: string,
+    public status?: number,
+  ) {}
 
-  toMap() {
+  toMap(): Omit<ApiError, 'toMap'> {
     return {
       code: this.code,
       message: this.message,
       status: this.status,
-    };
+    }
   }
 }
 
@@ -39,9 +43,11 @@ export enum ResponseMessages {
   COULD_NOT_ACCEPT_APPLICATION = 'COULD_NOT_ACCEPT_APPLICATION',
   COULD_NOT_DECLINE_APPLICATION = 'COULD_NOT_DECLINE_APPLICATION',
   NOTIFICATION_NOT_FOUND = 'NOTIFICATION_NOT_FOUND',
+  ACCEPT_MESSAGE_NOT_FOUND = 'ACCEPT_MESSAGE_NOT_FOUND',
+  APPLICATION_NOT_ACCEPTED = 'APPLICATION_NOT_ACCEPTED',
 }
 
-export type TsoaRequest = Request & { user: DecodedIdToken };
+export type TsoaRequest = Request & { user: DecodedIdToken }
 
 export enum SupportedLanguages {
   EN = 'en',

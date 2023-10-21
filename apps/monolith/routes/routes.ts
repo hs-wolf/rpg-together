@@ -19,8 +19,7 @@ import { UsersController } from './../src/app/users/usersController';
 import { expressAuthentication } from './../src/authentication';
 // @ts-ignore - no great way to install types from subpackage
 const promiseAny = require('promise.any');
-import type { RequestHandler } from 'express';
-import * as express from 'express';
+import type { RequestHandler, Router } from 'express';
 const multer = require('multer');
 const upload = multer();
 
@@ -42,14 +41,14 @@ const models: TsoaRoute.Models = {
         "type": {"ref":"Partial_Pick_User.id-or-username-or-avatar__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_Table.id-or-owner-or-title-or-banner__": {
+    "Partial_Pick_Table.id-or-owner-or-title-or-banner-or-acceptMessageId__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"owner":{"ref":"UserHeader"},"title":{"dataType":"string"},"banner":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"owner":{"ref":"UserHeader"},"title":{"dataType":"string"},"banner":{"dataType":"string"},"acceptMessageId":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TableHeader": {
         "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_Table.id-or-owner-or-title-or-banner__","validators":{}},
+        "type": {"ref":"Partial_Pick_Table.id-or-owner-or-title-or-banner-or-acceptMessageId__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Application": {
@@ -66,19 +65,35 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_ApplicationCreateBody.applicant-or-table-or-message_": {
+    "Pick_ApplicationCreateBody.table-or-message_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"applicant":{"ref":"UserHeader","required":true},"table":{"ref":"TableHeader","required":true},"message":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"table":{"ref":"TableHeader","required":true},"message":{"dataType":"string","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ApplicationCreateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_ApplicationCreateBody.applicant-or-table-or-message_","validators":{}},
+        "type": {"ref":"Pick_ApplicationCreateBody.table-or-message_","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AcceptMessage": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+            "creationDate": {"dataType":"datetime","required":true},
+            "lastUpdateDate": {"dataType":"datetime","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "AuthUserRegisterBody": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string","required":true},"email":{"dataType":"string","required":true},"username":{"dataType":"string","required":true}},"validators":{}},
+        "dataType": "refObject",
+        "properties": {
+            "username": {"dataType":"string","required":true},
+            "email": {"dataType":"string","required":true},
+            "password": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial__email-string--password-string__": {
@@ -184,31 +199,31 @@ const models: TsoaRoute.Models = {
             "description": {"dataType":"string","required":true},
             "banner": {"dataType":"string","required":true},
             "flairs": {"dataType":"array","array":{"dataType":"string"},"required":true},
-            "acceptMessage": {"dataType":"string","required":true},
+            "acceptMessageId": {"dataType":"string","required":true},
             "creationDate": {"dataType":"datetime","required":true},
             "lastUpdateDate": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
+    "Pick_TableCreateBody.title-or-description-or-banner-or-flairs_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"banner":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"flairs":{"dataType":"array","array":{"dataType":"string"},"required":true},"acceptMessage":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"banner":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"flairs":{"dataType":"array","array":{"dataType":"string"},"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TableCreateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_","validators":{}},
+        "type": {"dataType":"intersection","subSchemas":[{"ref":"Pick_TableCreateBody.title-or-description-or-banner-or-flairs_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"acceptMessage":{"dataType":"string","required":true}}}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
+    "Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"banner":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"flairs":{"dataType":"array","array":{"dataType":"string"},"required":true},"acceptMessage":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"banner":{"dataType":"string"},"description":{"dataType":"string"},"flairs":{"dataType":"array","array":{"dataType":"string"}},"acceptMessage":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TableUpdateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_","validators":{}},
+        "type": {"ref":"Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserRoles": {
@@ -230,14 +245,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_UserUpdateBody.username-or-avatar_": {
+    "Partial_Pick_UserUpdateBody.username-or-avatar__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string","required":true},"avatar":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"username":{"dataType":"string"},"avatar":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserUpdateBodyRequest": {
         "dataType": "refAlias",
-        "type": {"ref":"Pick_UserUpdateBody.username-or-avatar_","validators":{}},
+        "type": {"ref":"Partial_Pick_UserUpdateBody.username-or-avatar__","validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -245,7 +260,7 @@ const validationService = new ValidationService(models);
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
-export function RegisterRoutes(app: express.Router) {
+export function RegisterRoutes(app: Router) {
     // ###########################################################################################################
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
@@ -463,6 +478,33 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/applications/:applicationId/accept-message',
+            authenticateMiddleware([{"Bearer":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
+            ...(fetchMiddlewares<RequestHandler>(ApplicationsController.prototype.getAcceptMessage)),
+
+            function ApplicationsController_getAcceptMessage(request: any, response: any, next: any) {
+            const args = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    applicationId: {"in":"path","name":"applicationId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new ApplicationsController();
+
+
+              const promise = controller.getAcceptMessage.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/auth/register/user',
             ...(fetchMiddlewares<RequestHandler>(AuthController)),
             ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.userRegister)),
@@ -568,7 +610,6 @@ export function RegisterRoutes(app: express.Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/flairs',
-            authenticateMiddleware([{"Bearer":["ADMIN"]}]),
             ...(fetchMiddlewares<RequestHandler>(FlairsController)),
             ...(fetchMiddlewares<RequestHandler>(FlairsController.prototype.createFlair)),
 
@@ -902,6 +943,33 @@ export function RegisterRoutes(app: express.Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/tables/:tableId/accept-message',
+            authenticateMiddleware([{"Bearer":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(TablesController)),
+            ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.getAcceptMessage)),
+
+            function TablesController_getAcceptMessage(request: any, response: any, next: any) {
+            const args = {
+                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
+                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new TablesController();
+
+
+              const promise = controller.getAcceptMessage.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/upload/user-file',
             authenticateMiddleware([{"Bearer":[]}]),
             upload.single('file'),
@@ -1060,7 +1128,7 @@ export function RegisterRoutes(app: express.Router) {
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             try {
-                request['user'] = await promiseAny(secMethodOrPromises);
+                request['user'] = await promiseAny.call(Promise, secMethodOrPromises);
                 next();
             }
             catch(err) {
@@ -1107,6 +1175,7 @@ export function RegisterRoutes(app: express.Router) {
             response.set(name, headers[name]);
         });
         if (data && typeof data.pipe === 'function' && data.readable && typeof data._read === 'function') {
+            response.status(statusCode || 200)
             data.pipe(response);
         } else if (data !== null && data !== undefined) {
             response.status(statusCode || 200).json(data);
@@ -1134,6 +1203,8 @@ export function RegisterRoutes(app: express.Router) {
                     return request;
                 case 'query':
                     return validationService.ValidateParam(args[key], request.query[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"silently-remove-extras"});
+                case 'queries':
+                    return validationService.ValidateParam(args[key], request.query, name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"silently-remove-extras"});
                 case 'path':
                     return validationService.ValidateParam(args[key], request.params[name], name, fieldErrors, undefined, {"noImplicitAdditionalProperties":"silently-remove-extras"});
                 case 'header':

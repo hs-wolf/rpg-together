@@ -1,215 +1,231 @@
-import type { NitroFetchRequest, NitroFetchOptions } from 'nitropack';
-import { SECURITY_NAME_BEARER, API_ENDPOINTS_REQUESTS } from '@rpg-together/utils';
-import { Application, Flair, Notification, Table, User } from '@rpg-together/models';
+import type { NitroFetchOptions, NitroFetchRequest } from 'nitropack'
+import { API_ENDPOINTS_REQUESTS, SECURITY_NAME_BEARER } from '@rpg-together/utilities'
+import { AcceptMessage, Application, Flair, Notification, Table, User } from '@rpg-together/models'
 
-type Options = NitroFetchOptions<NitroFetchRequest>;
+type Options = NitroFetchOptions<NitroFetchRequest>
 
 export default {
   async customFetch<T>(path: string, options?: Options) {
-    const firebaseUser = useFirebase.currentUser();
-    const JWT = (await firebaseUser.value?.getIdToken()) || '';
+    const firebaseUser = useFirebase.currentUser()
+    const JWT = (await firebaseUser.value?.getIdToken()) || ''
     return $fetch<T>(`${useRuntimeConfig().public.API_URL}${path}`, {
       ...options,
       headers: { Authorization: `${SECURITY_NAME_BEARER} ${JWT}` },
-    });
+    })
   },
 
   // AUTH REQUESTS
   async register(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.register();
+    const { path, method } = API_ENDPOINTS_REQUESTS.userRegister()
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
   },
   async updateAuthUser(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.updateAuth();
+    const { path, method } = API_ENDPOINTS_REQUESTS.updateAuth()
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
   },
   async deleteAuth(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.deleteAuth();
+    const { path, method } = API_ENDPOINTS_REQUESTS.deleteAuth()
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
   },
 
   // USER REQUESTS
   async getUser({ userId }: { userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getUser({ userId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getUser({ userId })
     const fetch = await this.customFetch<User>(path, {
       ...options,
       method,
-    });
-    return User.fromMap(fetch);
+    })
+    return User.fromMap(fetch)
   },
   async updateUser(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.updateUser();
+    const { path, method } = API_ENDPOINTS_REQUESTS.updateUser()
     const fetch = await this.customFetch<User>(path, {
       ...options,
       method,
-    });
-    return User.fromMap(fetch);
+    })
+    return User.fromMap(fetch)
   },
 
   // UPLOAD REQUESTS
   async uploadUserFile(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.uploadUserFile();
+    const { path, method } = API_ENDPOINTS_REQUESTS.uploadUserFile()
     const fetch = await this.customFetch<string>(path, {
       ...options,
       method,
-    });
-    return fetch;
+    })
+    return fetch
   },
   async uploadTableFile({ tableId }: { tableId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.uploadTableFile({ tableId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.uploadTableFile({ tableId })
     const fetch = await this.customFetch<string>(path, {
       ...options,
       method,
-    });
-    return fetch;
+    })
+    return fetch
   },
 
   // TABLE REQUESTS
   async createTable(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.createTable();
+    const { path, method } = API_ENDPOINTS_REQUESTS.createTable()
     const fetch = await this.customFetch<Table>(path, {
       ...options,
       method,
-    });
-    return Table.fromMap(fetch);
+    })
+    return Table.fromMap(fetch)
   },
   async getTable({ tableId }: { tableId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getTable({ tableId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getTable({ tableId })
     const fetch = await this.customFetch<Table>(path, {
       ...options,
       method,
-    });
-    return Table.fromMap(fetch);
+    })
+    return Table.fromMap(fetch)
   },
   async getUserTables({ userId }: { userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getUserTables({ userId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getTablesFromUser({ userId })
     const fetch = await this.customFetch<Table[]>(path, {
       ...options,
       method,
-    });
-    return fetch.map((table) => Table.fromMap(table));
+    })
+    return fetch.map(table => Table.fromMap(table))
   },
   async updateTable({ tableId }: { tableId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.updateTable({ tableId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.updateTable({ tableId })
     const fetch = await this.customFetch<Table>(path, {
       ...options,
       method,
-    });
-    return Table.fromMap(fetch);
+    })
+    return Table.fromMap(fetch)
   },
   async deleteTable({ tableId }: { tableId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.deleteTable({ tableId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.deleteTable({ tableId })
     const fetch = await this.customFetch<Table>(path, {
       ...options,
       method,
-    });
-    return Table.fromMap(fetch);
+    })
+    return Table.fromMap(fetch)
+  },
+  async getTableAcceptMessage({ tableId }: { tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getTableAcceptMessage({ tableId })
+    const fetch = await this.customFetch<AcceptMessage>(path, {
+      ...options,
+      method,
+    })
+    return AcceptMessage.fromMap(fetch)
   },
 
   // FLAIR REQUESTS
   async fetchAllFlairs(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getAllFlairs();
+    const { path, method } = API_ENDPOINTS_REQUESTS.getAllFlairs()
     const fetch = await this.customFetch<Flair[]>(path, {
       ...options,
       method,
-    });
-    return fetch.map((flair) => Flair.fromMap(flair));
+    })
+    return fetch.map(flair => Flair.fromMap(flair))
   },
 
   // APPLICATION REQUESTS
   async createApplication(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.createApplication();
+    const { path, method } = API_ENDPOINTS_REQUESTS.createApplication()
     const data = await this.customFetch<Application>(path, {
       ...options,
       method,
-    });
-    return Application.fromMap(data);
+    })
+    return Application.fromMap(data)
   },
   async getApplication({ applicationId }: { applicationId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getApplication({ applicationId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplication({ applicationId })
     const data = await this.customFetch<Application>(path, {
       ...options,
       method,
-    });
-    return Application.fromMap(data);
+    })
+    return Application.fromMap(data)
   },
-  async getApplicationFromTableAndUser({ tableId, userId }: { tableId: string; userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationFromTableAndUser({ tableId, userId });
+  async getApplicationFromTableAndUser({ userId, tableId }: { userId: string; tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationFromUserAndTable({ userId, tableId })
     const data = await this.customFetch<Application>(path, {
       ...options,
       method,
-    });
-    return Application.fromMap(data);
+    })
+    return Application.fromMap(data)
   },
   async getApplicationsFromUser({ userId }: { userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationsFromUser({ userId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationsFromUser({ userId })
     const data = await this.customFetch<Application[]>(path, {
       ...options,
       method,
-    });
-    return data.map((application) => Application.fromMap(application)) as Application[];
+    })
+    return data.map(application => Application.fromMap(application)) as Application[]
   },
   async getApplicationsFromTable({ tableId }: { tableId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationsFromTable({ tableId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationsFromTable({ tableId })
     const data = await this.customFetch<Application[]>(path, {
       ...options,
       method,
-    });
-    return data.map((application) => Application.fromMap(application)) as Application[];
+    })
+    return data.map(application => Application.fromMap(application)) as Application[]
   },
   async acceptApplication({ applicationId }: { applicationId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.acceptApplication({ applicationId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.acceptApplication({ applicationId })
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
   },
   async declineApplication({ applicationId }: { applicationId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.declineApplication({ applicationId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.declineApplication({ applicationId })
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
   },
   async deleteApplication({ applicationId }: { applicationId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.deleteApplication({ applicationId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.deleteApplication({ applicationId })
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
+  },
+  async getApplicationAcceptMessage({ applicationId }: { applicationId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationAcceptMessage({ applicationId })
+    const fetch = await this.customFetch<AcceptMessage>(path, {
+      ...options,
+      method,
+    })
+    return AcceptMessage.fromMap(fetch)
   },
 
   // NOTIFICATION REQUESTS
   async getNotificationsFromUser({ userId }: { userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getNotificationsFromUser({ userId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getNotificationsFromUser({ userId })
     const data = await this.customFetch<Notification[]>(path, {
       ...options,
       method,
-    });
-    return data.map((application) => Notification.fromMap(application)) as Notification[];
+    })
+    return data.map(notification => Notification.fromMap(notification)) as Notification[]
   },
   async getNotification({ notificationId }: { notificationId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getNotification({ notificationId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.getNotification({ notificationId })
     const data = await this.customFetch<Notification>(path, {
       ...options,
       method,
-    });
-    return Notification.fromMap(data);
+    })
+    return Notification.fromMap(data)
   },
   async readNotification({ notificationId }: { notificationId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.readNotification({ notificationId });
+    const { path, method } = API_ENDPOINTS_REQUESTS.readNotification({ notificationId })
     return this.customFetch<void>(path, {
       ...options,
       method,
-    });
+    })
   },
-};
+}

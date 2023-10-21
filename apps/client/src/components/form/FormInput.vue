@@ -1,39 +1,39 @@
 <script setup lang="ts">
 const props = defineProps<{
-  type?: string;
-  name: string;
-  label: string;
-  placeholder: string;
-  modelValue?: string;
-  maxlength?: number;
-  autocomplete?: 'on' | 'off';
-  disabled?: boolean;
-  error?: string;
-  theme?: 'primary' | 'secondary';
-}>();
-defineEmits<{ (e: 'update:modelValue'): void }>();
+  type?: string
+  name: string
+  label: string
+  placeholder: string
+  modelValue?: string
+  maxlength?: number
+  autocomplete?: 'on' | 'off'
+  disabled?: boolean
+  error?: string
+  theme?: 'primary' | 'secondary'
+}>()
+defineEmits<{ (_e: 'update:modelValue'): void }>()
 
-const slots = useSlots();
-const showPassword = ref(false);
+const slots = useSlots()
+const showPassword = ref(false)
 
 const finalType = computed(() => {
-  return props.type === 'password' ? (showPassword.value ? 'text' : 'password') : props.type;
-});
+  return props.type === 'password' ? (showPassword.value ? 'text' : 'password') : props.type
+})
 
 const inputFinalClass = computed(() => {
-  return slots['field-icon'] ? (props.type === 'password' ? '' : 'mr-3') : props.type === 'password' ? 'ml-3' : 'mx-3';
-});
+  return slots['field-icon'] ? (props.type === 'password' ? '' : 'mr-3') : props.type === 'password' ? 'ml-3' : 'mx-3'
+})
 
 const wrapperCustomClass = computed(() => {
-  const bg = !props.theme || props.theme === 'primary' ? 'bg-primary' : 'bg-secondary';
-  const text = !props.theme || props.theme === 'primary' ? 'text-secondary' : 'text-primary';
+  const bg = !props.theme || props.theme === 'primary' ? 'bg-primary' : 'bg-secondary'
+  const text = !props.theme || props.theme === 'primary' ? 'text-secondary' : 'text-primary'
   const border = props.error
     ? 'border-danger'
     : !props.theme || props.theme === 'primary'
-    ? 'border-primary-light'
-    : 'border-secondary-dark';
-  return `${bg} ${text} ${border}`;
-});
+        ? 'border-primary-light'
+        : 'border-secondary-dark'
+  return `${bg} ${text} ${border}`
+})
 </script>
 
 <template>
@@ -48,11 +48,11 @@ const wrapperCustomClass = computed(() => {
         :placeholder="placeholder"
         :value="modelValue"
         :maxlength="maxlength"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :autocomplete="autocomplete"
         class="flex items-center w-full h-full outline-none bg-transparent"
         :class="inputFinalClass"
-      />
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      >
       <button
         v-if="type === 'password'"
         class="shrink-0 flex justify-center items-center w-10 h-10 text-xl transition-transform active:scale-90"

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { Application, ApplicationStatus, Table } from '@rpg-together/models';
+import type { Application, Table } from '@rpg-together/models'
+import { ApplicationStatus } from '@rpg-together/models'
 
-const router = useRouter();
-const tableId = useRoute().params.id as string;
+const router = useRouter()
+const tableId = useRoute().params.id as string
 
-definePageMeta({ middleware: ['logged-in'] });
+definePageMeta({ middleware: ['logged-in'] })
 
-const table = ref<Table>();
-const applications = ref<Application[]>([]);
+const table = ref<Table>()
+const applications = ref<Application[]>([])
 
 onBeforeMount(async () => {
-  table.value = await useRpgTogetherAPI.getTable({ tableId });
-  if (!table.value) {
-    navigateTo({ path: router.options.history.state.back?.toString() ?? '/' });
-  }
-  applications.value = await useRpgTogetherAPI.getApplicationsFromTable({ tableId });
-});
+  table.value = await useRpgTogetherAPI.getTable({ tableId })
+  if (!table.value)
+    navigateTo({ path: router.options.history.state.back?.toString() ?? '/' })
+  applications.value = await useRpgTogetherAPI.getApplicationsFromTable({ tableId })
+})
 </script>
 
 <template>

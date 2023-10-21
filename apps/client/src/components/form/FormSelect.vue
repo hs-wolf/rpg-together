@@ -1,74 +1,73 @@
 <script setup lang="ts">
-import { AdvancedSelectOption } from '~/types';
+import type { AdvancedSelectOption } from '~/types'
 
 const props = defineProps<{
-  options: AdvancedSelectOption[];
-  initialFlairs?: AdvancedSelectOption[];
-  placeholderMessage: string;
-  searchMessage: string;
-  emptyMessage: string;
-}>();
+  options: AdvancedSelectOption[]
+  initialFlairs?: AdvancedSelectOption[]
+  placeholderMessage: string
+  searchMessage: string
+  emptyMessage: string
+}>()
 
-const emits = defineEmits<{ (e: 'change', items: AdvancedSelectOption[]): void }>();
+const emits = defineEmits<{ (_e: 'change', _items: AdvancedSelectOption[]): void }>()
 
-const showOptions = ref(false);
-const componentRef = ref<HTMLElement>();
+const showOptions = ref(false)
+const componentRef = ref<HTMLElement>()
 onClickOutside(componentRef, () => {
-  showOptions.value = false;
-});
+  showOptions.value = false
+})
 
-const selectedOptions = ref<AdvancedSelectOption[]>([]);
-const optionsQuery = ref('');
+const selectedOptions = ref<AdvancedSelectOption[]>([])
+const optionsQuery = ref('')
 const filteredOptions = computed(() =>
   props.options
-    .filter((item) => !selectedOptions.value.includes(item))
-    .filter((item) => item.label.toLowerCase().includes(optionsQuery.value.toLowerCase()))
-);
+    .filter(item => !selectedOptions.value.includes(item))
+    .filter(item => item.label.toLowerCase().includes(optionsQuery.value.toLowerCase())),
+)
 
-const insertOption = (item: AdvancedSelectOption) => {
-  selectedOptions.value.push(item);
+function insertOption(item: AdvancedSelectOption) {
+  selectedOptions.value.push(item)
   if (!filteredOptions.value.length) {
-    optionsQuery.value = '';
-    showOptions.value = false;
+    optionsQuery.value = ''
+    showOptions.value = false
   }
-  changeOptions();
-};
+  changeOptions()
+}
 
-const removeOption = (index: number) => {
-  selectedOptions.value.splice(index, 1);
-  changeOptions();
-};
+function removeOption(index: number) {
+  selectedOptions.value.splice(index, 1)
+  changeOptions()
+}
 
-const clearOptions = () => {
-  selectedOptions.value = [];
-  showOptions.value = false;
-  changeOptions();
-};
+function clearOptions() {
+  selectedOptions.value = []
+  showOptions.value = false
+  changeOptions()
+}
 
-const changeOptions = () => {
-  emits('change', selectedOptions.value);
-};
+function changeOptions() {
+  emits('change', selectedOptions.value)
+}
 
-const setInitialFlairs = () => {
-  if (props.initialFlairs?.length) {
-    selectedOptions.value = props.initialFlairs;
-  }
-};
+function setInitialFlairs() {
+  if (props.initialFlairs?.length)
+    selectedOptions.value = props.initialFlairs
+}
 
 onMounted(() => {
-  setInitialFlairs();
-});
+  setInitialFlairs()
+})
 
 watch(
   () => props.initialFlairs,
   () => {
-    setInitialFlairs();
-  }
-);
+    setInitialFlairs()
+  },
+)
 
 defineExpose({
   clearOptions,
-});
+})
 </script>
 
 <template>
@@ -83,7 +82,9 @@ defineExpose({
           :class="{ 'w-full': !showOptions }"
           @click.prevent="showOptions = !showOptions"
         >
-          <p class="font-semibold">{{ placeholderMessage }}</p>
+          <p class="font-semibold">
+            {{ placeholderMessage }}
+          </p>
           <NuxtIcon name="chevron-up" class="transition-transform" :class="{ 'rotate-180': showOptions }" />
         </button>
       </div>
@@ -109,11 +110,11 @@ defineExpose({
         <div v-if="showOptions" class="flex items-center gap-2 p-3 h-10 bg-secondary-dark">
           <NuxtIcon name="search-tool" class="text-accent-dark" />
           <input
-            type="text"
             v-model="optionsQuery"
+            type="text"
             :placeholder="searchMessage"
             class="w-full bg-transparent outline-none placeholder-accent-dark placeholder:font-normal"
-          />
+          >
         </div>
         <div class="flex flex-col max-h-[190px] overflow-y-auto">
           <button
@@ -124,7 +125,9 @@ defineExpose({
           >
             <span>{{ option.label }}</span>
           </button>
-          <p v-if="!filteredOptions.length" class="px-3 py-4 text-primary-light">{{ emptyMessage }}</p>
+          <p v-if="!filteredOptions.length" class="px-3 py-4 text-primary-light">
+            {{ emptyMessage }}
+          </p>
         </div>
       </div>
     </Transition>

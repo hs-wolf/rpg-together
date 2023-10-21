@@ -1,9 +1,9 @@
 {
   "recommendations": [
     "nrwl.angular-console",
-    "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "firsttris.vscode-jest-runner",
-    "Vue.volar"
+    "Vue.volar",
+    "lokalise.i18n-ally",
+    "esbenp.prettier-vscode"
   ]
 }

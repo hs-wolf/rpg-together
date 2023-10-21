@@ -1,93 +1,92 @@
 <script setup lang="ts">
-import { AdvancedSelectOption } from '~/types';
-import { useFlairsStore } from '~/stores';
+import type { AdvancedSelectOption } from '~/types'
+import { useFlairsStore } from '~/stores'
 
-const flairsStore = useFlairsStore();
-const { systemsFlairs, languagesFlairs, ratingsFlairs, vacanciesFlairs, genresFlairs } = storeToRefs(flairsStore);
+const props = defineProps<{ open?: boolean; initialFlairs?: string[] }>()
+const emits = defineEmits<{ (_e: 'change', _values: string[]): void }>()
+const flairsStore = useFlairsStore()
+const { systemsFlairs, languagesFlairs, ratingsFlairs, vacanciesFlairs, genresFlairs } = storeToRefs(flairsStore)
 
-const props = defineProps<{ open?: boolean; initialFlairs?: string[] }>();
-const emits = defineEmits<{ (e: 'change', values: string[]): void }>();
-
-const showFilterMenu = ref(props.open);
-const systemsFilterRef = ref();
-const languagesFilterRef = ref();
-const ratingsFilterRef = ref();
-const vacanciesFilterRef = ref();
-const genresFilterRef = ref();
+const showFilterMenu = ref(props.open)
+const systemsFilterRef = ref()
+const languagesFilterRef = ref()
+const ratingsFilterRef = ref()
+const vacanciesFilterRef = ref()
+const genresFilterRef = ref()
 
 const selectedFilters = reactive<{
-  systems: AdvancedSelectOption[];
-  languages: AdvancedSelectOption[];
-  ratings: AdvancedSelectOption[];
-  vacancies: AdvancedSelectOption[];
-  genres: AdvancedSelectOption[];
+  systems: AdvancedSelectOption[]
+  languages: AdvancedSelectOption[]
+  ratings: AdvancedSelectOption[]
+  vacancies: AdvancedSelectOption[]
+  genres: AdvancedSelectOption[]
 }>({
   systems: [],
   languages: [],
   vacancies: [],
   ratings: [],
   genres: [],
-});
+})
 
-const clearFilters = () => {
-  systemsFilterRef.value.clearOptions();
-  languagesFilterRef.value.clearOptions();
-  ratingsFilterRef.value.clearOptions();
-  vacanciesFilterRef.value.clearOptions();
-  genresFilterRef.value.clearOptions();
-};
+function clearFilters() {
+  systemsFilterRef.value.clearOptions()
+  languagesFilterRef.value.clearOptions()
+  ratingsFilterRef.value.clearOptions()
+  vacanciesFilterRef.value.clearOptions()
+  genresFilterRef.value.clearOptions()
+}
 
 watch(selectedFilters, () => {
   const ids = [
-    ...selectedFilters.systems.map((option) => option.id ?? option.name),
-    ...selectedFilters.languages.map((option) => option.id ?? option.name),
-    ...selectedFilters.ratings.map((option) => option.id ?? option.name),
-    ...selectedFilters.vacancies.map((option) => option.id ?? option.name),
-    ...selectedFilters.genres.map((option) => option.id ?? option.name),
-  ];
-  emits('change', ids);
-});
+    ...selectedFilters.systems.map(option => option.id ?? option.name),
+    ...selectedFilters.languages.map(option => option.id ?? option.name),
+    ...selectedFilters.ratings.map(option => option.id ?? option.name),
+    ...selectedFilters.vacancies.map(option => option.id ?? option.name),
+    ...selectedFilters.genres.map(option => option.id ?? option.name),
+  ]
+  emits('change', ids)
+})
 
-const setInitialFlairs = () => {
+function setInitialFlairs() {
   if (props.initialFlairs?.length) {
     selectedFilters.systems = flairsStore.mapFlairsToAdvancedSelectOption(
       systemsFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id);
-      })
-    );
+        return props.initialFlairs?.includes(flair.id)
+      }),
+    )
     selectedFilters.languages = flairsStore.mapFlairsToAdvancedSelectOption(
       languagesFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id);
-      })
-    );
+        return props.initialFlairs?.includes(flair.id)
+      }),
+    )
     selectedFilters.ratings = flairsStore.mapFlairsToAdvancedSelectOption(
       ratingsFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id);
-      })
-    );
+        return props.initialFlairs?.includes(flair.id)
+      }),
+    )
     selectedFilters.vacancies = flairsStore.mapFlairsToAdvancedSelectOption(
       vacanciesFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id);
-      })
-    );
+        return props.initialFlairs?.includes(flair.id)
+      }),
+    )
     selectedFilters.genres = flairsStore.mapFlairsToAdvancedSelectOption(
       genresFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id);
-      })
-    );
+        return props.initialFlairs?.includes(flair.id)
+      }),
+    )
   }
-};
+}
 
 onMounted(() => {
-  setInitialFlairs();
-});
+  setInitialFlairs()
+})
 
 watch(
   () => props.initialFlairs,
   () => {
-    setInitialFlairs();
-  }
-);
+    setInitialFlairs()
+  },
+)
 </script>
 
 <template>
@@ -110,48 +109,49 @@ watch(
         <FormSelect
           ref="systemsFilterRef"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(systemsFlairs)"
-          :initialFlairs="selectedFilters.systems"
-          placeholderMessage="Systems"
-          :searchMessage="$t('flairs-menu.search-flair')"
-          :emptyMessage="$t('flairs-menu.no-options-left')"
+          :initial-flairs="selectedFilters.systems"
+          placeholder-message="Systems"
+          :search-message="$t('flairs-menu.search-flair')"
+          :empty-message="$t('flairs-menu.no-options-left')"
           @change="(options: AdvancedSelectOption[]) => (selectedFilters.systems = options)"
         />
         <FormSelect
           ref="languagesFilterRef"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(languagesFlairs)"
-          :initialFlairs="selectedFilters.languages"
-          placeholderMessage="Languages"
-          :searchMessage="$t('flairs-menu.search-flair')"
-          :emptyMessage="$t('flairs-menu.no-options-left')"
+          :initial-flairs="selectedFilters.languages"
+          placeholder-message="Languages"
+          :search-message="$t('flairs-menu.search-flair')"
+          :empty-message="$t('flairs-menu.no-options-left')"
           @change="(options: AdvancedSelectOption[]) => (selectedFilters.languages = options)"
         />
         <FormSelect
           ref="ratingsFilterRef"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(ratingsFlairs)"
-          :initialFlairs="selectedFilters.ratings"
-          placeholderMessage="Ratings"
-          :searchMessage="$t('flairs-menu.search-flair')"
-          :emptyMessage="$t('flairs-menu.no-options-left')"
+          :initial-flairs="selectedFilters.ratings"
+          placeholder-message="Ratings"
+          :search-message="$t('flairs-menu.search-flair')"
+          :empty-message="$t('flairs-menu.no-options-left')"
           @change="(options: AdvancedSelectOption[]) => (selectedFilters.ratings = options)"
         />
         <FormSelect
           ref="vacanciesFilterRef"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(vacanciesFlairs)"
-          :initialFlairs="selectedFilters.vacancies"
-          placeholderMessage="Vacancies"
-          :searchMessage="$t('flairs-menu.search-flair')"
-          :emptyMessage="$t('flairs-menu.no-options-left')"
+          :initial-flairs="selectedFilters.vacancies"
+          placeholder-message="Vacancies"
+          :search-message="$t('flairs-menu.search-flair')"
+          :empty-message="$t('flairs-menu.no-options-left')"
           @change="(options: AdvancedSelectOption[]) => (selectedFilters.vacancies = options)"
         />
         <FormSelect
           ref="genresFilterRef"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(genresFlairs)"
-          :initialFlairs="selectedFilters.genres"
-          placeholderMessage="Genres"
-          :searchMessage="$t('flairs-menu.search-flair')"
-          :emptyMessage="$t('flairs-menu.no-options-left')"
+          :initial-flairs="selectedFilters.genres"
+          placeholder-message="Genres"
+          :search-message="$t('flairs-menu.search-flair')"
+          :empty-message="$t('flairs-menu.no-options-left')"
           @change="(options: AdvancedSelectOption[]) => (selectedFilters.genres = options)"
-        /></div
-    ></Transition>
+        />
+      </div>
+    </Transition>
   </div>
 </template>

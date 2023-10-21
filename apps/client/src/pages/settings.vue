@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 
-useHead({ title: useI18n().t('settings.title') });
+useHead({ title: useI18n().t('settings.title') })
 </script>
 
 <template>

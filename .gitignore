@@ -1,8 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
+dist
+tmp
 /out-tsc
 
 # dependencies
@@ -38,16 +38,31 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Nuxt Apps
-apps/**/node_modules
-apps/**/*.log*
-apps/**/*.nuxt
-apps/**/*.nitro
-apps/**/*.cache
-apps/**/*.output
-apps/**/*.env
-apps/**/dist
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
 
 # Custom
-.env
-firebase-keys.json
+gc-service-account.json
+firebase-config.json

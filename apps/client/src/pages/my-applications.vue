@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { useApplicationsStore } from '~/stores';
-import { LIMIT_OF_APPLICATIONS } from '@rpg-together/utils';
+import { useI18n } from 'vue-i18n'
+import { LIMIT_OF_APPLICATIONS } from '@rpg-together/utilities'
+import { useApplicationsStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] });
-useHead({ title: useI18n().t('my-applications.title') });
+definePageMeta({ middleware: ['logged-in'] })
+useHead({ title: useI18n().t('my-applications.title') })
 
-const applicationsStore = useApplicationsStore();
-const { myApplications } = storeToRefs(applicationsStore);
+const applicationsStore = useApplicationsStore()
+const { myApplications } = storeToRefs(applicationsStore)
 
 onMounted(async () => {
-  if (!myApplications.value.length) {
-    await applicationsStore.fetchMyApplications({ save: true });
-  }
-});
+  if (!myApplications.value.length)
+    await applicationsStore.fetchMyApplications({ save: true })
+})
 </script>
 
 <template>
@@ -21,7 +20,7 @@ onMounted(async () => {
     <PageTitle :title="$t('my-applications.title')" />
     <div class="flex justify-between items-center gap-3 p-3">
       <i18n-t keypath="my-applications.applications-limit" tag="p" scope="global" class="text-sm leading-none">
-        <template v-slot:limit>
+        <template #limit>
           <span class="font-semibold">{{ `${myApplications.length} / ${LIMIT_OF_APPLICATIONS}` }}</span>
         </template>
       </i18n-t>

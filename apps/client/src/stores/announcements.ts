@@ -1,4 +1,4 @@
-import { ANNOUNCEMENTS_STORE } from '~/constants';
+import { ANNOUNCEMENTS_STORE } from '~/constants'
 
 interface IState {}
 
@@ -6,7 +6,7 @@ export const useAnnouncementsStore = defineStore(ANNOUNCEMENTS_STORE, {
   state: (): IState => ({}),
   getters: {},
   actions: {
-    getAnnouncements(limit?: number) {
+    getAnnouncements(_limit?: number) {
       return [
         {
           id: '1',
@@ -29,11 +29,10 @@ export const useAnnouncementsStore = defineStore(ANNOUNCEMENTS_STORE, {
           message:
             'Integer metus lorem, commodo sed pharetra id, cursus id enim. Cras lobortis neque eu ullamcorper elementum. Fusce eu elit ut ut.',
         },
-      ];
+      ]
     },
   },
-});
+})
 
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAnnouncementsStore, import.meta.hot));
-}
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(useAnnouncementsStore, import.meta.hot))

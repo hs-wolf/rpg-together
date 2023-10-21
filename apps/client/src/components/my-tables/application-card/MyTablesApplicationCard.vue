@@ -1,60 +1,53 @@
 <script setup lang="ts">
-import { useTablesStore } from '~/stores';
-import { Application, ApplicationStatus, Table } from '@rpg-together/models';
-import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
+import type { Application } from '@rpg-together/models'
+import { ApplicationStatus } from '@rpg-together/models'
+import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 
-const props = defineProps<{ application: Application }>();
+const props = defineProps<{ application: Application }>()
 
-const emits = defineEmits<{ (e: 'accept'): void; (e: 'decline'): void }>();
+const emits = defineEmits<{ (_e: 'accept'): void; (_e: 'decline'): void }>()
 
-const localeRoute = useLocaleRoute();
-const tablesStore = useTablesStore();
+const localeRoute = useLocaleRoute()
 
-const table = ref<Table>();
-
-onBeforeMount(async () => {
-  table.value = await tablesStore.getTable(props.application.tableId);
-});
-
-const showInfo = ref(false);
-const showAcceptModal = ref(false);
-const showRejectModal = ref(false);
+const showInfo = ref(false)
+const showAcceptModal = ref(false)
+const showRejectModal = ref(false)
 
 const statusColor = computed(() => {
   switch (props.application.status) {
     case ApplicationStatus.WAITING:
-      return 'text-blue-500';
+      return 'text-blue-500'
     case ApplicationStatus.ACCEPTED:
-      return 'text-green-500';
+      return 'text-green-500'
     case ApplicationStatus.DECLINED:
-      return 'text-danger';
+      return 'text-danger'
     default:
-      return 'text-blue-500';
+      return 'text-blue-500'
   }
-});
+})
 
 const statusIcon = computed(() => {
   switch (props.application.status) {
     case ApplicationStatus.WAITING:
-      return 'analog-clock';
+      return 'analog-clock'
     case ApplicationStatus.ACCEPTED:
-      return 'check';
+      return 'check'
     case ApplicationStatus.DECLINED:
-      return 'danger';
+      return 'danger'
     default:
-      return 'analog-clock';
+      return 'analog-clock'
   }
-});
+})
 
-const acceptApplication = () => {
-  showAcceptModal.value = false;
-  emits('accept');
-};
+function acceptApplication() {
+  showAcceptModal.value = false
+  emits('accept')
+}
 
-const declineApplication = () => {
-  showRejectModal.value = false;
-  emits('accept');
-};
+function declineApplication() {
+  showRejectModal.value = false
+  emits('decline')
+}
 </script>
 
 <template>
@@ -67,13 +60,15 @@ const declineApplication = () => {
       <div class="flex items-center gap-2 text-start">
         <NuxtIcon :name="statusIcon" class="text-xl" :class="statusColor" />
         <NuxtImg
-          :src="application?.applicantHeader?.avatar ?? DEFAULT_USER_AVATAR"
-          :alt="application?.applicantHeader?.username"
+          :src="application?.applicant?.avatar ?? DEFAULT_USER_AVATAR"
+          :alt="application?.applicant?.username"
           width="20px"
           height="20px"
           class="shadow rounded-full"
         />
-        <h1 class="truncate font-semibold">{{ application?.applicantHeader?.username }}</h1>
+        <h1 class="truncate font-semibold">
+          {{ application?.applicant?.username }}
+        </h1>
       </div>
       <NuxtIcon name="chevron-up" class="shrink-0 text-xl transition-transform" :class="{ 'rotate-180': !showInfo }" />
     </button>
@@ -91,7 +86,7 @@ const declineApplication = () => {
             </span>
           </template>
         </i18n-t>
-        <hr class="border-secondary-dark" />
+        <hr class="border-secondary-dark">
         <i18n-t keypath="my-applications-application-card.status" tag="p" scope="global" class="text-sm font-semibold">
           <template #text>
             <span class="text-base" :class="statusColor">
@@ -102,19 +97,19 @@ const declineApplication = () => {
         <div class="flex flex-wrap justify-end gap-3">
           <button
             v-if="application.status === ApplicationStatus.WAITING"
-            @click.prevent="showRejectModal = !showRejectModal"
             class="btn-danger"
+            @click.prevent="showRejectModal = !showRejectModal"
           >
             {{ $t('my-tables-application-card.decline') }}
           </button>
-          <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicantId}` })" class="btn-secondary flex gap-2">
+          <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicant.id}` })" class="btn-secondary flex gap-2">
             <NuxtIcon name="external-link" />
             <p>{{ $t('my-tables-application-card.profile') }}</p>
           </NuxtLink>
           <button
             v-if="application.status === ApplicationStatus.WAITING"
-            @click.prevent="showAcceptModal = !showAcceptModal"
             class="btn-accent"
+            @click.prevent="showAcceptModal = !showAcceptModal"
           >
             {{ $t('my-tables-application-card.accept') }}
           </button>

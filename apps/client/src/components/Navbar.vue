@@ -1,47 +1,47 @@
 <script setup lang="ts">
-import { AppLang } from '~/types';
-import { useLocalesStore, useUserStore, useNotificationsStore } from '~/stores';
-import { DEFAULT_USER_AVATAR } from '@rpg-together/utils';
+import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
+import { AppLang } from '~/types'
+import { useLocalesStore, useNotificationsStore, useUserStore } from '~/stores'
 
-const localePath = useLocalePath();
-const firebaseUser = useFirebase.currentUser();
-const localesStore = useLocalesStore();
-const notificationsStore = useNotificationsStore();
-const { unreadNotifications } = storeToRefs(notificationsStore);
-const userStore = useUserStore();
-const { user } = storeToRefs(userStore);
+const localePath = useLocalePath()
+const firebaseUser = useFirebase.currentUser()
+const localesStore = useLocalesStore()
+const notificationsStore = useNotificationsStore()
+const { unreadNotifications } = storeToRefs(notificationsStore)
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 
-const showMobileMenu = ref(false);
-const mobileMenuRef = ref<HTMLDivElement>();
+const showMobileMenu = ref(false)
+const mobileMenuRef = ref<HTMLDivElement>()
 onClickOutside(mobileMenuRef, () => {
-  if (!showMobileMenu.value) {
-    return;
-  }
-  showMobileMenu.value = !showMobileMenu.value;
-});
+  if (!showMobileMenu.value)
+    return
+
+  showMobileMenu.value = !showMobileMenu.value
+})
 
 const tabs = [
   { name: 'home', icon: 'home', link: 'index' },
   { name: 'search', icon: 'search-tool', link: 'search' },
   { name: 'notifications', icon: 'bell', link: 'notifications' },
   { name: 'profile', icon: 'user', link: 'profile' },
-];
+]
 
 const menus = [
   { name: 'my-applications', icon: 'message', link: 'my-applications' },
   { name: 'my-tables', icon: 'bar-table', link: 'my-tables' },
   // { name: 'settings', icon: 'settings-cog', link: 'settings' },
   { name: 'about', icon: 'information-circle', link: 'about' },
-];
+]
 
-const closeMobileMenu = () => {
-  showMobileMenu.value = false;
-};
+function closeMobileMenu() {
+  showMobileMenu.value = false
+}
 
-const logout = async () => {
-  await userStore.signOut();
-  closeMobileMenu();
-};
+async function logout() {
+  await userStore.signOut()
+  closeMobileMenu()
+}
 </script>
 
 <template>
@@ -82,7 +82,9 @@ const logout = async () => {
               class="flex items-center w-full p-3 overflow-hidden"
               @click.prevent="closeMobileMenu"
             >
-              <h1 class="font-semibold truncate">{{ user?.username }}</h1>
+              <h1 class="font-semibold truncate">
+                {{ user?.username }}
+              </h1>
             </NuxtLink>
             <button class="p-3 active:scale-90 transition-transform" @click.prevent="logout">
               <NuxtIcon name="logout" class="text-xl text-danger" />
@@ -91,11 +93,11 @@ const logout = async () => {
           <div v-else class="flex justify-between gap-3 h-[64px] pr-3 shadow">
             <div class="grid grid-cols-2 gap-3 w-full p-3 pr-0">
               <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
-                {{ $t('navbar.menus.login') }}</NuxtLink
-              >
+                {{ $t('navbar.menus.login') }}
+              </NuxtLink>
               <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
-                {{ $t('navbar.menus.register') }}</NuxtLink
-              >
+                {{ $t('navbar.menus.register') }}
+              </NuxtLink>
             </div>
           </div>
           <div class="flex flex-col gap-3 h-full py-3">
@@ -110,10 +112,10 @@ const logout = async () => {
               <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
             </NuxtLink>
             <button
+              class="menu-button"
               @click.prevent="
                 $i18n.locale === 'en' ? localesStore.changeLocale(AppLang.PT) : localesStore.changeLocale(AppLang.EN)
               "
-              class="menu-button"
             >
               <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
               <p>{{ $t('navbar.language') }}</p>

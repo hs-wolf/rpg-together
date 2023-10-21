@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n';
-import { useUserStore } from '~/stores';
+import { useI18n } from 'vue-i18n'
+import { useUserStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-out'] });
+definePageMeta({ middleware: ['logged-out'] })
 
-useHead({ title: useI18n().t('login.title') });
+useHead({ title: useI18n().t('login.title') })
 
-const localePath = useLocalePath();
-const userStore = useUserStore();
-const { signingIn } = storeToRefs(userStore);
+const localePath = useLocalePath()
+const userStore = useUserStore()
+const { signingIn } = storeToRefs(userStore)
 
-const email = ref('');
-const password = ref('');
-const showPassword = ref(false);
+const email = ref('')
+const password = ref('')
+const showPassword = ref(false)
 </script>
 
 <template>
@@ -23,24 +23,24 @@ const showPassword = ref(false);
         <div class="relative flex items-center border border-primary-light rounded">
           <NuxtIcon name="email" class="absolute left-3 pointer-events-none" />
           <input
+            v-model="email"
             name="email"
             type="text"
-            v-model="email"
             placeholder="Email"
             :disabled="signingIn"
             class="w-full h-full pl-[42px] pr-3 py-2 outline-none bg-transparent autofill:bg-transparent"
-          />
+          >
         </div>
         <div class="relative flex items-center border border-primary-light rounded">
           <NuxtIcon name="key" class="absolute left-3 pointer-events-none" />
           <input
+            v-model="password"
             name="password"
             :type="showPassword ? 'text' : 'password'"
-            v-model="password"
             placeholder="Password"
             :disabled="signingIn"
             class="w-full h-full px-[42px] py-2 outline-none bg-transparent"
-          />
+          >
           <button
             class="absolute right-0 flex px-3 py-2 transition-transform active:scale-90"
             @click.prevent="showPassword = !showPassword"
@@ -50,7 +50,9 @@ const showPassword = ref(false);
         </div>
       </div>
       <LoadingCard v-if="signingIn" />
-      <button v-else class="btn-accent" @click.prevent="userStore.signIn(email, password)">{{ $t('login.submit') }}</button>
+      <button v-else class="btn-accent" @click.prevent="userStore.signIn(email, password)">
+        {{ $t('login.submit') }}
+      </button>
       <i18n-t keypath="login.no-account" tag="div" scope="global" class="text-center text-sm">
         <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-medium">
           {{ $t('login.register-here') }}

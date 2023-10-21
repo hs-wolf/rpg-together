@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // TODO: Change any for the alert class.
-defineProps<{ alert: any }>();
-defineEmits<{ (e: 'markAsRead'): void }>();
+defineProps<{ alert: any }>()
+defineEmits<{ (_e: 'markAsRead'): void }>()
 </script>
 
 <template>
@@ -12,8 +12,12 @@ defineEmits<{ (e: 'markAsRead'): void }>();
   >
     <div class="flex items-center gap-1" :class="alert.read ? 'text-primary-light' : 'text-accent'">
       <NuxtIcon name="bell" />
-      <h1 class="text-sm font-medium leading-none">{{ alert.title }}</h1>
+      <h1 class="text-sm font-medium leading-none">
+        {{ alert.title }}
+      </h1>
     </div>
-    <p class="text-xs">{{ alert.message }}</p>
+    <p class="text-xs">
+      {{ alert.message }}
+    </p>
   </button>
 </template>

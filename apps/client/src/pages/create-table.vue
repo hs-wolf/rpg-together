@@ -1,84 +1,84 @@
 <script setup lang="ts">
-import { object, string } from 'zod';
-import { useForm, useField } from 'vee-validate';
-import { toFormValidator } from '@vee-validate/zod';
-import { useI18n } from 'vue-i18n';
-import { useTablesStore } from '~/stores';
+import { object, string } from 'zod'
+import { useField, useForm } from 'vee-validate'
+import { toFormValidator } from '@vee-validate/zod'
+import { useI18n } from 'vue-i18n'
 import {
   DEFAULT_TABLE_BANNER,
-  TABLE_TITLE_MAX_LENGTH,
-  TABLE_DESCRIPTION_MAX_LENGTH,
   TABLE_ACCEPT_MESSAGE_MAX_LENGTH,
-} from '@rpg-together/utils';
+  TABLE_DESCRIPTION_MAX_LENGTH,
+  TABLE_TITLE_MAX_LENGTH,
+} from '@rpg-together/utilities'
+import { useTablesStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] });
-useHead({ title: useI18n().t('create-table.title') });
+definePageMeta({ middleware: ['logged-in'] })
+useHead({ title: useI18n().t('create-table.title') })
 
-const tablesStore = useTablesStore();
-const { creatingTable } = storeToRefs(tablesStore);
+const tablesStore = useTablesStore()
+const { creatingTable } = storeToRefs(tablesStore)
 
 const formFields = {
-  title: {
+  'title': {
     name: 'title',
     label: 'create-table.form.title.label',
     placeholder: 'create-table.form.title.placeholder',
   },
-  description: {
+  'description': {
     name: 'description',
     label: 'create-table.form.description.label',
     placeholder: 'create-table.form.description.placeholder',
   },
-  ['banner-url']: {
+  'banner-url': {
     name: 'banner-url',
     label: 'create-table.form.banner-url.label',
     placeholder: 'create-table.form.banner-url.placeholder',
   },
-  flairs: {
+  'flairs': {
     name: 'flairs',
     label: 'create-table.form.flairs.label',
     placeholder: 'create-table.form.flairs.placeholder',
   },
-  ['accept-message']: {
+  'accept-message': {
     name: 'accept-message',
     label: 'create-table.form.accept-message.label',
     placeholder: 'create-table.form.accept-message.placeholder',
   },
-};
+}
 const formSchema = object({
-  title: string().min(3).max(TABLE_TITLE_MAX_LENGTH),
-  description: string().min(3).max(TABLE_DESCRIPTION_MAX_LENGTH),
-  ['banner-url']: string().optional(),
-  flairs: string().array().optional(),
-  ['accept-message']: string().min(3).max(TABLE_ACCEPT_MESSAGE_MAX_LENGTH),
-});
+  'title': string().min(3).max(TABLE_TITLE_MAX_LENGTH),
+  'description': string().min(3).max(TABLE_DESCRIPTION_MAX_LENGTH),
+  'banner-url': string().optional(),
+  'flairs': string().array().optional(),
+  'accept-message': string().min(3).max(TABLE_ACCEPT_MESSAGE_MAX_LENGTH),
+})
 
-const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) });
-const { value: titleValue } = useField<string>(formFields.title.name);
-const { value: descriptionValue } = useField<string>(formFields.description.name);
-const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name);
-const { value: flairsValue } = useField<string[]>(formFields.flairs.name);
-const { value: acceptMessageValue } = useField<string>(formFields['accept-message'].name);
-const apiError = ref('');
+const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) })
+const { value: titleValue } = useField<string>(formFields.title.name)
+const { value: descriptionValue } = useField<string>(formFields.description.name)
+const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name)
+const { value: flairsValue } = useField<string[]>(formFields.flairs.name)
+const { value: acceptMessageValue } = useField<string>(formFields['accept-message'].name)
+const apiError = ref('')
 
-const bannerImageFile = ref<File>();
-const onUserAvatarFileUploaded = async (e: Event) => {
-  const files = (e.target as HTMLInputElement).files;
-  if (!files?.length) {
-    return;
-  }
-  bannerImageFile.value = files[0];
-  bannerUrlValue.value = URL.createObjectURL(bannerImageFile.value);
-};
+const bannerImageFile = ref<File>()
+async function onUserAvatarFileUploaded(e: Event) {
+  const files = (e.target as HTMLInputElement).files
+  if (!files?.length)
+    return
 
-const updateFlairs = (values: string[]) => {
-  if (creatingTable.value) {
-    return;
-  }
-  flairsValue.value = values;
-};
+  bannerImageFile.value = files[0]
+  bannerUrlValue.value = URL.createObjectURL(bannerImageFile.value)
+}
+
+function updateFlairs(values: string[]) {
+  if (creatingTable.value)
+    return
+
+  flairsValue.value = values
+}
 
 const onSubmit = handleSubmit(async (values) => {
-  apiError.value = '';
+  apiError.value = ''
   const response = await tablesStore.createTable(
     {
       title: values.title,
@@ -86,12 +86,11 @@ const onSubmit = handleSubmit(async (values) => {
       flairs: values.flairs,
       acceptMessage: values['accept-message'],
     },
-    bannerImageFile.value
-  );
-  if (response) {
-    apiError.value = response;
-  }
-});
+    bannerImageFile.value,
+  )
+  if (response)
+    apiError.value = response
+})
 </script>
 
 <template>
@@ -99,28 +98,32 @@ const onSubmit = handleSubmit(async (values) => {
     <PageTitle :title="$t('create-table.title')" back="my-tables" />
     <div class="flex flex-col gap-6 px-3">
       <FormInput
+        v-model="titleValue"
         :name="formFields.title.name"
         :label="$t(formFields.title.label)"
         :placeholder="$t(formFields.title.placeholder)"
-        v-model="titleValue"
         :maxlength="128"
         autocomplete="off"
         :disabled="creatingTable"
         :error="errors.title"
       >
-        <template #field-icon><NuxtIcon name="title" /></template>
+        <template #field-icon>
+          <NuxtIcon name="title" />
+        </template>
       </FormInput>
       <FormTextarea
+        v-model="descriptionValue"
         :name="formFields.description.name"
         :label="$t(formFields.description.label)"
         :placeholder="$t(formFields.description.placeholder)"
-        v-model="descriptionValue"
         :maxlength="TABLE_DESCRIPTION_MAX_LENGTH"
         :rows="7"
         :disabled="creatingTable"
         :error="errors.description"
       >
-        <template #field-icon><NuxtIcon name="document" /></template>
+        <template #field-icon>
+          <NuxtIcon name="document" />
+        </template>
       </FormTextarea>
       <div class="flex flex-col gap-2">
         <h1>{{ $t(formFields['banner-url'].label) }}</h1>
@@ -130,10 +133,10 @@ const onSubmit = handleSubmit(async (values) => {
             type="file"
             name="banner"
             accept="image/*"
-            @change="onUserAvatarFileUploaded"
             :disabled="creatingTable"
             hidden
-          />
+            @change="onUserAvatarFileUploaded"
+          >
           <label
             for="banner"
             class="relative flex justify-center items-center transition-transform active:scale-90 cursor-pointer"
@@ -155,16 +158,18 @@ const onSubmit = handleSubmit(async (values) => {
       </div>
       <FlairsMenu :open="!creatingTable" @change="updateFlairs" />
       <FormTextarea
+        v-model="acceptMessageValue"
         :name="formFields['accept-message'].name"
         :label="$t(formFields['accept-message'].label)"
         :placeholder="$t(formFields['accept-message'].placeholder)"
-        v-model="acceptMessageValue"
         :maxlength="TABLE_ACCEPT_MESSAGE_MAX_LENGTH"
         :rows="7"
         :disabled="creatingTable"
         :error="errors['accept-message']"
       >
-        <template #field-icon><NuxtIcon name="send" /></template>
+        <template #field-icon>
+          <NuxtIcon name="send" />
+        </template>
       </FormTextarea>
       <LoadingCard v-if="creatingTable" />
       <div v-else class="flex flex-col gap-3">
@@ -173,7 +178,7 @@ const onSubmit = handleSubmit(async (values) => {
         </button>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>
-          <div class="absolute bottom-full error-message-arrow-up"></div>
+          <div class="absolute bottom-full error-message-arrow-up" />
         </span>
       </div>
     </div>
