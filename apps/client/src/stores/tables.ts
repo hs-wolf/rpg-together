@@ -26,11 +26,9 @@ export const useTablesStore = defineStore(TABLES_STORE, {
     async getUserTables(options?: { save: boolean }) {
       if (this.fetchingMyTables)
         return
-
       const firebaseUser = useFirebase.currentUser().value
       if (!firebaseUser)
         return
-
       try {
         this.fetchingMyTables = true
         const tables = await useRpgTogetherAPI.getUserTables({ userId: firebaseUser.uid })

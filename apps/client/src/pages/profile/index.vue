@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { DEFAULT_USER_AVATAR, firebaseTimestampToDate } from '@rpg-together/utilities'
+import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 import { useUserStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useI18n().t('profile.title') })
-
+const { t, locale } = useI18n()
 const userStore = useUserStore()
 const { user, changingAvatar } = storeToRefs(userStore)
+
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: t('profile.title') })
 
 const userAvatarImageFile = ref<File>()
 const userAvatarImageUrl = ref('')
@@ -81,10 +83,10 @@ const currentAvatarUrl = computed(() =>
         </button>
       </div>
       <p class="text-xs">
-        {{ $t('profile.creation-date', { date: firebaseTimestampToDate(user?.creationDate as any) }) }}
+        {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
       </p>
       <p class="text-xs">
-        {{ $t('profile.last-update-date', { date: firebaseTimestampToDate(user?.lastUpdateDate as any) }) }}
+        {{ $t('profile.last-update-date', { date: user?.lastUpdateDate.toLocaleString(locale) }) }}
       </p>
     </div>
     <div class="flex flex-col p-3 gap-3">

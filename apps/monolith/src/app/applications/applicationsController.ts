@@ -10,9 +10,9 @@ import {
   Security,
   Tags,
 } from 'tsoa'
-import { Inject } from 'typescript-ioc'
 import { selfOnly } from '@rpg-together/middlewares'
 import type {
+  AcceptMessage,
   Application,
   ApplicationCreateBodyRequest,
   TsoaRequest,
@@ -21,21 +21,18 @@ import {
   ApplicationStatus,
 } from '@rpg-together/models'
 import { SECURITY_NAME_BEARER } from '@rpg-together/utilities'
-import type { ApplicationsService } from './applicationsService'
+import { ApplicationsService } from './applicationsService'
 
 @Tags('Applications Service')
 @Route('/applications')
 export class ApplicationsController extends Controller {
-  @Inject
-  private _applicationsService: ApplicationsService
-
   @Security(SECURITY_NAME_BEARER)
   @Post('/')
   public async createApplication(
     @Request() request: TsoaRequest,
     @Body() body: ApplicationCreateBodyRequest,
   ): Promise<Application> {
-    return this._applicationsService.createApplication(request.user.uid, body)
+    return new ApplicationsService().createApplication(request.user.uid, body)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -43,7 +40,7 @@ export class ApplicationsController extends Controller {
   public async getApplicationsFromUser(
     @Path() userId: string,
   ): Promise<Application[]> {
-    return this._applicationsService.getApplicationsFromUser(userId)
+    return new ApplicationsService().getApplicationsFromUser(userId)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -51,7 +48,7 @@ export class ApplicationsController extends Controller {
   public async getApplicationsFromTable(
     @Path() tableId: string,
   ): Promise<Application[]> {
-    return this._applicationsService.getApplicationsFromTable(tableId)
+    return new ApplicationsService().getApplicationsFromTable(tableId)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -60,7 +57,7 @@ export class ApplicationsController extends Controller {
     @Path() userId: string,
     @Path() tableId: string,
   ): Promise<Application> {
-    return this._applicationsService.getApplicationFromUserAndTable(
+    return new ApplicationsService().getApplicationFromUserAndTable(
       userId,
       tableId,
     )
@@ -71,7 +68,7 @@ export class ApplicationsController extends Controller {
   public async getApplication(
     @Path() applicationId: string,
   ): Promise<Application> {
-    return this._applicationsService.getApplication(applicationId)
+    return new ApplicationsService().getApplication(applicationId)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -80,7 +77,7 @@ export class ApplicationsController extends Controller {
     @Request() request: TsoaRequest,
     @Path() applicationId: string,
   ): Promise<void> {
-    return this._applicationsService.changeApplicationStatus(
+    return new ApplicationsService().changeApplicationStatus(
       applicationId,
       request.user.uid,
       ApplicationStatus.ACCEPTED,
@@ -93,7 +90,7 @@ export class ApplicationsController extends Controller {
     @Request() request: TsoaRequest,
     @Path() applicationId: string,
   ): Promise<void> {
-    return this._applicationsService.changeApplicationStatus(
+    return new ApplicationsService().changeApplicationStatus(
       applicationId,
       request.user.uid,
       ApplicationStatus.DECLINED,
@@ -106,10 +103,18 @@ export class ApplicationsController extends Controller {
     @Request() request: TsoaRequest,
     @Path() applicationId: string,
   ): Promise<void> {
-    const application = await this._applicationsService.getApplication(
+    const application = await new ApplicationsService().getApplication(
       applicationId,
     )
     selfOnly(request, application.applicant.id)
-    return this._applicationsService.deleteApplication(application)
+    return new ApplicationsService().deleteApplication(application)
+  }
+
+  @Security(SECURITY_NAME_BEARER)
+  @Get('/{applicationId}/accept-message')
+  public async getAcceptMessage(@Request() request: TsoaRequest, @Path() applicationId: string): Promise<AcceptMessage> {
+    const application = await new ApplicationsService().getApplication(applicationId)
+    selfOnly(request, application.applicant.id)
+    return new ApplicationsService().getApplicationAcceptMessage(application)
   }
 }

@@ -1,3 +1,4 @@
+export * from './algolia'
 export * from './api'
 export * from './application'
 export * from './firebase'

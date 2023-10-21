@@ -32,7 +32,7 @@
 			"UserHeader": {
 				"$ref": "#/components/schemas/Partial_Pick_User.id-or-username-or-avatar__"
 			},
-			"Partial_Pick_Table.id-or-owner-or-title-or-banner__": {
+			"Partial_Pick_Table.id-or-owner-or-title-or-banner-or-acceptMessageId__": {
 				"properties": {
 					"id": {
 						"type": "string"
@@ -45,13 +45,16 @@
 					},
 					"banner": {
 						"type": "string"
+					},
+					"acceptMessageId": {
+						"type": "string"
 					}
 				},
 				"type": "object",
 				"description": "Make all properties in T optional"
 			},
 			"TableHeader": {
-				"$ref": "#/components/schemas/Partial_Pick_Table.id-or-owner-or-title-or-banner__"
+				"$ref": "#/components/schemas/Partial_Pick_Table.id-or-owner-or-title-or-banner-or-acceptMessageId__"
 			},
 			"Application": {
 				"properties": {
@@ -91,11 +94,8 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_ApplicationCreateBody.applicant-or-table-or-message_": {
+			"Pick_ApplicationCreateBody.table-or-message_": {
 				"properties": {
-					"applicant": {
-						"$ref": "#/components/schemas/UserHeader"
-					},
 					"table": {
 						"$ref": "#/components/schemas/TableHeader"
 					},
@@ -104,7 +104,6 @@
 					}
 				},
 				"required": [
-					"applicant",
 					"table",
 					"message"
 				],
@@ -112,7 +111,33 @@
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"ApplicationCreateBodyRequest": {
-				"$ref": "#/components/schemas/Pick_ApplicationCreateBody.applicant-or-table-or-message_"
+				"$ref": "#/components/schemas/Pick_ApplicationCreateBody.table-or-message_"
+			},
+			"AcceptMessage": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					},
+					"creationDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"lastUpdateDate": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"message",
+					"creationDate",
+					"lastUpdateDate"
+				],
+				"type": "object",
+				"additionalProperties": false
 			},
 			"AuthUserRegisterBody": {
 				"properties": {
@@ -358,7 +383,7 @@
 						},
 						"type": "array"
 					},
-					"acceptMessage": {
+					"acceptMessageId": {
 						"type": "string"
 					},
 					"creationDate": {
@@ -377,14 +402,14 @@
 					"description",
 					"banner",
 					"flairs",
-					"acceptMessage",
+					"acceptMessageId",
 					"creationDate",
 					"lastUpdateDate"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
+			"Pick_TableCreateBody.title-or-description-or-banner-or-flairs_": {
 				"properties": {
 					"title": {
 						"type": "string"
@@ -400,25 +425,36 @@
 							"type": "string"
 						},
 						"type": "array"
-					},
-					"acceptMessage": {
-						"type": "string"
 					}
 				},
 				"required": [
 					"title",
 					"banner",
 					"description",
-					"flairs",
-					"acceptMessage"
+					"flairs"
 				],
 				"type": "object",
 				"description": "From T, pick a set of properties whose keys are in the union K"
 			},
 			"TableCreateBodyRequest": {
-				"$ref": "#/components/schemas/Pick_TableCreateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_"
+				"allOf": [
+					{
+						"$ref": "#/components/schemas/Pick_TableCreateBody.title-or-description-or-banner-or-flairs_"
+					},
+					{
+						"properties": {
+							"acceptMessage": {
+								"type": "string"
+							}
+						},
+						"required": [
+							"acceptMessage"
+						],
+						"type": "object"
+					}
+				]
 			},
-			"Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_": {
+			"Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__": {
 				"properties": {
 					"title": {
 						"type": "string"
@@ -439,18 +475,11 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"title",
-					"banner",
-					"description",
-					"flairs",
-					"acceptMessage"
-				],
 				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
+				"description": "Make all properties in T optional"
 			},
 			"TableUpdateBodyRequest": {
-				"$ref": "#/components/schemas/Pick_TableUpdateBody.title-or-description-or-banner-or-flairs-or-acceptMessage_"
+				"$ref": "#/components/schemas/Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__"
 			},
 			"UserRoles": {
 				"enum": [
@@ -497,7 +526,7 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_UserUpdateBody.username-or-avatar_": {
+			"Partial_Pick_UserUpdateBody.username-or-avatar__": {
 				"properties": {
 					"username": {
 						"type": "string"
@@ -506,15 +535,11 @@
 						"type": "string"
 					}
 				},
-				"required": [
-					"username",
-					"avatar"
-				],
 				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
+				"description": "Make all properties in T optional"
 			},
 			"UserUpdateBodyRequest": {
-				"$ref": "#/components/schemas/Pick_UserUpdateBody.username-or-avatar_"
+				"$ref": "#/components/schemas/Partial_Pick_UserUpdateBody.username-or-avatar__"
 			}
 		},
 		"securitySchemes": {
@@ -806,6 +831,41 @@
 				]
 			}
 		},
+		"/applications/{applicationId}/accept-message": {
+			"get": {
+				"operationId": "GetAcceptMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AcceptMessage"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Applications Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "applicationId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/auth/register/user": {
 			"post": {
 				"operationId": "UserRegister",
@@ -928,13 +988,7 @@
 				"tags": [
 					"Flairs Service"
 				],
-				"security": [
-					{
-						"Bearer": [
-							"ADMIN"
-						]
-					}
-				],
+				"security": [],
 				"parameters": [],
 				"requestBody": {
 					"required": true,
@@ -1312,6 +1366,41 @@
 				"responses": {
 					"204": {
 						"description": "No content"
+					}
+				},
+				"tags": [
+					"Tables Service"
+				],
+				"security": [
+					{
+						"Bearer": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tableId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/tables/{tableId}/accept-message": {
+			"get": {
+				"operationId": "GetAcceptMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AcceptMessage"
+								}
+							}
+						}
 					}
 				},
 				"tags": [

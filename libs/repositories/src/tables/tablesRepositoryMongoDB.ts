@@ -23,10 +23,11 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
   async getTablesFromUser(userId: string) {
     const docs = await this._collection
       .aggregate([
-        { $match: { owner: { id: userId } } },
-        mongodbPipelineGetUserHeader('owner'),
+        { $match: { 'owner.id': userId } },
+        ...mongodbPipelineGetUserHeader('owner'),
       ])
       .toArray()
+
     return docs
       .map(doc => Table.fromMongoDB(doc))
       .filter(table => table) as Table[]
@@ -36,7 +37,7 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
     const docs = await this._collection
       .aggregate([
         { $match: { id: tableId } },
-        mongodbPipelineGetUserHeader('owner'),
+        ...mongodbPipelineGetUserHeader('owner'),
       ])
       .toArray()
     return Table.fromMongoDB(docs[0])

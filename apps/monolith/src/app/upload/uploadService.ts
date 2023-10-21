@@ -1,4 +1,3 @@
-import { Singleton } from 'typescript-ioc'
 import {
   ApiError,
   ResponseCodes,
@@ -10,11 +9,10 @@ import {
 } from '@rpg-together/repositories'
 import { apiErrorHandler } from '@rpg-together/utilities'
 
-@Singleton
 export class UploadService {
   private _uploadRepo: IUploadRepository
 
-  constructor(uploadRepo: IUploadRepository) {
+  constructor(uploadRepo?: IUploadRepository) {
     this._uploadRepo = uploadRepo ?? new UploadRepositoryFirebase()
   }
 

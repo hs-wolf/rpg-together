@@ -1,17 +1,17 @@
-import { Inject, Singleton } from 'typescript-ioc'
 import type {
   TableCreateBody,
   TableUpdateBody,
 } from '@rpg-together/models'
 import {
+  AcceptMessage,
   ApiError,
   ResponseCodes,
   ResponseMessages,
   Table,
 } from '@rpg-together/models'
-import type { ITablesRepository } from '@rpg-together/repositories'
+import type { IAcceptMessageRepository, ITablesRepository } from '@rpg-together/repositories'
 import {
-  TablesRepositoryMongoDB,
+  AcceptMessageRepositoryMongoDB, TablesRepositoryMongoDB,
 } from '@rpg-together/repositories'
 import {
   DEFAULT_TABLE_BANNER,
@@ -19,22 +19,18 @@ import {
   apiErrorHandler,
 } from '@rpg-together/utilities'
 import { mongoDB } from '../../mongodb'
-import type { FlairsService } from '../flairs/flairsService'
-import type { UploadService } from '../upload/uploadService'
+import { FlairsService } from '../flairs/flairsService'
+import { UploadService } from '../upload/uploadService'
+import { AlgoliaService } from '../algolia/algoliaService'
 
-@Singleton
 export class TablesService {
-  constructor(tablesRepo: ITablesRepository) {
+  constructor(tablesRepo?: ITablesRepository, acceptMessageRepo?: IAcceptMessageRepository) {
     this._tablesRepo = tablesRepo ?? new TablesRepositoryMongoDB(mongoDB)
+    this._acceptMessageRepo = acceptMessageRepo ?? new AcceptMessageRepositoryMongoDB(mongoDB)
   }
 
   private _tablesRepo: ITablesRepository
-
-  @Inject
-  private flairsService: FlairsService
-
-  @Inject
-  private uploadService: UploadService
+  private _acceptMessageRepo: IAcceptMessageRepository
 
   async createTable(ownerId: string, body: TableCreateBody): Promise<Table> {
     try {
@@ -46,21 +42,30 @@ export class TablesService {
         )
       }
       const currentDate = new Date()
+
+      let newAcceptMessage = AcceptMessage.fromMap({ message: body.acceptMessage })
+      newAcceptMessage.creationDate = currentDate
+      newAcceptMessage.lastUpdateDate = currentDate
+      newAcceptMessage = await this._acceptMessageRepo.createAcceptMessage(newAcceptMessage)
+
       let newTable = Table.fromMap({ ...body })
       newTable.owner = { id: ownerId }
       newTable.banner = newTable.banner
         ? newTable.banner
         : DEFAULT_TABLE_BANNER
+      newTable.acceptMessageId = newAcceptMessage.id
       newTable.creationDate = currentDate
       newTable.lastUpdateDate = currentDate
       newTable = await this._tablesRepo.createTable(newTable)
+
       if (newTable.flairs) {
         await Promise.all(
           newTable.flairs.map(flair =>
-            this.flairsService.changeNumberOfUses(flair, 'increase'),
+            new FlairsService().changeNumberOfUses(flair, 'increase'),
           ),
         )
       }
+      await new AlgoliaService().createTable(newTable)
       return newTable
     }
     catch (error) {
@@ -99,11 +104,19 @@ export class TablesService {
     request: TableUpdateBody,
   ): Promise<Table> {
     try {
+      const currentDate = new Date()
+
       const oldTable
         = typeof table === 'string' ? await this.getTable(table) : table
       const newTable = Table.fromMap({ ...oldTable, ...request })
-      newTable.lastUpdateDate = new Date()
+      newTable.lastUpdateDate = currentDate
       await this._tablesRepo.updateTable(newTable)
+
+      const newAcceptMessage = await this._acceptMessageRepo.getAcceptMessage(newTable.acceptMessageId)
+      newAcceptMessage.message = request.acceptMessage
+      newAcceptMessage.lastUpdateDate = currentDate
+      await this._acceptMessageRepo.updateAcceptMessage(newAcceptMessage)
+
       const flairsToDecrease = oldTable.flairs.length
         ? oldTable.flairs.filter(flair => !newTable.flairs.includes(flair))
         : []
@@ -112,12 +125,14 @@ export class TablesService {
         : []
       await Promise.all([
         ...flairsToDecrease.map(flair =>
-          this.flairsService.changeNumberOfUses(flair, 'decrease'),
+          new FlairsService().changeNumberOfUses(flair, 'decrease'),
         ),
         ...flairsToIncrease.map(flair =>
-          this.flairsService.changeNumberOfUses(flair, 'increase'),
+          new FlairsService().changeNumberOfUses(flair, 'increase'),
         ),
       ])
+
+      new AlgoliaService().updateTable(newTable)
       return newTable
     }
     catch (error) {
@@ -143,11 +158,28 @@ export class TablesService {
       if (tableToDelete.flairs.length) {
         await Promise.all(
           tableToDelete.flairs.map(flair =>
-            this.flairsService.changeNumberOfUses(flair, 'decrease'),
+            new FlairsService().changeNumberOfUses(flair, 'decrease'),
           ),
         )
       }
-      await this.uploadService.deleteAllTableFiles(tableToDelete.id)
+      await new UploadService().deleteAllTableFiles(tableToDelete.id)
+      await new AlgoliaService().deleteTable(tableToDelete.id)
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
+  async getTableAcceptMessage(table: Table): Promise<AcceptMessage> {
+    try {
+      const acceptMessage = await this._acceptMessageRepo.getAcceptMessage(table.acceptMessageId)
+      if (!acceptMessage) {
+        throw new ApiError(
+          ResponseCodes.NOT_FOUND,
+          ResponseMessages.ACCEPT_MESSAGE_NOT_FOUND,
+        )
+      }
+      return acceptMessage
     }
     catch (error) {
       apiErrorHandler(error)

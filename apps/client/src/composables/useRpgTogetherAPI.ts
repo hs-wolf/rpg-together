@@ -1,6 +1,6 @@
 import type { NitroFetchOptions, NitroFetchRequest } from 'nitropack'
 import { API_ENDPOINTS_REQUESTS, SECURITY_NAME_BEARER } from '@rpg-together/utilities'
-import { Application, Flair, Notification, Table, User } from '@rpg-together/models'
+import { AcceptMessage, Application, Flair, Notification, Table, User } from '@rpg-together/models'
 
 type Options = NitroFetchOptions<NitroFetchRequest>
 
@@ -16,7 +16,7 @@ export default {
 
   // AUTH REQUESTS
   async register(options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.register()
+    const { path, method } = API_ENDPOINTS_REQUESTS.userRegister()
     return this.customFetch<void>(path, {
       ...options,
       method,
@@ -91,7 +91,7 @@ export default {
     return Table.fromMap(fetch)
   },
   async getUserTables({ userId }: { userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getUserTables({ userId })
+    const { path, method } = API_ENDPOINTS_REQUESTS.getTablesFromUser({ userId })
     const fetch = await this.customFetch<Table[]>(path, {
       ...options,
       method,
@@ -113,6 +113,14 @@ export default {
       method,
     })
     return Table.fromMap(fetch)
+  },
+  async getTableAcceptMessage({ tableId }: { tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getTableAcceptMessage({ tableId })
+    const fetch = await this.customFetch<AcceptMessage>(path, {
+      ...options,
+      method,
+    })
+    return AcceptMessage.fromMap(fetch)
   },
 
   // FLAIR REQUESTS
@@ -142,8 +150,8 @@ export default {
     })
     return Application.fromMap(data)
   },
-  async getApplicationFromTableAndUser({ tableId, userId }: { tableId: string; userId: string }, options?: Options) {
-    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationFromTableAndUser({ tableId, userId })
+  async getApplicationFromTableAndUser({ userId, tableId }: { userId: string; tableId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationFromUserAndTable({ userId, tableId })
     const data = await this.customFetch<Application>(path, {
       ...options,
       method,
@@ -187,6 +195,14 @@ export default {
       method,
     })
   },
+  async getApplicationAcceptMessage({ applicationId }: { applicationId: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.getApplicationAcceptMessage({ applicationId })
+    const fetch = await this.customFetch<AcceptMessage>(path, {
+      ...options,
+      method,
+    })
+    return AcceptMessage.fromMap(fetch)
+  },
 
   // NOTIFICATION REQUESTS
   async getNotificationsFromUser({ userId }: { userId: string }, options?: Options) {
@@ -195,7 +211,7 @@ export default {
       ...options,
       method,
     })
-    return data.map(application => Notification.fromMap(application)) as Notification[]
+    return data.map(notification => Notification.fromMap(notification)) as Notification[]
   },
   async getNotification({ notificationId }: { notificationId: string }, options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.getNotification({ notificationId })

@@ -41,7 +41,7 @@ onMounted(async () => {
       <MyTablesTableCard
         v-for="table in myTables"
         :key="table.id"
-        :table="table as any"
+        :table="table"
         @delete="(table: Table) => (tableToDelete = table)"
       />
     </div>

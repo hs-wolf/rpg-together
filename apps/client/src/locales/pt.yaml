@@ -33,6 +33,8 @@ notification-titles:
   application-declined: Sua aplicação foi recusada.
 notification-messages:
   applied-to-your-table: O usuário {name} se aplicou na sua mesa {table}.
+  application-accepted: Sua aplicação da mesa {table} foi aceita.
+  application-declined: Sua aplicação da mesa {table} foi recusada.
 navbar:
   tabs:
     menu: Menu
@@ -158,7 +160,7 @@ profile-delete-account-modal:
   warnings:
     - Deleting your account is an irreversible action.
     - Your profile, active applications and tables will all be delete.
-    - "(You'll be prompted to enter your password.)"
+    - '(You''ll be prompted to enter your password.)'
   confirmation: Are you sure you want to delete your acocunt?
   back: Back
   understand: I understand

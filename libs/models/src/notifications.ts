@@ -20,7 +20,7 @@ export class Notification {
     return Notification.fromMap({ ...doc })
   }
 
-  static fromMap(map: Record<string, unknown>) {
+  static fromMap(map: Notification | Record<string, unknown>) {
     return !map
       ? null
       : new Notification(
@@ -29,8 +29,8 @@ export class Notification {
         map.type as NotificationType,
         map.content as NotificationContent,
         map.read as boolean,
-        map.creationDate as Date,
-        map.lastUpdateDate as Date,
+        new Date(map.creationDate as Date),
+        new Date(map.lastUpdateDate as Date),
         map.data as NotificationData,
       )
   }

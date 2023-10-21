@@ -45,7 +45,7 @@ export const API_ENDPOINTS_REQUESTS = {
   }),
   // TABLE REQUESTS
   createTable: (): RequestReturnType => ({
-    path: 'flairs',
+    path: 'tables',
     method: 'POST',
   }),
   getTablesFromUser: ({ userId }: { userId: string }): RequestReturnType => ({
@@ -63,6 +63,10 @@ export const API_ENDPOINTS_REQUESTS = {
   deleteTable: ({ tableId }: { tableId: string }): RequestReturnType => ({
     path: `tables/${tableId}`,
     method: 'DELETE',
+  }),
+  getTableAcceptMessage: ({ tableId }: { tableId: string }): RequestReturnType => ({
+    path: `tables/${tableId}/accept-message`,
+    method: 'GET',
   }),
   // FLAIR REQUESTS
   createFlair: (): RequestReturnType => ({
@@ -107,13 +111,13 @@ export const API_ENDPOINTS_REQUESTS = {
     method: 'GET',
   }),
   getApplicationFromUserAndTable: ({
-    tableId,
     userId,
+    tableId,
   }: {
-    tableId: string
     userId: string
+    tableId: string
   }): RequestReturnType => ({
-    path: `applications/from-table/${tableId}/from-user/${userId}`,
+    path: `applications/from-user/${userId}/from-table/${tableId}`,
     method: 'GET',
   }),
   getApplication: ({
@@ -147,6 +151,10 @@ export const API_ENDPOINTS_REQUESTS = {
   }): RequestReturnType => ({
     path: `applications/${applicationId}`,
     method: 'DELETE',
+  }),
+  getApplicationAcceptMessage: ({ applicationId }: { applicationId: string }): RequestReturnType => ({
+    path: `applications/${applicationId}/accept-message`,
+    method: 'GET',
   }),
   // NOTIFICATION REQUESTS
   getNotificationsFromUser: ({

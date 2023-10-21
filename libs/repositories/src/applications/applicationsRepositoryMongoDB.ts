@@ -26,9 +26,9 @@ export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
   async getApplicationsFromUser(userId: string) {
     const docs = await this._collection
       .aggregate([
-        { $match: { applicant: { id: userId } } },
-        mongodbPipelineGetUserHeader('applicant'),
-        mongodbPipelineGetTableHeader('table'),
+        { $match: { 'applicant.id': userId } },
+        ...mongodbPipelineGetUserHeader('applicant'),
+        ...mongodbPipelineGetTableHeader('table'),
       ])
       .toArray()
     return docs
@@ -39,9 +39,9 @@ export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
   async getApplicationsFromTable(tableId: string) {
     const docs = await this._collection
       .aggregate([
-        { $match: { table: { id: tableId } } },
-        mongodbPipelineGetUserHeader('applicant'),
-        mongodbPipelineGetTableHeader('table'),
+        { $match: { 'table.id': tableId } },
+        ...mongodbPipelineGetUserHeader('applicant'),
+        ...mongodbPipelineGetTableHeader('table'),
       ])
       .toArray()
     return docs
@@ -52,9 +52,9 @@ export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
   async getApplicationFromUserAndTable(userId: string, tableId: string) {
     const docs = await this._collection
       .aggregate([
-        { $match: { applicant: { id: userId }, table: { id: tableId } } },
-        mongodbPipelineGetUserHeader('applicant'),
-        mongodbPipelineGetTableHeader('table'),
+        { $match: { 'applicant.id': userId, 'table.id': tableId } },
+        ...mongodbPipelineGetUserHeader('applicant'),
+        ...mongodbPipelineGetTableHeader('table'),
       ])
       .toArray()
     return Application.fromMongoDB(docs[0])
@@ -64,8 +64,8 @@ export class ApplicationsRepositoryMongoDB implements IApplicationsRepository {
     const docs = await this._collection
       .aggregate([
         { $match: { id: applicationId } },
-        mongodbPipelineGetUserHeader('applicant'),
-        mongodbPipelineGetTableHeader('table'),
+        ...mongodbPipelineGetUserHeader('applicant'),
+        ...mongodbPipelineGetTableHeader('table'),
       ])
       .toArray()
     return Application.fromMongoDB(docs[0])

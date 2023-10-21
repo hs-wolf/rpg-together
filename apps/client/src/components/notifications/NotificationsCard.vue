@@ -45,7 +45,7 @@ function onClick() {
       </h1>
     </div>
     <i18n-t
-      :keypath="`notification-messages.${NotificationContent.APPLIED_TO_YOUR_TABLE}`"
+      :keypath="`notification-messages.${notification.content}`"
       tag="p"
       scope="global"
       class="text-xs"

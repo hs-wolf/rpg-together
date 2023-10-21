@@ -14,7 +14,6 @@ onBeforeMount(async () => {
   table.value = await useRpgTogetherAPI.getTable({ tableId })
   if (!table.value)
     navigateTo({ path: router.options.history.state.back?.toString() ?? '/' })
-
   applications.value = await useRpgTogetherAPI.getApplicationsFromTable({ tableId })
 })
 </script>

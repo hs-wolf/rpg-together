@@ -25,7 +25,10 @@ implements INotificationsRepository {
 
   async getNotificationsFromUser(userId: string) {
     const docs = await this._collection
-      .aggregate([{ $match: { userId } }, ...mongodbPipelineGetNotification()])
+      .aggregate([
+        { $match: { userId } },
+        ...mongodbPipelineGetNotification(),
+      ])
       .toArray()
     return docs
       .map(doc => Notification.fromMongoDB(doc))

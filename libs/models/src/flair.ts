@@ -19,7 +19,7 @@ export class Flair {
     return Flair.fromMap({ ...doc })
   }
 
-  static fromMap(map: Record<string, unknown>) {
+  static fromMap(map: Flair | Record<string, unknown>) {
     return new Flair(
       map.id as string,
       map.type as FlairTypes,

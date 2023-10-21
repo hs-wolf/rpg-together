@@ -11,40 +11,37 @@ import {
   Security,
   Tags,
 } from 'tsoa'
-import { Inject } from 'typescript-ioc'
 import { selfOnly } from '@rpg-together/middlewares'
 import type {
+  AcceptMessage,
   Table,
   TableCreateBodyRequest,
   TableUpdateBodyRequest,
   TsoaRequest,
 } from '@rpg-together/models'
 import { SECURITY_NAME_BEARER } from '@rpg-together/utilities'
-import type { TablesService } from './tablesService'
+import { TablesService } from './tablesService'
 
 @Tags('Tables Service')
 @Route('/tables')
 export class TablesController extends Controller {
-  @Inject
-  private _tableService: TablesService
-
   @Security(SECURITY_NAME_BEARER)
   @Post('/')
   public async createTable(
     @Request() request: TsoaRequest,
     @Body() body: TableCreateBodyRequest,
   ): Promise<Table> {
-    return this._tableService.createTable(request.user.uid, body)
+    return new TablesService().createTable(request.user.uid, body)
   }
 
   @Get('/from-user/{userId}')
   public async getTablesFromUser(@Path() userId: string): Promise<Table[]> {
-    return this._tableService.getTablesFromUser(userId)
+    return new TablesService().getTablesFromUser(userId)
   }
 
   @Get('/{tableId}')
   public async getTable(@Path() tableId: string): Promise<Table> {
-    return this._tableService.getTable(tableId)
+    return new TablesService().getTable(tableId)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -54,9 +51,9 @@ export class TablesController extends Controller {
     @Path() tableId: string,
     @Body() body: TableUpdateBodyRequest,
   ): Promise<Table> {
-    const table = await this._tableService.getTable(tableId)
+    const table = await new TablesService().getTable(tableId)
     selfOnly(request, table.owner.id)
-    return this._tableService.updateTable(table, body)
+    return new TablesService().updateTable(table, body)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -65,8 +62,16 @@ export class TablesController extends Controller {
     @Request() request: TsoaRequest,
     @Path() tableId: string,
   ): Promise<void> {
-    const table = await this._tableService.getTable(tableId)
+    const table = await new TablesService().getTable(tableId)
     selfOnly(request, table.owner.id)
-    return this._tableService.deleteTable(table)
+    return new TablesService().deleteTable(table)
+  }
+
+  @Security(SECURITY_NAME_BEARER)
+  @Get('/{tableId}/accept-message')
+  public async getAcceptMessage(@Request() request: TsoaRequest, @Path() tableId: string): Promise<AcceptMessage> {
+    const table = await new TablesService().getTable(tableId)
+    selfOnly(request, table.owner.id)
+    return new TablesService().getTableAcceptMessage(table)
   }
 }

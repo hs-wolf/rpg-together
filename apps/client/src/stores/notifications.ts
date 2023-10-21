@@ -21,11 +21,11 @@ export const useNotificationsStore = defineStore(NOTIFICATIONS_STORE, {
         return
 
       try {
-        const applications = await useRpgTogetherAPI.getNotificationsFromUser({ userId: firebaseUser.uid })
+        const notifications = await useRpgTogetherAPI.getNotificationsFromUser({ userId: firebaseUser.uid })
         if (options?.save)
-          this.notifications = applications
+          this.notifications = notifications
 
-        return applications
+        return notifications
       }
       catch (error) {
         useAlertsStore().handleError(error)
@@ -40,7 +40,6 @@ export const useNotificationsStore = defineStore(NOTIFICATIONS_STORE, {
         const existingIndex = this.notifications.findIndex(notification => notification.id === notificationId)
         if (existingIndex < 0)
           return
-
         this.notifications[existingIndex].read = true
         await useRpgTogetherAPI.readNotification({ notificationId })
       }

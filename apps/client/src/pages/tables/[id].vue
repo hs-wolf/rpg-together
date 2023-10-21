@@ -1,43 +1,40 @@
 <script setup lang="ts">
 import type { Application, Table } from '@rpg-together/models'
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
-import { useFlairsStore, useTablesStore } from '~/stores'
+import { useApplicationsStore, useFlairsStore, useTablesStore } from '~/stores'
 
 const { t } = useI18n()
 const localePath = useLocalePath()
 const tableId = useRoute().params.id as string
 const firebaseUser = useFirebase.currentUser()
 const previousRoute = useRouter().options.history.state.back
+const applicationsStore = useApplicationsStore()
 const tablesStore = useTablesStore()
 const flairsStore = useFlairsStore()
+
 const table = ref<Table>()
-const existingApplication = ref<Application | null>(null)
+const existingApplication = ref<Application | null>()
+const showApplicationMenu = ref(false)
 
 useHead({ title: () => table.value?.title ?? t('tables.title') })
 
-onBeforeMount(async () => {
-  table.value = await tablesStore.getTable(tableId)
-  if (!table.value)
-    navigateTo({ path: previousRoute?.toString() ?? '/' })
+const showApplicationButton = computed(() => table.value?.owner.id !== firebaseUser.value?.uid && !existingApplication.value)
 
-  if (firebaseUser.value)
-    await getExistingApplication()
-})
+async function getExistingApplication() {
+  existingApplication.value = await applicationsStore.getExistingApplication(firebaseUser.value?.uid ?? '', tableId)
+}
 
 watch(firebaseUser, async () => {
   await getExistingApplication()
 })
 
-async function getExistingApplication() {
-  existingApplication.value = await useRpgTogetherAPI.getApplicationFromTableAndUser({
-    tableId,
-    userId: firebaseUser.value?.uid ?? '',
-  })
-}
-
-const showApplicationButton = computed(() => table.value?.owner.id !== firebaseUser.value?.uid && !existingApplication.value)
-
-const showApplicationMenu = ref(false)
+onBeforeMount(async () => {
+  table.value = await tablesStore.getTable(tableId)
+  if (!table.value)
+    navigateTo({ path: previousRoute?.toString() ?? '/' })
+  if (firebaseUser.value)
+    await getExistingApplication()
+})
 </script>
 
 <template>

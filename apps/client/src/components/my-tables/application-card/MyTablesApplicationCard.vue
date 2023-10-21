@@ -1,21 +1,13 @@
 <script setup lang="ts">
-import type { Application, Table } from '@rpg-together/models'
+import type { Application } from '@rpg-together/models'
 import { ApplicationStatus } from '@rpg-together/models'
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
-import { useTablesStore } from '~/stores'
 
 const props = defineProps<{ application: Application }>()
 
 const emits = defineEmits<{ (_e: 'accept'): void; (_e: 'decline'): void }>()
 
 const localeRoute = useLocaleRoute()
-const tablesStore = useTablesStore()
-
-const table = ref<Table>()
-
-onBeforeMount(async () => {
-  table.value = await tablesStore.getTable(props.application.table.id ?? '')
-})
 
 const showInfo = ref(false)
 const showAcceptModal = ref(false)
@@ -54,7 +46,7 @@ function acceptApplication() {
 
 function declineApplication() {
   showRejectModal.value = false
-  emits('accept')
+  emits('decline')
 }
 </script>
 

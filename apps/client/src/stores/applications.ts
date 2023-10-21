@@ -56,6 +56,14 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
         return []
       }
     },
+    async getExistingApplication(userId: string, tableId: string) {
+      try {
+        return await useRpgTogetherAPI.getApplicationFromTableAndUser({ userId, tableId })
+      }
+      catch (error) {
+        useAlertsStore().handleError(error)
+      }
+    },
     async fetchApplication(applicationId: string) {
       try {
         return await useRpgTogetherAPI.getApplication({ applicationId })
@@ -92,7 +100,6 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
       try {
         if (this.acceptingApplication)
           return
-
         this.acceptingApplication = true
         await useRpgTogetherAPI.acceptApplication({ applicationId })
         useSnackbarStore().createSnack({
@@ -116,7 +123,6 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
       try {
         if (this.decliningApplication)
           return
-
         this.decliningApplication = true
         await useRpgTogetherAPI.declineApplication({ applicationId })
         useSnackbarStore().createSnack({

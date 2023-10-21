@@ -19,7 +19,7 @@ export class Application {
     return Application.fromMap({ ...doc })
   }
 
-  static fromMap(map: Record<string, unknown>) {
+  static fromMap(map: Application | Record<string, unknown>) {
     return !map
       ? null
       : new Application(
@@ -28,8 +28,8 @@ export class Application {
         map.applicant as UserHeader,
         map.table as TableHeader,
         map.message as string,
-        map.creationDate as Date,
-        map.lastUpdateDate as Date,
+        new Date(map.creationDate as Date),
+        new Date(map.lastUpdateDate as Date),
       )
   }
 
@@ -62,7 +62,7 @@ export type ApplicationCreateBody = Partial<
 
 export type ApplicationCreateBodyRequest = Pick<
   ApplicationCreateBody,
-  'applicant' | 'table' | 'message'
+  'table' | 'message'
 >
 
 export type ApplicationUpdateBody = Partial<

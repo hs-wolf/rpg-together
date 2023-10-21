@@ -1,14 +1,14 @@
 import type { Db } from 'mongodb'
 import { ObjectId } from 'mongodb'
 import { Flair } from '@rpg-together/models'
-import { MONGODB_COLLECTION_APPLICATIONS } from '@rpg-together/utilities'
+import { MONGODB_COLLECTION_FLAIRS } from '@rpg-together/utilities'
 import type { IFlairsRepository } from './flairsRepositoryInterface'
 
 export class FlairsRepositoryMongoDB implements IFlairsRepository {
   constructor(private mongoDB: Db) {}
 
   private _collection = this.mongoDB.collection(
-    MONGODB_COLLECTION_APPLICATIONS,
+    MONGODB_COLLECTION_FLAIRS,
   )
 
   async createFlair(flair: Flair) {

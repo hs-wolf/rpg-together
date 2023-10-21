@@ -3,7 +3,7 @@ import type { UserRoles } from '.'
 export class TokenClaims {
   constructor(public role: UserRoles) {}
 
-  static fromMap(map: Record<string, unknown>) {
+  static fromMap(map: TokenClaims | Record<string, unknown>) {
     return !map ? null : new TokenClaims(map.role as UserRoles)
   }
 

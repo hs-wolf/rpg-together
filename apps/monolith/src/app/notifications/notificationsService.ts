@@ -1,4 +1,3 @@
-import { Singleton } from 'typescript-ioc'
 import type {
   NotificationCreateBody,
   NotificationUpdateBody,
@@ -18,11 +17,10 @@ import {
 import { apiErrorHandler } from '@rpg-together/utilities'
 import { mongoDB } from '../../mongodb'
 
-@Singleton
 export class NotificationsService {
   private _notificationsRepo: INotificationsRepository
 
-  constructor(notificationsRepo: INotificationsRepository) {
+  constructor(notificationsRepo?: INotificationsRepository) {
     this._notificationsRepo
       = notificationsRepo ?? new NotificationsRepositoryMongoDB(mongoDB)
   }
@@ -33,6 +31,34 @@ export class NotificationsService {
         userId,
         type: NotificationType.APPLICATION,
         content: NotificationContent.APPLIED_TO_YOUR_TABLE,
+        data: { id: applicationId },
+      })
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
+  async notifyApplicationAccepted(userId: string, applicationId: string) {
+    try {
+      await this.createNotification({
+        userId,
+        type: NotificationType.APPLICATION,
+        content: NotificationContent.APPLICATION_ACCEPTED,
+        data: { id: applicationId },
+      })
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
+  async notifyApplicationDeclined(userId: string, applicationId: string) {
+    try {
+      await this.createNotification({
+        userId,
+        type: NotificationType.APPLICATION,
+        content: NotificationContent.APPLICATION_DECLINED,
         data: { id: applicationId },
       })
     }
@@ -63,9 +89,9 @@ export class NotificationsService {
     }
   }
 
-  async getNotification(id: string): Promise<Notification> {
+  async getNotification(notificationId: string): Promise<Notification> {
     try {
-      const notification = await this._notificationsRepo.getNotification(id)
+      const notification = await this._notificationsRepo.getNotification(notificationId)
       if (!notification) {
         throw new ApiError(
           ResponseCodes.NOT_FOUND,

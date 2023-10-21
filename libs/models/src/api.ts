@@ -8,7 +8,7 @@ export class ApiError {
     public status?: number,
   ) {}
 
-  toMap() {
+  toMap(): Omit<ApiError, 'toMap'> {
     return {
       code: this.code,
       message: this.message,
@@ -43,6 +43,8 @@ export enum ResponseMessages {
   COULD_NOT_ACCEPT_APPLICATION = 'COULD_NOT_ACCEPT_APPLICATION',
   COULD_NOT_DECLINE_APPLICATION = 'COULD_NOT_DECLINE_APPLICATION',
   NOTIFICATION_NOT_FOUND = 'NOTIFICATION_NOT_FOUND',
+  ACCEPT_MESSAGE_NOT_FOUND = 'ACCEPT_MESSAGE_NOT_FOUND',
+  APPLICATION_NOT_ACCEPTED = 'APPLICATION_NOT_ACCEPTED',
 }
 
 export type TsoaRequest = Request & { user: DecodedIdToken }

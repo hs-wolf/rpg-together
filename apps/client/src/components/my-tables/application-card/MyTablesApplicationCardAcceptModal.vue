@@ -10,12 +10,10 @@ const applicationsStore = useApplicationsStore()
 const { acceptingApplication } = storeToRefs(applicationsStore)
 
 const cardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => emits('close'))
 
 function closeModal() {
   if (acceptingApplication.value)
     return
-
   emits('close')
 }
 
@@ -23,9 +21,10 @@ async function acceptApplication() {
   const error = await applicationsStore.acceptApplication(props.application.id)
   if (!error)
     emits('accept')
-
   closeModal()
 }
+
+onClickOutside(cardRef, () => closeModal())
 </script>
 
 <template>

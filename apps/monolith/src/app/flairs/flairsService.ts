@@ -1,4 +1,3 @@
-import { Singleton } from 'typescript-ioc'
 import type {
   FlairCreationBody,
   FlairUpdateBody,
@@ -16,9 +15,8 @@ import {
 import { apiErrorHandler } from '@rpg-together/utilities'
 import { mongoDB } from '../../mongodb'
 
-@Singleton
 export class FlairsService {
-  constructor(flairsRepo: IFlairsRepository) {
+  constructor(flairsRepo?: IFlairsRepository) {
     this._flairsRepo = flairsRepo ?? new FlairsRepositoryMongoDB(mongoDB)
   }
 

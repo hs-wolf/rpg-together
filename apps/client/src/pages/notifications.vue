@@ -63,7 +63,7 @@ function selectNotificationTypes(options: AdvancedSelectOption[]) {
           :notification="notification"
           @mark-as-read="notificationsStore.readNotification(notification.id)"
         />
-        <button class="btn-accent mt-2">
+        <button class="btn-accent mt-2" @click.prevent="notificationsStore.getMyNotifications({ save: true })">
           {{ $t('pages.notifications.load-more') }}
         </button>
       </div>

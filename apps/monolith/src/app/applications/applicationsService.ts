@@ -1,5 +1,5 @@
-import { Inject, Singleton } from 'typescript-ioc'
 import type {
+  AcceptMessage,
   ApplicationCreateBody,
   ApplicationUpdateBody,
 } from '@rpg-together/models'
@@ -10,8 +10,9 @@ import {
   ResponseCodes,
   ResponseMessages,
 } from '@rpg-together/models'
-import type { IApplicationsRepository } from '@rpg-together/repositories'
+import type { IAcceptMessageRepository, IApplicationsRepository } from '@rpg-together/repositories'
 import {
+  AcceptMessageRepositoryMongoDB,
   ApplicationsRepositoryMongoDB,
 } from '@rpg-together/repositories'
 import {
@@ -19,23 +20,18 @@ import {
   apiErrorHandler,
 } from '@rpg-together/utilities'
 import { mongoDB } from '../../mongodb'
-import type { NotificationsService } from '../notifications/notificationsService'
-import type { TablesService } from '../tables/tablesService'
+import { NotificationsService } from '../notifications/notificationsService'
+import { TablesService } from '../tables/tablesService'
 
-@Singleton
 export class ApplicationsService {
-  constructor(applicationsRepo: IApplicationsRepository) {
+  constructor(applicationsRepo?: IApplicationsRepository, acceptMessageRepo?: IAcceptMessageRepository) {
     this._applicationsRepo
       = applicationsRepo ?? new ApplicationsRepositoryMongoDB(mongoDB)
+    this._acceptMessageRepo = acceptMessageRepo ?? new AcceptMessageRepositoryMongoDB(mongoDB)
   }
 
   private _applicationsRepo: IApplicationsRepository
-
-  @Inject
-  private tablesService: TablesService
-
-  @Inject
-  private notificationsService: NotificationsService
+  private _acceptMessageRepo: IAcceptMessageRepository
 
   async createApplication(
     applicantId: string,
@@ -61,7 +57,7 @@ export class ApplicationsService {
           ResponseMessages.ALREADY_APPLIED_TO_TABLE,
         )
       }
-      const table = await this.tablesService.getTable(body.table.id)
+      const table = await new TablesService().getTable(body.table.id)
       if (table.owner.id === applicantId) {
         throw new ApiError(
           ResponseCodes.BAD_REQUEST,
@@ -81,7 +77,7 @@ export class ApplicationsService {
       newApplication = await this._applicationsRepo.createApplication(
         newApplication,
       )
-      this.notificationsService.notifyNewApplication(
+      new NotificationsService().notifyNewApplication(
         table.owner.id,
         newApplication.id,
       )
@@ -178,7 +174,7 @@ export class ApplicationsService {
   ): Promise<void> {
     try {
       const application = await this.getApplication(applicationId)
-      const table = await this.tablesService.getTable(application.table.id)
+      const table = await new TablesService().getTable(application.table.id)
       if (table.owner.id !== tableOwnerId) {
         let message = ''
         switch (status) {
@@ -195,6 +191,18 @@ export class ApplicationsService {
         throw new ApiError(ResponseCodes.UNAUTHORIZED, message)
       }
       await this.updateApplication(application, { status })
+      if (status === ApplicationStatus.ACCEPTED) {
+        new NotificationsService().notifyApplicationAccepted(
+          application.applicant.id,
+          application.id,
+        )
+      }
+      if (status === ApplicationStatus.DECLINED) {
+        new NotificationsService().notifyApplicationDeclined(
+          application.applicant.id,
+          application.id,
+        )
+      }
     }
     catch (error) {
       apiErrorHandler(error)
@@ -236,6 +244,28 @@ export class ApplicationsService {
           ? await this.getApplication(application)
           : application
       await this._applicationsRepo.deleteApplication(applicationToDelete.id)
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
+  async getApplicationAcceptMessage(application: Application): Promise<AcceptMessage> {
+    try {
+      if (application.status !== ApplicationStatus.ACCEPTED) {
+        throw new ApiError(
+          ResponseCodes.UNAUTHORIZED,
+          ResponseMessages.APPLICATION_NOT_ACCEPTED,
+        )
+      }
+      const acceptMessage = await this._acceptMessageRepo.getAcceptMessage(application.table.acceptMessageId)
+      if (!acceptMessage) {
+        throw new ApiError(
+          ResponseCodes.NOT_FOUND,
+          ResponseMessages.ACCEPT_MESSAGE_NOT_FOUND,
+        )
+      }
+      return acceptMessage
     }
     catch (error) {
       apiErrorHandler(error)

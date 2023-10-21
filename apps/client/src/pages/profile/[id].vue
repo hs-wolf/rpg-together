@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { User } from '@rpg-together/models'
-import { DEFAULT_USER_AVATAR, firebaseTimestampToDate } from '@rpg-together/utilities'
+import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 import { useUserStore } from '~/stores'
 
-const { t } = useNuxtApp().$i18n
+const { t, locale } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const localeRoute = useLocaleRoute()
@@ -46,7 +46,7 @@ function checkOwnProfile() {
     </div>
     <div class="flex flex-col gap-3 px-3 py-6 text-center">
       <p class="text-xs">
-        {{ $t('profile.creation-date', { date: firebaseTimestampToDate(user?.creationDate as any) }) }}
+        {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
       </p>
     </div>
   </div>

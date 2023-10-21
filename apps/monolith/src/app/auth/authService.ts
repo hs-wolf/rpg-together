@@ -1,4 +1,3 @@
-import { Inject, Singleton } from 'typescript-ioc'
 import type {
   AuthUserRegisterBody,
   AuthUserUpdateBody,
@@ -15,23 +14,19 @@ import {
   AuthRepositoryFirebase,
 } from '@rpg-together/repositories'
 import { DEFAULT_USER_AVATAR, apiErrorHandler } from '@rpg-together/utilities'
-import type { UsersService } from '../users/usersService'
+import { UsersService } from '../users/usersService'
 
-@Singleton
 export class AuthService {
-  constructor(authRepo: IAuthRepository) {
+  constructor(authRepo?: IAuthRepository) {
     this._authRepo = authRepo ?? new AuthRepositoryFirebase()
   }
 
   private _authRepo: IAuthRepository
 
-  @Inject
-  private usersService: UsersService
-
   async userRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
-      await this.usersService.checkUsernameExists(body.username)
-      const newUser = await this.usersService.createUser({
+      await new UsersService().checkUsernameExists(body.username)
+      const newUser = await new UsersService().createUser({
         role: UserRoles.USER,
         username: body.username,
         email: body.email,
@@ -54,8 +49,8 @@ export class AuthService {
 
   async adminRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
-      await this.usersService.checkUsernameExists(body.username)
-      const newUser = await this.usersService.createUser({
+      await new UsersService().checkUsernameExists(body.username)
+      const newUser = await new UsersService().createUser({
         role: UserRoles.ADMIN,
         username: body.username,
         email: body.email,
@@ -90,7 +85,7 @@ export class AuthService {
           )
         }
         await this._authRepo.updateAuthUser(userId, { email: body.email })
-        await this.usersService.updateUser(userId, { email: body.email })
+        await new UsersService().updateUser(userId, { email: body.email })
       }
       if (body.password) {
         await this._authRepo.updateAuthUser(userId, {
@@ -105,7 +100,7 @@ export class AuthService {
 
   async deleteAuthUser(userId: string): Promise<void> {
     try {
-      await this.usersService.deleteUser(userId)
+      await new UsersService().deleteUser(userId)
       await this._authRepo.deleteAuthUser(userId)
     }
     catch (error) {

@@ -3,7 +3,7 @@ import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useI18n } from 'vue-i18n'
-import type { Table, TableUpdateBody } from '@rpg-together/models'
+import type { AcceptMessage, Table, TableUpdateBody } from '@rpg-together/models'
 import {
   DEFAULT_TABLE_BANNER,
   TABLE_ACCEPT_MESSAGE_MAX_LENGTH,
@@ -22,6 +22,12 @@ const tablesStore = useTablesStore()
 const { updatingTable } = storeToRefs(tablesStore)
 
 const table = ref<Table>()
+const acceptMessage = ref<AcceptMessage>()
+const showDiscardChangedDialogs = ref(false)
+const blockedPath = ref('')
+const confirmExit = ref(false)
+const apiError = ref('')
+const bannerImageFile = ref<File>()
 
 const formFields = {
   'title': {
@@ -50,6 +56,7 @@ const formFields = {
     placeholder: 'edit-table.form.accept-message.placeholder',
   },
 }
+
 const formSchema = object({
   'title': string().min(3).max(TABLE_TITLE_MAX_LENGTH),
   'description': string().min(3).max(TABLE_DESCRIPTION_MAX_LENGTH),
@@ -64,9 +71,23 @@ const { value: descriptionValue } = useField<string>(formFields.description.name
 const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name)
 const { value: flairsValue } = useField<string[]>(formFields.flairs.name)
 const { value: acceptMessageValue } = useField<string>(formFields['accept-message'].name)
-const apiError = ref('')
 
-const bannerImageFile = ref<File>()
+const thereAreChanges = computed(() => {
+  const oldData: TableUpdateBody = {
+    title: table.value?.title,
+    description: table.value?.description,
+    flairs: table.value?.flairs,
+    acceptMessage: acceptMessage.value?.message,
+  }
+  const newData: TableUpdateBody = {
+    title: titleValue.value,
+    description: descriptionValue.value,
+    flairs: flairsValue.value,
+    acceptMessage: acceptMessageValue.value,
+  }
+  return bannerImageFile.value ? true : JSON.stringify(oldData) !== JSON.stringify(newData)
+})
+
 async function onUserAvatarFileUploaded(e: Event) {
   const files = (e.target as HTMLInputElement).files
   if (!files?.length)
@@ -98,26 +119,8 @@ const onSubmit = handleSubmit(async (values) => {
   if (response)
     apiError.value = response
   else
-    navigateTo(localeRoute({ name: 'my-tables' }))
-})
-
-const showDiscardChangedDialogs = ref(false)
-const blockedPath = ref('')
-const confirmExit = ref(false)
-const thereAreChanges = computed(() => {
-  const oldData: TableUpdateBody = {
-    title: table.value?.title,
-    description: table.value?.description,
-    flairs: table.value?.flairs,
-    acceptMessage: table.value?.acceptMessage,
-  }
-  const newData: TableUpdateBody = {
-    title: titleValue.value,
-    description: descriptionValue.value,
-    flairs: flairsValue.value,
-    acceptMessage: acceptMessageValue.value,
-  }
-  return bannerImageFile.value ? true : JSON.stringify(oldData) !== JSON.stringify(newData)
+    confirmExit.value = true
+  navigateTo(localeRoute({ name: 'my-tables' }))
 })
 
 function forcedExit() {
@@ -135,6 +138,7 @@ useRouter().beforeEach((to, _from) => {
 
 onMounted(async () => {
   table.value = await tablesStore.getTable(tableId)
+  acceptMessage.value = await useRpgTogetherAPI.getTableAcceptMessage({ tableId: table.value?.id ?? '' })
   if (!table) {
     useSnackbarStore().createSnack({ type: SnackType.ERROR, message: 'edit-table.table-not-found' })
     return navigateTo(localeRoute({ name: 'my-tables' }))
@@ -144,7 +148,7 @@ onMounted(async () => {
     'description': table.value?.description,
     'banner-url': table.value?.banner,
     'flairs': table.value?.flairs,
-    'accept-message': table.value?.acceptMessage,
+    'accept-message': acceptMessage.value.message,
   })
 })
 </script>

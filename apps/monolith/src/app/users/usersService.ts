@@ -1,4 +1,3 @@
-import { Inject, Singleton } from 'typescript-ioc'
 import type {
   UserCreateBody,
   UserUpdateBody,
@@ -15,22 +14,15 @@ import {
 } from '@rpg-together/repositories'
 import { apiErrorHandler } from '@rpg-together/utilities'
 import { mongoDB } from '../../mongodb'
-import type { TablesService } from '../tables/tablesService'
-import type { UploadService } from '../upload/uploadService'
+import { TablesService } from '../tables/tablesService'
+import { UploadService } from '../upload/uploadService'
 
-@Singleton
 export class UsersService {
-  constructor(usersRepo: IUsersRepository) {
+  constructor(usersRepo?: IUsersRepository) {
     this._usersRepo = usersRepo ?? new UsersRepositoryMongoDB(mongoDB)
   }
 
   private _usersRepo: IUsersRepository
-
-  @Inject
-  private tablesService: TablesService
-
-  @Inject
-  private uploadService: UploadService
 
   async createUser(body: UserCreateBody): Promise<User> {
     try {
@@ -80,8 +72,8 @@ export class UsersService {
 
   async deleteUser(userId: string) {
     try {
-      await this.tablesService.deleteTablesFromUser(userId)
-      await this.uploadService.deleteAllUserFiles(userId)
+      await new TablesService().deleteTablesFromUser(userId)
+      await new UploadService().deleteAllUserFiles(userId)
       await this._usersRepo.deleteUser(userId)
     }
     catch (error) {
