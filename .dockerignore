@@ -1,0 +1,9 @@
+node_modules
+.eslintignore
+.eslintrc.json
+.git
+.gitignore
+.prettierignore
+.prettierrc
+*.md
+dist
