@@ -5,12 +5,6 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-ENV HOST=0.0.0.0
-ENV PORT=3001
-ENV API_URL="https://monolith-dev-lmggplptsq-rj.a.run.app/"
-ENV ALGOLIA_API_KEY="b1495d3ccb1ceb952551f678b95480e1"
-ENV ALGOLIA_APPLICATION_ID="9T02IX7HGQ"
-
 FROM base AS client-prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
