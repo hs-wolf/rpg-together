@@ -7,7 +7,7 @@ useHead({ title: t('home.title') })
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('home.title')" />
     <HomeFeatured />
     <HomeAnnouncements />

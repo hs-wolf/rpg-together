@@ -3,6 +3,8 @@
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { Controller, ValidationService, FieldErrors, ValidateError, TsoaRoute, HttpStatusCodeLiteral, TsoaResponse, fetchMiddlewares } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { AnnouncementsController } from './../src/app/announcements/announcementsController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { ApplicationsController } from './../src/app/applications/applicationsController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { AuthController } from './../src/app/auth/authController';
@@ -26,6 +28,34 @@ const upload = multer();
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "Record_SupportedLanguages.string_": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"en":{"dataType":"string"},"pt":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Announcement": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"string","required":true},
+            "title": {"ref":"Record_SupportedLanguages.string_","required":true},
+            "message": {"ref":"Record_SupportedLanguages.string_","required":true},
+            "image": {"dataType":"string","required":true},
+            "creationDate": {"dataType":"datetime","required":true},
+            "lastUpdateDate": {"dataType":"datetime","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "Partial_Pick_AnnouncementUpdateBody.title-or-message-or-image__": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"ref":"Record_SupportedLanguages.string_"},"message":{"ref":"Record_SupportedLanguages.string_"},"image":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "AnnouncementUpdateBodyRequest": {
+        "dataType": "refAlias",
+        "type": {"ref":"Partial_Pick_AnnouncementUpdateBody.title-or-message-or-image__","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ApplicationStatus": {
         "dataType": "refEnum",
         "enums": ["WAITING","ACCEPTED","DECLINED"],
@@ -43,7 +73,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Pick_Table.id-or-owner-or-title-or-banner-or-acceptMessageId__": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"string"},"owner":{"ref":"UserHeader"},"title":{"dataType":"string"},"banner":{"dataType":"string"},"acceptMessageId":{"dataType":"string"}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"id":{"dataType":"string"},"owner":{"ref":"UserHeader"},"banner":{"dataType":"string"},"acceptMessageId":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "TableHeader": {
@@ -67,7 +97,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Pick_ApplicationCreateBody.table-or-message_": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"table":{"ref":"TableHeader","required":true},"message":{"dataType":"string","required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"message":{"dataType":"string","required":true},"table":{"ref":"TableHeader","required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ApplicationCreateBodyRequest": {
@@ -109,11 +139,6 @@ const models: TsoaRoute.Models = {
     "FlairTypes": {
         "dataType": "refEnum",
         "enums": ["SYSTEM","LANGUAGES","RATINGS","VACANCIES","GENRES","CUSTOM"],
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Record_SupportedLanguages.string_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"en":{"dataType":"string"},"pt":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Flair": {
@@ -265,6 +290,134 @@ export function RegisterRoutes(app: Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
+        app.post('/announcements',
+            authenticateMiddleware([{"Bearer":["ADMIN"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController)),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController.prototype.createAnnouncement)),
+
+            function AnnouncementsController_createAnnouncement(request: any, response: any, next: any) {
+            const args = {
+                    body: {"in":"body","name":"body","required":true,"ref":"AnnouncementUpdateBodyRequest"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new AnnouncementsController();
+
+
+              const promise = controller.createAnnouncement.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/announcements/:announcementId',
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController)),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController.prototype.getAnnouncement)),
+
+            function AnnouncementsController_getAnnouncement(request: any, response: any, next: any) {
+            const args = {
+                    announcementId: {"in":"path","name":"announcementId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new AnnouncementsController();
+
+
+              const promise = controller.getAnnouncement.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.get('/announcements',
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController)),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController.prototype.getAnnouncements)),
+
+            function AnnouncementsController_getAnnouncements(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new AnnouncementsController();
+
+
+              const promise = controller.getAnnouncements.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/announcements/:announcementId',
+            authenticateMiddleware([{"Bearer":["ADMIN"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController)),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController.prototype.updateAnnouncement)),
+
+            function AnnouncementsController_updateAnnouncement(request: any, response: any, next: any) {
+            const args = {
+                    announcementId: {"in":"path","name":"announcementId","required":true,"dataType":"string"},
+                    body: {"in":"body","name":"body","required":true,"ref":"AnnouncementUpdateBodyRequest"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new AnnouncementsController();
+
+
+              const promise = controller.updateAnnouncement.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.delete('/announcements/:announcementId',
+            authenticateMiddleware([{"Bearer":["ADMIN"]}]),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController)),
+            ...(fetchMiddlewares<RequestHandler>(AnnouncementsController.prototype.deleteAnnouncement)),
+
+            function AnnouncementsController_deleteAnnouncement(request: any, response: any, next: any) {
+            const args = {
+                    announcementId: {"in":"path","name":"announcementId","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new AnnouncementsController();
+
+
+              const promise = controller.deleteAnnouncement.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/applications',
             authenticateMiddleware([{"Bearer":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ApplicationsController)),
@@ -1021,6 +1174,34 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.uploadTableFile.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/upload/announcement-file/:announcementId',
+            authenticateMiddleware([{"Bearer":[]}]),
+            upload.single('file'),
+            ...(fetchMiddlewares<RequestHandler>(UploadController)),
+            ...(fetchMiddlewares<RequestHandler>(UploadController.prototype.uploadAnnouncementFile)),
+
+            function UploadController_uploadAnnouncementFile(request: any, response: any, next: any) {
+            const args = {
+                    announcementId: {"in":"path","name":"announcementId","required":true,"dataType":"string"},
+                    file: {"in":"formData","name":"file","required":true,"dataType":"file"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new UploadController();
+
+
+              const promise = controller.uploadAnnouncementFile.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

@@ -7,7 +7,7 @@ const tables = ref<Table[]>()
 
 async function newSearch() {
   await search({ query: '', requestOptions: { facetFilters: [], hitsPerPage: 10, page: 0 } })
-  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit)) : []
+  tables.value = result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit))
 }
 
 onMounted(() => {
@@ -16,13 +16,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 p-3">
-    <div class="flex items-center gap-2 font-semibol">
+  <div class="flex flex-col gap-4 p-2">
+    <div class="flex items-center gap-2 font-semibold">
       <NuxtIcon name="bookmark-star" />
       <h1>{{ $t('home-featured.title') }}</h1>
     </div>
     <div v-if="tables?.length" class="flex gap-3 overflow-x-auto snap-x snap-mandatory hide-scrollbar">
-      <TableCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%] h-fit" />
+      <TablesCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%] md:min-w-[60%] lg:min-w-[30%] h-fit" />
     </div>
     <LoadingCard v-else />
   </div>

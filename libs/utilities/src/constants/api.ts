@@ -25,6 +25,27 @@ export const API_ENDPOINTS_REQUESTS = {
     path: 'auth/delete',
     method: 'DELETE',
   }),
+  // ANNOUNCEMENT REQUESTS
+  createAnnouncement: (): RequestReturnType => ({
+    path: 'announcements',
+    method: 'POST',
+  }),
+  getAnnouncement: ({ announcementId }: { announcementId: string }): RequestReturnType => ({
+    path: `announcements/${announcementId}`,
+    method: 'GET',
+  }),
+  getAnnouncements: (): RequestReturnType => ({
+    path: 'announcements',
+    method: 'GET',
+  }),
+  updateAnnouncement: ({ announcementId }: { announcementId: string }): RequestReturnType => ({
+    path: `announcements/${announcementId}`,
+    method: 'PUT',
+  }),
+  deleteAnnouncement: ({ announcementId }: { announcementId: string }): RequestReturnType => ({
+    path: `announcements/${announcementId}`,
+    method: 'DELETE',
+  }),
   // USER REQUESTS
   getUser: ({ userId }: { userId: string }): RequestReturnType => ({
     path: `users/${userId}`,
@@ -181,4 +202,5 @@ export const API_ENDPOINTS_REQUESTS = {
     path: `notifications/${notificationId}/read`,
     method: 'POST',
   }),
+
 }

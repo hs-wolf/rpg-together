@@ -57,7 +57,7 @@ const currentAvatarUrl = computed(() =>
           height="180"
           sizes="sm:100vw md:50vw lg:50vw"
           format="webp"
-          class="w-[50vw] h-[50vw] rounded-full shadow object-cover"
+          class="w-[50vw] h-[50vw] rounded-sm shadow object-cover"
         />
         <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-50">
           <NuxtIcon :name="changingAvatar ? 'loading-loop' : 'picture'" filled />

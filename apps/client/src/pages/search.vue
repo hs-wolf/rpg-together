@@ -28,7 +28,7 @@ async function newSearch() {
     query: query.value,
     requestOptions: { facetFilters, hitsPerPage: hitsPerPage.value, page: currentSearchPage.value },
   })
-  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: unknown) => Table.fromMap(hit)) : []
+  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit)) : []
   if (!firstSearchMade.value)
     firstSearchMade.value = true
 
@@ -46,7 +46,7 @@ async function searchMore() {
     query: query.value,
     requestOptions: { facetFilters, hitsPerPage: hitsPerPage.value, page: currentSearchPage.value },
   })
-  const newTables = result.value?.hits.map((hit: unknown) => Table.fromMap(hit))
+  const newTables = result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit))
   if (!newTables.length)
     noMoreTables.value = true
 
@@ -96,7 +96,7 @@ onMounted(() => {
     </i18n-t>
     <div class="flex flex-col p-3">
       <div v-if="tables?.length" class="flex flex-col gap-3">
-        <TableCard v-for="table in tables" :key="table.id" :table="table" />
+        <TablesCard v-for="table in tables" :key="table.id" :table="table" />
         <p v-if="noMoreTables" class="p-3 text-sm text-center">
           {{ $t('search.no-more-tables') }}
         </p>

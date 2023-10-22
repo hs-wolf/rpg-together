@@ -1,11 +1,11 @@
+import type { SupportedLanguages } from '@rpg-together/models'
 import { LOCALES_STORE, LOCALE_STORAGE_KEY } from '~/constants'
-import type { AppLang } from '~/types'
 import { AppDirections } from '~/types'
 import { useAlertsStore } from '~/stores'
 
 interface IState {
   direction: AppDirections
-  rtlList: AppLang[]
+  rtlList: SupportedLanguages[]
 }
 
 export const useLocalesStore = defineStore(LOCALES_STORE, {
@@ -15,13 +15,13 @@ export const useLocalesStore = defineStore(LOCALES_STORE, {
   }),
   getters: {},
   actions: {
-    changeLocale(locale: AppLang) {
+    changeLocale(locale: SupportedLanguages) {
       this.saveLocale(locale)
       this.rtlList.includes(locale) ? (this.direction = AppDirections.RTL) : (this.direction = AppDirections.LTR)
       const switchLocalePath = useSwitchLocalePath()
       navigateTo(switchLocalePath(locale))
     },
-    saveLocale(locale: AppLang) {
+    saveLocale(locale: SupportedLanguages) {
       try {
         localStorage.setItem(LOCALE_STORAGE_KEY, locale)
         const auth = useFirebase.firebaseAuth()
@@ -33,7 +33,7 @@ export const useLocalesStore = defineStore(LOCALES_STORE, {
       }
     },
     loadLocale() {
-      const value = localStorage.getItem(LOCALE_STORAGE_KEY) as AppLang
+      const value = localStorage.getItem(LOCALE_STORAGE_KEY) as SupportedLanguages
       if (value)
         this.changeLocale(value)
     },

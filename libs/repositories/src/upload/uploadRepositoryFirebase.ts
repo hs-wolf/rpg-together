@@ -8,6 +8,7 @@ import {
   uploadBytes,
 } from 'firebase/storage'
 import {
+  DEFAULT_ANNOUNCEMENT_NAME,
   DEFAULT_TABLE_BANNER_NAME,
   DEFAULT_USER_AVATAR_NAME,
 } from '@rpg-together/utilities'
@@ -36,6 +37,20 @@ export class UploadRepositoryFirebase implements IUploadRepository {
       file.originalname,
     )}`
     const storageRef = ref(this.storage, `tables/${tableId}/${fileName}`)
+    const snapshot = await uploadBytes(storageRef, file.buffer, {
+      contentType: file.mimetype,
+    })
+    return getDownloadURL(snapshot.ref)
+  }
+
+  async uploadAnnouncementImage(
+    announcementId: string,
+    file: Express.Multer.File,
+  ): Promise<string> {
+    const fileName = `${DEFAULT_ANNOUNCEMENT_NAME}${extname(
+      file.originalname,
+    )}`
+    const storageRef = ref(this.storage, `announcements/${announcementId}/${fileName}`)
     const snapshot = await uploadBytes(storageRef, file.buffer, {
       contentType: file.mimetype,
     })

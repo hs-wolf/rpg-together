@@ -37,4 +37,13 @@ export class UploadController extends Controller {
     selfOnly(request, table.owner.id)
     return new UploadService().uploadTableFile(tableId, file)
   }
+
+  @Security(SECURITY_NAME_BEARER)
+  @Post('/announcement-file/{announcementId}')
+  public async uploadAnnouncementFile(
+    @Path() announcementId: string,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<string> {
+    return new UploadService().uploadAnnouncementFile(announcementId, file)
+  }
 }

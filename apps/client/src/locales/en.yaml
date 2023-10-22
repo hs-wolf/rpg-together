@@ -84,12 +84,6 @@ register:
       placeholder: Password (Confirm)
 home:
   title: Rpg Together
-table-card:
-  read-more: Read more
-table-card-options:
-  view-table: View table
-  view-owner: View owner
-  report: Report
 home-featured:
   title: Featured Tables
   loading: Loading
@@ -197,6 +191,11 @@ tables:
   youre-the-owner: You're the owner, click here to edit.
   apply-to-table: Apply to this table
   already-applied: You've already applied to this table.
+  card:
+    read-more: Read more
+    view-table: Table
+    view-owner: Owner
+    report: Report
 tables-apply:
   form:
     message:

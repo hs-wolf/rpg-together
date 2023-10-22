@@ -1,4 +1,5 @@
 export * from './acceptMessage'
+export * from './announcement'
 export * from './api'
 export * from './application'
 export * from './auth'

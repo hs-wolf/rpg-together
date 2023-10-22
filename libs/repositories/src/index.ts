@@ -1,4 +1,5 @@
 export * from './applications'
+export * from './announcements'
 export * from './auth'
 export * from './flairs'
 export * from './notifications'

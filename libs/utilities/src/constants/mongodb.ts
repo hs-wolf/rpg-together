@@ -1,3 +1,4 @@
+export const MONGODB_COLLECTION_ANNOUNCEMENTS = 'announcement'
 export const MONGODB_COLLECTION_ACCEPT_MESSAGES = 'accept-messages'
 export const MONGODB_COLLECTION_APPLICATIONS = 'applications'
 export const MONGODB_COLLECTION_FLAIRS = 'flairs'

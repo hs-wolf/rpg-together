@@ -1,9 +1,8 @@
 import type { Flair } from '@rpg-together/models'
-import { FlairTypes } from '@rpg-together/models'
+import { FlairTypes, SupportedLanguages } from '@rpg-together/models'
 import { FLAIRS_STORE } from '~/constants'
 import { useAlertsStore } from '~/stores'
 import type { AdvancedSelectOption } from '~/types'
-import { AppLang } from '~/types'
 
 interface IState {
   allFlairs: Flair[]
@@ -45,7 +44,7 @@ export const useFlairsStore = defineStore(FLAIRS_STORE, {
       try {
         const { locale } = useNuxtApp().$i18n
         const advancedSelectOptions: AdvancedSelectOption[] = flairs.map((flair) => {
-          return { id: flair.id, name: flair.name, label: flair.labels[locale.value] ?? flair.labels[AppLang.EN] }
+          return { id: flair.id, name: flair.name, label: flair.labels[locale.value as SupportedLanguages] ?? flair.labels[SupportedLanguages.EN] }
         })
         return advancedSelectOptions
       }
@@ -58,7 +57,7 @@ export const useFlairsStore = defineStore(FLAIRS_STORE, {
       try {
         const { locale } = useNuxtApp().$i18n
         const flair = this.allFlairs.find(flair => flair.id === flairId)
-        return flair?.labels[locale.value] ?? flair?.labels[AppLang.EN]
+        return flair?.labels[locale.value as SupportedLanguages] ?? flair?.labels[SupportedLanguages.EN]
       }
       catch (error) {
         useAlertsStore().handleError(error)

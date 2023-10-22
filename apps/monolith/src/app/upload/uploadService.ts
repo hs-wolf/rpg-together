@@ -54,6 +54,25 @@ export class UploadService {
     }
   }
 
+  async uploadAnnouncementFile(
+    announcementId: string,
+    file: Express.Multer.File,
+  ): Promise<string> {
+    try {
+      if (file.mimetype.includes('image')) {
+        const url = await this._uploadRepo.uploadAnnouncementImage(announcementId, file)
+        return url
+      }
+      throw new ApiError(
+        ResponseCodes.BAD_REQUEST,
+        ResponseMessages.COULD_NOT_UPLOAD,
+      )
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
   async deleteAllUserFiles(userId: string): Promise<void> {
     try {
       await this._uploadRepo.deleteAllUserFiles(userId)

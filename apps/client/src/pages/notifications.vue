@@ -44,7 +44,7 @@ function selectNotificationTypes(options: AdvancedSelectOption[]) {
         </template>
       </i18n-t>
     </div>
-    <div v-if="notifications.length" class="px-3">
+    <div v-if="notifications.length" class="px-2">
       <AdvancedSelect
         :options="notificationTypes"
         :placeholder-message="$t('pages.notifications.notification-types')"
@@ -54,18 +54,15 @@ function selectNotificationTypes(options: AdvancedSelectOption[]) {
         @change-options="selectNotificationTypes"
       />
     </div>
-    <div v-if="!firstSearch || filteredNotifications.length" class="flex flex-col p-3">
+    <div v-if="!firstSearch || filteredNotifications.length" class="flex flex-col p-2">
       <LoadingCard v-if="!firstSearch" />
-      <div v-else-if="filteredNotifications.length" class="flex flex-col gap-1">
+      <div v-else-if="filteredNotifications.length" class="flex flex-col gap-2">
         <NotificationsCard
           v-for="notification in filteredNotifications"
           :key="notification.id"
           :notification="notification"
           @mark-as-read="notificationsStore.readNotification(notification.id)"
         />
-        <button class="btn-accent mt-2" @click.prevent="notificationsStore.getMyNotifications({ save: true })">
-          {{ $t('pages.notifications.load-more') }}
-        </button>
       </div>
     </div>
   </div>

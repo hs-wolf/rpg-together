@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { SupportedLanguages } from '@rpg-together/models'
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
-import { AppLang } from '~/types'
 import { useLocalesStore, useNotificationsStore, useUserStore } from '~/stores'
 
 const localePath = useLocalePath()
@@ -114,7 +114,7 @@ async function logout() {
             <button
               class="menu-button"
               @click.prevent="
-                $i18n.locale === 'en' ? localesStore.changeLocale(AppLang.PT) : localesStore.changeLocale(AppLang.EN)
+                $i18n.locale === 'en' ? localesStore.changeLocale(SupportedLanguages.PT) : localesStore.changeLocale(SupportedLanguages.EN)
               "
             >
               <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
