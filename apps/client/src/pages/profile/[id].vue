@@ -31,9 +31,9 @@ function checkOwnProfile() {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="user?.username ?? $t('profile.title')" :back="true" />
-    <div class="flex flex-col items-center gap-3 px-3">
+    <div class="flex flex-col items-center gap-4">
       <NuxtImg
         :src="user?.avatar ?? DEFAULT_USER_AVATAR"
         :alt="user?.username ?? $t('profile.title')"
@@ -43,8 +43,6 @@ function checkOwnProfile() {
         format="webp"
         class="w-[50vw] h-[50vw] rounded-sm shadow object-cover"
       />
-    </div>
-    <div class="flex flex-col gap-3 px-3 py-6 text-center">
       <p class="text-xs">
         {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
       </p>

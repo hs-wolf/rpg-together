@@ -22,9 +22,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('my-tables.title')" />
-    <div class="flex justify-between items-center gap-3 p-3">
+    <div class="flex justify-between items-center gap-2 px-2">
       <i18n-t keypath="my-tables.tables-limit" tag="p" scope="global" class="text-sm leading-none">
         <template #limit>
           <span class="font-semibold">{{ `${myTables.length} / ${LIMIT_OF_TABLES}` }}</span>
@@ -37,7 +37,7 @@ onMounted(async () => {
         {{ $t('my-tables.create-table') }}
       </NuxtLink>
     </div>
-    <div class="flex flex-col gap-3 p-3">
+    <div class="flex flex-col gap-4 px-2">
       <MyTablesTableCard
         v-for="table in myTables"
         :key="table.id"

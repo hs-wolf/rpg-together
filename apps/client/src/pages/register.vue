@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import { useI18n } from 'vue-i18n'
 import type { AuthUserRegisterBody } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
@@ -35,7 +35,7 @@ const formFields = {
     placeholder: 'register.form.confirmPassword.placeholder',
   },
 }
-const validationSchema = toFormValidator(
+const validationSchema = toTypedSchema(
   object({
     username: string().min(1),
     email: string().email(),
@@ -59,10 +59,10 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('register.title')" />
-    <div class="flex flex-col gap-6 p-3">
-      <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-8 px-2">
+      <div class="flex flex-col gap-4">
         <FormInput
           v-model="usernameValue"
           :name="formFields.username.name"

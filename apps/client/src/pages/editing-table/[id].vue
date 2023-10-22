@@ -155,9 +155,9 @@ onMounted(async () => {
 
 <template>
   <LoadingIcon v-if="!table" />
-  <div v-else class="flex flex-col h-full pb-3 overflow-y-auto hide-scrollbar">
+  <div v-else class="flex flex-col gap-4 h-full pb-3 overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('edit-table.title')" back="my-tables" />
-    <div class="flex flex-col gap-6 px-3">
+    <div class="flex flex-col gap-4 px-2">
       <FormInput
         v-model="titleValue"
         :name="formFields.title.name"

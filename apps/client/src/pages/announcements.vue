@@ -15,9 +15,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('announcements.title')" />
-    <div class="flex flex-col p-2">
+    <div class="flex flex-col px-2">
       <div v-if="announcements?.length" class="flex flex-col gap-4">
         <AnnouncementsCard v-for="announcement in announcements" :key="announcement.id" :announcement="announcement" />
       </div>

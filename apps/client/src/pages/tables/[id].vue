@@ -40,24 +40,6 @@ onBeforeMount(async () => {
 <template>
   <div v-if="table" class="flex flex-col h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="table?.title" :back="true" />
-    <div class="flex flex-col m-3 mb-5">
-      <div v-if="showApplicationButton" class="flex flex-col gap-1">
-        <button class="btn-primary gap-1" @click.prevent="showApplicationMenu = !showApplicationMenu">
-          <NuxtIcon name="apply" />
-          <p>{{ $t('tables.apply-to-table') }}</p>
-        </button>
-      </div>
-      <div v-else-if="table.owner.id === firebaseUser?.uid" class="flex flex-col gap-1">
-        <NuxtLink :to="localePath({ path: `/editing-table/${table.id}` })" class="btn-primary gap-1">
-          <NuxtIcon name="edit-pencil" />
-          <p>{{ $t('tables.youre-the-owner') }}</p>
-        </NuxtLink>
-      </div>
-      <div v-else class="flex justify-center items-center gap-1 text-sm text-center text-secondary-dark">
-        <NuxtIcon name="apply" />
-        <p>{{ $t('tables.already-applied') }}</p>
-      </div>
-    </div>
     <NuxtImg
       :src="table?.banner ?? DEFAULT_TABLE_BANNER"
       :alt="table?.title"
@@ -65,30 +47,39 @@ onBeforeMount(async () => {
       height="128"
       sizes="sm:100vw md:50vw lg:400px"
       format="webp"
-      class="w-full h-64 rounded-t-sm object-cover"
+      class="w-full object-contain"
     />
-    <div class="flex flex-col gap-1 p-3 bg-secondary text-primary">
-      <h1 class="font-semibold">
-        {{ $t('tables.description') }}
-      </h1>
+    <div class="flex flex-col gap-4 px-2 py-4">
       <p class="font-roboto-slab whitespace-pre-line">
         {{ table?.description }}
       </p>
-    </div>
-    <div class="flex flex-col gap-1 p-3">
-      <p class="font-semibold">
-        {{ $t('my-tables-table-card.flairs') }}
-      </p>
-      <div v-if="table?.flairs && table?.flairs.length" class="flex flex-wrap items-center gap-2">
-        <div
-          v-for="flair in table.flairs"
-          :key="flair"
-          class="flex items-center px-1.5 py-1 bg-accent shadow rounded-sm text-sm text-secondary"
-        >
-          {{ flairsStore.getFlairLabel(flair) }}
+      <div class="flex flex-col gap-1">
+        <div v-if="table?.flairs && table?.flairs.length" class="flex flex-wrap items-center gap-1">
+          <div
+            v-for="flair in table.flairs"
+            :key="flair"
+            class="flex items-center px-1 py-0.5 bg-accent shadow rounded-sm text-sm text-secondary"
+          >
+            {{ flairsStore.getFlairLabel(flair) }}
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <button v-if="showApplicationButton" class="btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
+          <NuxtIcon name="apply" />
+          <p>{{ $t('tables.apply-to-table') }}</p>
+        </button>
+        <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn-primary gap-2">
+          <NuxtIcon name="edit-pencil" />
+          <p>{{ $t('tables.youre-the-owner') }}</p>
+        </NuxtLink>
+        <div v-else class="flex justify-center items-center gap-2 text-sm text-center text-secondary-dark">
+          <NuxtIcon name="apply" />
+          <p>{{ $t('tables.already-applied') }}</p>
         </div>
       </div>
     </div>
+
     <TablesApply
       :show="showApplicationMenu"
       :table="table"

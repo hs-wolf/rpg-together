@@ -80,7 +80,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
         <div
           v-for="flair in table.flairs"
           :key="flair"
-          class="border-accent-light text-primary-light flex items-center rounded-sm border px-1 py-0.5 text-xs"
+          class="flex items-center px-1 py-0.5 border border-accent-light rounded-sm text-xs text-primary-light"
         >
           {{ flairsStore.getFlairLabel(flair) }}
         </div>

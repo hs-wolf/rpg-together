@@ -60,6 +60,13 @@ login:
   submit: Login
   no-account: Do not have an account? {0}
   register-here: Register here!
+  form:
+    email:
+      label: Email
+      placeholder: Email
+    password:
+      label: Password
+      placeholder: Password
 register:
   title: Register
   username: Username
@@ -92,6 +99,7 @@ home-announcements:
   see-all: See all
 search:
   title: Search Table
+  search: Search
   results-for: 'Tables found: {amount}'
   load-more: Load More
   no-more-tables: No more tables available.

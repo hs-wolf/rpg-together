@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { toTypedSchema } from '@vee-validate/zod'
+import { useField, useForm } from 'vee-validate'
 import { useI18n } from 'vue-i18n'
+import { object, string } from 'zod'
 import { useUserStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-out'] })
@@ -10,48 +13,78 @@ const localePath = useLocalePath()
 const userStore = useUserStore()
 const { signingIn } = storeToRefs(userStore)
 
-const email = ref('')
-const password = ref('')
-const showPassword = ref(false)
+const formFields = {
+  email: {
+    name: 'email',
+    label: 'login.form.email.label',
+    placeholder: 'login.form.email.placeholder',
+  },
+  password: {
+    name: 'password',
+    label: 'login.form.password.label',
+    placeholder: 'login.form.password.placeholder',
+  },
+}
+const validationSchema = toTypedSchema(
+  object({
+    email: string().email(),
+    password: string().min(6),
+  }),
+)
+const { errors, handleSubmit } = useForm({ validationSchema })
+const { value: emailValue } = useField<string>(formFields.email.name)
+const { value: passwordValue } = useField<string>(formFields.password.name)
+
+const onSubmit = handleSubmit(async (values) => {
+  await userStore.signIn(values.email, values.password)
+})
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('login.title')" />
-    <div class="flex flex-col gap-6 p-3">
-      <div class="flex flex-col gap-3">
-        <div class="relative flex items-center border border-primary-light rounded">
-          <NuxtIcon name="email" class="absolute left-3 pointer-events-none" />
-          <input
-            v-model="email"
-            name="email"
-            type="text"
-            placeholder="Email"
-            :disabled="signingIn"
-            class="w-full h-full pl-[42px] pr-3 py-2 outline-none bg-transparent autofill:bg-transparent"
-          >
-        </div>
-        <div class="relative flex items-center border border-primary-light rounded">
-          <NuxtIcon name="key" class="absolute left-3 pointer-events-none" />
-          <input
-            v-model="password"
-            name="password"
-            :type="showPassword ? 'text' : 'password'"
-            placeholder="Password"
-            :disabled="signingIn"
-            class="w-full h-full px-[42px] py-2 outline-none bg-transparent"
-          >
-          <button
-            class="absolute right-0 flex px-3 py-2 transition-transform active:scale-90"
-            @click.prevent="showPassword = !showPassword"
-          >
-            <NuxtIcon :name="showPassword ? 'eye-open' : 'eye-closed'" class="text-xl" />
-          </button>
-        </div>
+    <div class="flex flex-col gap-8 px-2">
+      <div class="flex flex-col gap-4">
+        <FormInput
+          v-model="emailValue"
+          :name="formFields.email.name"
+          :label="$t(formFields.email.label)"
+          :placeholder="$t(formFields.email.placeholder)"
+          :error="errors.email ? $t(errors.email, { label: $t(formFields.email.label) }) : ''"
+          autocomplete="off"
+          type="email"
+          :disabled="signingIn"
+        >
+          <template #field-icon>
+            <NuxtIcon name="email" />
+          </template>
+        </FormInput>
+        <FormInput
+          v-model="passwordValue"
+          :name="formFields.password.name"
+          :label="$t(formFields.password.label)"
+          :placeholder="$t(formFields.password.placeholder)"
+          :error="errors.password ? $t(errors.password, { label: $t(formFields.password.label), min: 6 }) : ''"
+          autocomplete="off"
+          type="password"
+          :disabled="signingIn"
+        >
+          <template #field-icon>
+            <NuxtIcon name="key" />
+          </template>
+          <template #show-password-icon>
+            <NuxtIcon name="eye-open" />
+          </template>
+          <template #hide-password-icon>
+            <NuxtIcon name="eye-closed" />
+          </template>
+        </FormInput>
       </div>
-      <LoadingCard v-if="signingIn" />
-      <button v-else class="btn-accent" @click.prevent="userStore.signIn(email, password)">
-        {{ $t('login.submit') }}
+      <button class="btn-accent" :disabled="signingIn" @click.prevent="onSubmit">
+        <NuxtIcon v-if="signingIn" name="loading-loop" class="text-xl" />
+        <p v-else>
+          {{ $t('login.submit') }}
+        </p>
       </button>
       <i18n-t keypath="login.no-account" tag="div" scope="global" class="text-center text-sm">
         <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-medium">

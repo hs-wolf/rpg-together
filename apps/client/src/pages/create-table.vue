@@ -94,9 +94,9 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full pb-3 overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('create-table.title')" back="my-tables" />
-    <div class="flex flex-col gap-6 px-3">
+    <div class="flex flex-col gap-4 px-2">
       <FormInput
         v-model="titleValue"
         :name="formFields.title.name"
@@ -148,7 +148,7 @@ const onSubmit = handleSubmit(async (values) => {
               height="128"
               sizes="sm:100vw md:50vw lg:400px"
               format="webp"
-              class="w-full h-32 shadow rounded opacity-80 object-cover"
+              class="w-full shadow rounded opacity-80 object-cover"
             />
             <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-80">
               <NuxtIcon name="picture" filled />

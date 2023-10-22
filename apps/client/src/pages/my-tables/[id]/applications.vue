@@ -20,12 +20,12 @@ onBeforeMount(async () => {
 
 <template>
   <LoadingIcon v-if="!table" />
-  <div v-else class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div v-else class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('my-tables-applications.title', { table: table.title })" back="my-tables" />
-    <p v-if="!applications.length" class="p-3 text-sm text-center text-secondary-dark">
+    <p v-if="!applications.length" class="p-4 text-sm text-center text-secondary-dark">
       {{ $t('my-tables-applications.no-applications') }}
     </p>
-    <div v-else class="flex flex-col gap-3 p-3">
+    <div v-else class="flex flex-col gap-4 px-2">
       <MyTablesApplicationCard
         v-for="application in applications"
         :key="application.id"

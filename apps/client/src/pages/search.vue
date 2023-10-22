@@ -14,9 +14,9 @@ const tables = ref<Table[]>()
 const firstSearchMade = ref(false)
 const searching = ref(false)
 const noMoreTables = ref(false)
-
-const hitsPerPage = ref(2)
+const hitsPerPage = ref(5)
 const currentSearchPage = ref(0)
+
 async function newSearch() {
   if (searching.value)
     return
@@ -54,30 +54,26 @@ async function searchMore() {
   searching.value = false
 }
 
-useInfiniteScroll(pageRef, () => searchMore(), { distance: 60 })
+useInfiniteScroll(pageRef, () => searchMore(), { distance: 32 })
 const { y: pageY } = useScroll(pageRef, { behavior: 'smooth' })
 const scrollToTop = () => (pageY.value = 0)
 const showScrollToTopButton = computed(() => currentSearchPage.value >= 1 && pageY.value !== 0)
 
-watch([query, flairs], () => {
-  newSearch()
-})
+watch([query, flairs], () => newSearch())
 
-onMounted(() => {
-  newSearch()
-})
+onMounted(() => newSearch())
 </script>
 
 <template>
-  <div ref="pageRef" class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div ref="pageRef" class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('search.title')" />
-    <div class="flex flex-col gap-3 p-3">
+    <div class="flex flex-col gap-2 px-2">
       <div class="relative flex items-center border border-primary-light rounded">
         <NuxtIcon name="search-tool" class="absolute left-3 text-lg pointer-events-none" />
         <input
           v-model="query"
           type="text"
-          placeholder="Search"
+          :placeholder="$t('search.search')"
           class="w-full h-full px-[42px] py-2 outline-none bg-transparent"
         >
         <button
@@ -89,15 +85,15 @@ onMounted(() => {
       </div>
       <FlairsMenu @change="(value) => (flairs = value)" />
     </div>
-    <i18n-t v-if="result?.nbHits" keypath="search.results-for" tag="h1" scope="global" class="p-3 text-sm text-center">
+    <i18n-t v-if="result?.nbHits" keypath="search.results-for" tag="h1" scope="global" class="px-2 text-sm text-center">
       <template #amount>
         <span class="font-semibold">{{ result?.nbHits }}</span>
       </template>
     </i18n-t>
-    <div class="flex flex-col p-3">
-      <div v-if="tables?.length" class="flex flex-col gap-3">
+    <div class="flex flex-col p-2">
+      <div v-if="tables?.length" class="flex flex-col gap-4">
         <TablesCard v-for="table in tables" :key="table.id" :table="table" />
-        <p v-if="noMoreTables" class="p-3 text-sm text-center">
+        <p v-if="noMoreTables" class="p-2 text-sm text-center">
           {{ $t('search.no-more-tables') }}
         </p>
         <button v-else class="btn-accent" @click.prevent="searchMore">
@@ -105,7 +101,7 @@ onMounted(() => {
         </button>
       </div>
       <LoadingCard v-else-if="!firstSearchMade" />
-      <p v-else class="p-3 text-sm text-center text-secondary-dark">
+      <p v-else class="p-2 text-sm text-center text-secondary-dark">
         {{ $t('search.no-tables-found') }}
       </p>
     </div>

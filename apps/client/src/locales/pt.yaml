@@ -1,17 +1,17 @@
 ---
 zod-errors:
-  required: This field is required.
-  min: This field needs a minimum of {min} characters.
-  max: This field can have a maximum of {min} characters.
-  email: This field must be a valid e-mail.
-  not-number: This field must have only numbers.
-  not-date: This field must be a valid date.
-  array-min: You need to select at least {min} options.
-  password-match: The passwords don't match.
-  email-match: The emails don't match.
+  required: Este campo é obrigatório.
+  min: Este campo precisa de um mínimo de {min} caracteres.
+  max: Este campo pode ter um máximo de {min} caracteres.
+  email: Este campo precisa ser um e-mail válido.
+  not-number: Este campo deve ter apenas números.
+  not-date: Este campo deve ser uma data válida.
+  array-min: Você precisa selecionar pelo menos {min} opções.
+  password-match: As senhas não são iguais.
+  email-match: Os e-mails não são iguais.
 firebase-errors:
-  auth/wrong-password: Wrong password.
-  auth/too-many-requests: Too many requests, try again later.
+  auth/wrong-password: Senha errada.
+  auth/too-many-requests: Excesso de requisições, tente novamente depois.
 api-errors:
   MISSING_TOKEN: Missing token.
   ROLE_NOT_AUTHORIZED: You are not authorized to do this.
@@ -60,6 +60,13 @@ login:
   submit: Login
   no-account: Do not have an account? {0}
   register-here: Register here!
+  form:
+    email:
+      label: Email
+      placeholder: Email
+    password:
+      label: Password
+      placeholder: Password
 register:
   title: Register
   username: Username
@@ -92,6 +99,7 @@ home-announcements:
   see-all: See all
 search:
   title: Search Table
+  search: Search
   results-for: 'Tables found: {amount}'
   load-more: Load More
   no-more-tables: No more tables available.
@@ -211,13 +219,18 @@ my-tables-applications:
   no-applications: There is no applications for this table.
 my-tables-application-card:
   their-message: 'Their message: {text}'
-  reject: Reject
+  decline: Decline
   profile: Profile
   accept: Accept
   accept-modal:
     title: Accepting application
     message: Are you sure you want to accept {user}'s application? This is an irreversible action.
     yes-accept: Yes, Accept
+    back: Back
+  decline-modal:
+    title: Declining application
+    message: Are you sure you want to decline {user}'s application? This is an irreversible action.
+    yes-accept: Yes, Decline
     back: Back
 my-tables-table-card:
   title: 'Title: {text}'

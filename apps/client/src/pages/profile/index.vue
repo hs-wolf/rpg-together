@@ -38,9 +38,9 @@ const currentAvatarUrl = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
     <PageTitle :title="$t('profile.title')" />
-    <div class="flex flex-col items-center gap-3 px-3">
+    <div class="flex flex-col items-center gap-4">
       <input
         id="userAvatar"
         type="file"
@@ -72,7 +72,7 @@ const currentAvatarUrl = computed(() =>
         </button>
       </div>
     </div>
-    <div class="flex flex-col gap-3 px-3 py-6 text-center">
+    <div class="flex flex-col gap-2 text-center">
       <div class="flex flex-wrap justify-center items-center gap-2">
         <p>{{ $t('profile.email') }}</p>
         <p class="text-accent-light font-semibold break-all">
@@ -89,7 +89,7 @@ const currentAvatarUrl = computed(() =>
         {{ $t('profile.last-update-date', { date: user?.lastUpdateDate.toLocaleString(locale) }) }}
       </p>
     </div>
-    <div class="flex flex-col p-3 gap-3">
+    <div class="flex flex-col gap-4 px-2 py-4">
       <button class="btn-secondary" @click.prevent="showChangePasswordModal = true">
         {{ $t('profile.change-password') }}
       </button>

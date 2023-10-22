@@ -95,7 +95,7 @@ watch(
       <button class="btn-primary gap-2" @click.prevent="showFilterMenu = !showFilterMenu">
         <NuxtIcon name="filter" />
         <p>{{ $t('flairs-menu.flairs') }}</p>
-        <NuxtIcon name="chevron-left" fill class="transition-transform" :class="{ 'rotate-180': showFilterMenu }" />
+        <NuxtIcon name="chevron-left" fill class="transition-transform" :class="{ 'rotate-180': !showFilterMenu }" />
       </button>
       <Transition name="slide-left">
         <button v-if="showFilterMenu" class="btn-primary gap-2" @click.prevent="clearFilters">
