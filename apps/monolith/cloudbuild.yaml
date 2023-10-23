@@ -1,0 +1,59 @@
+# SUBMIT OPTIONS
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamic_substitutions: true
+  substitution_option: ALLOW_LOOSE
+# TIME THE BUILD IS ALLOWED TO RUN
+timeout: 14000s
+steps:
+  # BUILD CONTAINER IMAGE
+  - name: gcr.io/cloud-builders/docker
+    args: [build, -t, '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}', -f, 'apps/${_SERVICE_NAME}/Dockerfile', .]
+  # PUSH CONTAINER IMAGE TO ARTIFACTS REGISTRY
+  - name: gcr.io/cloud-builders/docker
+    args: [push, '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}']
+  # DEPLOY CONTAINER IMAGE TO CLOUD RUN
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE_NAME}
+      - --image
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}'
+      - --region
+      - '${_REGION}'
+      - --platform
+      - managed
+      - --max-instances
+      - '10'
+      - --min-instances
+      - '1'
+      - --concurrency
+      - '160'
+      - --cpu
+      - '1'
+      - --memory
+      - 512Mi
+      - --allow-unauthenticated
+      - --update-secrets
+      - 'MONGODB_URI=projects/$PROJECT_NUMBER/secrets/MONGODB_URI/versions/latest,ALGOLIA_API_ADMIN_KEY=projects/$PROJECT_NUMBER/secrets/ALGOLIA_API_ADMIN_KEY/versions/latest'
+      - --set-env-vars
+      - 'USE_DEFAULT_SERVICE_ACCOUNT=true,ENV=${_ENV},MONGODB_DB=${_MONGODB_DB},ALGOLIA_APPLICATION_ID=${_ALGOLIA_APPLICATION_ID}'
+      - --service-account
+      - default@$PROJECT_ID.iam.gserviceaccount.com
+# TAGS TO FILTER THE BUILD
+tags:
+  - '${_ENV}'
+  - '${_SERVICE_NAME}'
+# IMAGES TO BE PUSHED INTO REGISTRY
+images:
+  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}'
+# VARIABLES USED DURING BUILD
+substitutions:
+  _REGION: us-east1
+  _SERVICE_NAME: monolith
+  _REPOSITORY: dev
+  _ENV: dev
+  _MONGODB_DB: development
+  _ALGOLIA_APPLICATION_ID: 9T02IX7HGQ

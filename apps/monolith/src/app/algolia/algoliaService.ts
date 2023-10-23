@@ -6,7 +6,7 @@ import {
 } from '@rpg-together/utilities'
 import algolia from 'algoliasearch'
 
-const apiKey = process.env.ALGOLIA_API_KEY ?? ''
+const apiKey = process.env.ALGOLIA_API_ADMIN_KEY ?? ''
 const appId = process.env.ALGOLIA_APPLICATION_ID ?? ''
 
 export class AlgoliaService {

@@ -5,10 +5,10 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-FROM base AS client-prod-deps
+FROM base AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
-FROM base AS client-build
+FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm exec nx run-many --target=build --projects=client,middlewares,models,repositories,utilities 
 

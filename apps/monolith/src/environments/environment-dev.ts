@@ -1,6 +1,6 @@
 import type { IEnvironment } from './environment'
 
-export const ENVIRONMENT_PROD: IEnvironment = {
+export const ENVIRONMENT_DEV: IEnvironment = {
   firebaseconfig: {
     apiKey: 'AIzaSyAncOxnuvQJLLuwoKIt8FPZIo-8OyjM8wM',
     authDomain: 'rpg-together-44d2e.firebaseapp.com',

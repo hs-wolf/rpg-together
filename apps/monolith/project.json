@@ -16,7 +16,8 @@
         "tsConfig": "apps/monolith/tsconfig.app.json",
         "assets": ["apps/monolith/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/monolith/webpack.config.js"
+        "webpackConfig": "apps/monolith/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "development": {},
@@ -56,6 +57,18 @@
       "options": {
         "lintFilePatterns": ["apps/monolith/src/**/*.ts"],
         "fix": true
+      }
+    },
+    "deploy-prod": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "gcloud builds submit . --config=apps/monolith/cloudbuild.yaml --substitutions=_REGION=us-east1,_SERVICE_NAME=monolith,_REPOSITORY=prod,_ENV=prod,_MONGODB_DB=development,_ALGOLIA_APPLICATION_ID=9T02IX7HGQ"
+      }
+    },
+    "deploy-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "gcloud builds submit . --config=apps/monolith/cloudbuild.yaml --substitutions=_REGION=us-east1,_SERVICE_NAME=monolith,_REPOSITORY=dev,_ENV=dev,_MONGODB_DB=development,_ALGOLIA_APPLICATION_ID=9T02IX7HGQ"
       }
     }
   },

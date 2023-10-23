@@ -8,7 +8,6 @@ import express from 'express'
 import { generateHTML, serve } from 'swagger-ui-express'
 import { ValidateError } from 'tsoa'
 import cors from 'cors'
-import type { ServiceAccount } from 'firebase-admin/app'
 import {
   applicationDefault,
   cert,
@@ -19,21 +18,20 @@ import { getFirestore } from 'firebase-admin/firestore'
 import { initializeApp as initializeAppClient } from 'firebase/app'
 import { ApiError } from '@rpg-together/models'
 import { RegisterRoutes } from '../routes/routes'
-import gcServiceAccount from '../../../gc-service-account.json'
-import firebaseConfig from '../../../firebase-config.json'
 import { ConnectMongoDB } from './mongodb'
+import { ENVIRONMENT_DEV, ENVIRONMENT_PROD } from './environments'
 
 if (!getApps().length) {
   initializeApp({
     credential:
       process.env.USE_DEFAULT_SERVICE_ACCOUNT === 'true'
         ? applicationDefault()
-        : cert(gcServiceAccount as ServiceAccount),
+        : cert(process.env.GC_CREDENTIALS),
   })
   getFirestore().settings({ ignoreUndefinedProperties: true })
 }
 
-initializeAppClient(firebaseConfig)
+initializeAppClient(process.env.ENV === 'prod' ? ENVIRONMENT_PROD.firebaseconfig : ENVIRONMENT_DEV.firebaseconfig)
 
 ConnectMongoDB()
 
