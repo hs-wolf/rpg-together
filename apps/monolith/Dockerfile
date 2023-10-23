@@ -14,7 +14,7 @@ RUN pnpm exec nx run-many --target=build --projects=middlewares,models,monolith,
 
 FROM base
 COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/dist/apps/monolith /app/dist/apps/monolith
+COPY --from=build /app/dist /app/dist
 
 EXPOSE 3000
 

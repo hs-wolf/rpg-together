@@ -44,6 +44,18 @@
         ],
         "fix": true
       }
+    },
+    "deploy-prod": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "gcloud builds submit . --config=apps/client/cloudbuild.yaml --substitutions=_REGION=us-east1,_SERVICE_NAME=client,_REPOSITORY=prod,_ENV=prod"
+      }
+    },
+    "deploy-dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "gcloud builds submit . --config=apps/client/cloudbuild.yaml --substitutions=_REGION=us-east1,_SERVICE_NAME=client,_REPOSITORY=dev,_ENV=dev"
+      }
     }
   },
   "tags": []

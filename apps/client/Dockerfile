@@ -6,15 +6,16 @@ COPY . /app
 WORKDIR /app
 
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 RUN pnpm exec nx run-many --target=build --projects=client,middlewares,models,repositories,utilities 
 
 FROM base
-COPY --from=client-prod-deps /app/node_modules /app/node_modules
-COPY --from=client-build /app/dist/apps/client /app/dist/apps/client
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
 
 EXPOSE 3001
+
 CMD node ./dist/apps/client/.output/server/index.mjs

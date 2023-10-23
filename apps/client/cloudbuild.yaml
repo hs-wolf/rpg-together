@@ -1,0 +1,55 @@
+# SUBMIT OPTIONS
+options:
+  logging: CLOUD_LOGGING_ONLY
+  dynamic_substitutions: true
+  substitution_option: ALLOW_LOOSE
+# TIME THE BUILD IS ALLOWED TO RUN
+timeout: 14000s
+steps:
+  # BUILD CONTAINER IMAGE
+  - name: gcr.io/cloud-builders/docker
+    args: [build, -t, '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}', -f, 'apps/${_SERVICE_NAME}/Dockerfile', .]
+  # PUSH CONTAINER IMAGE TO ARTIFACTS REGISTRY
+  - name: gcr.io/cloud-builders/docker
+    args: [push, '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}']
+  # DEPLOY CONTAINER IMAGE TO CLOUD RUN
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE_NAME}
+      - --image
+      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}'
+      - --region
+      - '${_REGION}'
+      - --platform
+      - managed
+      - --max-instances
+      - '10'
+      - --min-instances
+      - '1'
+      - --concurrency
+      - '160'
+      - --cpu
+      - '1'
+      - --memory
+      - 512Mi
+      - --allow-unauthenticated
+      - --set-env-vars
+      - 'USE_DEFAULT_SERVICE_ACCOUNT=true,ENV=${_ENV}'
+      - --service-account
+      - default@$PROJECT_ID.iam.gserviceaccount.com
+# TAGS TO FILTER THE BUILD
+tags:
+  - '${_ENV}'
+  - '${_SERVICE_NAME}'
+# IMAGES TO BE PUSHED INTO REGISTRY
+images:
+  - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_SERVICE_NAME}'
+# VARIABLES USED DURING BUILD
+substitutions:
+  _REGION: us-east1
+  _SERVICE_NAME: client
+  _REPOSITORY: dev
+  _ENV: dev

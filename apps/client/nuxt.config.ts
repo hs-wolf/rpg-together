@@ -1,7 +1,5 @@
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import process from 'node:process'
-import firebaseConfig from '../../firebase-config.json'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -22,8 +20,16 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      API_URL: process.env.API_URL,
-      FIREBASE_CONFIG: { ...firebaseConfig },
+      API_URL: 'https://monolith-lmggplptsq-ue.a.run.app/',
+      FIREBASE_CONFIG: {
+        apiKey: 'AIzaSyAncOxnuvQJLLuwoKIt8FPZIo-8OyjM8wM',
+        authDomain: 'rpg-together-44d2e.firebaseapp.com',
+        projectId: 'rpg-together-44d2e',
+        storageBucket: 'rpg-together-44d2e.appspot.com',
+        messagingSenderId: '941581255741',
+        appId: '1:941581255741:web:a46b39ad5fd52937b6d654',
+        measurementId: 'G-8C6KCG0W5X',
+      },
     },
   },
   app: {
@@ -93,5 +99,8 @@ export default defineNuxtConfig({
   // https://github.com/nuxt-community/robots-module
   robots: {},
   // https://github.com/nuxt-modules/algolia
-  algolia: {},
+  algolia: {
+    apiKey: 'b1495d3ccb1ceb952551f678b95480e1',
+    applicationId: '9T02IX7HGQ',
+  },
 })
