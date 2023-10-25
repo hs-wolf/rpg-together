@@ -1,5 +1,5 @@
 export const DEFAULT_TABLE_BANNER
-  = 'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/defaults%2Fdefault-table-banner.png?alt=media&token=5a59520c-94f5-486d-8391-c8c8af2fb548'
+  = 'https://placehold.co/1280x720?text=Banner'
 
 export const DEFAULT_TABLE_BANNER_NAME = 'banner'
 export const DEFAULT_ANNOUNCEMENT_NAME = 'image'
