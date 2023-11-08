@@ -3,7 +3,9 @@ import type { AdvancedSelectOption } from '~/types'
 import { useFlairsStore } from '~/stores'
 
 const props = defineProps<{ open?: boolean; initialFlairs?: string[] }>()
+
 const emits = defineEmits<{ (_e: 'change', _values: string[]): void }>()
+
 const flairsStore = useFlairsStore()
 const { systemsFlairs, languagesFlairs, ratingsFlairs, vacanciesFlairs, genresFlairs } = storeToRefs(flairsStore)
 

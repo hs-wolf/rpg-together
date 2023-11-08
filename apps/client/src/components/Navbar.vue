@@ -68,7 +68,7 @@ async function logout() {
     </NuxtLink>
     <Transition name="slide-right">
       <div v-if="showMobileMenu" class="modal">
-        <div ref="mobileMenuRef" class="self-end lg:self-start flex flex-col gap-3 w-full max-w-[75%] lg:max-w-[20%] h-full bg-secondary-light text-primary-dark">
+        <div ref="mobileMenuRef" class="self-end lg:self-start flex flex-col w-full max-w-[75%] lg:max-w-[20%] h-full bg-secondary-light text-primary-dark">
           <div v-if="firebaseUser" class="relative flex justify-between items-center h-[64px] lg:h-auto shadow overflow-hidden">
             <NuxtImg
               :src="user?.avatar ?? DEFAULT_USER_AVATAR"

@@ -71,7 +71,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="componentRef" class="relative flex flex-col shadow text-sm" :class="{ 'w-full': showOptions }">
+  <div ref="componentRef" class="relative flex flex-col shadow text-sm lg:text-base" :class="{ 'w-full': showOptions }">
     <div
       class="flex flex-col border bg-secondary"
       :class="[showOptions ? 'border-accent-dark rounded-t-sm' : 'border-secondary-light rounded-sm']"
@@ -105,9 +105,9 @@ defineExpose({
     <Transition name="fade">
       <div
         v-if="showOptions"
-        class="z-10 absolute top-[calc(100%-1px)] inset-x-0 flex flex-col bg-secondary border border-accent-dark rounded-b text-primary"
+        class="flex flex-col bg-secondary border border-accent-dark rounded-b text-primary"
       >
-        <div v-if="showOptions" class="flex items-center gap-2 p-3 h-10 bg-secondary-dark">
+        <div v-if="showOptions" class="flex items-center gap-2 p-3 bg-secondary-dark">
           <NuxtIcon name="search-tool" class="text-accent-dark" />
           <input
             v-model="optionsQuery"
