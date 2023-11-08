@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import { Table } from '@rpg-together/models'
+import { useSearchStore } from '~/stores'
 
 const { result, search } = useAlgoliaSearch('dev_tables')
+const searchStore = useSearchStore()
+const { cachedFeaturedTables } = storeToRefs(searchStore)
 
 const tables = ref<Table[]>()
 
 async function newSearch() {
   await search({ query: '', requestOptions: { facetFilters: [], hitsPerPage: 10, page: 0 } })
   tables.value = result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit))
+  searchStore.setFeaturedTables(toRaw(tables.value))
 }
 
 onMounted(() => {
+  if (cachedFeaturedTables.value.length) {
+    tables.value = cachedFeaturedTables.value
+    return
+  }
   newSearch()
 })
 </script>

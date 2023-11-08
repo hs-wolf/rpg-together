@@ -1,3 +1,5 @@
+import type { Table } from '@rpg-together/models'
+
 export enum AppDirections {
   RTL = 'rtl',
   LTR = 'ltr',
@@ -17,4 +19,12 @@ export interface AdvancedSelectOption {
   id?: string
   name: string
   label: string
+}
+
+export interface SearchCache {
+  tables: Table[]
+  query: string
+  flairs: string[]
+  currentSearchPage: number
+  noMoreTables: boolean
 }

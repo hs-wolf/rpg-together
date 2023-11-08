@@ -2,66 +2,82 @@
 import { useI18n } from 'vue-i18n'
 import { Table } from '@rpg-together/models'
 import { useInfiniteScroll } from '@vueuse/core'
+import { useSearchStore } from '~/stores'
 
 useHead({ title: useI18n().t('search.title') })
 
 const { result, search } = useAlgoliaSearch('dev_tables')
+const searchStore = useSearchStore()
+const { cachedSearch } = storeToRefs(searchStore)
 
 const pageRef = ref<HTMLElement | null>(null)
 const query = ref('')
 const flairs = ref<string[]>([])
-const tables = ref<Table[]>()
+const tables = ref<Table[]>([])
 const firstSearchMade = ref(false)
 const searching = ref(false)
 const noMoreTables = ref(false)
 const hitsPerPage = ref(5)
 const currentSearchPage = ref(0)
 
-async function newSearch() {
+const searchDebounceFn = useDebounceFn(async (continuous?: true) => {
   if (searching.value)
     return
 
   searching.value = true
-  currentSearchPage.value = 0
   const facetFilters = flairs.value.length ? flairs.value.map(flair => `flairs:${flair}`) : []
+
+  continuous ? currentSearchPage.value++ : currentSearchPage.value = 0
+
   await search({
     query: query.value,
     requestOptions: { facetFilters, hitsPerPage: hitsPerPage.value, page: currentSearchPage.value },
   })
-  tables.value = result.value?.hits.length ? result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit)) : []
-  if (!firstSearchMade.value)
-    firstSearchMade.value = true
-
-  searching.value = false
-}
-
-async function searchMore() {
-  if (searching.value || noMoreTables.value)
-    return
-
-  searching.value = true
-  currentSearchPage.value++
-  const facetFilters = flairs.value.length ? flairs.value.map(flair => `flairs:${flair}`) : []
-  await search({
-    query: query.value,
-    requestOptions: { facetFilters, hitsPerPage: hitsPerPage.value, page: currentSearchPage.value },
-  })
-  const newTables = result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit))
-  if (!newTables.length)
+  const newTables = result.value?.hits.length ? result.value?.hits.map((hit: Record<string, unknown>) => Table.fromMap(hit)) : []
+  if (!newTables.length || newTables.length < hitsPerPage.value)
     noMoreTables.value = true
 
-  tables.value?.push(...newTables)
-  searching.value = false
-}
+  continuous ? tables.value?.push(...newTables) : tables.value = newTables
 
-useInfiniteScroll(pageRef, () => searchMore(), { distance: 32 })
+  searchStore.setSearchCache({
+    tables: toRaw(tables.value),
+    query: query.value,
+    flairs: toRaw(flairs.value),
+    currentSearchPage: currentSearchPage.value,
+    noMoreTables: noMoreTables.value,
+  })
+  searching.value = false
+}, 1000)
+
+useInfiniteScroll(pageRef, () => {
+  if (noMoreTables.value || !firstSearchMade.value)
+    return
+  searchDebounceFn(true)
+}, { distance: 32, interval: 1000 })
 const { y: pageY } = useScroll(pageRef, { behavior: 'smooth' })
 const scrollToTop = () => (pageY.value = 0)
 const showScrollToTopButton = computed(() => currentSearchPage.value >= 1 && pageY.value !== 0)
 
-watch([query, flairs], () => newSearch())
+watch([query, flairs], () => {
+  if (!firstSearchMade.value)
+    return
+  searchDebounceFn()
+})
 
-onMounted(() => newSearch())
+onMounted(async () => {
+  if (Object.keys(cachedSearch?.value)) {
+    const { tables: cTables, query: cQuery, flairs: cFlairs, currentSearchPage: cCurrentSearchPage, noMoreTables: cNoMoreTables } = cachedSearch.value
+    tables.value = cTables
+    query.value = cQuery
+    flairs.value = cFlairs
+    currentSearchPage.value = cCurrentSearchPage
+    noMoreTables.value = cNoMoreTables
+    firstSearchMade.value = true
+    return
+  }
+  await searchDebounceFn()
+  firstSearchMade.value = true
+})
 </script>
 
 <template>
@@ -96,7 +112,7 @@ onMounted(() => newSearch())
         <p v-if="noMoreTables" class="p-2 text-sm text-center">
           {{ $t('search.no-more-tables') }}
         </p>
-        <button v-else class="btn-accent" @click.prevent="searchMore">
+        <button v-else class="btn-accent" @click.prevent="searchDebounceFn(true)">
           {{ $t('search.load-more') }}
         </button>
       </div>
