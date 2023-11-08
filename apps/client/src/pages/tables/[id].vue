@@ -3,7 +3,6 @@ import type { Application, Table } from '@rpg-together/models'
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
 import { useApplicationsStore, useFlairsStore, useTablesStore } from '~/stores'
 
-const { t } = useI18n()
 const localePath = useLocalePath()
 const tableId = useRoute().params.id as string
 const firebaseUser = useFirebase.currentUser()
@@ -16,7 +15,7 @@ const table = ref<Table>()
 const existingApplication = ref<Application | null>()
 const showApplicationMenu = ref(false)
 
-useHead({ title: () => table.value?.title ?? t('tables.title') })
+useHead({ title: () => table.value?.title ?? useNuxtApp().$i18n.t('tables.title') })
 
 const showApplicationButton = computed(() => table.value?.owner.id !== firebaseUser.value?.uid && !existingApplication.value)
 

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 import { useUserStore } from '~/stores'
 
-const { t, locale } = useI18n()
+const { t, locale } = useNuxtApp().$i18n
 const userStore = useUserStore()
 const { user, changingAvatar } = storeToRefs(userStore)
 

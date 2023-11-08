@@ -2,12 +2,11 @@
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useI18n } from 'vue-i18n'
 import type { AuthUserRegisterBody } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-out'] })
-useHead({ title: useI18n().t('register.title') })
+useHead({ title: useNuxtApp().$i18n.t('register.title') })
 
 const localePath = useLocalePath()
 const userStore = useUserStore()

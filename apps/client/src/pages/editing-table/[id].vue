@@ -2,7 +2,6 @@
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useI18n } from 'vue-i18n'
 import type { AcceptMessage, Table, TableUpdateBody } from '@rpg-together/models'
 import {
   DEFAULT_TABLE_BANNER,
@@ -14,7 +13,7 @@ import { SnackType } from '~/types'
 import { useSnackbarStore, useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useI18n().t('edit-table.title') })
+useHead({ title: useNuxtApp().$i18n.t('edit-table.title') })
 
 const tableId = useRoute().params.id as string
 const localeRoute = useLocaleRoute()

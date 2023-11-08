@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
-import { useI18n } from 'vue-i18n'
+import { toTypedSchema } from '@vee-validate/zod'
 import {
   DEFAULT_TABLE_BANNER,
   TABLE_ACCEPT_MESSAGE_MAX_LENGTH,
@@ -12,7 +11,7 @@ import {
 import { useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useI18n().t('create-table.title') })
+useHead({ title: useNuxtApp().$i18n.t('create-table.title') })
 
 const tablesStore = useTablesStore()
 const { creatingTable } = storeToRefs(tablesStore)
@@ -52,7 +51,7 @@ const formSchema = object({
   'accept-message': string().min(3).max(TABLE_ACCEPT_MESSAGE_MAX_LENGTH),
 })
 
-const { errors, handleSubmit } = useForm({ validationSchema: toFormValidator(formSchema) })
+const { errors, handleSubmit } = useForm({ validationSchema: toTypedSchema(formSchema) })
 const { value: titleValue } = useField<string>(formFields.title.name)
 const { value: descriptionValue } = useField<string>(formFields.description.name)
 const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name)

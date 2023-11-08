@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { Table } from '@rpg-together/models'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useSearchStore } from '~/stores'
 
-useHead({ title: useI18n().t('search.title') })
+useHead({ title: useNuxtApp().$i18n.t('search.title') })
 
 const { result, search } = useAlgoliaSearch('dev_tables')
 const searchStore = useSearchStore()

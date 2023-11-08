@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
-import { useI18n } from 'vue-i18n'
 import { object, string } from 'zod'
 import { useUserStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-out'] })
 
-useHead({ title: useI18n().t('login.title') })
+useHead({ title: useNuxtApp().$i18n.t('login.title') })
 
 const localePath = useLocalePath()
 const userStore = useUserStore()

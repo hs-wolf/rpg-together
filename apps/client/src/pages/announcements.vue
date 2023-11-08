@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { Announcement } from '@rpg-together/models'
-import { useI18n } from 'vue-i18n'
 import { useAnnouncementsStore } from '~/stores'
 
 const announcementsStore = useAnnouncementsStore()
 
-useHead({ title: useI18n().t('announcements.title') })
+useHead({ title: useNuxtApp().$i18n.t('announcements.title') })
 
 const announcements = ref<Announcement[]>()
 

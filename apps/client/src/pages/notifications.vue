@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { NotificationType } from '@rpg-together/models'
 import type { AdvancedSelectOption } from '~/types'
 import { useNotificationsStore } from '~/stores'
 
-const { t } = useI18n()
+const { t } = useNuxtApp().$i18n
 
 definePageMeta({ middleware: ['logged-in'] })
 
