@@ -7,7 +7,7 @@ useHead({ title: useNuxtApp().$i18n.t('search.title') })
 
 const { result, search } = useAlgoliaSearch('dev_tables')
 const searchStore = useSearchStore()
-const { cachedSearch } = storeToRefs(searchStore)
+const { cachedSearch, checkIfSearchCached } = storeToRefs(searchStore)
 
 const pageRef = ref<HTMLElement | null>(null)
 const query = ref('')
@@ -64,7 +64,7 @@ watch([query, flairs], () => {
 })
 
 onMounted(async () => {
-  if (Object.keys(cachedSearch?.value)) {
+  if (checkIfSearchCached.value) {
     const { tables: cTables, query: cQuery, flairs: cFlairs, currentSearchPage: cCurrentSearchPage, noMoreTables: cNoMoreTables } = cachedSearch.value
     tables.value = cTables
     query.value = cQuery

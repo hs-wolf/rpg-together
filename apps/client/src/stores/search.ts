@@ -18,7 +18,11 @@ export const useSearchStore = defineStore(SEARCH_STORE, {
       noMoreTables: false,
     },
   }),
-  getters: {},
+  getters: {
+    checkIfSearchCached(): boolean {
+      return !!(this.cachedSearch.tables.length || this.cachedSearch.noMoreTables)
+    },
+  },
   actions: {
     setFeaturedTables(tables?: Table[]) {
       this.cachedFeaturedTables = tables ?? []
