@@ -16,22 +16,26 @@
     @apply transition active:scale-90;
   }
   .btn-primary {
-    @apply flex justify-center items-center h-10 p-3 bg-primary border border-primary-light shadow rounded-sm text-sm text-secondary font-medium transition-transform;
+    @apply flex justify-center items-center p-3 bg-primary border border-primary-light shadow rounded-sm text-sm text-secondary font-medium transition-transform;
+    @apply lg:text-base;
     @apply active:bg-primary-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-secondary {
-    @apply flex justify-center items-center h-10 p-3 bg-secondary border border-secondary-dark shadow rounded-sm text-sm text-primary font-medium transition-transform;
+    @apply flex justify-center items-center p-3 bg-secondary border border-secondary-dark shadow rounded-sm text-sm text-primary font-medium transition-transform;
+    @apply lg:text-base;
     @apply active:bg-secondary-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-accent {
-    @apply flex justify-center items-center h-10 p-3 bg-accent border border-accent-dark shadow rounded-sm text-sm text-secondary font-medium transition-transform;
+    @apply flex justify-center items-center p-3 bg-accent border border-accent-dark shadow rounded-sm text-sm text-secondary font-medium transition-transform;
+    @apply lg:text-base;
     @apply active:bg-accent-dark active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-danger {
-    @apply flex justify-center items-center h-10 p-3 border border-danger shadow rounded-sm text-sm text-danger font-medium transition-transform;
+    @apply flex justify-center items-center p-3 border border-danger shadow rounded-sm text-sm text-danger font-medium transition-transform;
+    @apply lg:text-base;
     @apply active:bg-danger-dark active:text-secondary active:scale-90;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }

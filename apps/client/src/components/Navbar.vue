@@ -31,7 +31,7 @@ const menus = [
   { name: 'my-applications', icon: 'message', link: 'my-applications' },
   { name: 'my-tables', icon: 'bar-table', link: 'my-tables' },
   // { name: 'settings', icon: 'settings-cog', link: 'settings' },
-  { name: 'about', icon: 'information-circle', link: 'about' },
+  // { name: 'about', icon: 'information-circle', link: 'about' },
 ]
 
 function closeMobileMenu() {
@@ -45,7 +45,7 @@ async function logout() {
 </script>
 
 <template>
-  <nav class="z-30 fixed bottom-0 grid grid-cols-5 gap-3 w-full h-16 p-3 bg-primary shadow">
+  <nav>
     <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
       <NuxtIcon name="hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
       <p>{{ $t('navbar.tabs.menu') }}</p>
@@ -57,17 +57,19 @@ async function logout() {
       class="tab-button"
       active-class="text-accent font-semibold"
     >
-      <NuxtIcon :name="tab.icon" />
+      <div class="flex relative">
+        <NuxtIcon :name="tab.icon" />
+        <span
+          v-if="tab.name === 'notificxations' && unreadNotifications"
+          class="absolute top-0 -right-2 w-3 h-3 rounded-full bg-gradient-to-b from-danger-light to-danger"
+        />
+      </div>
       <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
-      <span
-        v-if="tab.name === 'notifications' && unreadNotifications"
-        class="absolute top-0 right-3 w-3 h-3 rounded-full bg-gradient-to-b from-danger-light to-danger"
-      />
     </NuxtLink>
-    <Transition name="slide-left">
+    <Transition name="slide-right">
       <div v-if="showMobileMenu" class="modal">
-        <div ref="mobileMenuRef" class="self-end flex flex-col w-3/4 max-w-[320px] h-full bg-secondary-light text-primary-dark">
-          <div v-if="firebaseUser" class="relative flex justify-between items-center h-[64px] shadow overflow-hidden">
+        <div ref="mobileMenuRef" class="self-end lg:self-start flex flex-col gap-3 w-full max-w-[75%] lg:max-w-[20%] h-full bg-secondary-light text-primary-dark">
+          <div v-if="firebaseUser" class="relative flex justify-between items-center h-[64px] lg:h-auto shadow overflow-hidden">
             <NuxtImg
               :src="user?.avatar ?? DEFAULT_USER_AVATAR"
               :alt="user?.username"
@@ -79,28 +81,26 @@ async function logout() {
             />
             <NuxtLink
               :to="localePath({ name: 'profile' })"
-              class="flex items-center w-full p-3 overflow-hidden"
+              class="flex items-center w-full p-3 lg:p-5 overflow-hidden"
               @click.prevent="closeMobileMenu"
             >
-              <h1 class="font-semibold truncate">
+              <h1 class="font-semibold truncate text-xl lg:text-2xl">
                 {{ user?.username }}
               </h1>
             </NuxtLink>
-            <button class="p-3 active:scale-90 transition-transform" @click.prevent="logout">
-              <NuxtIcon name="logout" class="text-xl text-danger" />
+            <button class="p-3 lg:p-5 active:scale-90 transition-transform" @click.prevent="logout">
+              <NuxtIcon name="logout" class="text-xl lg:text-2xl text-danger" />
             </button>
           </div>
-          <div v-else class="flex justify-between gap-3 h-[64px] pr-3 shadow">
-            <div class="grid grid-cols-2 gap-3 w-full p-3 pr-0">
-              <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
-                {{ $t('navbar.menus.login') }}
-              </NuxtLink>
-              <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
-                {{ $t('navbar.menus.register') }}
-              </NuxtLink>
-            </div>
+          <div v-else class="grid grid-cols-2 gap-3 w-full p-3 lg:gap-5 lg:p-5">
+            <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
+              {{ $t('navbar.menus.login') }}
+            </NuxtLink>
+            <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
+              {{ $t('navbar.menus.register') }}
+            </NuxtLink>
           </div>
-          <div class="flex flex-col gap-3 h-full py-3">
+          <div class="flex-1 flex flex-col gap-3">
             <NuxtLink
               v-for="item in menus"
               :key="item.name"
@@ -128,16 +128,24 @@ async function logout() {
 </template>
 
 <style scoped lang="scss">
+nav {
+  @apply z-30 fixed bottom-0 grid grid-cols-5 gap-3 w-full h-16 p-3 bg-primary shadow;
+  @apply lg:static lg:max-w-5xl lg:mx-auto lg:px-0 lg:h-auto lg:py-6 lg:bottom-auto;
+}
+
 .tab-button {
-  @apply relative flex flex-col items-center gap-1 text-xl active:scale-90 transition-transform;
+  @apply relative flex flex-col items-center gap-1 text-xl lg:text-2xl active:scale-90 transition-transform;
   p {
-    @apply text-xs;
+    @apply text-xs lg:text-sm;
   }
 }
 .menu-button {
-  @apply flex items-center gap-2 p-3 hover:bg-secondary active:bg-secondary active:px-4 transition-all;
+  @apply flex items-center gap-3 p-3 transition-all hover:bg-secondary active:bg-secondary active:px-4 lg:p-5 lg:active:px-6;
+  p {
+    @apply text-base lg:text-lg;
+  }
   .nuxt-icon {
-    @apply text-xl;
+    @apply text-xl lg:text-2xl;
   }
 }
 </style>
