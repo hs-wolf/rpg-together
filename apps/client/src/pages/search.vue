@@ -82,24 +82,24 @@ onMounted(async () => {
 <template>
   <div ref="pageRef" class="flex flex-col gap-3 h-full overflow-y-auto lg:gap-5">
     <PageTitle :title="$t('search.title')" />
-    <div class="flex flex-col w-full px-3 lg:max-w-5xl lg:mx-auto">
+    <div class="flex flex-col gap-3 w-full px-3 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col gap-2">
-        <div class="relative flex items-center border border-primary-light rounded">
-          <NuxtIcon name="search-tool" class="absolute left-3 text-lg pointer-events-none lg:text-xl lg:left-5" />
+        <div class="relative flex items-center py-2 border border-primary-light rounded lg:py-3">
+          <NuxtIcon name="search-tool" class="absolute px-3 text-lg pointer-events-none lg:px-4 lg:text-xl" />
           <input
             v-model="query"
             type="text"
             :placeholder="$t('search.search')"
-            class="w-full h-full px-[42px] py-3 outline-none bg-transparent lg:text-lg lg:py-4 lg:px-[60px]"
+            class="w-full h-full px-[42px] outline-none bg-transparent lg:px-[52px] text-sm lg:text-base"
           >
           <button
-            class="absolute right-0 flex px-3 py-2 opacity-50 transition-transform active:rotate-90 lg:text-lg lg:px-5 lg:py-4"
+            class="absolute right-0 flex px-3 opacity-50 transition-transform active:rotate-90 lg:px-4 lg:text-lg"
             @click.prevent="query = ''"
           >
             <NuxtIcon name="x-close" />
           </button>
         </div>
-        <FlairsMenu :initial-flairs="flairs" @change="(value) => (flairs = value)" />
+        <FlairsMenu v-model="flairs" />
       </div>
       <i18n-t v-if="result?.nbHits" keypath="search.results-for" tag="h1" scope="global" class="text-sm text-center">
         <template #amount>
@@ -107,8 +107,10 @@ onMounted(async () => {
         </template>
       </i18n-t>
       <div class="flex flex-col">
-        <div v-if="tables?.length" class="flex flex-col gap-4">
-          <TablesCard v-for="table in tables" :key="table.id" :table="table" />
+        <div v-if="tables?.length" class="flex flex-col">
+          <div class="flex flex-col gap-3 lg:gap-5 lg:grid lg:grid-cols-2">
+            <TablesCard v-for="table in tables" :key="table.id" :table="table" />
+          </div>
           <p v-if="noMoreTables" class="py-8 lg:py-16 text-sm text-center">
             {{ $t('search.no-more-tables') }}
           </p>
@@ -125,7 +127,7 @@ onMounted(async () => {
     <Transition name="slide-left">
       <button
         v-if="showScrollToTopButton"
-        class="btn-accent fixed right-3 bottom-[72px] h-[46px] rounded-full"
+        class="btn-accent fixed right-3 bottom-[72px] h-12 rounded-full aspect-square lg:right-[72px] lg:h-14"
         @click.prevent="scrollToTop"
       >
         <NuxtIcon name="chevron-up" class="text-xl" />

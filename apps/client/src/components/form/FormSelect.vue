@@ -2,23 +2,20 @@
 import type { AdvancedSelectOption } from '~/types'
 
 const props = defineProps<{
+  modelValue?: AdvancedSelectOption[]
   options: AdvancedSelectOption[]
-  initialFlairs?: AdvancedSelectOption[]
-  placeholderMessage: string
+  placeholder: string
   searchMessage: string
   emptyMessage: string
 }>()
 
-const emits = defineEmits<{ (_e: 'change', _items: AdvancedSelectOption[]): void }>()
+const emits = defineEmits<{ (_e: 'update:modelValue', _items: AdvancedSelectOption[]): void }>()
 
 const showOptions = ref(false)
 const componentRef = ref<HTMLElement>()
-onClickOutside(componentRef, () => {
-  showOptions.value = false
-})
-
 const selectedOptions = ref<AdvancedSelectOption[]>([])
 const optionsQuery = ref('')
+
 const filteredOptions = computed(() =>
   props.options
     .filter(item => !selectedOptions.value.includes(item))
@@ -46,24 +43,10 @@ function clearOptions() {
 }
 
 function changeOptions() {
-  emits('change', selectedOptions.value)
+  emits('update:modelValue', selectedOptions.value)
 }
 
-function setInitialFlairs() {
-  if (props.initialFlairs?.length)
-    selectedOptions.value = props.initialFlairs
-}
-
-onMounted(() => {
-  setInitialFlairs()
-})
-
-watch(
-  () => props.initialFlairs,
-  () => {
-    setInitialFlairs()
-  },
-)
+onClickOutside(componentRef, () => showOptions.value = false)
 
 defineExpose({
   clearOptions,
@@ -78,17 +61,17 @@ defineExpose({
     >
       <div class="flex flex-col">
         <button
-          class="flex items-center gap-1 p-3 text-primary"
+          class="flex items-center gap-1 p-2 lg:p-3 text-primary"
           :class="{ 'w-full': !showOptions }"
           @click.prevent="showOptions = !showOptions"
         >
           <p class="font-semibold">
-            {{ placeholderMessage }}
+            {{ placeholder }}
           </p>
           <NuxtIcon name="chevron-up" class="transition-transform" :class="{ 'rotate-180': showOptions }" />
         </button>
       </div>
-      <div class="flex flex-wrap gap-2 px-3" :class="{ 'pb-3': selectedOptions.length }">
+      <div class="flex flex-wrap gap-2 px-2 lg:px-3" :class="{ 'pb-2 lg:pb-3': selectedOptions.length }">
         <TransitionGroup name="fade">
           <button
             v-for="(option, index) in selectedOptions"
@@ -107,8 +90,8 @@ defineExpose({
         v-if="showOptions"
         class="flex flex-col bg-secondary border border-accent-dark rounded-b text-primary"
       >
-        <div v-if="showOptions" class="flex items-center gap-2 p-3 bg-secondary-dark">
-          <NuxtIcon name="search-tool" class="text-accent-dark" />
+        <div v-if="showOptions" class="flex items-center gap-2 p-2 lg:p-3 bg-secondary-dark">
+          <NuxtIcon name="search-tool" class="text-accent-dark text-lg" />
           <input
             v-model="optionsQuery"
             type="text"
@@ -120,12 +103,12 @@ defineExpose({
           <button
             v-for="option in filteredOptions"
             :key="option.id ?? option.name"
-            class="flex p-3 active:bg-accent-dark active:text-secondary"
+            class="flex p-2 lg:p-3 active:bg-accent-dark active:text-secondary"
             @click.prevent="insertOption(option)"
           >
             <span>{{ option.label }}</span>
           </button>
-          <p v-if="!filteredOptions.length" class="px-3 py-4 text-primary-light">
+          <p v-if="!filteredOptions.length" class="px-2 py-3 text-primary-light">
             {{ emptyMessage }}
           </p>
         </div>

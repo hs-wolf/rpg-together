@@ -87,7 +87,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
           {{ flairsStore.getFlairLabel(flair) }}
         </div>
       </div>
-      <div class="flex flex-wrap items-center justify-between gap-2">
+      <div class="flex flex-wrap items-center justify-between gap-2 mt-auto">
         <NuxtLink :to="localeRoute({ path: `/profile/${table.owner.id}` })" class="flex items-center gap-2">
           <NuxtImg
             :src="table?.owner?.avatar ?? DEFAULT_USER_AVATAR"
