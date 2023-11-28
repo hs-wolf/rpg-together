@@ -46,9 +46,9 @@ const validationSchema = toTypedSchema(
 )
 
 const { errors, handleSubmit } = useForm({ validationSchema })
-const { value: oldPasswordValue } = useField(formFields['old-password'].name)
-const { value: newPasswordValue } = useField(formFields['new-password'].name)
-const { value: confirmPasswordValue } = useField(formFields['confirm-password'].name)
+const { value: oldPasswordValue } = useField<string>(formFields['old-password'].name)
+const { value: newPasswordValue } = useField<string>(formFields['new-password'].name)
+const { value: confirmPasswordValue } = useField<string>(formFields['confirm-password'].name)
 const apiError = ref('')
 
 const onSubmit = handleSubmit(async (values) => {
@@ -66,9 +66,9 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="modal justify-center p-3">
-    <div ref="cardRef" class="card-primary gap-3">
-      <h1 class="font-semibold">
+  <div class="modal justify-center p-3 lg:p-0">
+    <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="font-semibold lg:text-lg">
         {{ $t('profile-change-password-modal.title') }}
       </h1>
       <FormInput

@@ -50,9 +50,9 @@ function viewOwner() {
 }
 
 // TODO: Need to create the logic.
-function report() {
-  toggleOptions(false)
-}
+// function report() {
+//   toggleOptions(false)
+// }
 
 const needToCropDescription = computed(() => props.table.description.length > TABLE_CARD_DESCRIPTION_LENGTH)
 </script>
