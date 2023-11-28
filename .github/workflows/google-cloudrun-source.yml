@@ -76,6 +76,9 @@ jobs:
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
+    - name: Check Google
+      run: gcloud auth list
+
     - name: Lint All
       run: pnpm exec nx run-many --target=lint --all=true
      
