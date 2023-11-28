@@ -65,11 +65,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Google Auth
+    - name: Google Cloud Auth
       id: auth
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+        
+    - name: 'Google Cloud SDK Setup'
+      uses: 'google-github-actions/setup-gcloud@v1'
 
     - name: Check Google
       run: gcloud info
