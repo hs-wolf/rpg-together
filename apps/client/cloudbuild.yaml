@@ -28,7 +28,7 @@ steps:
       - --max-instances
       - '10'
       - --min-instances
-      - '1'
+      - '0'
       - --concurrency
       - '160'
       - --cpu
