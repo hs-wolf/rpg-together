@@ -3,7 +3,7 @@ import type { User } from '@rpg-together/models'
 import { DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 import { useUserStore } from '~/stores'
 
-const { t, locale } = useI18n()
+const { t, locale } = useNuxtApp().$i18n
 const route = useRoute()
 const router = useRouter()
 const localeRoute = useLocaleRoute()

@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-
-useHead({ title: useI18n().t('about.title') })
+useHead({ title: useNuxtApp().$i18n.t('about.title') })
 </script>
 
 <template>

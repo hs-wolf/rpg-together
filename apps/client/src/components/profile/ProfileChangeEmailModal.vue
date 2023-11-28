@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import type { User } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
@@ -34,7 +34,7 @@ const formFields = {
   },
 }
 
-const validationSchema = toFormValidator(
+const validationSchema = toTypedSchema(
   object({
     'email': string().email(),
     'confirm-email': string().email(),
@@ -46,9 +46,9 @@ const validationSchema = toFormValidator(
 )
 
 const { errors, handleSubmit } = useForm({ validationSchema })
-const { value: emailValue } = useField(formFields.email.name)
-const { value: confirmEmailValue } = useField(formFields['confirm-email'].name)
-const { value: passwordValue } = useField(formFields.password.name)
+const { value: emailValue } = useField<string>(formFields.email.name)
+const { value: confirmEmailValue } = useField<string>(formFields['confirm-email'].name)
+const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref('')
 
 const onSubmit = handleSubmit(async (values) => {
@@ -66,12 +66,12 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="modal justify-center p-3">
-    <div ref="cardRef" class="card-primary gap-3">
-      <h1 class="font-semibold">
+  <div class="modal justify-center p-3 lg:p-0">
+    <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="font-semibold lg:text-lg">
         {{ $t('profile-change-email-modal.title') }}
       </h1>
-      <i18n-t keypath="profile-change-email-modal.current-email" tag="p" scope="global" class="text-sm">
+      <i18n-t keypath="profile-change-email-modal.current-email" tag="p" scope="global" class="text-sm lg:text-base">
         <template #email>
           <span class="font-semibold">{{ user?.email }}</span>
         </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import type { Table } from '@rpg-together/models'
 import { useTablesStore } from '~/stores'
 
@@ -30,7 +30,7 @@ const formFields = {
   },
 }
 
-const validationSchema = toFormValidator(
+const validationSchema = toTypedSchema(
   object({
     password: string().min(6),
   }),

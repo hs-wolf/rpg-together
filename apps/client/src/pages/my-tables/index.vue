@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import type { Table } from '@rpg-together/models'
 import { LIMIT_OF_TABLES } from '@rpg-together/utilities'
 import { useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useI18n().t('my-tables.title') })
+useHead({ title: useNuxtApp().$i18n.t('my-tables.title') })
 
 const localePath = useLocalePath()
 const tablesStore = useTablesStore()

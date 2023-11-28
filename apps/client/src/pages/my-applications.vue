@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { LIMIT_OF_APPLICATIONS } from '@rpg-together/utilities'
 import { useApplicationsStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useI18n().t('my-applications.title') })
+useHead({ title: useNuxtApp().$i18n.t('my-applications.title') })
 
 const applicationsStore = useApplicationsStore()
 const { myApplications } = storeToRefs(applicationsStore)

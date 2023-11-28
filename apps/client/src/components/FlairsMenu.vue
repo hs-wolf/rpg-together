@@ -2,8 +2,10 @@
 import type { AdvancedSelectOption } from '~/types'
 import { useFlairsStore } from '~/stores'
 
-const props = defineProps<{ open?: boolean; initialFlairs?: string[] }>()
-const emits = defineEmits<{ (_e: 'change', _values: string[]): void }>()
+const props = defineProps<{ open?: boolean; modelValue?: string[] }>()
+
+const emits = defineEmits<{ (_e: 'update:modelValue', _values: string[]): void }>()
+
 const flairsStore = useFlairsStore()
 const { systemsFlairs, languagesFlairs, ratingsFlairs, vacanciesFlairs, genresFlairs } = storeToRefs(flairsStore)
 
@@ -13,20 +15,11 @@ const languagesFilterRef = ref()
 const ratingsFilterRef = ref()
 const vacanciesFilterRef = ref()
 const genresFilterRef = ref()
-
-const selectedFilters = reactive<{
-  systems: AdvancedSelectOption[]
-  languages: AdvancedSelectOption[]
-  ratings: AdvancedSelectOption[]
-  vacancies: AdvancedSelectOption[]
-  genres: AdvancedSelectOption[]
-}>({
-  systems: [],
-  languages: [],
-  vacancies: [],
-  ratings: [],
-  genres: [],
-})
+const selectedSystems = ref<AdvancedSelectOption[]>([])
+const selectedLanguages = ref<AdvancedSelectOption[]>([])
+const selectedRatings = ref<AdvancedSelectOption[]>([])
+const selectedVacancies = ref<AdvancedSelectOption[]>([])
+const selectedGenres = ref<AdvancedSelectOption[]>([])
 
 function clearFilters() {
   systemsFilterRef.value.clearOptions()
@@ -36,57 +29,46 @@ function clearFilters() {
   genresFilterRef.value.clearOptions()
 }
 
-watch(selectedFilters, () => {
+watch([selectedSystems, selectedLanguages, selectedRatings, selectedVacancies, selectedGenres], () => {
   const ids = [
-    ...selectedFilters.systems.map(option => option.id ?? option.name),
-    ...selectedFilters.languages.map(option => option.id ?? option.name),
-    ...selectedFilters.ratings.map(option => option.id ?? option.name),
-    ...selectedFilters.vacancies.map(option => option.id ?? option.name),
-    ...selectedFilters.genres.map(option => option.id ?? option.name),
+    ...selectedSystems.value.map(option => option.id ?? option.name),
+    ...selectedLanguages.value.map(option => option.id ?? option.name),
+    ...selectedRatings.value.map(option => option.id ?? option.name),
+    ...selectedVacancies.value.map(option => option.id ?? option.name),
+    ...selectedGenres.value.map(option => option.id ?? option.name),
   ]
-  emits('change', ids)
-})
+  emits('update:modelValue', ids)
+}, { deep: true })
 
 function setInitialFlairs() {
-  if (props.initialFlairs?.length) {
-    selectedFilters.systems = flairsStore.mapFlairsToAdvancedSelectOption(
-      systemsFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id)
-      }),
-    )
-    selectedFilters.languages = flairsStore.mapFlairsToAdvancedSelectOption(
-      languagesFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id)
-      }),
-    )
-    selectedFilters.ratings = flairsStore.mapFlairsToAdvancedSelectOption(
-      ratingsFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id)
-      }),
-    )
-    selectedFilters.vacancies = flairsStore.mapFlairsToAdvancedSelectOption(
-      vacanciesFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id)
-      }),
-    )
-    selectedFilters.genres = flairsStore.mapFlairsToAdvancedSelectOption(
-      genresFlairs.value.filter((flair) => {
-        return props.initialFlairs?.includes(flair.id)
-      }),
-    )
-  }
+  selectedSystems.value = flairsStore.mapFlairsToAdvancedSelectOption(
+    systemsFlairs.value.filter((flair) => {
+      return props.modelValue?.includes(flair.id)
+    }),
+  )
+  selectedLanguages.value = flairsStore.mapFlairsToAdvancedSelectOption(
+    languagesFlairs.value.filter((flair) => {
+      return props.modelValue?.includes(flair.id)
+    }),
+  )
+  selectedRatings.value = flairsStore.mapFlairsToAdvancedSelectOption(
+    ratingsFlairs.value.filter((flair) => {
+      return props.modelValue?.includes(flair.id)
+    }),
+  )
+  selectedVacancies.value = flairsStore.mapFlairsToAdvancedSelectOption(
+    vacanciesFlairs.value.filter((flair) => {
+      return props.modelValue?.includes(flair.id)
+    }),
+  )
+  selectedGenres.value = flairsStore.mapFlairsToAdvancedSelectOption(
+    genresFlairs.value.filter((flair) => {
+      return props.modelValue?.includes(flair.id)
+    }),
+  )
 }
 
-onMounted(() => {
-  setInitialFlairs()
-})
-
-watch(
-  () => props.initialFlairs,
-  () => {
-    setInitialFlairs()
-  },
-)
+onMounted(() => setInitialFlairs())
 </script>
 
 <template>
@@ -108,48 +90,43 @@ watch(
       <div v-if="showFilterMenu" class="flex flex-wrap items-start gap-2">
         <FormSelect
           ref="systemsFilterRef"
+          v-model="selectedSystems"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(systemsFlairs)"
-          :initial-flairs="selectedFilters.systems"
-          placeholder-message="Systems"
+          placeholder="Systems"
           :search-message="$t('flairs-menu.search-flair')"
           :empty-message="$t('flairs-menu.no-options-left')"
-          @change="(options: AdvancedSelectOption[]) => (selectedFilters.systems = options)"
         />
         <FormSelect
           ref="languagesFilterRef"
+          v-model="selectedLanguages"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(languagesFlairs)"
-          :initial-flairs="selectedFilters.languages"
-          placeholder-message="Languages"
+          placeholder="Languages"
           :search-message="$t('flairs-menu.search-flair')"
           :empty-message="$t('flairs-menu.no-options-left')"
-          @change="(options: AdvancedSelectOption[]) => (selectedFilters.languages = options)"
         />
         <FormSelect
           ref="ratingsFilterRef"
+          v-model="selectedRatings"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(ratingsFlairs)"
-          :initial-flairs="selectedFilters.ratings"
-          placeholder-message="Ratings"
+          placeholder="Ratings"
           :search-message="$t('flairs-menu.search-flair')"
           :empty-message="$t('flairs-menu.no-options-left')"
-          @change="(options: AdvancedSelectOption[]) => (selectedFilters.ratings = options)"
         />
         <FormSelect
           ref="vacanciesFilterRef"
+          v-model="selectedVacancies"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(vacanciesFlairs)"
-          :initial-flairs="selectedFilters.vacancies"
-          placeholder-message="Vacancies"
+          placeholder="Vacancies"
           :search-message="$t('flairs-menu.search-flair')"
           :empty-message="$t('flairs-menu.no-options-left')"
-          @change="(options: AdvancedSelectOption[]) => (selectedFilters.vacancies = options)"
         />
         <FormSelect
           ref="genresFilterRef"
+          v-model="selectedGenres"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(genresFlairs)"
-          :initial-flairs="selectedFilters.genres"
-          placeholder-message="Genres"
+          placeholder="Genres"
           :search-message="$t('flairs-menu.search-flair')"
           :empty-message="$t('flairs-menu.no-options-left')"
-          @change="(options: AdvancedSelectOption[]) => (selectedFilters.genres = options)"
         />
       </div>
     </Transition>

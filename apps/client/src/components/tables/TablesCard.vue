@@ -13,19 +13,21 @@ const flairsStore = useFlairsStore()
 
 const showOptions = ref(false)
 const options: Option[] = [
+  // {
+  //   name: 'report',
+  //   label: 'tables.card.report',
+  //   icon: 'danger',
+  //   action: () => report(),
+  //   disabled: true,
+  //   extraCss: 'text-danger',
+  // },
   {
-    name: 'report',
-    label: 'tables.card.report',
-    icon: 'danger',
-    action: () => report(),
-    disabled: true,
-    extraCss: 'text-danger',
-  }, {
     name: 'view-owner',
     label: 'tables.card.view-owner',
     icon: 'user',
     action: () => viewOwner(),
-  }, {
+  },
+  {
     name: 'view-table',
     label: 'tables.card.view-table',
     icon: 'bar-table',
@@ -48,9 +50,9 @@ function viewOwner() {
 }
 
 // TODO: Need to create the logic.
-function report() {
-  toggleOptions(false)
-}
+// function report() {
+//   toggleOptions(false)
+// }
 
 const needToCropDescription = computed(() => props.table.description.length > TABLE_CARD_DESCRIPTION_LENGTH)
 </script>
@@ -60,13 +62,13 @@ const needToCropDescription = computed(() => props.table.description.length > TA
     <NuxtImg
       :src="table?.banner ?? DEFAULT_TABLE_BANNER"
       :alt="table?.title"
-      class="max-h-[192px] min-h-[192px] rounded-t-sm object-cover"
+      class="max-h-[192px] min-h-[192px] rounded-t-sm object-cover lg:max-h-[256px] lg:min-h-[256px]"
     />
-    <div class="flex flex-col gap-2 h-full p-2">
-      <NuxtLink :to="localeRoute({ path: `/tables/${table.id}` })" class="text-lg text-accent-dark font-semibold">
+    <div class="flex flex-col gap-2 h-full p-2 lg:gap-4 lg:p-4">
+      <NuxtLink :to="localeRoute({ path: `/tables/${table.id}` })" class="text-lg lg:text-xl text-accent-dark font-semibold">
         {{ table.title }}
       </NuxtLink>
-      <p class="font-roboto-slab whitespace-pre-line ">
+      <p class="font-roboto-slab whitespace-pre-line lg:text-lg">
         {{
           needToCropDescription
             ? `${table.description.substring(0, TABLE_CARD_DESCRIPTION_LENGTH).trimEnd()}...`
@@ -80,19 +82,19 @@ const needToCropDescription = computed(() => props.table.description.length > TA
         <div
           v-for="flair in table.flairs"
           :key="flair"
-          class="flex items-center px-1 py-0.5 border border-accent-light rounded-sm text-xs text-primary-light"
+          class="flex items-center px-1 py-0.5 border border-accent-light rounded-sm text-xs text-primary-light lg:px-2 lg:py-1 lg:text-sm"
         >
           {{ flairsStore.getFlairLabel(flair) }}
         </div>
       </div>
-      <div class="flex flex-wrap items-center justify-between gap-2">
+      <div class="flex flex-wrap items-center justify-between gap-2 mt-auto">
         <NuxtLink :to="localeRoute({ path: `/profile/${table.owner.id}` })" class="flex items-center gap-2">
           <NuxtImg
             :src="table?.owner?.avatar ?? DEFAULT_USER_AVATAR"
             :alt="table?.owner?.username"
-            class="flex w-[32px] h-[32px] rounded-sm object-cover shadow"
+            class="flex w-[40px] h-[40px] rounded-sm object-cover shadow lg:w-[42px] lg:h-[42px]"
           />
-          <h1 class="text-sm font-semibold">
+          <h1 class="text-sm lg:text-base font-semibold">
             {{ table?.owner?.username }}
           </h1>
         </NuxtLink>
@@ -101,7 +103,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
         </button>
       </div>
       <Transition name="fade">
-        <div v-if="showOptions" class="flex flex-wrap justify-center pt-2 gap-4 text-sm">
+        <div v-if="showOptions" class="flex flex-wrap justify-center pt-2 gap-4 lg:pt-4 lg:gap-6">
           <button
             v-for="option in options"
             :key="option.name"
@@ -109,8 +111,10 @@ const needToCropDescription = computed(() => props.table.description.length > TA
             :class="[option.extraCss, { 'opacity-50 pointer-events-none': option.disabled }]"
             @click.prevent="option.action"
           >
-            <NuxtIcon :name="option.icon" class="text-xl" />
-            <p>{{ $t(option.label) }}</p>
+            <NuxtIcon :name="option.icon" class="text-xl lg:text-2xl" />
+            <p class="text-sm lg:text-base">
+              {{ $t(option.label) }}
+            </p>
           </button>
         </div>
       </Transition>

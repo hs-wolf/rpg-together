@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import type { User } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
@@ -30,14 +30,14 @@ const formFields = {
   },
 }
 
-const validationSchema = toFormValidator(
+const validationSchema = toTypedSchema(
   object({
     password: string().min(6),
   }),
 )
 
 const { errors, handleSubmit } = useForm({ validationSchema })
-const { value: passwordValue } = useField(formFields.password.name)
+const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref('')
 
 const onSubmit = handleSubmit(async (values) => {
@@ -52,12 +52,12 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="modal justify-center p-3">
-    <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3">
-      <h1 class="text-danger font-semibold">
+  <div class="modal justify-center p-3 lg:p-0">
+    <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="text-danger font-semibold lg:text-lg">
         {{ $t('profile-delete-account-modal.title') }}
       </h1>
-      <p class="text-sm">
+      <p class="text-sm lg:text-base">
         {{ $t('profile-delete-account-modal.confirmation') }}
       </p>
       <FormInput
@@ -96,11 +96,11 @@ const onSubmit = handleSubmit(async (values) => {
         </span>
       </div>
     </div>
-    <div v-else ref="cardRef" class="card-primary gap-3">
-      <h1 class="text-danger font-semibold">
+    <div v-else ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="text-danger font-semibold lg:text-lg">
         {{ $t('profile-delete-account-modal.title') }}
       </h1>
-      <div class="flex flex-col gap-2 text-sm">
+      <div class="flex flex-col gap-2 text-sm lg:text-base">
         <p>{{ $t('profile-delete-account-modal.warnings[0]') }}</p>
         <p>{{ $t('profile-delete-account-modal.warnings[1]') }}</p>
         <p class="font-semibold">

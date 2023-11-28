@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { object, string } from 'zod'
 import { useField, useForm } from 'vee-validate'
-import { toFormValidator } from '@vee-validate/zod'
+import { toTypedSchema } from '@vee-validate/zod'
 import type { User } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
@@ -29,7 +29,7 @@ const formFields = {
   },
 }
 
-const validationSchema = toFormValidator(
+const validationSchema = toTypedSchema(
   object({
     username: string().min(1),
     password: string().min(6),
@@ -37,8 +37,8 @@ const validationSchema = toFormValidator(
 )
 
 const { errors, handleSubmit } = useForm({ validationSchema })
-const { value: usernameValue } = useField(formFields.username.name)
-const { value: passwordValue } = useField(formFields.password.name)
+const { value: usernameValue } = useField<string>(formFields.username.name)
+const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref('')
 
 const onSubmit = handleSubmit(async (values) => {
@@ -53,12 +53,12 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="modal justify-center p-3">
-    <div ref="cardRef" class="card-primary gap-3">
-      <h1 class="font-semibold">
+  <div class="modal justify-center p-3 lg:p-0">
+    <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="font-semibold lg:text-lg">
         {{ $t('profile-change-username-modal.title') }}
       </h1>
-      <i18n-t keypath="profile-change-username-modal.current-name" tag="p" scope="global" class="text-sm">
+      <i18n-t keypath="profile-change-username-modal.current-name" tag="p" scope="global" class="text-sm lg:text-base">
         <template #name>
           <span class="font-semibold">{{ user?.username }}</span>
         </template>

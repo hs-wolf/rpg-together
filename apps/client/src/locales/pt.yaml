@@ -94,6 +94,7 @@ home:
 home-featured:
   title: Featured Tables
   loading: Loading
+  no-tables-found: No tables found.
 home-announcements:
   title: Announcements
   see-all: See all
