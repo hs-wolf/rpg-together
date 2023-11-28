@@ -64,11 +64,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        
-    - name: Install Dependencies
-      run: |
-        npm install -g pnpm
-        pnpm install
 
     - name: Google Auth
       id: auth
@@ -77,16 +72,6 @@ jobs:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
     - name: Check Google
-      run: gcloud auth list
+      run: gcloud info
+    
 
-    - name: Lint All
-      run: pnpm exec nx run-many --target=lint --all=true
-     
-    - name: Build All
-      run: pnpm exec nx run-many --target=build --all=true
-
-    - name: Deploy Monolith
-      run: pnpm exec nx run monolith:deploy-prod
-
-    - name: Deploy Client
-      run: pnpm exec nx run client:deploy-prod
