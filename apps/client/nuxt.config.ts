@@ -30,6 +30,7 @@ export default defineNuxtConfig({
         appId: '1:941581255741:web:a46b39ad5fd52937b6d654',
         measurementId: 'G-8C6KCG0W5X',
       },
+      RECAPTCHA: '6LfkKikpAAAAAH6_gcUUTGypoqygYQCgpO-tmQM4',
     },
   },
   app: {

@@ -19,10 +19,8 @@ export const useAlertsStore = defineStore(ALERTS_STORE, {
       const { t } = useNuxtApp().$i18n
       if (error instanceof FirebaseError)
         return t(`firebase-errors.${error.code}`) as string
-
       if (Object.values(ResponseMessages).includes((error as any).data.message))
         return t(`api-errors.${(error as any).data.message}`) as string
-
       return (error as any).message as string
     },
   },

@@ -213,6 +213,9 @@
 					},
 					"password": {
 						"type": "string"
+					},
+					"recaptcha_token": {
+						"type": "string"
 					}
 				},
 				"required": [
@@ -1185,6 +1188,30 @@
 					}
 				],
 				"parameters": []
+			}
+		},
+		"/auth/verify-recaptcha/{token}": {
+			"post": {
+				"operationId": "VerifyRecaptcha",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Authentication Service"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		},
 		"/flairs": {

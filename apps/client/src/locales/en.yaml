@@ -12,6 +12,7 @@ zod-errors:
 firebase-errors:
   auth/wrong-password: Wrong password.
   auth/too-many-requests: Too many requests, try again later.
+  auth/user-not-found: This account does not exist.
 api-errors:
   MISSING_TOKEN: Missing token.
   ROLE_NOT_AUTHORIZED: You are not authorized to do this.
@@ -53,42 +54,6 @@ navbar:
   language: Language
 loading-card:
   title: Loading
-login:
-  title: Login
-  email: Email
-  password: Password
-  submit: Login
-  no-account: Do not have an account? {0}
-  register-here: Register here!
-  form:
-    email:
-      label: Email
-      placeholder: Email
-    password:
-      label: Password
-      placeholder: Password
-register:
-  title: Register
-  username: Username
-  email: Email
-  password: Password
-  repeat-password: Repeat password
-  submit: Register
-  existing-account: Already have an account? {0}
-  login-here: Login here!
-  form:
-    username:
-      label: Username
-      placeholder: Username
-    email:
-      label: Email
-      placeholder: Email
-    password:
-      label: Password
-      placeholder: Password
-    confirmPassword:
-      label: Password (Confirm)
-      placeholder: Password (Confirm)
 home:
   title: Rpg Together
 home-featured:
@@ -310,22 +275,6 @@ error-page:
   title: 404 Not Found
   message: Ops, something went wrong!
   go-back: Go back
-user-store:
-  success:
-    register: Registered successfully, check your e-mail to confirm.
-    change-auth-data: Login data updated!
-    account-delete: Your account was deleted!
-    change-username: Username changed!
-    change-avatar: Avatar changed!
-  warning: {}
-  error:
-    register: We had an internal error and could not finish your registration, please
-      try again.
-    change-auth-data: Sorry, we could not change your login data.
-    account-delete: Sorry, we could not delete your account.
-    fetch-user: Could not fetch user, please try again later.
-    change-username: Sorry, we could not change your username.
-    change-avatar: Sorry, we could not change your avatar.
 tables-store:
   success:
     create-table: New table created successfully!
@@ -354,6 +303,42 @@ applications-store:
     accept-application: Sorry, we could not accept the application.
     decline-application: Sorry, we could not decline the application.
 pages:
+  login:
+    title: Login
+    email: Email
+    password: Password
+    submit: Login
+    no-account: Do not have an account? {0}
+    register-here: Register here!
+    form:
+      email:
+        label: Email
+        placeholder: Email
+      password:
+        label: Password
+        placeholder: Password
+  register:
+    title: Register
+    username: Username
+    email: Email
+    password: Password
+    repeat-password: Repeat password
+    submit: Register
+    existing-account: Already have an account? {0}
+    login-here: Login here!
+    form:
+      username:
+        label: Username
+        placeholder: Username
+      email:
+        label: Email
+        placeholder: Email
+      password:
+        label: Password
+        placeholder: Password
+      confirmPassword:
+        label: Password (Confirm)
+        placeholder: Password (Confirm)
   notifications:
     title: Notifications
     mark-all-read: Mark all as read
@@ -362,3 +347,29 @@ pages:
     serch-type: Search type
     no-types-left: No types left.
     load-more: Load more
+stores:
+  user:
+    success:
+      login: Logged in successfully!
+      logout: Logged out successfully!
+      register: Registered successfully, check your e-mail to confirm.
+      change-auth-data: Login data updated!
+      account-delete: Your account was deleted!
+      change-username: Username changed!
+      change-avatar: Avatar changed!
+    warning: {}
+    error:
+      login: Sorry, we could not log you in.
+      logout: Sorry, we could not log you out.
+      register: We had an internal error and could not finish your registration, please
+        try again.
+      change-auth-data: Sorry, we could not change your login data.
+      account-delete: Sorry, we could not delete your account.
+      fetch-user: Could not fetch user, please try again later.
+      change-username: Sorry, we could not change your username.
+      change-avatar: Sorry, we could not change your avatar.
+components:
+  recaptcha:
+    message: This site is protected by reCAPTCHA and the Google {privacy} and {tos} apply.
+    privacy: Privacy Policy
+    tos: Terms of Service

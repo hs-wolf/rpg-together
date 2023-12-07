@@ -66,62 +66,64 @@ async function logout() {
       </div>
       <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
     </NuxtLink>
-    <Transition name="slide-right">
+    <Transition name="fade">
       <div v-if="showMobileMenu" class="modal">
-        <div ref="mobileMenuRef" class="self-end lg:self-start flex flex-col w-full max-w-[75%] lg:max-w-[20%] h-full bg-secondary-light text-primary-dark">
-          <div v-if="firebaseUser" class="relative flex justify-between items-center h-[64px] lg:h-auto shadow overflow-hidden">
-            <NuxtImg
-              :src="user?.avatar ?? DEFAULT_USER_AVATAR"
-              :alt="user?.username"
-              width="320"
-              height="320"
-              sizes="sm:100vw md:50vw lg:320px"
-              format="webp"
-              class="absolute inset-x-0 w-full opacity-30 bg-cover blur-[1px] pointer-events-none"
-            />
-            <NuxtLink
-              :to="localePath({ name: 'profile' })"
-              class="flex items-center w-full p-3 lg:p-5 overflow-hidden"
-              @click.prevent="closeMobileMenu"
-            >
-              <h1 class="font-semibold truncate text-xl lg:text-2xl">
-                {{ user?.username }}
-              </h1>
-            </NuxtLink>
-            <button class="p-3 lg:p-5 active:scale-90 transition-transform" @click.prevent="logout">
-              <NuxtIcon name="logout" class="text-xl lg:text-2xl text-danger" />
-            </button>
+        <Transition name="slide-right" appear>
+          <div ref="mobileMenuRef" class="self-end lg:self-start flex flex-col w-full max-w-[75%] lg:max-w-[20%] h-full bg-secondary-light text-primary-dark">
+            <div v-if="firebaseUser" class="relative flex justify-between items-center h-[64px] lg:h-auto shadow overflow-hidden">
+              <NuxtImg
+                :src="user?.avatar ?? DEFAULT_USER_AVATAR"
+                :alt="user?.username"
+                width="320"
+                height="320"
+                sizes="sm:100vw md:50vw lg:320px"
+                format="webp"
+                class="absolute inset-x-0 w-full opacity-30 bg-cover blur-[1px] pointer-events-none"
+              />
+              <NuxtLink
+                :to="localePath({ name: 'profile' })"
+                class="flex items-center w-full p-3 lg:p-5 overflow-hidden"
+                @click.prevent="closeMobileMenu"
+              >
+                <h1 class="font-semibold truncate text-xl lg:text-2xl">
+                  {{ user?.username }}
+                </h1>
+              </NuxtLink>
+              <button class="p-3 lg:p-5 active:scale-90 transition-transform" @click.prevent="logout">
+                <NuxtIcon name="logout" class="text-xl lg:text-2xl text-danger" />
+              </button>
+            </div>
+            <div v-else class="grid grid-cols-2 gap-3 w-full p-3 lg:gap-5 lg:p-5">
+              <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
+                {{ $t('navbar.menus.login') }}
+              </NuxtLink>
+              <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
+                {{ $t('navbar.menus.register') }}
+              </NuxtLink>
+            </div>
+            <div class="flex-1 flex flex-col gap-3">
+              <NuxtLink
+                v-for="item in menus"
+                :key="item.name"
+                :to="localePath({ name: item.link })"
+                class="menu-button"
+                @click.prevent="closeMobileMenu"
+              >
+                <NuxtIcon :name="item.icon" />
+                <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
+              </NuxtLink>
+              <button
+                class="menu-button"
+                @click.prevent="
+                  $i18n.locale === 'en' ? localesStore.changeLocale(SupportedLanguages.PT) : localesStore.changeLocale(SupportedLanguages.EN)
+                "
+              >
+                <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
+                <p>{{ $t('navbar.language') }}</p>
+              </button>
+            </div>
           </div>
-          <div v-else class="grid grid-cols-2 gap-3 w-full p-3 lg:gap-5 lg:p-5">
-            <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
-              {{ $t('navbar.menus.login') }}
-            </NuxtLink>
-            <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
-              {{ $t('navbar.menus.register') }}
-            </NuxtLink>
-          </div>
-          <div class="flex-1 flex flex-col gap-3">
-            <NuxtLink
-              v-for="item in menus"
-              :key="item.name"
-              :to="localePath({ name: item.link })"
-              class="menu-button"
-              @click.prevent="closeMobileMenu"
-            >
-              <NuxtIcon :name="item.icon" />
-              <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
-            </NuxtLink>
-            <button
-              class="menu-button"
-              @click.prevent="
-                $i18n.locale === 'en' ? localesStore.changeLocale(SupportedLanguages.PT) : localesStore.changeLocale(SupportedLanguages.EN)
-              "
-            >
-              <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
-              <p>{{ $t('navbar.language') }}</p>
-            </button>
-          </div>
-        </div>
+        </Transition>
       </div>
     </Transition>
   </nav>

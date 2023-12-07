@@ -1,4 +1,5 @@
 import { EmailAuthProvider, reauthenticateWithCredential, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { load } from 'recaptcha-v3'
 import type { AuthUserRegisterBody, AuthUserUpdateBody, User, UserUpdateBody } from '@rpg-together/models'
 import { USER_STORE } from '~/constants'
 import { SnackType } from '~/types'
@@ -29,62 +30,77 @@ export const useUserStore = defineStore(USER_STORE, {
   getters: {},
   actions: {
     async signIn(email: string, password: string) {
-      if (this.signingIn)
-        return
-
-      const firebaseAuth = useFirebase.firebaseAuth().value
-      if (!firebaseAuth)
-        return
-
       try {
+        if (this.signingIn)
+          return
+        const firebaseAuth = useFirebase.firebaseAuth().value
+        if (!firebaseAuth)
+          return
         this.signingIn = true
+        const recaptchaToken = await this.getRecaptchaToken()
+        await useRpgTogetherAPI.verifyRecaptcha({ token: recaptchaToken ?? '' })
         await signInWithEmailAndPassword(firebaseAuth, email, password)
       }
       catch (error) {
-        useAlertsStore().handleError(error)
+        const alertsStore = useAlertsStore()
+        alertsStore.handleError(error)
+        useSnackbarStore().createSnack({
+          type: SnackType.ERROR,
+          message: 'stores.user.error.login',
+        })
+        return alertsStore.getErrorToShowUser(error)
       }
       finally {
         this.signingIn = false
       }
     },
     async signOut() {
-      if (this.signingOut)
-        return
-
-      const firebaseAuth = useFirebase.firebaseAuth().value
-      if (!firebaseAuth)
-        return
-
       try {
+        if (this.signingOut)
+          return
+        const firebaseAuth = useFirebase.firebaseAuth().value
+        if (!firebaseAuth)
+          return
         this.signingOut = true
         await signOut(firebaseAuth)
+        useSnackbarStore().createSnack({
+          type: SnackType.SUCCESS,
+          message: 'stores.user.success.logout',
+        })
       }
       catch (error) {
         useAlertsStore().handleError(error)
+        useSnackbarStore().createSnack({
+          type: SnackType.ERROR,
+          message: 'stores.user.error.logout',
+        })
       }
       finally {
         this.signingOut = false
       }
     },
     async register(body: AuthUserRegisterBody) {
-      if (this.registering)
-        return
-
       try {
+        if (this.registering)
+          return
         this.registering = true
-        await useRpgTogetherAPI.register({ body })
+        const newBody = body
+        newBody.recaptcha_token = await this.getRecaptchaToken()
+        await useRpgTogetherAPI.register({ body: newBody })
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'user-store.success.register',
+          message: 'stores.user.success.register',
         })
         await this.signIn(body.email, body.password)
       }
       catch (error) {
-        useAlertsStore().handleError(error)
+        const alertsStore = useAlertsStore()
+        alertsStore.handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'user-store.error.register',
+          message: 'stores.user.error.register',
         })
+        return alertsStore.getErrorToShowUser(error)
       }
       finally {
         this.registering = false
@@ -114,14 +130,14 @@ export const useUserStore = defineStore(USER_STORE, {
         await this.signIn(values.newEmail ?? firebaseUser.email ?? '', values.newPassword ?? values.password)
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'user-store.success.change-auth-data',
+          message: 'stores.user.success.change-auth-data',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'user-store.error.change-auth-data',
+          message: 'stores.user.error.change-auth-data',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -145,14 +161,14 @@ export const useUserStore = defineStore(USER_STORE, {
         await this.signOut()
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'user-store.success.account-delete',
+          message: 'stores.user.success.account-delete',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'user-store.error.account-delete',
+          message: 'stores.user.error.account-delete',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -172,7 +188,7 @@ export const useUserStore = defineStore(USER_STORE, {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'user-store.error.fetch-user',
+          message: 'stores.user.error.fetch-user',
         })
         return null
       }
@@ -196,14 +212,14 @@ export const useUserStore = defineStore(USER_STORE, {
         this.user = newUser
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'user-store.success.change-username',
+          message: 'stores.user.success.change-username',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'user-store.error.change-username',
+          message: 'stores.user.error.change-username',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -227,18 +243,28 @@ export const useUserStore = defineStore(USER_STORE, {
         this.user = newUser
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'user-store.success.change-avatar',
+          message: 'stores.user.success.change-avatar',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'user-store.error.change-avatar',
+          message: 'stores.user.error.change-avatar',
         })
       }
       finally {
         this.changingAvatar = false
+      }
+    },
+    async getRecaptchaToken() {
+      try {
+        const recaptcha = await load(useRuntimeConfig().public.RECAPTCHA)
+        const token = await recaptcha.execute('register')
+        return token
+      }
+      catch (error) {
+        useAlertsStore().handleError(error)
       }
     },
   },

@@ -18,6 +18,16 @@ export interface AuthUserRegisterBody {
   username: string
   email: string
   password: string
+  recaptcha_token?: string
 }
 
 export type AuthUserUpdateBody = Partial<{ email: string; password: string }>
+
+export interface RecaptchaVerificationResponse {
+  success: boolean
+  challenge_ts: string
+  hostname: string
+  score: number
+  action: string
+  'error-codes'?: string[]
+}

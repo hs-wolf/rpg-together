@@ -122,6 +122,7 @@ const models: TsoaRoute.Models = {
             "username": {"dataType":"string","required":true},
             "email": {"dataType":"string","required":true},
             "password": {"dataType":"string","required":true},
+            "recaptcha_token": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -756,6 +757,31 @@ export function RegisterRoutes(app: Router) {
 
 
               const promise = controller.deleteAuthUser.apply(controller, validatedArgs as any);
+              promiseHandler(controller, promise, response, undefined, next);
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.post('/auth/verify-recaptcha/:token',
+            ...(fetchMiddlewares<RequestHandler>(AuthController)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.verifyRecaptcha)),
+
+            function AuthController_verifyRecaptcha(request: any, response: any, next: any) {
+            const args = {
+                    token: {"in":"path","name":"token","required":true,"dataType":"string"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request, response);
+
+                const controller = new AuthController();
+
+
+              const promise = controller.verifyRecaptcha.apply(controller, validatedArgs as any);
               promiseHandler(controller, promise, response, undefined, next);
             } catch (err) {
                 return next(err);

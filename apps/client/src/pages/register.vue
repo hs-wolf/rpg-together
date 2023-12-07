@@ -6,7 +6,8 @@ import type { AuthUserRegisterBody } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-out'] })
-useHead({ title: useNuxtApp().$i18n.t('register.title') })
+
+useHead({ title: useNuxtApp().$i18n.t('pages.register.title') })
 
 const localePath = useLocalePath()
 const userStore = useUserStore()
@@ -15,23 +16,23 @@ const { registering } = storeToRefs(userStore)
 const formFields = {
   username: {
     name: 'username',
-    label: 'register.form.username.label',
-    placeholder: 'register.form.username.placeholder',
+    label: 'pages.register.form.username.label',
+    placeholder: 'pages.register.form.username.placeholder',
   },
   email: {
     name: 'email',
-    label: 'register.form.email.label',
-    placeholder: 'register.form.email.placeholder',
+    label: 'pages.register.form.email.label',
+    placeholder: 'pages.register.form.email.placeholder',
   },
   password: {
     name: 'password',
-    label: 'register.form.password.label',
-    placeholder: 'register.form.password.placeholder',
+    label: 'pages.register.form.password.label',
+    placeholder: 'pages.register.form.password.placeholder',
   },
   confirmPassword: {
     name: 'confirmPassword',
-    label: 'register.form.confirmPassword.label',
-    placeholder: 'register.form.confirmPassword.placeholder',
+    label: 'pages.register.form.confirmPassword.label',
+    placeholder: 'pages.register.form.confirmPassword.placeholder',
   },
 }
 const validationSchema = toTypedSchema(
@@ -51,17 +52,24 @@ const { value: emailValue } = useField<string>(formFields.email.name)
 const { value: passwordValue } = useField<string>(formFields.password.name)
 const { value: confirmPasswordValue } = useField<string>(formFields.confirmPassword.name)
 
+const apiError = ref<string>()
+
 const onSubmit = handleSubmit(async (values) => {
   const body: AuthUserRegisterBody = { username: values.username, email: values.email, password: values.password }
-  await userStore.register(body)
+  apiError.value = await userStore.register(body)
 })
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
-    <PageTitle :title="$t('register.title')" />
-    <div class="flex flex-col gap-8 px-2">
-      <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-5 lg:gap-7">
+    <PageTitle :title="$t('pages.register.title')" />
+    <div class="flex flex-col gap-5 px-2 w-full lg:gap-7 lg:px-0 lg:max-w-xl lg:mx-auto">
+      <i18n-t keypath="pages.register.existing-account" tag="div" scope="global" class="flex flex-col text-center text lg:text-lg">
+        <NuxtLink :to="localePath({ name: 'login' })" class="text-accent font-medium">
+          {{ $t('pages.register.login-here') }}
+        </NuxtLink>
+      </i18n-t>
+      <div class="flex flex-col gap-3">
         <FormInput
           v-model="usernameValue"
           :name="formFields.username.name"
@@ -131,18 +139,15 @@ const onSubmit = handleSubmit(async (values) => {
             <NuxtIcon name="eye-closed" />
           </template>
         </FormInput>
+        <span v-if="apiError" class="text-end text-danger-light text-sm lg:text-base">{{ apiError }}</span>
       </div>
-      <button class="btn-accent" :disabled="registering" @click.prevent="onSubmit">
-        <NuxtIcon v-if="registering" name="loading-loop" class="text-xl" />
-        <p v-else>
-          {{ $t('register.submit') }}
+      <LoadingCard v-if="registering" />
+      <button v-else class="btn-accent" :disabled="registering" @click.prevent="onSubmit">
+        <p>
+          {{ $t('pages.register.submit') }}
         </p>
       </button>
-      <i18n-t keypath="register.existing-account" tag="div" scope="global" class="text-center text-sm">
-        <NuxtLink :to="localePath({ name: 'login' })" class="text-accent font-medium">
-          {{ $t('register.login-here') }}
-        </NuxtLink>
-      </i18n-t>
+      <RecaptchaWarning />
     </div>
   </div>
 </template>

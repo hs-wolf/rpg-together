@@ -37,7 +37,7 @@ steps:
       - 512Mi
       - --allow-unauthenticated
       - --update-secrets
-      - 'MONGODB_URI=projects/$PROJECT_NUMBER/secrets/MONGODB_URI/versions/latest,ALGOLIA_API_ADMIN_KEY=projects/$PROJECT_NUMBER/secrets/ALGOLIA_API_ADMIN_KEY/versions/latest'
+      - 'MONGODB_URI=projects/$PROJECT_NUMBER/secrets/MONGODB_URI/versions/latest,ALGOLIA_API_ADMIN_KEY=projects/$PROJECT_NUMBER/secrets/ALGOLIA_API_ADMIN_KEY/versions/latest,RECAPTCHA_VERIFY_KEY=projects/$PROJECT_NUMBER/secrets/RECAPTCHA_VERIFY_KEY/versions/latest'
       - --set-env-vars
       - 'USE_DEFAULT_SERVICE_ACCOUNT=true,ENV=${_ENV},MONGODB_DB=${_MONGODB_DB},ALGOLIA_APPLICATION_ID=${_ALGOLIA_APPLICATION_ID}'
       - --service-account

@@ -12,17 +12,18 @@ zod-errors:
 firebase-errors:
   auth/wrong-password: Senha errada.
   auth/too-many-requests: Excesso de requisições, tente novamente depois.
+  auth/user-not-found: Essa conta não existe.
 api-errors:
-  MISSING_TOKEN: Missing token.
-  ROLE_NOT_AUTHORIZED: You are not authorized to do this.
-  NOT_OWNER_OF_CONTENT: You are not the owner of this content.
-  USER_NOT_FOUND: User not found.
-  TABLE_NOT_FOUND: Table not found.
-  FLAIR_NOT_FOUND: Flair not found.
-  USERNAME_TAKEN: This username is taken.
-  EMAIL_TAKEN: This email is taken.
-  COULD_NOT_UPLOAD: Could not upload file.
-  TABLES_LIMIT_REACHED: Tables limit reached.
+  MISSING_TOKEN: Token não encontrado.
+  ROLE_NOT_AUTHORIZED: Você não é autorizado para fazer isso.
+  NOT_OWNER_OF_CONTENT: Você não é o dono deste conteúdo.
+  USER_NOT_FOUND: Usuário não encontrado.
+  TABLE_NOT_FOUND: Mesa não encontrada.
+  FLAIR_NOT_FOUND: Categoria não encontrada.
+  USERNAME_TAKEN: Esse nome de usuário está em uso.
+  EMAIL_TAKEN: Esse e-mail está em uso.
+  COULD_NOT_UPLOAD: Não foi possível fazer o upload.
+  TABLES_LIMIT_REACHED: Limite de mesas alcançado.
 notification-type:
   application: Aplicações
   report: Relatórios
@@ -53,42 +54,6 @@ navbar:
   language: Língua
 loading-card:
   title: Loading
-login:
-  title: Login
-  email: Email
-  password: Password
-  submit: Login
-  no-account: Do not have an account? {0}
-  register-here: Register here!
-  form:
-    email:
-      label: Email
-      placeholder: Email
-    password:
-      label: Password
-      placeholder: Password
-register:
-  title: Register
-  username: Username
-  email: Email
-  password: Password
-  repeat-password: Repeat password
-  submit: Register
-  existing-account: Already have an account? {0}
-  login-here: Login here!
-  form:
-    username:
-      label: Username
-      placeholder: Username
-    email:
-      label: Email
-      placeholder: Email
-    password:
-      label: Password
-      placeholder: Password
-    confirmPassword:
-      label: Password (Confirm)
-      placeholder: Password (Confirm)
 home:
   title: Rpg Together
 home-featured:
@@ -310,22 +275,6 @@ error-page:
   title: 404 Not Found
   message: Ops, something went wrong!
   go-back: Go back
-user-store:
-  success:
-    register: Registered successfully, check your e-mail to confirm.
-    change-auth-data: Login data updated!
-    account-delete: Your account was deleted!
-    change-username: Username changed!
-    change-avatar: Avatar changed!
-  warning: {}
-  error:
-    register: We had an internal error and could not finish your registration, please
-      try again.
-    change-auth-data: Sorry, we could not change your login data.
-    account-delete: Sorry, we could not delete your account.
-    fetch-user: Could not fetch user, please try again later.
-    change-username: Sorry, we could not change your username.
-    change-avatar: Sorry, we could not change your avatar.
 tables-store:
   success:
     create-table: New table created successfully!
@@ -354,6 +303,42 @@ applications-store:
     accept-application: Sorry, we could not accept the application.
     decline-application: Sorry, we could not decline the application.
 pages:
+  login:
+    title: Login
+    email: Email
+    password: Password
+    submit: Login
+    no-account: Do not have an account? {0}
+    register-here: Register here!
+    form:
+      email:
+        label: Email
+        placeholder: Email
+      password:
+        label: Password
+        placeholder: Password
+  register:
+    title: Register
+    username: Username
+    email: Email
+    password: Password
+    repeat-password: Repeat password
+    submit: Register
+    existing-account: Already have an account? {0}
+    login-here: Login here!
+    form:
+      username:
+        label: Username
+        placeholder: Username
+      email:
+        label: Email
+        placeholder: Email
+      password:
+        label: Password
+        placeholder: Password
+      confirmPassword:
+        label: Password (Confirm)
+        placeholder: Password (Confirm)
   notifications:
     title: Notificações
     mark-all-read: Marcar todas como lidas
@@ -362,3 +347,25 @@ pages:
     serch-type: Procurar tipo
     no-types-left: Sem tipos restantes.
     load-more: Carregar mais
+stores:
+  user:
+    success:
+      register: Registered successfully, check your e-mail to confirm.
+      change-auth-data: Login data updated!
+      account-delete: Your account was deleted!
+      change-username: Username changed!
+      change-avatar: Avatar changed!
+    warning: {}
+    error:
+      register: We had an internal error and could not finish your registration, please
+        try again.
+      change-auth-data: Sorry, we could not change your login data.
+      account-delete: Sorry, we could not delete your account.
+      fetch-user: Could not fetch user, please try again later.
+      change-username: Sorry, we could not change your username.
+      change-avatar: Sorry, we could not change your avatar.
+components:
+  recaptcha:
+    message: Este site é protegido por reCAPTCHA e a {privacy} e {tos} do Google se aplicam.
+    privacy: Política de Privacidade
+    tos: Termos de Serviço

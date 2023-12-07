@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Path,
   Post,
   Put,
   Request,
@@ -49,5 +50,10 @@ export class AuthController extends Controller {
   @Delete('/delete')
   public async deleteAuthUser(@Request() request: TsoaRequest): Promise<void> {
     return await new AuthService().deleteAuthUser(request.user.uid)
+  }
+
+  @Post('/verify-recaptcha/{token}')
+  public async verifyRecaptcha(@Path() token: string): Promise<void> {
+    return await new AuthService().recaptchaVerify(token)
   }
 }
