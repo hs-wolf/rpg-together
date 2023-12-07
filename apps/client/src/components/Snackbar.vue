@@ -21,7 +21,7 @@ const currentBgAndIcon = computed(() => {
 
 <template>
   <Transition name="slide-down">
-    <div class="z-50 fixed inset-x-3 top-3 flex flex-col">
+    <div class="z-50 fixed inset-x-3 top-3 flex flex-col lg:left-auto">
       <button
         v-if="waitingSnack"
         name="clear-snack"

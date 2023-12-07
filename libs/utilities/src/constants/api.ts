@@ -25,6 +25,10 @@ export const API_ENDPOINTS_REQUESTS = {
     path: 'auth/delete',
     method: 'DELETE',
   }),
+  verifyRecaptcha: (token: string): RequestReturnType => ({
+    path: `auth/verify-recaptcha/${token}`,
+    method: 'POST',
+  }),
   // ANNOUNCEMENT REQUESTS
   createAnnouncement: (): RequestReturnType => ({
     path: 'announcements',

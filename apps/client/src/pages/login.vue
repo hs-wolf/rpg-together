@@ -6,7 +6,7 @@ import { useUserStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-out'] })
 
-useHead({ title: useNuxtApp().$i18n.t('login.title') })
+useHead({ title: useNuxtApp().$i18n.t('pages.login.title') })
 
 const localePath = useLocalePath()
 const userStore = useUserStore()
@@ -15,13 +15,13 @@ const { signingIn } = storeToRefs(userStore)
 const formFields = {
   email: {
     name: 'email',
-    label: 'login.form.email.label',
-    placeholder: 'login.form.email.placeholder',
+    label: 'pages.login.form.email.label',
+    placeholder: 'pages.login.form.email.placeholder',
   },
   password: {
     name: 'password',
-    label: 'login.form.password.label',
-    placeholder: 'login.form.password.placeholder',
+    label: 'pages.login.form.password.label',
+    placeholder: 'pages.login.form.password.placeholder',
   },
 }
 const validationSchema = toTypedSchema(
@@ -34,16 +34,23 @@ const { errors, handleSubmit } = useForm({ validationSchema })
 const { value: emailValue } = useField<string>(formFields.email.name)
 const { value: passwordValue } = useField<string>(formFields.password.name)
 
+const apiError = ref<string>()
+
 const onSubmit = handleSubmit(async (values) => {
-  await userStore.signIn(values.email, values.password)
+  apiError.value = await userStore.signIn(values.email, values.password)
 })
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
-    <PageTitle :title="$t('login.title')" />
-    <div class="flex flex-col gap-8 px-2">
-      <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-5 lg:gap-7">
+    <PageTitle :title="$t('pages.login.title')" />
+    <div class="flex flex-col gap-5 px-2 w-full lg:gap-7 lg:px-0 lg:max-w-xl lg:mx-auto">
+      <i18n-t keypath="pages.login.no-account" tag="div" scope="global" class="flex flex-col text-center lg:text-lg">
+        <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-medium">
+          {{ $t('pages.login.register-here') }}
+        </NuxtLink>
+      </i18n-t>
+      <div class="flex flex-col gap-3">
         <FormInput
           v-model="emailValue"
           :name="formFields.email.name"
@@ -78,18 +85,15 @@ const onSubmit = handleSubmit(async (values) => {
             <NuxtIcon name="eye-closed" />
           </template>
         </FormInput>
+        <span v-if="apiError" class="text-end text-danger-light text-sm lg:text-base">{{ apiError }}</span>
       </div>
-      <button class="btn-accent" :disabled="signingIn" @click.prevent="onSubmit">
-        <NuxtIcon v-if="signingIn" name="loading-loop" class="text-xl" />
-        <p v-else>
-          {{ $t('login.submit') }}
+      <LoadingCard v-if="signingIn" />
+      <button v-else class="btn-accent" :disabled="signingIn" @click.prevent="onSubmit">
+        <p>
+          {{ $t('pages.login.submit') }}
         </p>
       </button>
-      <i18n-t keypath="login.no-account" tag="div" scope="global" class="text-center text-sm">
-        <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-medium">
-          {{ $t('login.register-here') }}
-        </NuxtLink>
-      </i18n-t>
+      <RecaptchaWarning />
     </div>
   </div>
 </template>

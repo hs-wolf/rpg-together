@@ -2,7 +2,8 @@ import type { FirebaseOptions } from 'firebase/app'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import type { MiddlewareKey } from '~~/.nuxt/types/middleware'
-import { useAlertsStore, useFlairsStore, useLocalesStore, useNotificationsStore, useUserStore } from '~/stores'
+import { useAlertsStore, useFlairsStore, useLocalesStore, useNotificationsStore, useSnackbarStore, useUserStore } from '~/stores'
+import { SnackType } from '~/types'
 
 export default defineNuxtPlugin(({ hook }) => {
   hook('app:suspense:resolve', () => {
@@ -20,6 +21,7 @@ export default defineNuxtPlugin(({ hook }) => {
     const localesStore = useLocalesStore(pinia)
     const userStore = useUserStore(pinia)
     const flairsStore = useFlairsStore(pinia)
+    const snackbarStore = useSnackbarStore(pinia)
 
     localesStore.loadLocale()
     flairsStore.fetchAllFlairs({ save: true })
@@ -29,6 +31,10 @@ export default defineNuxtPlugin(({ hook }) => {
         useFirebase.currentUser().value = user
         useFirebase.checkedFirstTime().value = true
         if (user) {
+          snackbarStore.createSnack({
+            type: SnackType.SUCCESS,
+            message: 'stores.user.success.login',
+          })
           userStore.getUser(user.uid, { save: true })
           notificationsStore.getMyNotifications({ save: true })
           // If the current route has a redirect, go for It.

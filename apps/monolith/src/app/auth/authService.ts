@@ -1,6 +1,8 @@
+import process from 'node:process'
 import type {
   AuthUserRegisterBody,
   AuthUserUpdateBody,
+  RecaptchaVerificationResponse,
 } from '@rpg-together/models'
 import {
   ApiError,
@@ -25,7 +27,8 @@ export class AuthService {
 
   async userRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
-      await new UsersService().checkUsernameExists(body.username)
+      await this.recaptchaVerify(body.recaptcha_token)
+      await new UsersService().checkUserExists(body.username, body.email)
       const newUser = await new UsersService().createUser({
         role: UserRoles.USER,
         username: body.username,
@@ -49,7 +52,8 @@ export class AuthService {
 
   async adminRegister(body: AuthUserRegisterBody): Promise<void> {
     try {
-      await new UsersService().checkUsernameExists(body.username)
+      await this.recaptchaVerify(body.recaptcha_token)
+      await new UsersService().checkUserExists(body.username, body.email)
       const newUser = await new UsersService().createUser({
         role: UserRoles.ADMIN,
         username: body.username,
@@ -102,6 +106,29 @@ export class AuthService {
     try {
       await new UsersService().deleteUser(userId)
       await this._authRepo.deleteAuthUser(userId)
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
+  async recaptchaVerify(token: string): Promise<void> {
+    try {
+      const url = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_VERIFY_KEY}&response=${token}`
+      const response = await fetch(url, { method: 'POST' })
+      const data = await response.json() as RecaptchaVerificationResponse
+      if (!data.success) {
+        throw new ApiError(
+          ResponseCodes.BAD_REQUEST,
+          ResponseMessages.RECAPTCHA_TOKEN_INVALID,
+        )
+      }
+      if (data.score < 0.5) {
+        throw new ApiError(
+          ResponseCodes.UNAUTHORIZED,
+          ResponseMessages.RECAPTCHA_SCORE_TOO_LOW,
+        )
+      }
     }
     catch (error) {
       apiErrorHandler(error)

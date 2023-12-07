@@ -22,6 +22,11 @@ export class UsersRepositoryMongoDB implements IUsersRepository {
     return User.fromMongoDB(doc)
   }
 
+  async getUserByEmail(email: string) {
+    const doc = await this._collection.findOne({ email })
+    return User.fromMongoDB(doc)
+  }
+
   async getUser(userId: string) {
     const doc = await this._collection.findOne({ id: userId })
     return User.fromMongoDB(doc)

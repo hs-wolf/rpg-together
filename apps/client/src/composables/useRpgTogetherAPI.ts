@@ -35,6 +35,13 @@ export default {
       method,
     })
   },
+  async verifyRecaptcha({ token }: { token: string }, options?: Options) {
+    const { path, method } = API_ENDPOINTS_REQUESTS.verifyRecaptcha(token)
+    return this.customFetch<void>(path, {
+      ...options,
+      method,
+    })
+  },
   // ANNOUNCEMENT REQUESTS
   async createAnnouncement(options?: Options) {
     const { path, method } = API_ENDPOINTS_REQUESTS.createAnnouncement()

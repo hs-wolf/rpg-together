@@ -57,7 +57,7 @@ export class UsersService {
   async updateUser(userId: string, body: UserUpdateBody): Promise<User> {
     try {
       if (body.username)
-        await this.checkUsernameExists(body.username)
+        await this.checkUserExists(body.username, body.email)
 
       const oldUser = await this.getUser(userId)
       const newUser = User.fromMap({ ...oldUser, ...body })
@@ -81,13 +81,20 @@ export class UsersService {
     }
   }
 
-  async checkUsernameExists(username: string) {
+  async checkUserExists(username: string, email: string) {
     try {
-      const user = await this._usersRepo.getUserByUsername(username)
-      if (user) {
+      const userByName = await this._usersRepo.getUserByUsername(username)
+      if (userByName) {
         throw new ApiError(
           ResponseCodes.BAD_REQUEST,
           ResponseMessages.USERNAME_TAKEN,
+        )
+      }
+      const userByEmail = await this._usersRepo.getUserByEmail(email)
+      if (userByEmail) {
+        throw new ApiError(
+          ResponseCodes.BAD_REQUEST,
+          ResponseMessages.EMAIL_TAKEN,
         )
       }
     }
