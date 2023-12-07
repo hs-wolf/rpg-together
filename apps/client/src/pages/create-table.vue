@@ -155,7 +155,7 @@ const onSubmit = handleSubmit(async (values) => {
           </label>
         </div>
       </div>
-      <FlairsMenu :open="!creatingTable" @change="updateFlairs" />
+      <FlairsMenu v-model="flairsValue" :open="!creatingTable" @change="updateFlairs" />
       <FormTextarea
         v-model="acceptMessageValue"
         :name="formFields['accept-message'].name"
