@@ -7,6 +7,7 @@ const props = defineProps<{
   placeholderMessage: string
   searchMessage: string
   emptyMessage: string
+  enableSearch: boolean
 }>()
 const emits = defineEmits<{ (_e: 'changeOptions', _items: AdvancedSelectOption[]): void }>()
 
@@ -60,45 +61,45 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="componentRef" class="relative flex flex-col shadow text-sm" :class="{ 'w-full': showOptions }">
+  <div ref="componentRef" class="relative flex flex-col shadow text-sm lg:text-base" :class="{ 'w-full': showOptions }">
     <div
       class="flex flex-col border bg-primary-dark"
-      :class="[showOptions ? 'border-accent-dark rounded-t' : 'border-primary-light rounded']"
+      :class="[showOptions ? 'border-accent-dark rounded-t-sm' : 'border-primary-light rounded-sm']"
     >
-      <div class="flex flex-col">
-        <button
-          class="flex items-center gap-1 p-3 text-secondary"
-          :class="{ 'w-full': !showOptions }"
-          @click.prevent="showOptions = !showOptions"
-        >
-          <p class="font-medium leading-none">
-            {{ placeholderMessage }}
-          </p>
-          <NuxtIcon name="chevron-up" class="transition-transform" :class="showOptions ? 'rotate-0' : 'rotate-180'" />
-        </button>
-      </div>
-      <div class="flex flex-wrap gap-2 px-3" :class="{ 'pb-3': selectedOptions.length }">
-        <TransitionGroup name="fade">
-          <button
-            v-for="(option, index) in selectedOptions"
-            :key="option.name"
-            class="flex items-center gap-1 px-1 py-0.5 bg-accent-dark rounded text-xs text-secondary"
-            @click.prevent="removeOption(index)"
-          >
-            <p class="leading-none">
-              {{ option.label }}
-            </p>
-            <NuxtIcon name="x-close" />
-          </button>
-        </TransitionGroup>
-      </div>
+      <button
+        class="flex items-center gap-1 p-2 lg:p-3 text-secondary"
+        :class="{ 'w-full': !showOptions }"
+        @click.prevent="showOptions = !showOptions"
+      >
+        <p class="font-medium">
+          {{ placeholderMessage }}
+        </p>
+        <NuxtIcon name="chevron-up" class="transition-transform lg:text-lg" :class="showOptions ? 'rotate-0' : 'rotate-180'" />
+      </button>
+      <Transition name="fade">
+        <div v-if="selectedOptions.length" class="flex flex-wrap gap-2 px-2 lg:px-3" :class="{ 'pb-2 lg:pb-3': selectedOptions.length }">
+          <TransitionGroup name="fade">
+            <button
+              v-for="(option, index) in selectedOptions"
+              :key="option.name"
+              class="flex items-center gap-1 px-1 py-0.5 lg:py-1 lg:px-1.5 bg-accent-dark rounded-sm text-xs lg:text-sm text-secondary"
+              @click.prevent="removeOption(index)"
+            >
+              <p class="leading-none">
+                {{ option.label }}
+              </p>
+              <NuxtIcon name="x-close" />
+            </button>
+          </TransitionGroup>
+        </div>
+      </Transition>
     </div>
     <Transition name="fade">
       <div
         v-if="showOptions"
-        class="z-10 absolute top-[calc(100%-1px)] inset-x-0 flex flex-col bg-primary-dark border border-accent-dark rounded-b text-sm text-secondary"
+        class="relative -top-[1px] flex flex-col bg-primary-dark border border-accent-dark rounded-b-sm text-sm lg:text-base text-secondary"
       >
-        <div v-if="showOptions" class="flex bg-primary">
+        <div v-if="showOptions && enableSearch" class="flex bg-primary">
           <NuxtIcon name="search-tool" class="p-3 text-accent-light" />
           <input
             v-model="optionsQuery"
@@ -107,16 +108,16 @@ defineExpose({
             class="w-full bg-transparent outline-none placeholder-accent-light placeholder:font-normal text-secondary font-medium leading-none"
           >
         </div>
-        <div class="flex flex-col max-h-[190px] overflow-y-auto">
+        <div class="flex flex-col" :class="{ 'max-h-[190px] overflow-y-auto': enableSearch }">
           <button
             v-for="option in filteredOptions"
             :key="option.name"
-            class="p-3 text-start leading-none active:bg-accent-dark"
+            class="p-2 lg:p-3 text-start active:bg-accent-dark"
             @click.prevent="insertOption(option)"
           >
             {{ option.label }}
           </button>
-          <p v-if="!filteredOptions.length" class="px-3 py-6 text-secondary-dark leading-none">
+          <p v-if="!filteredOptions.length" class="px-2 py-4 lg:px-3 lg:py-5 text-secondary-dark leading-none">
             {{ emptyMessage }}
           </p>
         </div>

@@ -30,38 +30,41 @@ function selectNotificationTypes(options: AdvancedSelectOption[]) {
 </script>
 
 <template>
-  <div class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-5 lg:gap-7">
     <PageTitle :title="$t('pages.notifications.title')" />
-    <div class="flex flex-col gap-3 p-3">
-      <button class="btn-primary gap-2" @click.prevent="notificationsStore.readAllNotifications">
-        <p>{{ $t('pages.notifications.mark-all-read') }}</p>
-        <NuxtIcon name="check" />
-      </button>
-      <i18n-t keypath="pages.notifications.unreads" tag="h1" scope="global" class="p-3 text-center">
-        <template #number>
-          <span class="font-semibold">{{ unreadNotifications }}</span>
-        </template>
-      </i18n-t>
-    </div>
-    <div v-if="notifications.length" class="px-2">
-      <AdvancedSelect
-        :options="notificationTypes"
-        :placeholder-message="$t('pages.notifications.notification-types')"
-        :search-message="$t('pages.notifications.serch-type')"
-        :empty-message="$t('pages.notifications.no-types-left')"
-        :enable-search="false"
-        @change-options="selectNotificationTypes"
-      />
-    </div>
-    <div v-if="!firstSearch || filteredNotifications.length" class="flex flex-col p-2">
-      <LoadingCard v-if="!firstSearch" />
-      <div v-else-if="filteredNotifications.length" class="flex flex-col gap-2">
-        <NotificationsCard
-          v-for="notification in filteredNotifications"
-          :key="notification.id"
-          :notification="notification"
-          @mark-as-read="notificationsStore.readNotification(notification.id)"
+    <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
+      <div class="flex flex-col gap-3 lg:gap-5">
+        <button class="btn-primary gap-2" @click.prevent="notificationsStore.readAllNotifications">
+          <p>{{ $t('pages.notifications.mark-all-read') }}</p>
+          <NuxtIcon name="check" class="lg:text-lg" />
+        </button>
+        <i18n-t keypath="pages.notifications.unreads" tag="p" scope="global" class="py-3 text-center text-sm lg:text-base">
+          <template #number>
+            <span class="font-semibold">{{ unreadNotifications }}</span>
+          </template>
+        </i18n-t>
+      </div>
+      <div class="flex flex-col gap-3 lg:gap-5">
+        <AdvancedSelect
+          v-if="notifications.length"
+          :options="notificationTypes"
+          :placeholder-message="$t('pages.notifications.notification-types')"
+          :search-message="$t('pages.notifications.serch-type')"
+          :empty-message="$t('pages.notifications.no-types-left')"
+          :enable-search="false"
+          @change-options="selectNotificationTypes"
         />
+        <div v-if="!firstSearch || filteredNotifications.length" class="flex flex-col">
+          <LoadingCard v-if="!firstSearch" />
+          <div v-else-if="filteredNotifications.length" class="flex flex-col gap-2">
+            <NotificationsCard
+              v-for="notification in filteredNotifications"
+              :key="notification.id"
+              :notification="notification"
+              @mark-as-read="notificationsStore.readNotification(notification.id)"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>

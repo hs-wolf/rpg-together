@@ -26,24 +26,27 @@ watch(firebaseUser, () => checkOwnProfile())
 
 function checkOwnProfile() {
   if (firebaseUser.value?.uid === userId)
-    return navigateTo(localeRoute({ name: 'profile' }))
+    return navigateTo(localeRoute({ name: 'profile' }), { replace: true })
 }
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-5 lg:gap-7">
     <PageTitle :title="user?.username ?? $t('profile.title')" :back="true" />
-    <div class="flex flex-col items-center gap-4">
-      <NuxtImg
-        :src="user?.avatar ?? DEFAULT_USER_AVATAR"
-        :alt="user?.username ?? $t('profile.title')"
-        width="180"
-        height="180"
-        sizes="sm:100vw md:50vw lg:50vw"
-        format="webp"
-        class="w-[50vw] h-[50vw] rounded-sm shadow object-cover"
-      />
-      <p class="text-xs">
+    <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
+      <div class="flex flex-col items-center lg:items-start gap-3 lg:gap-5">
+        <NuxtImg
+          :src="user?.avatar ?? DEFAULT_USER_AVATAR"
+          :alt="user?.username ?? $t('profile.title')"
+          width="180"
+          height="180"
+          class="w-[180px] lg:w-[256px] rounded-sm shadow object-cover"
+        />
+        <h1 class="text-2xl lg:text-3xl font-semibold">
+          {{ user?.username }}
+        </h1>
+      </div>
+      <p class="text-xs text-center lg:text-start">
         {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
       </p>
     </div>
