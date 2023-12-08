@@ -20,19 +20,21 @@ onBeforeMount(async () => {
 
 <template>
   <LoadingIcon v-if="!table" />
-  <div v-else class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
+  <div v-else class="flex flex-col gap-5 lg:gap-7">
     <PageTitle :title="$t('my-tables-applications.title', { table: table.title })" back="my-tables" />
-    <p v-if="!applications.length" class="p-4 text-sm text-center text-secondary-dark">
-      {{ $t('my-tables-applications.no-applications') }}
-    </p>
-    <div v-else class="flex flex-col gap-4 px-2">
-      <MyTablesApplicationCard
-        v-for="application in applications"
-        :key="application.id"
-        :application="application"
-        @accept="application.status = ApplicationStatus.ACCEPTED"
-        @decline="application.status = ApplicationStatus.DECLINED"
-      />
+    <div class="flex flex-col w-full px-2 lg:px-0 lg:max-w-5xl lg:mx-auto">
+      <p v-if="!applications.length" class="p-5 lg:p-7 text-sm lg:text-base text-center text-secondary-dark">
+        {{ $t('my-tables-applications.no-applications') }}
+      </p>
+      <div v-else class="flex flex-col gap-3">
+        <MyTablesApplicationCard
+          v-for="application in applications"
+          :key="application.id"
+          :application="application"
+          @accept="application.status = ApplicationStatus.ACCEPTED"
+          @decline="application.status = ApplicationStatus.DECLINED"
+        />
+      </div>
     </div>
   </div>
 </template>

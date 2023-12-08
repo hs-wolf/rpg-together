@@ -46,7 +46,7 @@ function checkOwnProfile() {
           {{ user?.username }}
         </h1>
       </div>
-      <p class="text-xs">
+      <p class="text-xs text-center lg:text-start">
         {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
       </p>
     </div>

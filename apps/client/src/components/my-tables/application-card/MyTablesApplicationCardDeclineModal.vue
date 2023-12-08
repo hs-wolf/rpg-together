@@ -2,7 +2,7 @@
 import type { Application } from '@rpg-together/models'
 import { useApplicationsStore } from '~/stores'
 
-const props = defineProps<{ show: boolean; application: Application }>()
+const props = defineProps<{ application: Application }>()
 
 const emits = defineEmits<{ (_e: 'close'): void; (_e: 'decline'): void }>()
 
@@ -29,12 +29,12 @@ onClickOutside(cardRef, () => closeModal())
 
 <template>
   <Transition name="fade">
-    <div v-if="show" class="modal justify-center p-3">
-      <div ref="cardRef" class="card-primary gap-3">
-        <h1 class="text-danger font-semibold">
+    <div class="modal justify-center p-3 lg:p-0">
+      <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+        <h1 class="text-danger font-semibold lg:text-lg">
           {{ $t('my-tables-application-card.decline-modal.title') }}
         </h1>
-        <i18n-t keypath="my-tables-application-card.decline-modal.message" tag="p" scope="global" class="text-sm">
+        <i18n-t keypath="my-tables-application-card.decline-modal.message" tag="p" scope="global" class="text-sm lg:text-base">
           <template #user>
             <span class="font-semibold">
               {{ application?.applicant.username }}
