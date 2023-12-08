@@ -39,7 +39,7 @@ export default defineNuxtPlugin(({ hook }) => {
           notificationsStore.getMyNotifications({ save: true })
           // If the current route has a redirect, go for It.
           if (route.query.redirect)
-            return navigateTo(localePath(route.query.redirect.toString()))
+            return navigateTo(localePath(route.query.redirect.toString()), { replace: true })
           // If the current route needs you logged out, go to home page.
           if (route.meta.middleware && (route.meta.middleware as MiddlewareKey[]).includes('logged-out'))
             return navigateTo(localePath('/'))
@@ -48,7 +48,7 @@ export default defineNuxtPlugin(({ hook }) => {
           userStore.$reset()
           // If the current route has a redirect, go for It.
           if (route.query.redirect)
-            return navigateTo(localePath(route.query.redirect.toString()))
+            return navigateTo(localePath(route.query.redirect.toString()), { replace: true })
           // If the current route needs you logged in, go to login page.
           if (route.meta.middleware && (route.meta.middleware as MiddlewareKey[]).includes('logged-in'))
             return navigateTo(localePath({ name: 'login', query: { redirect: route.fullPath } }))
