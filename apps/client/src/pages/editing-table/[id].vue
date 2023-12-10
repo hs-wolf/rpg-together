@@ -154,9 +154,9 @@ onMounted(async () => {
 
 <template>
   <LoadingIcon v-if="!table" />
-  <div v-else class="flex flex-col gap-4 h-full pb-3 overflow-y-auto hide-scrollbar">
+  <div v-else class="flex flex-col gap-5 lg:gap-7">
     <PageTitle :title="$t('edit-table.title')" back="my-tables" />
-    <div class="flex flex-col gap-4 px-2">
+    <div class="flex flex-col gap-3 lg:gap-5 px-2 lg:px-0 w-full lg:max-w-xl lg:mx-auto">
       <FormInput
         v-model="titleValue"
         :name="formFields.title.name"
@@ -232,7 +232,7 @@ onMounted(async () => {
         </template>
       </FormTextarea>
       <LoadingCard v-if="updatingTable" />
-      <div v-else class="flex flex-col gap-3">
+      <div v-else class="flex flex-col gap-3 mt-3">
         <button class="btn-accent" :disabled="updatingTable" @click.prevent="onSubmit">
           {{ $t('edit-table.submit') }}
         </button>

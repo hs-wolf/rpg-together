@@ -15,8 +15,8 @@ function confirm() {
 
 <template>
   <Transition name="fade">
-    <div v-if="show" class="modal justify-center p-3">
-      <div ref="cardRef" class="card-primary gap-3">
+    <div v-if="show" class="modal justify-center">
+      <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
         <h1 class="text-danger font-semibold">
           {{ $t('discard-changes-dialog.title') }}
         </h1>

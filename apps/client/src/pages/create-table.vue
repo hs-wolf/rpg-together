@@ -93,9 +93,9 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 h-full overflow-y-auto hide-scrollbar">
+  <div class="flex flex-col gap-5 lg:gap-7">
     <PageTitle :title="$t('create-table.title')" back="my-tables" />
-    <div class="flex flex-col gap-4 px-2">
+    <div class="flex flex-col gap-3 lg:gap-5 px-2 lg:px-0 w-full lg:max-w-xl lg:mx-auto">
       <FormInput
         v-model="titleValue"
         :name="formFields.title.name"
@@ -171,7 +171,7 @@ const onSubmit = handleSubmit(async (values) => {
         </template>
       </FormTextarea>
       <LoadingCard v-if="creatingTable" />
-      <div v-else class="flex flex-col gap-3">
+      <div v-else class="flex flex-col gap-3 mt-3">
         <button class="btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
           {{ $t('create-table.submit') }}
         </button>
