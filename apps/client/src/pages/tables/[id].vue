@@ -37,48 +37,47 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div v-if="table" class="flex flex-col h-full overflow-y-auto hide-scrollbar">
+  <div v-if="table" class="flex flex-col lg:gap-7">
     <PageTitle :title="table?.title" :back="true" />
-    <NuxtImg
-      :src="table?.banner ?? DEFAULT_TABLE_BANNER"
-      :alt="table?.title"
-      width="128"
-      height="128"
-      sizes="sm:100vw md:50vw lg:400px"
-      format="webp"
-      class="w-full object-contain"
-    />
-    <div class="flex flex-col gap-4 px-2 py-4">
-      <p class="font-roboto-slab whitespace-pre-line">
-        {{ table?.description }}
-      </p>
-      <div class="flex flex-col gap-1">
-        <div v-if="table?.flairs && table?.flairs.length" class="flex flex-wrap items-center gap-1">
+    <div class="flex flex-col gap-3 lg:gap-5 w-full lg:max-w-5xl lg:mx-auto lg:grid lg:grid-cols-2">
+      <NuxtImg
+        :src="table?.banner ?? DEFAULT_TABLE_BANNER"
+        :alt="table?.title"
+        width="128"
+        height="128"
+        sizes="sm:100vw md:50vw lg:400px"
+        format="webp"
+        class="w-full object-contain"
+      />
+      <div class="flex flex-col gap-3 px-2 lg:px-0">
+        <p class="font-roboto-slab whitespace-pre-line lg:text-lg">
+          {{ table?.description }}
+        </p>
+        <div v-if="table?.flairs && table?.flairs.length" class="flex flex-wrap items-center gap-1 lg:gap-2">
           <div
             v-for="flair in table.flairs"
             :key="flair"
-            class="flex items-center px-1 py-0.5 bg-accent shadow rounded-sm text-sm text-secondary"
+            class="flex items-center px-1 lg:px-1.5 lg:py-0.5 bg-accent shadow rounded-sm text-sm lg:text-base text-secondary"
           >
             {{ flairsStore.getFlairLabel(flair) }}
           </div>
         </div>
-      </div>
-      <div class="flex flex-col">
-        <button v-if="showApplicationButton" class="btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
-          <NuxtIcon name="apply" />
-          <p>{{ $t('tables.apply-to-table') }}</p>
-        </button>
-        <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn-primary gap-2">
-          <NuxtIcon name="edit-pencil" />
-          <p>{{ $t('tables.youre-the-owner') }}</p>
-        </NuxtLink>
-        <div v-else class="flex justify-center items-center gap-2 text-sm text-center text-secondary-dark">
-          <NuxtIcon name="apply" />
-          <p>{{ $t('tables.already-applied') }}</p>
+        <div class="flex flex-col mt-3">
+          <button v-if="showApplicationButton" class="btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
+            <NuxtIcon name="apply" />
+            <p>{{ $t('tables.apply-to-table') }}</p>
+          </button>
+          <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn-primary gap-2">
+            <NuxtIcon name="edit-pencil" />
+            <p>{{ $t('tables.youre-the-owner') }}</p>
+          </NuxtLink>
+          <div v-else class="flex justify-center items-center lg:justify-start gap-2 text-sm lg:text-base text-center text-secondary-dark">
+            <NuxtIcon name="apply" />
+            <p>{{ $t('tables.already-applied') }}</p>
+          </div>
         </div>
       </div>
     </div>
-
     <TablesApply
       :show="showApplicationMenu"
       :table="table"
