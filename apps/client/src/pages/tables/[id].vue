@@ -15,7 +15,7 @@ const table = ref<Table>()
 const existingApplication = ref<Application | null>()
 const showApplicationMenu = ref(false)
 
-useHead({ title: () => table.value?.title ?? useNuxtApp().$i18n.t('tables.title') })
+useHead({ title: () => table.value?.title ?? useNuxtApp().$i18n.t('components.tables.title') })
 
 const showApplicationButton = computed(() => table.value?.owner.id !== firebaseUser.value?.uid && !existingApplication.value)
 
@@ -65,15 +65,15 @@ onBeforeMount(async () => {
         <div class="flex flex-col mt-3">
           <button v-if="showApplicationButton" class="btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
             <NuxtIcon name="apply" />
-            <p>{{ $t('tables.apply-to-table') }}</p>
+            <p>{{ $t('components.tables.apply-to-table') }}</p>
           </button>
           <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn-primary gap-2">
             <NuxtIcon name="edit-pencil" />
-            <p>{{ $t('tables.youre-the-owner') }}</p>
+            <p>{{ $t('components.tables.youre-the-owner') }}</p>
           </NuxtLink>
           <div v-else class="flex justify-center items-center lg:justify-start gap-2 text-sm lg:text-base text-center text-secondary-dark">
             <NuxtIcon name="apply" />
-            <p>{{ $t('tables.already-applied') }}</p>
+            <p>{{ $t('components.tables.already-applied') }}</p>
           </div>
         </div>
       </div>

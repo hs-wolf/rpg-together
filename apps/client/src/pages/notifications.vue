@@ -14,7 +14,7 @@ const { notifications, firstSearch, unreadNotifications } = storeToRefs(notifica
 
 const notificationTypes: AdvancedSelectOption[] = Object.values(NotificationType).map(notificationType => ({
   name: notificationType,
-  label: t(`notification-type.${notificationType}`),
+  label: t(`notifications.type.${notificationType}`),
 }))
 
 const selectedNotificationTypes = ref<AdvancedSelectOption[]>([])

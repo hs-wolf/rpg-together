@@ -25,8 +25,8 @@ const showConfirmCard = ref(false)
 const formFields = {
   password: {
     name: 'password',
-    label: 'my-tables-delete-table.form.password.label',
-    placeholder: 'my-tables-delete-table.form.password.placeholder',
+    label: 'components.my-tables.delete-table.form.password.label',
+    placeholder: 'components.my-tables.delete-table.form.password.placeholder',
   },
 }
 
@@ -53,10 +53,10 @@ const onSubmit = handleSubmit(async (values) => {
     <div v-if="table" class="modal justify-center">
       <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
         <h1 class="text-danger font-semibold lg:text-lg">
-          {{ $t('my-tables-delete-table.title') }}
+          {{ $t('components.my-tables.delete-table.title') }}
         </h1>
         <p class="text-sm lg:text-base">
-          {{ $t('my-tables-delete-table.confirmation') }}
+          {{ $t('components.my-tables.delete-table.confirmation') }}
         </p>
         <FormInput
           v-model="passwordValue"
@@ -82,10 +82,10 @@ const onSubmit = handleSubmit(async (values) => {
         <div v-else class="flex flex-col gap-3 mt-3">
           <div class="grid grid-cols-2 gap-3">
             <button class="btn-accent" @click.prevent="showConfirmCard = false">
-              {{ $t('my-tables-delete-table.back') }}
+              {{ $t('components.my-tables.delete-table.back') }}
             </button>
             <button class="btn-danger" @click.prevent="onSubmit">
-              {{ $t('my-tables-delete-table.confirm') }}
+              {{ $t('components.my-tables.delete-table.confirm') }}
             </button>
           </div>
           <FormErrorMessage :error="apiError ?? ''" />
@@ -93,17 +93,17 @@ const onSubmit = handleSubmit(async (values) => {
       </div>
       <div v-else ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
         <h1 class="text-danger font-semibold lg:text-lg">
-          {{ $t('my-tables-delete-table.title') }}
+          {{ $t('components.my-tables.delete-table.title') }}
         </h1>
         <p class="text-sm lg:text-base">
-          {{ $t('my-tables-delete-table.warning') }}
+          {{ $t('components.my-tables.delete-table.warning') }}
         </p>
         <div class="grid grid-cols-2 gap-3 mt-3">
           <button class="btn-accent" @click.prevent="emits('close')">
-            {{ $t('my-tables-delete-table.back') }}
+            {{ $t('components.my-tables.delete-table.back') }}
           </button>
           <button class="btn-primary" @click.prevent="showConfirmCard = true">
-            {{ $t('my-tables-delete-table.understand') }}
+            {{ $t('components.my-tables.delete-table.understand') }}
           </button>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Table } from '@rpg-together/models'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useSearchStore } from '~/stores'
 
-useHead({ title: useNuxtApp().$i18n.t('search.title') })
+useHead({ title: useNuxtApp().$i18n.t('pages.search.title') })
 
 const { result, search } = useAlgoliaSearch('dev_tables')
 const searchStore = useSearchStore()
@@ -81,7 +81,7 @@ onMounted(async () => {
 
 <template>
   <div ref="pageRef" class="flex flex-col gap-3 h-full overflow-y-auto lg:gap-5">
-    <PageTitle :title="$t('search.title')" />
+    <PageTitle :title="$t('pages.search.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col gap-2">
         <div class="relative flex items-center py-2 border border-primary-light rounded lg:py-3">
@@ -89,7 +89,7 @@ onMounted(async () => {
           <input
             v-model="query"
             type="text"
-            :placeholder="$t('search.search')"
+            :placeholder="$t('pages.search.search')"
             class="w-full h-full px-[42px] outline-none bg-transparent lg:px-[52px] text-sm lg:text-base"
           >
           <button
@@ -112,15 +112,15 @@ onMounted(async () => {
             <TablesCard v-for="table in tables" :key="table.id" :table="table" />
           </div>
           <p v-if="noMoreTables" class="py-8 lg:py-16 text-sm text-center">
-            {{ $t('search.no-more-tables') }}
+            {{ $t('pages.search.no-more-tables') }}
           </p>
           <button v-else class="btn-accent" @click.prevent="searchDebounceFn(true)">
-            {{ $t('search.load-more') }}
+            {{ $t('pages.search.load-more') }}
           </button>
         </div>
         <LoadingCard v-else-if="!firstSearchMade" />
         <p v-else class="py-8 lg:py-16 text-sm text-center text-secondary-dark">
-          {{ $t('search.no-tables-found') }}
+          {{ $t('pages.search.no-tables-found') }}
         </p>
       </div>
     </div>

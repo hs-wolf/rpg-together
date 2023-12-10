@@ -13,7 +13,7 @@ import { SnackType } from '~/types'
 import { useSnackbarStore, useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('edit-table.title') })
+useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title') })
 
 const tableId = useRoute().params.id as string
 const localeRoute = useLocaleRoute()
@@ -31,28 +31,28 @@ const bannerImageFile = ref<File>()
 const formFields = {
   'title': {
     name: 'title',
-    label: 'edit-table.form.title.label',
-    placeholder: 'edit-table.form.title.placeholder',
+    label: 'pages.edit-table.form.title.label',
+    placeholder: 'pages.edit-table.form.title.placeholder',
   },
   'description': {
     name: 'description',
-    label: 'edit-table.form.description.label',
-    placeholder: 'edit-table.form.description.placeholder',
+    label: 'pages.edit-table.form.description.label',
+    placeholder: 'pages.edit-table.form.description.placeholder',
   },
   'banner-url': {
     name: 'banner-url',
-    label: 'edit-table.form.banner-url.label',
-    placeholder: 'edit-table.form.banner-url.placeholder',
+    label: 'pages.edit-table.form.banner-url.label',
+    placeholder: 'pages.edit-table.form.banner-url.placeholder',
   },
   'flairs': {
     name: 'flairs',
-    label: 'edit-table.form.flairs.label',
-    placeholder: 'edit-table.form.flairs.placeholder',
+    label: 'pages.edit-table.form.flairs.label',
+    placeholder: 'pages.edit-table.form.flairs.placeholder',
   },
   'accept-message': {
     name: 'accept-message',
-    label: 'edit-table.form.accept-message.label',
-    placeholder: 'edit-table.form.accept-message.placeholder',
+    label: 'pages.edit-table.form.accept-message.label',
+    placeholder: 'pages.edit-table.form.accept-message.placeholder',
   },
 }
 
@@ -139,7 +139,7 @@ onMounted(async () => {
   table.value = await tablesStore.getTable(tableId)
   acceptMessage.value = await useRpgTogetherAPI.getTableAcceptMessage({ tableId: table.value?.id ?? '' })
   if (!table) {
-    useSnackbarStore().createSnack({ type: SnackType.ERROR, message: 'edit-table.table-not-found' })
+    useSnackbarStore().createSnack({ type: SnackType.ERROR, message: 'pages.edit-table.table-not-found' })
     return navigateTo(localeRoute({ name: 'my-tables' }))
   }
   setValues({
@@ -155,7 +155,7 @@ onMounted(async () => {
 <template>
   <LoadingIcon v-if="!table" />
   <div v-else class="flex flex-col gap-5 lg:gap-7">
-    <PageTitle :title="$t('edit-table.title')" back="my-tables" />
+    <PageTitle :title="$t('pages.edit-table.title')" back="my-tables" />
     <div class="flex flex-col gap-3 lg:gap-5 px-2 lg:px-0 w-full lg:max-w-xl lg:mx-auto">
       <FormInput
         v-model="titleValue"
@@ -234,7 +234,7 @@ onMounted(async () => {
       <LoadingCard v-if="updatingTable" />
       <div v-else class="flex flex-col gap-3 mt-3">
         <button class="btn-accent" :disabled="updatingTable" @click.prevent="onSubmit">
-          {{ $t('edit-table.submit') }}
+          {{ $t('pages.edit-table.submit') }}
         </button>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>

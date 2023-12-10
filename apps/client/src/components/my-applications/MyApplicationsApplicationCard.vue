@@ -69,7 +69,7 @@ onMounted(async () => {
       </NuxtLink>
       <NuxtLink :to="localeRoute({ path: `/tables/${application.table?.id}` })" class="btn-secondary gap-2">
         <NuxtIcon name="bar-table" class="text-xl lg:text-2xl" />
-        <p>{{ $t('my-applications-application-card.view-table') }}</p>
+        <p>{{ $t('components.my-applications.application-card.view-table') }}</p>
       </NuxtLink>
     </div>
     <div class="flex flex-col gap-[1px] shadow overflow-hidden">
@@ -80,7 +80,7 @@ onMounted(async () => {
       >
         <div class="flex items-center gap-2 text-start">
           <NuxtIcon :name="statusIcon" class="text-xl" :class="statusColor" />
-          <i18n-t keypath="my-applications-application-card.applying-to" tag="span" scope="global">
+          <i18n-t keypath="components.my-applications.application-card.applying-to" tag="span" scope="global">
             <template #text>
               <span class="lg:text-lg font-semibold break-all">{{ application.table.title }}</span>
             </template>
@@ -91,7 +91,7 @@ onMounted(async () => {
       <Transition name="slide-down">
         <div v-if="showInfo" class="card-secondary gap-5 rounded-t-none">
           <i18n-t
-            keypath="my-applications-application-card.your-message"
+            keypath="components.my-applications.application-card.your-message"
             tag="p"
             scope="global"
             class="flex flex-col gap-1 font-semibold"
@@ -103,7 +103,7 @@ onMounted(async () => {
             </template>
           </i18n-t>
           <hr class="border-secondary-dark">
-          <i18n-t keypath="my-applications-application-card.status" tag="p" scope="global" class="font-semibold">
+          <i18n-t keypath="components.my-applications.application-card.status" tag="p" scope="global" class="font-semibold">
             <template #text>
               <span class="lg:text-lg" :class="statusColor">
                 {{ application?.status }}
@@ -112,7 +112,7 @@ onMounted(async () => {
           </i18n-t>
           <i18n-t
             v-if="application.status === ApplicationStatus.ACCEPTED"
-            keypath="my-applications-application-card.owner-message"
+            keypath="components.my-applications.application-card.owner-message"
             tag="p"
             scope="global"
             class="flex flex-col gap-1 font-semibold"
@@ -124,7 +124,7 @@ onMounted(async () => {
             </template>
           </i18n-t>
           <p v-if="application.status === ApplicationStatus.DECLINED" class="lg:text-lg">
-            {{ $t('my-applications-application-card.declined-message') }}
+            {{ $t('components.my-applications.application-card.declined-message') }}
           </p>
           <div class="flex justify-end">
             <button class="btn-danger" @click.prevent="showDeleteModal = !showDeleteModal">

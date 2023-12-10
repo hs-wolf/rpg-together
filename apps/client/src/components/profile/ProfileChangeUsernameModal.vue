@@ -19,13 +19,13 @@ onClickOutside(cardRef, () => {
 const formFields = {
   username: {
     name: 'username',
-    label: 'profile-change-username-modal.form.username.label',
-    placeholder: 'profile-change-username-modal.form.username.placeholder',
+    label: 'components.profile.change-username-modal.form.username.label',
+    placeholder: 'components.profile.change-username-modal.form.username.placeholder',
   },
   password: {
     name: 'password',
-    label: 'profile-change-username-modal.form.password.label',
-    placeholder: 'profile-change-username-modal.form.password.placeholder',
+    label: 'components.profile.change-username-modal.form.password.label',
+    placeholder: 'components.profile.change-username-modal.form.password.placeholder',
   },
 }
 
@@ -56,9 +56,9 @@ const onSubmit = handleSubmit(async (values) => {
   <div class="modal justify-center p-3 lg:p-0">
     <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="font-semibold lg:text-lg">
-        {{ $t('profile-change-username-modal.title') }}
+        {{ $t('components.profile.change-username-modal.title') }}
       </h1>
-      <i18n-t keypath="profile-change-username-modal.current-name" tag="p" scope="global" class="text-sm lg:text-base">
+      <i18n-t keypath="components.profile.change-username-modal.current-name" tag="p" scope="global" class="text-sm lg:text-base">
         <template #name>
           <span class="font-semibold">{{ user?.username }}</span>
         </template>
@@ -100,10 +100,10 @@ const onSubmit = handleSubmit(async (values) => {
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
           <button class="btn-primary" @click.prevent="emits('close')">
-            {{ $t('profile-change-username-modal.back') }}
+            {{ $t('components.profile.change-username-modal.back') }}
           </button>
           <button class="btn-accent" @click.prevent="onSubmit">
-            {{ $t('profile-change-username-modal.save') }}
+            {{ $t('components.profile.change-username-modal.save') }}
           </button>
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">

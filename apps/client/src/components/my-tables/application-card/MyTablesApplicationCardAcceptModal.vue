@@ -31,9 +31,9 @@ onClickOutside(cardRef, () => closeModal())
   <div class="modal justify-center p-3 lg:p-0">
     <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="text-accent font-semibold lg:text-lg">
-        {{ $t('my-tables-application-card.accept-modal.title') }}
+        {{ $t('components.my-tables.application-card.accept-modal.title') }}
       </h1>
-      <i18n-t keypath="my-tables-application-card.accept-modal.message" tag="p" scope="global" class="text-sm lg:text-base">
+      <i18n-t keypath="components.my-tables.application-card.accept-modal.message" tag="p" scope="global" class="text-sm lg:text-base">
         <template #user>
           <span class="font-semibold">
             {{ application?.applicant.username }}
@@ -43,10 +43,10 @@ onClickOutside(cardRef, () => closeModal())
       <LoadingCard v-if="acceptingApplication" class="mt-3" />
       <div v-else class="grid grid-cols-2 gap-3 mt-3">
         <button class="btn-primary" @click.prevent="closeModal">
-          {{ $t('my-tables-application-card.accept-modal.back') }}
+          {{ $t('components.my-tables.application-card.accept-modal.back') }}
         </button>
         <button class="btn-accent" @click.prevent="acceptApplication">
-          {{ $t('my-tables-application-card.accept-modal.yes-accept') }}
+          {{ $t('components.my-tables.application-card.accept-modal.yes-accept') }}
         </button>
       </div>
     </div>

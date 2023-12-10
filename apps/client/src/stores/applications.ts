@@ -81,14 +81,14 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
         await useRpgTogetherAPI.createApplication({ body: values })
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'applications-store.success.create-application',
+          message: 'stores.applications.success.create-application',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'applications-store.error.create-application',
+          message: 'stores.applications.error.create-application',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -104,14 +104,14 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
         await useRpgTogetherAPI.acceptApplication({ applicationId })
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'applications-store.success.accept-application',
+          message: 'stores.applications.success.accept-application',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'applications-store.error.accept-application',
+          message: 'stores.applications.error.accept-application',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -127,14 +127,14 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
         await useRpgTogetherAPI.declineApplication({ applicationId })
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'applications-store.success.decline-application',
+          message: 'stores.applications.success.decline-application',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'applications-store.error.decline-application',
+          message: 'stores.applications.error.decline-application',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -161,14 +161,14 @@ export const useApplicationsStore = defineStore(APPLICATIONS_STORE, {
 
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'applications-store.success.delete-application',
+          message: 'stores.applications.success.delete-application',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'applications-store.error.delete-application',
+          message: 'stores.applications.error.delete-application',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }

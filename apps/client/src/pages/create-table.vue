@@ -11,7 +11,7 @@ import {
 import { useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('create-table.title') })
+useHead({ title: useNuxtApp().$i18n.t('pages.create-table.title') })
 
 const tablesStore = useTablesStore()
 const { creatingTable } = storeToRefs(tablesStore)
@@ -19,28 +19,28 @@ const { creatingTable } = storeToRefs(tablesStore)
 const formFields = {
   'title': {
     name: 'title',
-    label: 'create-table.form.title.label',
-    placeholder: 'create-table.form.title.placeholder',
+    label: 'pages.create-table.form.title.label',
+    placeholder: 'pages.create-table.form.title.placeholder',
   },
   'description': {
     name: 'description',
-    label: 'create-table.form.description.label',
-    placeholder: 'create-table.form.description.placeholder',
+    label: 'pages.create-table.form.description.label',
+    placeholder: 'pages.create-table.form.description.placeholder',
   },
   'banner-url': {
     name: 'banner-url',
-    label: 'create-table.form.banner-url.label',
-    placeholder: 'create-table.form.banner-url.placeholder',
+    label: 'pages.create-table.form.banner-url.label',
+    placeholder: 'pages.create-table.form.banner-url.placeholder',
   },
   'flairs': {
     name: 'flairs',
-    label: 'create-table.form.flairs.label',
-    placeholder: 'create-table.form.flairs.placeholder',
+    label: 'pages.create-table.form.flairs.label',
+    placeholder: 'pages.create-table.form.flairs.placeholder',
   },
   'accept-message': {
     name: 'accept-message',
-    label: 'create-table.form.accept-message.label',
-    placeholder: 'create-table.form.accept-message.placeholder',
+    label: 'pages.create-table.form.accept-message.label',
+    placeholder: 'pages.create-table.form.accept-message.placeholder',
   },
 }
 const formSchema = object({
@@ -94,7 +94,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <div class="flex flex-col gap-5 lg:gap-7">
-    <PageTitle :title="$t('create-table.title')" back="my-tables" />
+    <PageTitle :title="$t('pages.create-table.title')" back="my-tables" />
     <div class="flex flex-col gap-3 lg:gap-5 px-2 lg:px-0 w-full lg:max-w-xl lg:mx-auto">
       <FormInput
         v-model="titleValue"
@@ -173,7 +173,7 @@ const onSubmit = handleSubmit(async (values) => {
       <LoadingCard v-if="creatingTable" />
       <div v-else class="flex flex-col gap-3 mt-3">
         <button class="btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
-          {{ $t('create-table.submit') }}
+          {{ $t('pages.create-table.submit') }}
         </button>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
           <p>{{ apiError }}</p>

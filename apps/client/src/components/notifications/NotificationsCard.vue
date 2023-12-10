@@ -41,11 +41,11 @@ function onClick() {
     <div class="flex items-center gap-1" :class="notification.read ? 'text-primary-light' : 'text-accent'">
       <NuxtIcon name="bell" />
       <h1 class="text-sm font-medium lg:text-base">
-        {{ $t(`notification-titles.${notification.content}`) }}
+        {{ $t(`notifications.titles.${notification.content}`) }}
       </h1>
     </div>
     <i18n-t
-      :keypath="`notification-messages.${notification.content}`"
+      :keypath="`notifications.messages.${notification.content}`"
       tag="p"
       scope="global"
       class="text-xs lg:text-sm"

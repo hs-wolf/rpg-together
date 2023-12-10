@@ -34,7 +34,7 @@ const showInfo = ref(false)
       <p class="font-semibold" :class="applications.length ? 'text-accent ' : 'opacity-50'">
         {{ applications.length }}
       </p>
-      <p>{{ $t('my-tables-table-card.applicants', applications.length) }}</p>
+      <p>{{ $t('components.my-tables.table-card.applicants', applications.length) }}</p>
     </NuxtLink>
     <div class="flex flex-col gap-[1px] shadow overflow-hidden">
       <button
@@ -42,7 +42,7 @@ const showInfo = ref(false)
         :class="{ 'rounded-b-sm': !showInfo }"
         @click.prevent="showInfo = !showInfo"
       >
-        <i18n-t keypath="my-tables-table-card.title" tag="h1" scope="global" class="text-start">
+        <i18n-t keypath="components.my-tables.table-card.title" tag="h1" scope="global" class="text-start">
           <template #text>
             <span class="lg:text-lg font-semibold break-all">{{ table.title }}</span>
           </template>
@@ -54,21 +54,21 @@ const showInfo = ref(false)
           <div class="flex flex-wrap justify-end gap-3 lg:gap-5 w-full">
             <NuxtLink :to="localePath({ path: `/editing-table/${table?.id}` })" class="btn-accent gap-2">
               <NuxtIcon name="edit-pencil" />
-              <p>{{ $t('my-tables-table-card.edit') }}</p>
+              <p>{{ $t('components.my-tables.table-card.edit') }}</p>
             </NuxtLink>
             <NuxtLink :to="localePath({ path: `/tables/${table?.id}` })" class="btn-secondary gap-2">
               <NuxtIcon name="eye-open" />
-              <p>{{ $t('my-tables-table-card.view') }}</p>
+              <p>{{ $t('components.my-tables.table-card.view') }}</p>
             </NuxtLink>
           </div>
-          <i18n-t keypath="my-tables-table-card.description" tag="p" scope="global" class="font-semibold leading-5">
+          <i18n-t keypath="components.my-tables.table-card.description" tag="p" scope="global" class="font-semibold leading-5">
             <template #text>
               <span class="font-normal whitespace-pre-line lg:text-lg">{{ table.description }}</span>
             </template>
           </i18n-t>
           <div v-if="table.flairs && table.flairs.length" class="flex flex-wrap items-center gap-1 lg:gap-2">
             <p class="font-semibold lg:text-lg">
-              {{ $t('my-tables-table-card.flairs') }}
+              {{ $t('components.my-tables.table-card.flairs') }}
             </p>
             <div
               v-for="flair in table.flairs"
@@ -79,7 +79,7 @@ const showInfo = ref(false)
             </div>
           </div>
           <button class="btn-danger self-end" @click.prevent="$emit('delete', table)">
-            {{ $t('my-tables-table-card.delete') }}
+            {{ $t('components.my-tables.table-card.delete') }}
           </button>
         </div>
       </Transition>

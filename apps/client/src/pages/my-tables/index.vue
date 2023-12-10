@@ -4,7 +4,7 @@ import { LIMIT_OF_TABLES } from '@rpg-together/utilities'
 import { useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('my-tables.title') })
+useHead({ title: useNuxtApp().$i18n.t('components.my-tables.title') })
 
 const localePath = useLocalePath()
 const tablesStore = useTablesStore()
@@ -22,9 +22,9 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col gap-5 lg:gap-7">
-    <PageTitle :title="$t('my-tables.title')" />
+    <PageTitle :title="$t('components.my-tables.title')" />
     <div class="flex justify-between items-center w-full px-2 lg:px-0 lg:max-w-5xl lg:mx-auto">
-      <i18n-t keypath="my-tables.tables-limit" tag="p" scope="global" class="text-sm lg:text-base leading-none">
+      <i18n-t keypath="components.my-tables.tables-limit" tag="p" scope="global" class="text-sm lg:text-base leading-none">
         <template #limit>
           <span class="font-semibold">{{ `${myTables.length} / ${LIMIT_OF_TABLES}` }}</span>
         </template>
@@ -33,7 +33,7 @@ onMounted(async () => {
         :to="localePath({ name: 'create-table' })"
         :class="enableCreateTable ? 'btn-accent' : 'btn-primary opacity-50 pointer-events-none'"
       >
-        {{ $t('my-tables.create-table') }}
+        {{ $t('components.my-tables.create-table') }}
       </NuxtLink>
     </div>
     <div class="flex flex-col gap-3 lg:gap-5 w-full px-2 lg:px-0 lg:max-w-5xl lg:mx-auto">

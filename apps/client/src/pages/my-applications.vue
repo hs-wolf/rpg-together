@@ -3,7 +3,7 @@ import { LIMIT_OF_APPLICATIONS } from '@rpg-together/utilities'
 import { useApplicationsStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('my-applications.title') })
+useHead({ title: useNuxtApp().$i18n.t('pages.my-applications.title') })
 
 const applicationsStore = useApplicationsStore()
 const { myApplications } = storeToRefs(applicationsStore)
@@ -16,9 +16,9 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col gap-5 lg:gap-7">
-    <PageTitle :title="$t('my-applications.title')" />
+    <PageTitle :title="$t('pages.my-applications.title')" />
     <div class="flex justify-between items-center w-full px-2 lg:px-0 lg:max-w-5xl lg:mx-auto">
-      <i18n-t keypath="my-applications.applications-limit" tag="p" scope="global" class="text-sm leading-none">
+      <i18n-t keypath="pages.my-applications.applications-limit" tag="p" scope="global" class="text-sm leading-none">
         <template #limit>
           <span class="font-semibold">{{ `${myApplications.length} / ${LIMIT_OF_APPLICATIONS}` }}</span>
         </template>
