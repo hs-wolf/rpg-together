@@ -84,7 +84,7 @@ onMounted(async () => {
     <PageTitle :title="$t('pages.search.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col gap-2">
-        <div class="relative flex items-center py-2 border border-primary-light rounded lg:py-3">
+        <div class="relative flex items-center py-2 border border-primary-1 rounded lg:py-3">
           <NuxtIcon name="search-tool" class="absolute px-3 text-lg pointer-events-none lg:px-4 lg:text-xl" />
           <input
             v-model="query"
@@ -101,7 +101,7 @@ onMounted(async () => {
         </div>
         <FlairsMenu v-model="flairs" />
       </div>
-      <i18n-t v-if="result?.nbHits" keypath="search.results-for" tag="h1" scope="global" class="text-sm text-center">
+      <i18n-t v-if="result?.nbHits" keypath="pages.search.results-for" tag="h1" scope="global" class="text-sm text-center">
         <template #amount>
           <span class="font-semibold">{{ result?.nbHits }}</span>
         </template>
@@ -119,7 +119,7 @@ onMounted(async () => {
           </button>
         </div>
         <LoadingCard v-else-if="!firstSearchMade" />
-        <p v-else class="py-8 lg:py-16 text-sm text-center text-secondary-dark">
+        <p v-else class="py-8 lg:py-16 text-sm text-center text-secondary-2">
           {{ $t('pages.search.no-tables-found') }}
         </p>
       </div>

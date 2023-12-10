@@ -30,8 +30,8 @@ const wrapperCustomClass = computed(() => {
   const border = props.error
     ? 'border-danger'
     : !props.theme || props.theme === 'primary'
-        ? 'border-primary-light'
-        : 'border-secondary-dark'
+        ? 'border-primary-1'
+        : 'border-secondary-2'
   return `${bg} ${text} ${border}`
 })
 </script>

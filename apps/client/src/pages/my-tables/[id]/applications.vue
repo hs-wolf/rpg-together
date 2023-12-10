@@ -23,7 +23,7 @@ onBeforeMount(async () => {
   <div v-else class="flex flex-col gap-5 lg:gap-7">
     <PageTitle :title="$t('components.my-tables.applications.title', { table: table.title })" back="my-tables" />
     <div class="flex flex-col w-full px-2 lg:px-0 lg:max-w-5xl lg:mx-auto">
-      <p v-if="!applications.length" class="p-5 lg:p-7 text-sm lg:text-base text-center text-secondary-dark">
+      <p v-if="!applications.length" class="p-5 lg:p-7 text-sm lg:text-base text-center text-secondary-2">
         {{ $t('components.my-tables.applications.no-applications') }}
       </p>
       <div v-else class="flex flex-col gap-3">

@@ -34,11 +34,11 @@ function onClick() {
 
 <template>
   <button
-    class="flex flex-col gap-0.5 p-2 lg:gap-1 lg:p-3 border border-primary-light rounded-sm text-start text-primary transition-transform active:scale-95"
-    :class="notification.read ? 'bg-secondary-dark' : 'bg-secondary'"
+    class="flex flex-col gap-0.5 p-2 lg:gap-1 lg:p-3 border border-primary-1 rounded-sm text-start text-primary transition-transform active:scale-95"
+    :class="notification.read ? 'bg-secondary-2' : 'bg-secondary'"
     @click.prevent="onClick"
   >
-    <div class="flex items-center gap-1" :class="notification.read ? 'text-primary-light' : 'text-accent'">
+    <div class="flex items-center gap-1" :class="notification.read ? 'text-primary-1' : 'text-accent'">
       <NuxtIcon name="bell" />
       <h1 class="text-sm font-medium lg:text-base">
         {{ $t(`notifications.titles.${notification.content}`) }}

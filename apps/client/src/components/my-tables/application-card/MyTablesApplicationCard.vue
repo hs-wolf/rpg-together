@@ -87,7 +87,7 @@ function declineApplication() {
             </span>
           </template>
         </i18n-t>
-        <hr class="border-secondary-dark">
+        <hr class="border-secondary-2">
         <i18n-t keypath="components.my-applications.application-card.status" tag="p" scope="global" class="text-sm lg:text-base font-semibold">
           <template #text>
             <span class="text-base lg:text-lg" :class="statusColor">

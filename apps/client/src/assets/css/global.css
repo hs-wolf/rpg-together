@@ -6,6 +6,7 @@ body {
   font-family: 'Poppins', sans-serif;
   @apply bg-primary text-secondary antialiased;
 }
+
 .nuxt-icon svg {
   margin-bottom: 0 !important;
 }
@@ -22,14 +23,15 @@ body {
   font-family: 'Roboto Slab', serif;
 }
 
-/* HELPERS */
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .error-message-arrow-up {
   width: 0;
   height: 0;

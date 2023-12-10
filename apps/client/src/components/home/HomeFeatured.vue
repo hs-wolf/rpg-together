@@ -36,7 +36,7 @@ onMounted(async () => {
       <TablesCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%] md:min-w-[60%] lg:min-w-[40%] h-fit" />
     </div>
     <LoadingCard v-else-if="!madeFirstSearch" />
-    <p v-else class="p-2 text-sm text-center text-secondary-dark">
+    <p v-else class="p-2 text-sm text-center text-secondary-2">
       {{ $t('components.home.featured.no-tables-found') }}
     </p>
   </div>

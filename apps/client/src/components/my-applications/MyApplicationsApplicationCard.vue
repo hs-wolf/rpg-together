@@ -102,7 +102,7 @@ onMounted(async () => {
               </span>
             </template>
           </i18n-t>
-          <hr class="border-secondary-dark">
+          <hr class="border-secondary-2">
           <i18n-t keypath="components.my-applications.application-card.status" tag="p" scope="global" class="font-semibold">
             <template #text>
               <span class="lg:text-lg" :class="statusColor">

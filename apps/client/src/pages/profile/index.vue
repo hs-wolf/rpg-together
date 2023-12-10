@@ -77,7 +77,7 @@ const currentAvatarUrl = computed(() =>
               <NuxtIcon name="edit-pencil" class="text-xl lg:text-2xl" />
             </button>
             <p>{{ $t('pages.profile.email') }}</p>
-            <p class="text-accent-light font-semibold break-all">
+            <p class="text-accent-1 font-semibold break-all">
               {{ user?.email }}
             </p>
           </div>
