@@ -6,7 +6,7 @@ defineProps<{ announcement: Announcement }>()
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 bg-primary-dark shadow shadow-primary-dark rounded-sm">
+  <div class="flex flex-col gap-2 bg-primary-2 shadow shadow-primary-2 rounded-sm">
     <div class="flex flex-col gap-2 p-2">
       <span class="text-sm opacity-50">{{ formatDateSimple(announcement.creationDate, $i18n.locale) }}</span>
       <h1 class="text-lg text-accent font-semibold">

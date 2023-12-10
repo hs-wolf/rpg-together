@@ -28,7 +28,7 @@ const textareaFinalClass = computed(() => {
 
 <template>
   <div class="flex flex-col gap-2" :class="{ 'opacity-50 pointer-events-none': disabled }">
-    <div class="flex flex-col min-h-10 bg-primary border rounded" :class="error ? 'border-danger' : 'border-primary-light'">
+    <div class="flex flex-col min-h-10 bg-primary border rounded" :class="error ? 'border-danger' : 'border-primary-1'">
       <div class="flex">
         <div v-if="slots['field-icon']" class="flex justify-center items-center w-10 h-10 text-secondary pointer-events-none">
           <slot name="field-icon" />
@@ -44,7 +44,7 @@ const textareaFinalClass = computed(() => {
           @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         />
       </div>
-      <div v-if="maxlength && modelValue?.length" class="flex justify-end p-2 pt-0 text-sm text-secondary-dark">
+      <div v-if="maxlength && modelValue?.length" class="flex justify-end p-2 pt-0 text-sm text-secondary-2">
         {{ `${modelValue?.length} / ${maxlength}` }}
       </div>
     </div>

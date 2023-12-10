@@ -57,7 +57,7 @@ defineExpose({
   <div ref="componentRef" class="relative flex flex-col shadow text-sm lg:text-base" :class="{ 'w-full': showOptions }">
     <div
       class="flex flex-col border bg-secondary"
-      :class="[showOptions ? 'border-accent-dark rounded-t-sm' : 'border-secondary-light rounded-sm']"
+      :class="[showOptions ? 'border-accent-2 rounded-t-sm' : 'border-secondary-1 rounded-sm']"
     >
       <div class="flex flex-col">
         <button
@@ -76,7 +76,7 @@ defineExpose({
           <button
             v-for="(option, index) in selectedOptions"
             :key="option.name"
-            class="flex items-center gap-1 px-1.5 py-1 bg-accent-dark rounded-sm text-xs text-secondary"
+            class="flex items-center gap-1 px-1.5 py-1 bg-accent-2 rounded-sm text-xs text-secondary"
             @click.prevent="removeOption(index)"
           >
             <p>{{ option.label }}</p>
@@ -88,27 +88,27 @@ defineExpose({
     <Transition name="fade">
       <div
         v-if="showOptions"
-        class="flex flex-col bg-secondary border border-accent-dark rounded-b text-primary"
+        class="flex flex-col bg-secondary border border-accent-2 rounded-b text-primary"
       >
-        <div v-if="showOptions" class="flex items-center gap-2 p-2 lg:p-3 bg-secondary-dark">
-          <NuxtIcon name="search-tool" class="text-accent-dark text-lg" />
+        <div v-if="showOptions" class="flex items-center gap-2 p-2 lg:p-3 bg-secondary-2">
+          <NuxtIcon name="search-tool" class="text-accent-2 text-lg" />
           <input
             v-model="optionsQuery"
             type="text"
             :placeholder="searchMessage"
-            class="w-full bg-transparent outline-none placeholder-accent-dark placeholder:font-normal"
+            class="w-full bg-transparent outline-none placeholder-accent-2 placeholder:font-normal"
           >
         </div>
         <div class="flex flex-col max-h-[190px] overflow-y-auto">
           <button
             v-for="option in filteredOptions"
             :key="option.id ?? option.name"
-            class="flex p-2 lg:p-3 active:bg-accent-dark active:text-secondary"
+            class="flex p-2 lg:p-3 active:bg-accent-2 active:text-secondary"
             @click.prevent="insertOption(option)"
           >
             <span>{{ option.label }}</span>
           </button>
-          <p v-if="!filteredOptions.length" class="px-2 py-3 text-primary-light">
+          <p v-if="!filteredOptions.length" class="px-2 py-3 text-primary-1">
             {{ emptyMessage }}
           </p>
         </div>

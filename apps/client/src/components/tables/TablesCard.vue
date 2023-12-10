@@ -65,7 +65,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
       class="max-h-[192px] min-h-[192px] rounded-t-sm object-cover lg:max-h-[256px] lg:min-h-[256px]"
     />
     <div class="flex flex-col gap-2 h-full p-2 lg:gap-4 lg:p-4">
-      <NuxtLink :to="localeRoute({ path: `/tables/${table.id}` })" class="text-lg lg:text-xl text-accent-dark font-semibold">
+      <NuxtLink :to="localeRoute({ path: `/tables/${table.id}` })" class="text-lg lg:text-xl text-accent-2 font-semibold">
         {{ table.title }}
       </NuxtLink>
       <p class="font-roboto-slab whitespace-pre-line lg:text-lg">
@@ -82,7 +82,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
         <div
           v-for="flair in table.flairs"
           :key="flair"
-          class="flex items-center px-1 py-0.5 border border-accent-light rounded-sm text-xs text-primary-light lg:px-2 lg:py-1 lg:text-sm"
+          class="flex items-center px-1 py-0.5 border border-accent-1 rounded-sm text-xs text-primary-1 lg:px-2 lg:py-1 lg:text-sm"
         >
           {{ flairsStore.getFlairLabel(flair) }}
         </div>

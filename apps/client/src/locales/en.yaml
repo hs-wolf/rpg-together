@@ -274,17 +274,18 @@ components:
       menu: Menu
       home: Home
       search: Search
-      notifications: Notifs
-      profile: Profile
     menus:
       login: Login
       register: Register
       my-applications: My Applications
       my-tables: My Tables
+      profile: Profile
+      notifications: Notifications
       settings: Settings
+      announcements: Announcements
       about: About
       logout: Logout
-    language: Language
+      language: Language
   profile:
     change-email-modal:
       title: Change Email

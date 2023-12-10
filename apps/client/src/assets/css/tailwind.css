@@ -6,37 +6,44 @@
   .modal {
     @apply z-50 fixed inset-0 flex flex-col p-3 lg:p-0 bg-black/70;
   }
+
   .card-primary {
     @apply flex flex-col p-2 lg:p-3 bg-primary text-secondary rounded-sm;
   }
+
   .card-secondary {
     @apply flex flex-col p-2 lg:p-3 bg-secondary text-primary rounded-sm;
   }
+
   .btn-effect {
     @apply transition active:scale-90;
   }
+
   .btn-primary {
-    @apply flex justify-center items-center p-2 bg-primary border border-primary-light shadow rounded-sm text-sm text-secondary font-medium transition-transform;
-    @apply lg:p-3 lg:text-base;
-    @apply active:bg-primary-dark active:scale-90;
+    @apply flex justify-center items-center px-3 py-2 bg-primary border border-primary-1 shadow rounded-sm leading-none text-sm text-secondary font-medium transition-transform;
+    @apply lg:text-base;
+    @apply active:bg-primary-2 active:scale-95;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
+
   .btn-secondary {
-    @apply flex justify-center items-center p-2 bg-secondary border border-secondary-dark shadow rounded-sm text-sm text-primary font-medium transition-transform;
-    @apply lg:p-3 lg:text-base;
-    @apply active:bg-secondary-dark active:scale-90;
+    @apply flex justify-center items-center px-3 py-2 bg-secondary border border-secondary-2 shadow rounded-sm leading-none text-sm text-primary font-medium transition-transform;
+    @apply lg:text-base;
+    @apply active:bg-secondary-2 active:scale-95;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
+
   .btn-accent {
-    @apply flex justify-center items-center p-2 bg-accent border border-accent-dark shadow rounded-sm text-sm text-secondary font-medium transition-transform;
-    @apply lg:p-3 lg:text-base;
-    @apply active:bg-accent-dark active:scale-90;
+    @apply flex justify-center items-center px-3 py-2 bg-accent border border-accent-2 shadow rounded-sm leading-none text-sm text-secondary font-medium transition-transform;
+    @apply lg:text-base;
+    @apply active:bg-accent-2 active:scale-95;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
+
   .btn-danger {
-    @apply flex justify-center items-center p-2 border border-danger shadow rounded-sm text-sm text-danger font-medium transition-transform;
-    @apply lg:p-3 lg:text-base;
-    @apply active:bg-danger-dark active:text-secondary active:scale-90;
+    @apply flex justify-center items-center px-3 py-2 border border-danger shadow rounded-sm leading-none text-sm text-danger font-medium transition-transform;
+    @apply lg:text-base;
+    @apply active:bg-danger-2 active:text-secondary active:scale-95;
     @apply disabled:opacity-50 disabled:pointer-events-none;
   }
 }

@@ -71,7 +71,7 @@ onBeforeMount(async () => {
             <NuxtIcon name="edit-pencil" />
             <p>{{ $t('components.tables.youre-the-owner') }}</p>
           </NuxtLink>
-          <div v-else class="flex justify-center items-center lg:justify-start gap-2 text-sm lg:text-base text-center text-secondary-dark">
+          <div v-else class="flex justify-center items-center lg:justify-start gap-2 text-sm lg:text-base text-center text-secondary-2">
             <NuxtIcon name="apply" />
             <p>{{ $t('components.tables.already-applied') }}</p>
           </div>

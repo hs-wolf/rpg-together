@@ -274,17 +274,18 @@ components:
       menu: Menu
       home: Início
       search: Procurar
-      notifications: Alertas
-      profile: Perfil
     menus:
       login: Entrar
       register: Registrar
       my-applications: Minhas aplicações
       my-tables: Minhas mesas
+      profile: Perfil
+      notifications: Notificações
       settings: Configurações
+      announcements: Anúncios
       about: Sobre
       logout: Sair
-    language: Língua
+      language: Língua
   profile:
     change-email-modal:
       title: Alterar email

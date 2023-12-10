@@ -85,7 +85,7 @@ const onSubmit = handleSubmit(async (values) => {
             <NuxtIcon name="eye-closed" />
           </template>
         </FormInput>
-        <span v-if="apiError" class="text-end text-danger-light text-sm lg:text-base">{{ apiError }}</span>
+        <span v-if="apiError" class="text-end text-danger-1 text-sm lg:text-base">{{ apiError }}</span>
       </div>
       <LoadingCard v-if="signingIn" />
       <button v-else class="btn-accent" :disabled="signingIn" @click.prevent="onSubmit">
