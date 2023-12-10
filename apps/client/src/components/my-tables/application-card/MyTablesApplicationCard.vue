@@ -64,6 +64,7 @@ function declineApplication() {
           :alt="application?.applicant?.username"
           width="24px"
           height="24px"
+          format="webp"
           class="shadow rounded-full w-[20px] h-[20px] lg:w-[24px] lg:h-[24px]"
         />
         <h1 class="truncate font-semibold lg:text-lg">

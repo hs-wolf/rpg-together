@@ -50,7 +50,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <Transition name="fade">
-    <div v-if="table" class="modal justify-center p-3 lg:p-0">
+    <div v-if="table" class="modal justify-center">
       <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
         <h1 class="text-danger font-semibold lg:text-lg">
           {{ $t('my-tables-delete-table.title') }}

@@ -28,7 +28,7 @@ const showInfo = ref(false)
     />
     <NuxtLink
       :to="localePath({ path: `/my-tables/${table?.id}/applications` })"
-      class="btn-primary absolute self-end m-1 gap-2"
+      class="btn-primary absolute self-end m-1 gap-2 lg:gap-3"
     >
       <NuxtIcon name="message-plus" :class="applications.length ? 'text-accent ' : 'opacity-50'" />
       <p class="font-semibold" :class="applications.length ? 'text-accent ' : 'opacity-50'">
@@ -44,13 +44,13 @@ const showInfo = ref(false)
       >
         <i18n-t keypath="my-tables-table-card.title" tag="h1" scope="global" class="text-start">
           <template #text>
-            <span class="font-semibold lg:text-lg">{{ table.title }}</span>
+            <span class="lg:text-lg font-semibold break-all">{{ table.title }}</span>
           </template>
         </i18n-t>
         <NuxtIcon name="chevron-up" class="shrink-0 text-xl lg:text-2xl transition-transform" :class="{ 'rotate-180': showInfo }" />
       </button>
       <Transition name="slide-down">
-        <div v-if="showInfo" class="flex flex-col gap-5 h-full p-2 lg:p-3 bg-secondary rounded-b-sm">
+        <div v-if="showInfo" class="card-secondary gap-5 rounded-t-none">
           <div class="flex flex-wrap justify-end gap-3 lg:gap-5 w-full">
             <NuxtLink :to="localePath({ path: `/editing-table/${table?.id}` })" class="btn-accent gap-2">
               <NuxtIcon name="edit-pencil" />
