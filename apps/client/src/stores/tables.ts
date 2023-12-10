@@ -71,14 +71,14 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         navigateTo(localeRoute({ name: 'my-tables' }))
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'tables-store.success.create-table',
+          message: 'stores.tables.success.create-table',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'tables-store.error.create-table',
+          message: 'stores.tables.error.create-table',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -108,14 +108,14 @@ export const useTablesStore = defineStore(TABLES_STORE, {
 
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'tables-store.success.update-table',
+          message: 'stores.tables.success.update-table',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'tables-store.error.update-table',
+          message: 'stores.tables.error.update-table',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }
@@ -142,14 +142,14 @@ export const useTablesStore = defineStore(TABLES_STORE, {
 
         useSnackbarStore().createSnack({
           type: SnackType.SUCCESS,
-          message: 'tables-store.success.delete-table',
+          message: 'stores.tables.success.delete-table',
         })
       }
       catch (error) {
         useAlertsStore().handleError(error)
         useSnackbarStore().createSnack({
           type: SnackType.ERROR,
-          message: 'tables-store.error.delete-table',
+          message: 'stores.tables.error.delete-table',
         })
         return useAlertsStore().getErrorToShowUser(error)
       }

@@ -24,321 +24,79 @@ api-errors:
   EMAIL_TAKEN: Esse e-mail está em uso.
   COULD_NOT_UPLOAD: Não foi possível fazer o upload.
   TABLES_LIMIT_REACHED: Limite de mesas alcançado.
-notification-type:
-  application: Aplicações
-  report: Relatórios
-  system: Sistema
-notification-titles:
-  applied-to-your-table: Alguém se aplicou na sua mesa.
-  application-accepted: Sua aplicação foi aceita.
-  application-declined: Sua aplicação foi recusada.
-notification-messages:
-  applied-to-your-table: O usuário {name} se aplicou na sua mesa {table}.
-  application-accepted: Sua aplicação da mesa {table} foi aceita.
-  application-declined: Sua aplicação da mesa {table} foi recusada.
-navbar:
-  tabs:
-    menu: Menu
-    home: Home
-    search: Search
-    notifications: Notifs
-    profile: Profile
-  menus:
-    login: Login
-    register: Register
-    my-applications: My Applications
-    my-tables: My Tables
-    settings: Settings
-    about: About
-    logout: Logout
-  language: Língua
-loading-card:
-  title: Loading
-home:
-  title: Rpg Together
-home-featured:
-  title: Featured Tables
-  loading: Loading
-  no-tables-found: No tables found.
-home-announcements:
-  title: Announcements
-  see-all: See all
-search:
-  title: Search Table
-  search: Search
-  results-for: 'Tables found: {amount}'
-  load-more: Load More
-  no-more-tables: No more tables available.
-  no-tables-found: No tables found.
-flairs-menu:
-  flairs: Flairs
-  clear: Clear
-  search-flair: Search flair
-  no-options-left: No options left.
-profile:
-  title: Profile
-  email: 'Email:'
-  creation-date: 'Creation date: {date}'
-  last-update-date: 'Last update date: {date}'
-  change-password: Change password
-  delete-account: Delete account
-profile-change-username-modal:
-  title: Change Username
-  current-name: 'Current name: {name}'
-  form:
-    username:
-      label: Username
-      placeholder: New username
-    password:
-      label: Password
-      placeholder: Password
-  back: Back
-  save: Save
-profile-change-email-modal:
-  title: Change Email
-  current-email: 'Current email: {email}'
-  form:
-    email:
-      label: Email
-      placeholder: New email
-    confirm-email:
-      label: Confirm email
-      placeholder: Confirm email
-    password:
-      label: Password
-      placeholder: Password
-  back: Back
-  save: Save
-profile-change-password-modal:
-  title: Change Password
-  form:
-    old-password:
-      label: Old password
-      placeholder: Old password
-    new-password:
-      label: New password
-      placeholder: New password
-    confirm-password:
-      label: Confirm password
-      placeholder: Confirm password
-  back: Back
-  save: Save
-profile-delete-account-modal:
-  title: Delete Account
-  warnings:
-    - Deleting your account is an irreversible action.
-    - Your profile, active applications and tables will all be delete.
-    - '(You''ll be prompted to enter your password.)'
-  confirmation: Are you sure you want to delete your acocunt?
-  back: Back
-  understand: I understand
-  confirm: Confirm
-  form:
-    password:
-      label: Password
-      placeholder: Password
-my-applications:
-  title: My Applications
-  applications-limit: 'Applications limit: {limit}'
-my-applications-application-card:
-  view-table: View table
-  applying-to: 'Applying to: {text}'
-  your-message: 'Your message: {text}'
-  status: 'Status: {text}'
-  owner-message: 'Owner message: {text}'
-  declined-message: Sorry, the table owner declined your application.
-my-applications-delete-application-modal:
-  title: Delete application
-  warning: Deleting this application is an irreversible action. You'll be prompted to enter your password.
-  confirmation: Are you sure you want to delete this application?
-  back: Back
-  understand: I understand
-  confirm: Confirm
-  form:
-    password:
-      label: Password
-      placeholder: Password
-tables:
-  title: Tables
-  description: 'Description:'
-  flairs: 'Flairs:'
-  youre-the-owner: You're the owner, click here to edit.
-  apply-to-table: Apply to this table
-  already-applied: You've already applied to this table.
-  card:
-    read-more: Read more
-    view-table: Table
-    view-owner: Owner
-    report: Report
-tables-apply:
-  form:
-    message:
-      label: Message
-      placeholder: Application message
-  submit: Send application
-my-tables:
-  title: My Tables
-  create-table: Create new table
-  tables-limit: 'Tables limit: {limit}'
-my-tables-applications:
-  title: Applications for {table}
-  no-applications: There is no applications for this table.
-my-tables-application-card:
-  their-message: 'Their message: {text}'
-  decline: Decline
-  profile: Profile
-  accept: Accept
-  accept-modal:
-    title: Accepting application
-    message: Are you sure you want to accept {user}'s application? This is an irreversible action.
-    yes-accept: Yes, Accept
-    back: Back
-  decline-modal:
-    title: Declining application
-    message: Are you sure you want to decline {user}'s application? This is an irreversible action.
-    yes-accept: Yes, Decline
-    back: Back
-my-tables-table-card:
-  title: 'Title: {text}'
-  description: 'Description: {text}'
-  edit: Edit
-  view: View
-  applicants: Applicants
-  flairs: 'Flairs:'
-  delete: Delete
-my-tables-delete-table:
-  title: Delete table
-  warning: Deleting this table is an irreversible action. All user applications for this table will be delete. You'll be prompted to enter your password.
-  confirmation: Are you sure you want to delete this table?
-  back: Back
-  understand: I understand
-  confirm: Confirm
-  form:
-    password:
-      label: Password
-      placeholder: Password
-create-table:
-  title: Create Table
-  form:
-    title:
-      label: Title
-      placeholder: Table title
-    description:
-      label: Description
-      placeholder: Brief summary
-    banner-url:
-      label: Banner
-      placeholder: Banner
-    flairs:
-      label: Flairs
-      placeholder: Flairs
-    accept-message:
-      label: Accept message
-      placeholder: Accept message
-  submit: Create
-edit-table:
-  title: Edit Table
-  form:
-    title:
-      label: Title
-      placeholder: Table title
-    description:
-      label: Description
-      placeholder: Brief summary
-    banner-url:
-      label: Banner
-      placeholder: Banner
-    flairs:
-      label: Flairs
-      placeholder: Flairs
-    accept-message:
-      label: Accept message
-      placeholder: Accept message
-  submit: Save
-  table-not-found: Table not found.
-settings:
-  title: Settings
-about:
-  title: Sobre nós
-  who-we-are: Quem somos nós
-  who-we-are-text:
-    Duis arcu mi, malesuada vehicula velit ac, porta aliquet metus. Nulla sed interdum lacus, nec consectetur quam.
-    Phasellus cursus libero nec leo sollicitudin tristique. Donec mattis, nunc id feugiat rhoncus, ipsum leo molestie magna,
-    sed accumsan tellus dolor quis felis. Duis ut diam mi.
-  our-mission: Nossa missão
-  our-mission-text:
-    Phasellus orci turpis, cursus ac nisi sed, cursus tempor ipsum. Maecenas nec metus sit amet nibh dictum vestibulum ut a
-    ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
-announcements:
-  title: Announcements
-error-page:
-  title: 404 Not Found
-  message: Ops, something went wrong!
-  go-back: Go back
-tables-store:
-  success:
-    create-table: New table created successfully!
-    update-table: The table was updated successfully!
-    delete-table: The table was deleted successfully!
-  warning: {}
-  error:
-    create-table: Sorry, we could not create your table.
-    update-table: sorry, we could not updated your table.
-    delete-table: sorry, we could not delete your table.
-discard-changes-dialog:
-  title: Changes Present
-  message: There are unsaved changes, would you like to discard them?
-  confirm: Confirm
-  close: Close
-applications-store:
-  success:
-    create-application: Application sent successfully!
-    delete-application: The application was deleted successfully!
-    accept-application: The application was accepted successfully!
-    decline-application: The application was declined successfully!
-  warning: {}
-  error:
-    create-application: Sorry, we could not send the application.
-    delete-application: sorry, we could not delete the application.
-    accept-application: Sorry, we could not accept the application.
-    decline-application: Sorry, we could not decline the application.
 pages:
+  about:
+    title: Sobre nós
+    who-we-are: Quem somos nós
+    who-we-are-text:
+      Duis arcu mi, malesuada vehicula velit ac, porta aliquet metus. Nulla sed interdum lacus, nec consectetur quam.
+      Phasellus cursus libero nec leo sollicitudin tristique. Donec mattis, nunc id feugiat rhoncus, ipsum leo molestie magna,
+      sed accumsan tellus dolor quis felis. Duis ut diam mi.
+    our-mission: Nossa missão
+    our-mission-text:
+      Phasellus orci turpis, cursus ac nisi sed, cursus tempor ipsum. Maecenas nec metus sit amet nibh dictum vestibulum ut a
+      ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
+  announcements:
+    title: Anúncios
+  create-table:
+    title: Criar Mesa
+    form:
+      title:
+        label: Título
+        placeholder: Título da mesa
+      description:
+        label: Descrição
+        placeholder: Resumo breve
+      banner-url:
+        label: Banner
+        placeholder: Banner
+      flairs:
+        label: Categorias
+        placeholder: Categorias
+      accept-message:
+        label: Mensagem de aceitação
+        placeholder: Mensagem de aceitação
+    submit: Criar
+  edit-table:
+    title: Editar Mesa
+    form:
+      title:
+        label: Título
+        placeholder: Título da mesa
+      description:
+        label: Descrição
+        placeholder: Resumo breve
+      banner-url:
+        label: Banner
+        placeholder: Banner
+      flairs:
+        label: Categorias
+        placeholder: Categorias
+      accept-message:
+        label: Mensagem de aceitação
+        placeholder: Mensagem de aceitação
+    submit: Salvar
+    table-not-found: Mesa não encontrada.
+  error:
+    title: 404 Não encontrado
+    message: Ops, algo deu errado!
+    go-back: Voltar
+  home:
+    title: Rpg Together
   login:
     title: Login
     email: Email
-    password: Password
+    password: Senha
     submit: Login
-    no-account: Do not have an account? {0}
-    register-here: Register here!
+    no-account: Não possui uma conta? {0}
+    register-here: Registre aqui!
     form:
       email:
         label: Email
         placeholder: Email
       password:
-        label: Password
-        placeholder: Password
-  register:
-    title: Register
-    username: Username
-    email: Email
-    password: Password
-    repeat-password: Repeat password
-    submit: Register
-    existing-account: Already have an account? {0}
-    login-here: Login here!
-    form:
-      username:
-        label: Username
-        placeholder: Username
-      email:
-        label: Email
-        placeholder: Email
-      password:
-        label: Password
-        placeholder: Password
-      confirmPassword:
-        label: Password (Confirm)
-        placeholder: Password (Confirm)
+        label: Senha
+        placeholder: Senha
   notifications:
     title: Notificações
     mark-all-read: Marcar todas como lidas
@@ -347,25 +105,274 @@ pages:
     serch-type: Procurar tipo
     no-types-left: Sem tipos restantes.
     load-more: Carregar mais
+  my-applications:
+    title: Minhas Aplicações
+    applications-limit: 'Limite de aplicações: {limit}'
+  profile:
+    title: Perfil
+    email: 'Email:'
+    creation-date: 'Data de criação: {date}'
+    last-update-date: 'Data da última mudança: {date}'
+    change-password: Alterar senha
+    delete-account: Excluir conta
+  register:
+    title: Registrar
+    username: Nome de usuário
+    email: Email
+    password: Senha
+    repeat-password: Repita a senha
+    submit: Registrar
+    existing-account: Já tem uma conta? {0}
+    login-here: Login aqui!
+    form:
+      username:
+        label: Nome de usuário
+        placeholder: Nome de usuário
+      email:
+        label: Email
+        placeholder: Email
+      password:
+        label: Senha
+        placeholder: Senha
+      confirmPassword:
+        label: Senha (Confirmar)
+        placeholder: Senha (Confirmar)
+  search:
+    title: Procurar mesa
+    search: Procurar
+    results-for: 'Mesas encontradas: {amount}'
+    load-more: Carregar mais
+    no-more-tables: Nenhuma mesa adicional encontrada.
+    no-tables-found: Nenhuma mesa encontrada.
+  settings:
+    title: Configurações
 stores:
-  user:
+  applications:
     success:
-      register: Registered successfully, check your e-mail to confirm.
-      change-auth-data: Login data updated!
-      account-delete: Your account was deleted!
-      change-username: Username changed!
-      change-avatar: Avatar changed!
+      create-application: Aplicação enviada com sucesso!
+      delete-application: A aplicação foi excluída com sucesso!
+      accept-application: A aplicação foi aceita com sucesso!
+      decline-application: A aplicação foi recusada com sucesso!
     warning: {}
     error:
-      register: We had an internal error and could not finish your registration, please
-        try again.
-      change-auth-data: Sorry, we could not change your login data.
-      account-delete: Sorry, we could not delete your account.
-      fetch-user: Could not fetch user, please try again later.
-      change-username: Sorry, we could not change your username.
-      change-avatar: Sorry, we could not change your avatar.
+      create-application: Desculpe, não foi possível enviar a aplicação.
+      delete-application: Desculpe, não foi possível excluir a aplicação.
+      accept-application: Desculpe, não foi possível aceitar a aplicação.
+      decline-application: Desculpe, não foi possível recusar a aplicação.
+  tables:
+    success:
+      create-table: Nova mesa criada com sucesso!
+      update-table: A mesa foi atualizada com sucesso!
+      delete-table: A mesa foi excluída com sucesso!
+    warning: {}
+    error:
+      create-table: Desculpe, não foi possível criar sua mesa.
+      update-table: Desculpe, não foi possível atualizar sua mesa.
+      delete-table: Desculpe, não foi possível excluir sua mesa.
+  user:
+    success:
+      login: Conectado com sucesso!
+      logout: Desconectado com sucesso!
+      register: Cadastrado com sucesso.
+      change-auth-data: Dados de login atualizados!
+      account-delete: Sua conta foi excluída!
+      change-username: Nome de usuário alterado!
+      change-avatar: Avatar alterado!
+    warning: {}
+    error:
+      login: Desculpe, não foi possível fazer seu login.
+      logout: Desculpe, não foi possível desconectar você.
+      register: Ocorreu um erro interno e não foi possível finalizar seu cadastro. Tente novamente.
+      change-auth-data: Desculpe, não foi possível alterar seus dados de login.
+      account-delete: Desculpe, não foi possível excluir sua conta.
+      fetch-user: Não foi possível buscar o usuário. Tente novamente mais tarde.
+      change-username: Desculpe, não foi possível alterar seu nome de usuário.
+      change-avatar: Desculpe, não foi possível alterar seu avatar.
 components:
+  discard-changes-dialog:
+    title: Mudanças presentes
+    message: Existem alterações não salvas. Gostaria de descartá-las?
+    confirm: Confirmar
+    close: Fechar
+  flairs-menu:
+    flairs: Categorias
+    clear: Limpar
+    search-flair: Procurar categoria
+    no-options-left: Nenhuma opção restante.
+  home:
+    announcements:
+      title: Anúncios
+      see-all: Ver todos
+    featured:
+      title: Mesas em destaque
+      loading: Carregando
+      no-tables-found: Nenhuma mesa encontrada.
+  loading-card:
+    title: Carregando
+  my-applications:
+    application-card:
+      view-table: Ver mesa
+      applying-to: 'Aplicando à: {text}'
+      your-message: 'Sua mensagem: {text}'
+      status: 'Status: {text}'
+      owner-message: 'Mesangem do dono: {text}'
+      declined-message: Desculpe, o dono da mesa recusou sua aplicação.
+    delete-application-modal:
+      title: Excluir aplicação
+      warning: Excluir esta aplicação é uma ação irreversível. Você será solicitado a inserir sua senha.
+      confirmation: Tem certeza de que deseja excluir esta aplicação?
+      back: Voltar
+      understand: Eu entendo
+      confirm: Confirmar
+      form:
+        password:
+          label: Senha
+          placeholder: Senha
+  my-tables:
+    title: Minhas mesas
+    create-table: Criar nova mesa
+    tables-limit: 'Limite de mesas: {limit}'
+    applications:
+      title: Aplicações à {table}
+      no-applications: Não há aplicações à esta mesa.
+    application-card:
+      their-message: 'A mensagem deles: {text}'
+      decline: Recusar
+      profile: Perfil
+      accept: Aceitar
+      accept-modal:
+        title: Aceitando aplicação
+        message: Tem certeza de que deseja aceitar a aplicação de {user}? Esta é uma ação irreversível.
+        yes-accept: Sim, aceitar
+        back: Voltar
+      decline-modal:
+        title: Recusando aplicação
+        message: Tem certeza de que deseja recusar a aplicação de {user}? Esta é uma ação irreversível.
+        yes-accept: Sim, recusar
+        back: Voltar
+    delete-table:
+      title: Excluir mesa
+      warning: Excluir esta mesa é uma ação irreversível. Todos as aplicações de usuários desta mesa serão excluídos. Você será solicitado a inserir sua senha.
+      confirmation: Tem certeza de que deseja excluir esta mesa?
+      back: Voltar
+      understand: Eu confirmo
+      confirm: Confirmar
+      form:
+        password:
+          label: Senha
+          placeholder: Senha
+    table-card:
+      title: 'Título: {text}'
+      description: 'Descrição: {text}'
+      edit: Editar
+      view: Ver
+      applicants: Aplicantes
+      flairs: 'Categorias:'
+      delete: Deletar
+  navbar:
+    tabs:
+      menu: Menu
+      home: Início
+      search: Procurar
+      notifications: Alertas
+      profile: Perfil
+    menus:
+      login: Entrar
+      register: Registrar
+      my-applications: Minhas aplicações
+      my-tables: Minhas mesas
+      settings: Configurações
+      about: Sobre
+      logout: Sair
+    language: Língua
+  profile:
+    change-email-modal:
+      title: Alterar email
+      current-email: 'Email atual: {email}'
+      form:
+        email:
+          label: Email
+          placeholder: Novo email
+        confirm-email:
+          label: Confirmar email
+          placeholder: Confirmar email
+        password:
+          label: Senha
+          placeholder: Senha
+      back: Voltar
+      save: Salvar
+    change-username-modal:
+      title: Alterar nome de usuário
+      current-name: 'Nome atual: {name}'
+      form:
+        username:
+          label: Nome de usuário
+          placeholder: Novo nome
+        password:
+          label: Senha
+          placeholder: Senha
+      back: Voltar
+      save: Salvar
+    change-password-modal:
+      title: Alterar Senha
+      form:
+        old-password:
+          label: Senha antiga
+          placeholder: Senha antiga
+        new-password:
+          label: Nova senha
+          placeholder: Nova senha
+        confirm-password:
+          label: Confirmar senha
+          placeholder: Confirmar senha
+      back: Voltar
+      save: Salvar
+    delete-account-modal:
+      title: Exlcuir conta
+      warnings:
+        - Excluir sua conta é uma ação irreversível.
+        - Seu perfil, aplicações ativas e mesas serão excluídas.
+        - (Você será solicitado a inserir sua senha.)
+      confirmation: Tem certeza de que deseja excluir sua conta?
+      back: Voltar
+      understand: I entendo
+      confirm: Confirmar
+      form:
+        password:
+          label: Senha
+          placeholder: Senha
   recaptcha:
     message: Este site é protegido por reCAPTCHA e a {privacy} e {tos} do Google se aplicam.
     privacy: Política de Privacidade
     tos: Termos de Serviço
+  tables:
+    title: Mesas
+    description: 'Descrição:'
+    flairs: 'Categorias:'
+    youre-the-owner: Você é o dono, clique aqui para editar.
+    apply-to-table: Aplicar a esta mesa
+    already-applied: Você já se aplicou nesta mesa.
+    card:
+      read-more: Ler mais
+      view-table: Mesa
+      view-owner: Dono
+      report: Reportar
+    apply:
+      form:
+        message:
+          label: Mensagem
+          placeholder: Mensagem de aplicação
+      submit: Enviar aplicação
+notifications:
+  messages:
+    applied-to-your-table: O usuário {name} se aplicou à sua mesa {table}.
+    application-accepted: Sua aplicação da mesa {table} foi aceita.
+    application-declined: Sua aplicação da mesa {table} foi recusada.
+  titles:
+    applied-to-your-table: Alguém se aplicou à sua mesa.
+    application-accepted: Sua aplicação foi aceita.
+    application-declined: Sua aplicação foi recusada.
+  type:
+    application: Aplicações
+    report: Relatórios
+    system: Sistema

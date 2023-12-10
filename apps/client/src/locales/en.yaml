@@ -24,285 +24,65 @@ api-errors:
   EMAIL_TAKEN: This email is taken.
   COULD_NOT_UPLOAD: Could not upload file.
   TABLES_LIMIT_REACHED: Tables limit reached.
-notification-type:
-  application: Application
-  report: Report
-  system: System
-notification-titles:
-  applied-to-your-table: Someone applied to your table.
-  application-accepted: Your appplication was accepted.
-  application-declined: Your appplication was declined.
-notification-messages:
-  applied-to-your-table: The user {name} applied to your table {table}.
-  application-accepted: Your application of the table {table} was accepted.
-  application-declined: Your application of the table {table} was declined.
-navbar:
-  tabs:
-    menu: Menu
-    home: Home
-    search: Search
-    notifications: Notifs
-    profile: Profile
-  menus:
-    login: Login
-    register: Register
-    my-applications: My Applications
-    my-tables: My Tables
-    settings: Settings
-    about: About
-    logout: Logout
-  language: Language
-loading-card:
-  title: Loading
-home:
-  title: Rpg Together
-home-featured:
-  title: Featured Tables
-  loading: Loading
-  no-tables-found: No tables found.
-home-announcements:
-  title: Announcements
-  see-all: See all
-search:
-  title: Search Table
-  search: Search
-  results-for: 'Tables found: {amount}'
-  load-more: Load More
-  no-more-tables: No more tables available.
-  no-tables-found: No tables found.
-flairs-menu:
-  flairs: Flairs
-  clear: Clear
-  search-flair: Search flair
-  no-options-left: No options left.
-profile:
-  title: Profile
-  email: 'Email:'
-  creation-date: 'Creation date: {date}'
-  last-update-date: 'Last update date: {date}'
-  change-password: Change password
-  delete-account: Delete account
-profile-change-username-modal:
-  title: Change Username
-  current-name: 'Current name: {name}'
-  form:
-    username:
-      label: Username
-      placeholder: New username
-    password:
-      label: Password
-      placeholder: Password
-  back: Back
-  save: Save
-profile-change-email-modal:
-  title: Change Email
-  current-email: 'Current email: {email}'
-  form:
-    email:
-      label: Email
-      placeholder: New email
-    confirm-email:
-      label: Confirm email
-      placeholder: Confirm email
-    password:
-      label: Password
-      placeholder: Password
-  back: Back
-  save: Save
-profile-change-password-modal:
-  title: Change Password
-  form:
-    old-password:
-      label: Old password
-      placeholder: Old password
-    new-password:
-      label: New password
-      placeholder: New password
-    confirm-password:
-      label: Confirm password
-      placeholder: Confirm password
-  back: Back
-  save: Save
-profile-delete-account-modal:
-  title: Delete Account
-  warnings:
-    - Deleting your account is an irreversible action.
-    - Your profile, active applications and tables will all be delete.
-    - '(You''ll be prompted to enter your password.)'
-  confirmation: Are you sure you want to delete your acocunt?
-  back: Back
-  understand: I understand
-  confirm: Confirm
-  form:
-    password:
-      label: Password
-      placeholder: Password
-my-applications:
-  title: My Applications
-  applications-limit: 'Applications limit: {limit}'
-my-applications-application-card:
-  view-table: View table
-  applying-to: 'Applying to: {text}'
-  your-message: 'Your message: {text}'
-  status: 'Status: {text}'
-  owner-message: 'Owner message: {text}'
-  declined-message: Sorry, the table owner declined your application.
-my-applications-delete-application-modal:
-  title: Delete application
-  warning: Deleting this application is an irreversible action. You'll be prompted to enter your password.
-  confirmation: Are you sure you want to delete this application?
-  back: Back
-  understand: I understand
-  confirm: Confirm
-  form:
-    password:
-      label: Password
-      placeholder: Password
-tables:
-  title: Tables
-  description: 'Description:'
-  flairs: 'Flairs:'
-  youre-the-owner: You're the owner, click here to edit.
-  apply-to-table: Apply to this table
-  already-applied: You've already applied to this table.
-  card:
-    read-more: Read more
-    view-table: Table
-    view-owner: Owner
-    report: Report
-tables-apply:
-  form:
-    message:
-      label: Message
-      placeholder: Application message
-  submit: Send application
-my-tables:
-  title: My Tables
-  create-table: Create new table
-  tables-limit: 'Tables limit: {limit}'
-my-tables-applications:
-  title: Applications for {table}
-  no-applications: There is no applications for this table.
-my-tables-application-card:
-  their-message: 'Their message: {text}'
-  decline: Decline
-  profile: Profile
-  accept: Accept
-  accept-modal:
-    title: Accepting application
-    message: Are you sure you want to accept {user}'s application? This is an irreversible action.
-    yes-accept: Yes, Accept
-    back: Back
-  decline-modal:
-    title: Declining application
-    message: Are you sure you want to decline {user}'s application? This is an irreversible action.
-    yes-accept: Yes, Decline
-    back: Back
-my-tables-table-card:
-  title: 'Title: {text}'
-  description: 'Description: {text}'
-  edit: Edit
-  view: View
-  applicants: No Applicants | Applicant | Applicants
-  flairs: 'Flairs:'
-  delete: Delete
-my-tables-delete-table:
-  title: Delete table
-  warning: Deleting this table is an irreversible action. All user applications for this table will be delete. You'll be prompted to enter your password.
-  confirmation: Are you sure you want to delete this table?
-  back: Back
-  understand: I understand
-  confirm: Confirm
-  form:
-    password:
-      label: Password
-      placeholder: Password
-create-table:
-  title: Create Table
-  form:
-    title:
-      label: Title
-      placeholder: Table title
-    description:
-      label: Description
-      placeholder: Brief summary
-    banner-url:
-      label: Banner
-      placeholder: Banner
-    flairs:
-      label: Flairs
-      placeholder: Flairs
-    accept-message:
-      label: Accept message
-      placeholder: Accept message
-  submit: Create
-edit-table:
-  title: Edit Table
-  form:
-    title:
-      label: Title
-      placeholder: Table title
-    description:
-      label: Description
-      placeholder: Brief summary
-    banner-url:
-      label: Banner
-      placeholder: Banner
-    flairs:
-      label: Flairs
-      placeholder: Flairs
-    accept-message:
-      label: Accept message
-      placeholder: Accept message
-  submit: Save
-  table-not-found: Table not found.
-settings:
-  title: Settings
-about:
-  title: About us
-  who-we-are: Who we are
-  who-we-are-text:
-    Duis arcu mi, malesuada vehicula velit ac, porta aliquet metus. Nulla sed interdum lacus, nec consectetur quam.
-    Phasellus cursus libero nec leo sollicitudin tristique. Donec mattis, nunc id feugiat rhoncus, ipsum leo molestie magna,
-    sed accumsan tellus dolor quis felis. Duis ut diam mi.
-  our-mission: Our mission
-  our-mission-text:
-    Phasellus orci turpis, cursus ac nisi sed, cursus tempor ipsum. Maecenas nec metus sit amet nibh dictum vestibulum ut a
-    ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
-announcements:
-  title: Announcements
-error-page:
-  title: 404 Not Found
-  message: Ops, something went wrong!
-  go-back: Go back
-tables-store:
-  success:
-    create-table: New table created successfully!
-    update-table: The table was updated successfully!
-    delete-table: The table was deleted successfully!
-  warning: {}
-  error:
-    create-table: Sorry, we could not create the table.
-    update-table: sorry, we could not updated the table.
-    delete-table: sorry, we could not delete the table.
-discard-changes-dialog:
-  title: Changes Present
-  message: There are unsaved changes, would you like to discard them?
-  confirm: Confirm
-  close: Close
-applications-store:
-  success:
-    create-application: Application sent successfully!
-    delete-application: The application was deleted successfully!
-    accept-application: The application was accepted successfully!
-    decline-application: The application was declined successfully!
-  warning: {}
-  error:
-    create-application: Sorry, we could not send the application.
-    delete-application: sorry, we could not delete the application.
-    accept-application: Sorry, we could not accept the application.
-    decline-application: Sorry, we could not decline the application.
 pages:
+  about:
+    title: About us
+    who-we-are: Who we are
+    who-we-are-text:
+      Duis arcu mi, malesuada vehicula velit ac, porta aliquet metus. Nulla sed interdum lacus, nec consectetur quam.
+      Phasellus cursus libero nec leo sollicitudin tristique. Donec mattis, nunc id feugiat rhoncus, ipsum leo molestie magna,
+      sed accumsan tellus dolor quis felis. Duis ut diam mi.
+    our-mission: Our mission
+    our-mission-text:
+      Phasellus orci turpis, cursus ac nisi sed, cursus tempor ipsum. Maecenas nec metus sit amet nibh dictum vestibulum ut a
+      ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
+  announcements:
+    title: Anúncios
+  create-table:
+    title: Create Table
+    form:
+      title:
+        label: Title
+        placeholder: Table title
+      description:
+        label: Description
+        placeholder: Brief summary
+      banner-url:
+        label: Banner
+        placeholder: Banner
+      flairs:
+        label: Flairs
+        placeholder: Flairs
+      accept-message:
+        label: Accept message
+        placeholder: Accept message
+    submit: Create
+  edit-table:
+    title: Edit Table
+    form:
+      title:
+        label: Title
+        placeholder: Table title
+      description:
+        label: Description
+        placeholder: Brief summary
+      banner-url:
+        label: Banner
+        placeholder: Banner
+      flairs:
+        label: Flairs
+        placeholder: Flairs
+      accept-message:
+        label: Accept message
+        placeholder: Accept message
+    submit: Save
+    table-not-found: Table not found.
+  error:
+    title: 404 Not Found
+    message: Ops, something went wrong!
+    go-back: Go back
+  home:
+    title: Rpg Together
   login:
     title: Login
     email: Email
@@ -317,6 +97,24 @@ pages:
       password:
         label: Password
         placeholder: Password
+  my-applications:
+    title: My Applications
+    applications-limit: 'Applications limit: {limit}'
+  notifications:
+    title: Notifications
+    mark-all-read: Mark all as read
+    unreads: 'You have {number} unread notifications'
+    notification-types: Notification types
+    serch-type: Search type
+    no-types-left: No types left.
+    load-more: Load more
+  profile:
+    title: Profile
+    email: 'Email:'
+    creation-date: 'Creation date: {date}'
+    last-update-date: 'Last update date: {date}'
+    change-password: Change password
+    delete-account: Delete account
   register:
     title: Register
     username: Username
@@ -339,20 +137,43 @@ pages:
       confirmPassword:
         label: Password (Confirm)
         placeholder: Password (Confirm)
-  notifications:
-    title: Notifications
-    mark-all-read: Mark all as read
-    unreads: 'You have {number} unread notifications'
-    notification-types: Notification types
-    serch-type: Search type
-    no-types-left: No types left.
-    load-more: Load more
+  search:
+    title: Search Table
+    search: Search
+    results-for: 'Tables found: {amount}'
+    load-more: Load More
+    no-more-tables: No more tables available.
+    no-tables-found: No tables found.
+  settings:
+    title: Settings
 stores:
+  applications:
+    success:
+      create-application: Application sent successfully!
+      delete-application: The application was deleted successfully!
+      accept-application: The application was accepted successfully!
+      decline-application: The application was declined successfully!
+    warning: {}
+    error:
+      create-application: Sorry, we could not send the application.
+      delete-application: sorry, we could not delete the application.
+      accept-application: Sorry, we could not accept the application.
+      decline-application: Sorry, we could not decline the application.
+  tables:
+    success:
+      create-table: New table created successfully!
+      update-table: The table was updated successfully!
+      delete-table: The table was deleted successfully!
+    warning: {}
+    error:
+      create-table: Sorry, we could not create the table.
+      update-table: sorry, we could not updated the table.
+      delete-table: sorry, we could not delete the table.
   user:
     success:
       login: Logged in successfully!
       logout: Logged out successfully!
-      register: Registered successfully, check your e-mail to confirm.
+      register: Registered successfully.
       change-auth-data: Login data updated!
       account-delete: Your account was deleted!
       change-username: Username changed!
@@ -361,15 +182,197 @@ stores:
     error:
       login: Sorry, we could not log you in.
       logout: Sorry, we could not log you out.
-      register: We had an internal error and could not finish your registration, please
-        try again.
+      register: We had an internal error and could not finish your registration, please try again.
       change-auth-data: Sorry, we could not change your login data.
       account-delete: Sorry, we could not delete your account.
       fetch-user: Could not fetch user, please try again later.
       change-username: Sorry, we could not change your username.
       change-avatar: Sorry, we could not change your avatar.
 components:
+  discard-changes-dialog:
+    title: Changes Present
+    message: There are unsaved changes, would you like to discard them?
+    confirm: Confirm
+    close: Close
+  flairs-menu:
+    flairs: Flairs
+    clear: Clear
+    search-flair: Search flair
+    no-options-left: No options left.
+  home:
+    announcements:
+      title: Announcements
+      see-all: See all
+    featured:
+      title: Featured Tables
+      loading: Loading
+      no-tables-found: No tables found.
+  loading-card:
+    title: Loading
+  my-applications:
+    application-card:
+      view-table: View table
+      applying-to: 'Applying to: {text}'
+      your-message: 'Your message: {text}'
+      status: 'Status: {text}'
+      owner-message: 'Owner message: {text}'
+      declined-message: Sorry, the table owner declined your application.
+    delete-application-modal:
+      title: Delete application
+      warning: Deleting this application is an irreversible action. You'll be prompted to enter your password.
+      confirmation: Are you sure you want to delete this application?
+      back: Back
+      understand: I understand
+      confirm: Confirm
+      form:
+        password:
+          label: Password
+          placeholder: Password
+  my-tables:
+    title: My Tables
+    create-table: Create new table
+    tables-limit: 'Tables limit: {limit}'
+    applications:
+      title: Applications for {table}
+      no-applications: There is no applications for this table.
+    application-card:
+      their-message: 'Their message: {text}'
+      decline: Decline
+      profile: Profile
+      accept: Accept
+      accept-modal:
+        title: Accepting application
+        message: Are you sure you want to accept {user}'s application? This is an irreversible action.
+        yes-accept: Yes, Accept
+        back: Back
+      decline-modal:
+        title: Declining application
+        message: Are you sure you want to decline {user}'s application? This is an irreversible action.
+        yes-accept: Yes, Decline
+        back: Back
+    delete-table:
+      title: Delete table
+      warning: Deleting this table is an irreversible action. All user applications for this table will be deleted. You'll be prompted to enter your password.
+      confirmation: Are you sure you want to delete this table?
+      back: Back
+      understand: I understand
+      confirm: Confirm
+      form:
+        password:
+          label: Password
+          placeholder: Password
+    table-card:
+      title: 'Title: {text}'
+      description: 'Description: {text}'
+      edit: Edit
+      view: View
+      applicants: No Applicants | Applicant | Applicants
+      flairs: 'Flairs:'
+      delete: Delete
+  navbar:
+    tabs:
+      menu: Menu
+      home: Home
+      search: Search
+      notifications: Notifs
+      profile: Profile
+    menus:
+      login: Login
+      register: Register
+      my-applications: My Applications
+      my-tables: My Tables
+      settings: Settings
+      about: About
+      logout: Logout
+    language: Language
+  profile:
+    change-email-modal:
+      title: Change Email
+      current-email: 'Current email: {email}'
+      form:
+        email:
+          label: Email
+          placeholder: New email
+        confirm-email:
+          label: Confirm email
+          placeholder: Confirm email
+        password:
+          label: Password
+          placeholder: Password
+      back: Back
+      save: Save
+    change-password-modal:
+      title: Change Password
+      form:
+        old-password:
+          label: Old password
+          placeholder: Old password
+        new-password:
+          label: New password
+          placeholder: New password
+        confirm-password:
+          label: Confirm password
+          placeholder: Confirm password
+      back: Back
+      save: Save
+    change-username-modal:
+      title: Change Username
+      current-name: 'Current name: {name}'
+      form:
+        username:
+          label: Username
+          placeholder: New username
+        password:
+          label: Password
+          placeholder: Password
+      back: Back
+      save: Save
+    delete-account-modal:
+      title: Delete Account
+      warnings:
+        - Deleting your account is an irreversible action.
+        - Your profile, active applications and tables will all be delete.
+        - '(You''ll be prompted to enter your password.)'
+      confirmation: Are you sure you want to delete your account?
+      back: Back
+      understand: I understand
+      confirm: Confirm
+      form:
+        password:
+          label: Password
+          placeholder: Password
   recaptcha:
     message: This site is protected by reCAPTCHA and the Google {privacy} and {tos} apply.
     privacy: Privacy Policy
     tos: Terms of Service
+  tables:
+    title: Tables
+    description: 'Description:'
+    flairs: 'Flairs:'
+    youre-the-owner: You're the owner, click here to edit.
+    apply-to-table: Apply to this table
+    already-applied: You've already applied to this table.
+    card:
+      read-more: Read more
+      view-table: Table
+      view-owner: Owner
+      report: Report
+    apply:
+      form:
+        message:
+          label: Message
+          placeholder: Application message
+      submit: Send application
+notifications:
+  messages:
+    applied-to-your-table: The user {name} applied to your table {table}.
+    application-accepted: Your application of the table {table} was accepted.
+    application-declined: Your application of the table {table} was declined.
+  titles:
+    applied-to-your-table: Someone applied to your table.
+    application-accepted: Your appplication was accepted.
+    application-declined: Your appplication was declined.
+  type:
+    application: Application
+    report: Report
+    system: System

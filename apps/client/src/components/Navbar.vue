@@ -48,7 +48,7 @@ async function logout() {
   <nav>
     <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
       <NuxtIcon name="hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
-      <p>{{ $t('navbar.tabs.menu') }}</p>
+      <p>{{ $t('components.navbar.tabs.menu') }}</p>
     </button>
     <NuxtLink
       v-for="tab in tabs"
@@ -64,7 +64,7 @@ async function logout() {
           class="absolute top-0 -right-2 w-3 h-3 rounded-full bg-gradient-to-b from-danger-light to-danger"
         />
       </div>
-      <p>{{ $t(`navbar.tabs.${tab.name}`) }}</p>
+      <p>{{ $t(`components.navbar.tabs.${tab.name}`) }}</p>
     </NuxtLink>
     <Transition name="fade">
       <div v-if="showMobileMenu" class="modal">
@@ -95,10 +95,10 @@ async function logout() {
             </div>
             <div v-else class="grid grid-cols-2 gap-3 w-full p-3 lg:gap-5 lg:p-5">
               <NuxtLink :to="localePath({ name: 'login' })" class="btn-accent" @click.prevent="closeMobileMenu">
-                {{ $t('navbar.menus.login') }}
+                {{ $t('components.navbar.menus.login') }}
               </NuxtLink>
               <NuxtLink :to="localePath({ name: 'register' })" class="btn-secondary" @click.prevent="closeMobileMenu">
-                {{ $t('navbar.menus.register') }}
+                {{ $t('components.navbar.menus.register') }}
               </NuxtLink>
             </div>
             <div class="flex-1 flex flex-col gap-3">
@@ -110,7 +110,7 @@ async function logout() {
                 @click.prevent="closeMobileMenu"
               >
                 <NuxtIcon :name="item.icon" />
-                <p>{{ $t(`navbar.menus.${item.name}`) }}</p>
+                <p>{{ $t(`components.navbar.menus.${item.name}`) }}</p>
               </NuxtLink>
               <button
                 class="menu-button"
@@ -119,7 +119,7 @@ async function logout() {
                 "
               >
                 <NuxtIcon :name="`flags/${$i18n.locale}`" filled />
-                <p>{{ $t('navbar.language') }}</p>
+                <p>{{ $t('components.navbar.language') }}</p>
               </button>
             </div>
           </div>

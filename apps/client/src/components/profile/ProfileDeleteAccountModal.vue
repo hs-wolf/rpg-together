@@ -25,8 +25,8 @@ const showConfirmCard = ref(false)
 const formFields = {
   password: {
     name: 'password',
-    label: 'profile-delete-account-modal.form.password.label',
-    placeholder: 'profile-delete-account-modal.form.password.placeholder',
+    label: 'components.profile.delete-account-modal.form.password.label',
+    placeholder: 'components.profile.delete-account-modal.form.password.placeholder',
   },
 }
 
@@ -55,10 +55,10 @@ const onSubmit = handleSubmit(async (values) => {
   <div class="modal justify-center p-3 lg:p-0">
     <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="text-danger font-semibold lg:text-lg">
-        {{ $t('profile-delete-account-modal.title') }}
+        {{ $t('components.profile.delete-account-modal.title') }}
       </h1>
       <p class="text-sm lg:text-base">
-        {{ $t('profile-delete-account-modal.confirmation') }}
+        {{ $t('components.profile.delete-account-modal.confirmation') }}
       </p>
       <FormInput
         v-model="passwordValue"
@@ -84,10 +84,10 @@ const onSubmit = handleSubmit(async (values) => {
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
           <button class="btn-accent" @click.prevent="showConfirmCard = false">
-            {{ $t('profile-delete-account-modal.back') }}
+            {{ $t('components.profile.delete-account-modal.back') }}
           </button>
           <button class="btn-danger" @click.prevent="onSubmit">
-            {{ $t('profile-delete-account-modal.confirm') }}
+            {{ $t('components.profile.delete-account-modal.confirm') }}
           </button>
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
@@ -98,23 +98,23 @@ const onSubmit = handleSubmit(async (values) => {
     </div>
     <div v-else ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="text-danger font-semibold lg:text-lg">
-        {{ $t('profile-delete-account-modal.title') }}
+        {{ $t('components.profile.delete-account-modal.title') }}
       </h1>
       <div class="flex flex-col gap-2 text-sm lg:text-base">
-        <p>{{ $t('profile-delete-account-modal.warnings[0]') }}</p>
-        <p>{{ $t('profile-delete-account-modal.warnings[1]') }}</p>
+        <p>{{ $t('components.profile.delete-account-modal.warnings[0]') }}</p>
+        <p>{{ $t('components.profile.delete-account-modal.warnings[1]') }}</p>
         <p class="font-semibold">
-          {{ $t('profile-delete-account-modal.warnings[2]') }}
+          {{ $t('components.profile.delete-account-modal.warnings[2]') }}
         </p>
       </div>
       <LoadingCard v-if="deletingAccount" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
           <button class="btn-accent" @click.prevent="emits('close')">
-            {{ $t('profile-delete-account-modal.back') }}
+            {{ $t('components.profile.delete-account-modal.back') }}
           </button>
           <button class="btn-primary" @click.prevent="showConfirmCard = true">
-            {{ $t('profile-delete-account-modal.understand') }}
+            {{ $t('components.profile.delete-account-modal.understand') }}
           </button>
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">

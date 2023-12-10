@@ -76,12 +76,12 @@ onMounted(() => setInitialFlairs())
     <div class="flex justify-between">
       <button class="btn-primary gap-2" @click.prevent="showFilterMenu = !showFilterMenu">
         <NuxtIcon name="filter" />
-        <p>{{ $t('flairs-menu.flairs') }}</p>
+        <p>{{ $t('components.flairs-menu.flairs') }}</p>
         <NuxtIcon name="chevron-left" fill class="transition-transform" :class="{ 'rotate-180': !showFilterMenu }" />
       </button>
       <Transition name="slide-left">
         <button v-if="showFilterMenu" class="btn-primary gap-2" @click.prevent="clearFilters">
-          <p>{{ $t('flairs-menu.clear') }}</p>
+          <p>{{ $t('components.flairs-menu.clear') }}</p>
           <NuxtIcon name="x-close" />
         </button>
       </Transition>
@@ -93,40 +93,40 @@ onMounted(() => setInitialFlairs())
           v-model="selectedSystems"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(systemsFlairs)"
           placeholder="Systems"
-          :search-message="$t('flairs-menu.search-flair')"
-          :empty-message="$t('flairs-menu.no-options-left')"
+          :search-message="$t('components.flairs-menu.search-flair')"
+          :empty-message="$t('components.flairs-menu.no-options-left')"
         />
         <FormSelect
           ref="languagesFilterRef"
           v-model="selectedLanguages"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(languagesFlairs)"
           placeholder="Languages"
-          :search-message="$t('flairs-menu.search-flair')"
-          :empty-message="$t('flairs-menu.no-options-left')"
+          :search-message="$t('components.flairs-menu.search-flair')"
+          :empty-message="$t('components.flairs-menu.no-options-left')"
         />
         <FormSelect
           ref="ratingsFilterRef"
           v-model="selectedRatings"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(ratingsFlairs)"
           placeholder="Ratings"
-          :search-message="$t('flairs-menu.search-flair')"
-          :empty-message="$t('flairs-menu.no-options-left')"
+          :search-message="$t('components.flairs-menu.search-flair')"
+          :empty-message="$t('components.flairs-menu.no-options-left')"
         />
         <FormSelect
           ref="vacanciesFilterRef"
           v-model="selectedVacancies"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(vacanciesFlairs)"
           placeholder="Vacancies"
-          :search-message="$t('flairs-menu.search-flair')"
-          :empty-message="$t('flairs-menu.no-options-left')"
+          :search-message="$t('components.flairs-menu.search-flair')"
+          :empty-message="$t('components.flairs-menu.no-options-left')"
         />
         <FormSelect
           ref="genresFilterRef"
           v-model="selectedGenres"
           :options="flairsStore.mapFlairsToAdvancedSelectOption(genresFlairs)"
           placeholder="Genres"
-          :search-message="$t('flairs-menu.search-flair')"
-          :empty-message="$t('flairs-menu.no-options-left')"
+          :search-message="$t('components.flairs-menu.search-flair')"
+          :empty-message="$t('components.flairs-menu.no-options-left')"
         />
       </div>
     </Transition>

@@ -64,6 +64,7 @@ function declineApplication() {
           :alt="application?.applicant?.username"
           width="24px"
           height="24px"
+          format="webp"
           class="shadow rounded-full w-[20px] h-[20px] lg:w-[24px] lg:h-[24px]"
         />
         <h1 class="truncate font-semibold lg:text-lg">
@@ -75,7 +76,7 @@ function declineApplication() {
     <Transition name="slide-down">
       <div v-if="showInfo" class="card-secondary gap-5 rounded-t-none">
         <i18n-t
-          keypath="my-tables-application-card.their-message"
+          keypath="components.my-tables.application-card.their-message"
           tag="p"
           scope="global"
           class="flex flex-col gap-1 text-sm lg:text-base font-semibold"
@@ -87,7 +88,7 @@ function declineApplication() {
           </template>
         </i18n-t>
         <hr class="border-secondary-dark">
-        <i18n-t keypath="my-applications-application-card.status" tag="p" scope="global" class="text-sm lg:text-base font-semibold">
+        <i18n-t keypath="components.my-applications.application-card.status" tag="p" scope="global" class="text-sm lg:text-base font-semibold">
           <template #text>
             <span class="text-base lg:text-lg" :class="statusColor">
               {{ application?.status }}
@@ -100,18 +101,18 @@ function declineApplication() {
             class="btn-danger"
             @click.prevent="showRejectModal = !showRejectModal"
           >
-            {{ $t('my-tables-application-card.decline') }}
+            {{ $t('components.my-tables.application-card.decline') }}
           </button>
           <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicant.id}` })" class="btn-secondary flex gap-2">
             <NuxtIcon name="external-link" class="lg:text-lg" />
-            <p>{{ $t('my-tables-application-card.profile') }}</p>
+            <p>{{ $t('components.my-tables.application-card.profile') }}</p>
           </NuxtLink>
           <button
             v-if="application.status === ApplicationStatus.WAITING"
             class="btn-accent"
             @click.prevent="showAcceptModal = !showAcceptModal"
           >
-            {{ $t('my-tables-application-card.accept') }}
+            {{ $t('components.my-tables.application-card.accept') }}
           </button>
         </div>
       </div>

@@ -24,8 +24,8 @@ onClickOutside(cardRef, () => {
 const formFields = {
   message: {
     name: 'message',
-    label: 'tables-apply.form.message.label',
-    placeholder: 'tables-apply.form.message.placeholder',
+    label: 'components.tables.apply.form.message.label',
+    placeholder: 'components.tables.apply.form.message.placeholder',
   },
 }
 
@@ -74,7 +74,7 @@ const onSubmit = handleSubmit(async (values) => {
           </template>
         </FormTextarea>
         <button class="btn-accent mt-3" :disabled="sendingApplication" @click.prevent="onSubmit">
-          {{ $t('tables-apply.submit') }}
+          {{ $t('components.tables.apply.submit') }}
         </button>
       </div>
     </div>

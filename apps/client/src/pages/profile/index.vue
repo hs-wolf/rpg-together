@@ -8,7 +8,7 @@ const { user, changingAvatar } = storeToRefs(userStore)
 
 definePageMeta({ middleware: ['logged-in'] })
 
-useHead({ title: t('profile.title') })
+useHead({ title: t('pages.profile.title') })
 
 const userAvatarImageFile = ref<File>()
 const userAvatarImageUrl = ref('')
@@ -38,7 +38,7 @@ const currentAvatarUrl = computed(() =>
 
 <template>
   <div class="flex flex-col gap-5 lg:gap-7">
-    <PageTitle :title="$t('profile.title')" />
+    <PageTitle :title="$t('pages.profile.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col items-center lg:items-start gap-3 lg:gap-5">
         <input
@@ -76,24 +76,24 @@ const currentAvatarUrl = computed(() =>
             <button class="transition-transform active:scale-90" @click.prevent="showChangeEmailModal = true">
               <NuxtIcon name="edit-pencil" class="text-xl lg:text-2xl" />
             </button>
-            <p>{{ $t('profile.email') }}</p>
+            <p>{{ $t('pages.profile.email') }}</p>
             <p class="text-accent-light font-semibold break-all">
               {{ user?.email }}
             </p>
           </div>
           <p class="text-xs lg:text-sm">
-            {{ $t('profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
+            {{ $t('pages.profile.creation-date', { date: user?.creationDate.toLocaleString(locale) }) }}
           </p>
           <p class="text-xs lg:text-sm">
-            {{ $t('profile.last-update-date', { date: user?.lastUpdateDate.toLocaleString(locale) }) }}
+            {{ $t('pages.profile.last-update-date', { date: user?.lastUpdateDate.toLocaleString(locale) }) }}
           </p>
         </div>
         <div class="flex flex-col gap-3 lg:gap-5">
           <button class="btn-secondary self-center lg:self-start" @click.prevent="showChangePasswordModal = true">
-            {{ $t('profile.change-password') }}
+            {{ $t('pages.profile.change-password') }}
           </button>
           <button class="btn-danger self-center lg:self-start" @click.prevent="showDeleteAccountModal = true">
-            {{ $t('profile.delete-account') }}
+            {{ $t('pages.profile.delete-account') }}
           </button>
         </div>
       </div>

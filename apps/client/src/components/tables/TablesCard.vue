@@ -15,7 +15,7 @@ const showOptions = ref(false)
 const options: Option[] = [
   // {
   //   name: 'report',
-  //   label: 'tables.card.report',
+  //   label: 'components.tables.card.report',
   //   icon: 'danger',
   //   action: () => report(),
   //   disabled: true,
@@ -23,13 +23,13 @@ const options: Option[] = [
   // },
   {
     name: 'view-owner',
-    label: 'tables.card.view-owner',
+    label: 'components.tables.card.view-owner',
     icon: 'user',
     action: () => viewOwner(),
   },
   {
     name: 'view-table',
-    label: 'tables.card.view-table',
+    label: 'components.tables.card.view-table',
     icon: 'bar-table',
     action: () => viewTable(),
   },
@@ -75,7 +75,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
             : table.description
         }}
         <NuxtLink v-if="needToCropDescription" :to="localeRoute({ path: `/tables/${table.id}` })" class="font-semibold">
-          {{ $t('tables.card.read-more') }}
+          {{ $t('components.tables.card.read-more') }}
         </NuxtLink>
       </p>
       <div class="flex flex-wrap gap-1 py-2">

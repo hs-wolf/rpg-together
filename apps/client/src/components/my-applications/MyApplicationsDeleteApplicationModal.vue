@@ -26,8 +26,8 @@ function closeModal() {
 const formFields = {
   password: {
     name: 'password',
-    label: 'my-applications-delete-application-modal.form.password.label',
-    placeholder: 'my-applications-delete-application-modal.form.password.placeholder',
+    label: 'components.my-applications.delete-application-modal.form.password.label',
+    placeholder: 'components.my-applications.delete-application-modal.form.password.placeholder',
   },
 }
 
@@ -54,13 +54,13 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <Transition name="fade">
-    <div v-if="show" class="modal justify-center p-3">
-      <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3">
-        <h1 class="text-danger font-semibold">
-          {{ $t('my-applications-delete-application-modal.title') }}
+    <div v-if="show" class="modal justify-center">
+      <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+        <h1 class="text-danger font-semibold lg:text-lg">
+          {{ $t('components.my-applications.delete-application-modal.title') }}
         </h1>
-        <p class="text-sm">
-          {{ $t('my-applications-delete-application-modal.confirmation') }}
+        <p class="text-sm lg:text-base">
+          {{ $t('components.my-applications.delete-application-modal.confirmation') }}
         </p>
         <FormInput
           v-model="passwordValue"
@@ -86,28 +86,28 @@ const onSubmit = handleSubmit(async (values) => {
         <div v-else class="flex flex-col gap-3 mt-3">
           <div class="grid grid-cols-2 gap-3">
             <button class="btn-accent" @click.prevent="showConfirmCard = false">
-              {{ $t('my-applications-delete-application-modal.back') }}
+              {{ $t('components.my-applications.delete-application-modal.back') }}
             </button>
             <button class="btn-danger" @click.prevent="onSubmit">
-              {{ $t('my-applications-delete-application-modal.confirm') }}
+              {{ $t('components.my-applications.delete-application-modal.confirm') }}
             </button>
           </div>
           <FormErrorMessage :error="apiError ?? ''" />
         </div>
       </div>
-      <div v-else ref="cardRef" class="card-primary gap-3">
-        <h1 class="text-danger font-semibold">
-          {{ $t('my-applications-delete-application-modal.title') }}
+      <div v-else ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+        <h1 class="text-danger font-semibold lg:text-lg">
+          {{ $t('components.my-applications.delete-application-modal.title') }}
         </h1>
-        <p class="text-sm">
-          {{ $t('my-applications-delete-application-modal.warning') }}
+        <p class="text-sm lg:text-base">
+          {{ $t('components.my-applications.delete-application-modal.warning') }}
         </p>
         <div class="grid grid-cols-2 gap-3 mt-3">
           <button class="btn-accent" @click.prevent="closeModal">
-            {{ $t('my-applications-delete-application-modal.back') }}
+            {{ $t('components.my-applications.delete-application-modal.back') }}
           </button>
           <button class="btn-primary" @click.prevent="showConfirmCard = true">
-            {{ $t('my-applications-delete-application-modal.understand') }}
+            {{ $t('components.my-applications.delete-application-modal.understand') }}
           </button>
         </div>
       </div>

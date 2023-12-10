@@ -19,18 +19,18 @@ onClickOutside(cardRef, () => {
 const formFields = {
   'old-password': {
     name: 'old-password',
-    label: 'profile-change-password-modal.form.old-password.label',
-    placeholder: 'profile-change-password-modal.form.old-password.placeholder',
+    label: 'components.profile.change-password-modal.form.old-password.label',
+    placeholder: 'components.profile.change-password-modal.form.old-password.placeholder',
   },
   'new-password': {
     name: 'new-password',
-    label: 'profile-change-password-modal.form.new-password.label',
-    placeholder: 'profile-change-password-modal.form.new-password.placeholder',
+    label: 'components.profile.change-password-modal.form.new-password.label',
+    placeholder: 'components.profile.change-password-modal.form.new-password.placeholder',
   },
   'confirm-password': {
     name: 'confirm-password',
-    label: 'profile-change-password-modal.form.confirm-password.label',
-    placeholder: 'profile-change-password-modal.form.confirm-password.placeholder',
+    label: 'components.profile.change-password-modal.form.confirm-password.label',
+    placeholder: 'components.profile.change-password-modal.form.confirm-password.placeholder',
   },
 }
 
@@ -69,7 +69,7 @@ const onSubmit = handleSubmit(async (values) => {
   <div class="modal justify-center p-3 lg:p-0">
     <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="font-semibold lg:text-lg">
-        {{ $t('profile-change-password-modal.title') }}
+        {{ $t('components.profile.change-password-modal.title') }}
       </h1>
       <FormInput
         v-model="oldPasswordValue"
@@ -144,10 +144,10 @@ const onSubmit = handleSubmit(async (values) => {
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
           <button class="btn-primary" @click.prevent="emits('close')">
-            {{ $t('profile-change-password-modal.back') }}
+            {{ $t('components.profile.change-password-modal.back') }}
           </button>
           <button class="btn-accent" @click.prevent="onSubmit">
-            {{ $t('profile-change-password-modal.save') }}
+            {{ $t('components.profile.change-password-modal.save') }}
           </button>
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">

@@ -20,7 +20,7 @@ defineProps<{ announcement: Announcement }>()
       v-if="announcement.image"
       :src="announcement.image"
       :alt="announcement.title[$i18n.locale as SupportedLanguages]"
-      class="max-h-[128px] min-h-[128px] rounded-b-sm object-cover"
+      class="max-h-[128px] h-full lg:max-h-[192px] rounded-b-sm object-cover"
     />
   </div>
 </template>

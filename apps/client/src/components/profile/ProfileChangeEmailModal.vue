@@ -19,18 +19,18 @@ onClickOutside(cardRef, () => {
 const formFields = {
   'email': {
     name: 'email',
-    label: 'profile-change-email-modal.form.email.label',
-    placeholder: 'profile-change-email-modal.form.email.placeholder',
+    label: 'components.profile.change-email-modal.form.email.label',
+    placeholder: 'components.profile.change-email-modal.form.email.placeholder',
   },
   'confirm-email': {
     name: 'confirm-email',
-    label: 'profile-change-email-modal.form.confirm-email.label',
-    placeholder: 'profile-change-email-modal.form.confirm-email.placeholder',
+    label: 'components.profile.change-email-modal.form.confirm-email.label',
+    placeholder: 'components.profile.change-email-modal.form.confirm-email.placeholder',
   },
   'password': {
     name: 'password',
-    label: 'profile-change-email-modal.form.password.label',
-    placeholder: 'profile-change-email-modal.form.password.placeholder',
+    label: 'components.profile.change-email-modal.form.password.label',
+    placeholder: 'components.profile.change-email-modal.form.password.placeholder',
   },
 }
 
@@ -69,9 +69,9 @@ const onSubmit = handleSubmit(async (values) => {
   <div class="modal justify-center p-3 lg:p-0">
     <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="font-semibold lg:text-lg">
-        {{ $t('profile-change-email-modal.title') }}
+        {{ $t('components.profile.change-email-modal.title') }}
       </h1>
-      <i18n-t keypath="profile-change-email-modal.current-email" tag="p" scope="global" class="text-sm lg:text-base">
+      <i18n-t keypath="components.profile.change-email-modal.current-email" tag="p" scope="global" class="text-sm lg:text-base">
         <template #email>
           <span class="font-semibold">{{ user?.email }}</span>
         </template>
@@ -128,10 +128,10 @@ const onSubmit = handleSubmit(async (values) => {
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
           <button class="btn-primary" @click.prevent="emits('close')">
-            {{ $t('profile-change-email-modal.back') }}
+            {{ $t('components.profile.change-email-modal.back') }}
           </button>
           <button class="btn-accent" @click.prevent="onSubmit">
-            {{ $t('profile-change-email-modal.save') }}
+            {{ $t('components.profile.change-email-modal.save') }}
           </button>
         </div>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">

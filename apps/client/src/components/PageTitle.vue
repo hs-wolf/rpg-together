@@ -22,7 +22,7 @@ const finalPreviousRoute = computed(() => {
       <div class="flex items-center gap-4">
         <NuxtIcon v-if="!hideIcon" name="logo" class="text-3xl lg:text-4xl" />
         <p class="text-xl lg:text-2xl font-righteous">
-          {{ title ?? $t('home.title') }}
+          {{ title ?? $t('pages.home.title') }}
         </p>
       </div>
     </div>
