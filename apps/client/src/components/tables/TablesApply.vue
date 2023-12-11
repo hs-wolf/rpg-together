@@ -73,7 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
             <NuxtIcon name="apply" />
           </template>
         </FormTextarea>
-        <button class="btn-accent mt-3" :disabled="sendingApplication" @click.prevent="onSubmit">
+        <button class="btn btn-accent mt-3" :disabled="sendingApplication" @click.prevent="onSubmit">
           {{ $t('components.tables.apply.submit') }}
         </button>
       </div>

@@ -13,15 +13,15 @@ const finalPreviousRoute = computed(() => {
 
 <template>
   <div
-    class="flex bg-gradient-to-b from-accent to-accent-2"
+    class="flex lg:hidden bg-gradient-to-b from-accent to-accent-1"
   >
-    <div class="flex items-center gap-2 w-full px-2 py-4 tracking-widest font-semibold lg:px-0 lg:py-6 lg:max-w-5xl lg:mx-auto" :class="finalPreviousRoute ? 'justify-between' : 'justify-center'">
+    <div class="flex items-center gap-2 w-full px-3 py-3.5" :class="finalPreviousRoute ? 'justify-between' : 'justify-center'">
       <NuxtLink v-if="finalPreviousRoute" :to="{ path: finalPreviousRoute }">
-        <NuxtIcon name="chevron-left" class="text-2xl lg:text-3xl" />
+        <NuxtIcon name="chevron-left" class="text-2xl" />
       </NuxtLink>
-      <div class="flex items-center gap-4">
-        <NuxtIcon v-if="!hideIcon" name="logo" class="text-3xl lg:text-4xl" />
-        <p class="text-xl lg:text-2xl font-righteous">
+      <div class="flex items-center gap-3">
+        <NuxtIcon v-if="!hideIcon" name="logo" class="text-2xl" />
+        <p class="text-xl font-righteous tracking-widest font-semibold">
           {{ title ?? $t('pages.home.title') }}
         </p>
       </div>

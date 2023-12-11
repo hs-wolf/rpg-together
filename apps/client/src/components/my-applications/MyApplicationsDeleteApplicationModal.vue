@@ -85,10 +85,10 @@ const onSubmit = handleSubmit(async (values) => {
         <LoadingCard v-if="deletingApplication" class="mt-3" />
         <div v-else class="flex flex-col gap-3 mt-3">
           <div class="grid grid-cols-2 gap-3">
-            <button class="btn-accent" @click.prevent="showConfirmCard = false">
+            <button class="btn btn-accent" @click.prevent="showConfirmCard = false">
               {{ $t('components.my-applications.delete-application-modal.back') }}
             </button>
-            <button class="btn-danger" @click.prevent="onSubmit">
+            <button class="btn btn-danger" @click.prevent="onSubmit">
               {{ $t('components.my-applications.delete-application-modal.confirm') }}
             </button>
           </div>
@@ -103,10 +103,10 @@ const onSubmit = handleSubmit(async (values) => {
           {{ $t('components.my-applications.delete-application-modal.warning') }}
         </p>
         <div class="grid grid-cols-2 gap-3 mt-3">
-          <button class="btn-accent" @click.prevent="closeModal">
+          <button class="btn btn-accent" @click.prevent="closeModal">
             {{ $t('components.my-applications.delete-application-modal.back') }}
           </button>
-          <button class="btn-primary" @click.prevent="showConfirmCard = true">
+          <button class="btn btn-primary" @click.prevent="showConfirmCard = true">
             {{ $t('components.my-applications.delete-application-modal.understand') }}
           </button>
         </div>

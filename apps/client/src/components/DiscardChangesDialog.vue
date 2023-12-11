@@ -24,10 +24,10 @@ function confirm() {
           {{ $t('components.discard-changes-dialog.message') }}
         </p>
         <div class="grid grid-cols-2 gap-3 mt-3">
-          <button class="btn-accent" @click.prevent="emits('close')">
+          <button class="btn btn-accent" @click.prevent="emits('close')">
             {{ $t('components.discard-changes-dialog.close') }}
           </button>
-          <button class="btn-primary" @click.prevent="confirm">
+          <button class="btn btn-primary" @click.prevent="confirm">
             {{ $t('components.discard-changes-dialog.confirm') }}
           </button>
         </div>

@@ -46,7 +46,7 @@ const onSubmit = handleSubmit(async (values) => {
     <PageTitle :title="$t('pages.login.title')" />
     <div class="flex flex-col gap-5 px-2 w-full lg:gap-7 lg:px-0 lg:max-w-xl lg:mx-auto">
       <i18n-t keypath="pages.login.no-account" tag="div" scope="global" class="flex flex-col text-center lg:text-lg">
-        <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-medium">
+        <NuxtLink :to="localePath({ name: 'register' })" class="text-accent font-semibold">
           {{ $t('pages.login.register-here') }}
         </NuxtLink>
       </i18n-t>
@@ -88,7 +88,7 @@ const onSubmit = handleSubmit(async (values) => {
         <span v-if="apiError" class="text-end text-danger-1 text-sm lg:text-base">{{ apiError }}</span>
       </div>
       <LoadingCard v-if="signingIn" />
-      <button v-else class="btn-accent" :disabled="signingIn" @click.prevent="onSubmit">
+      <button v-else class="btn btn-accent" :disabled="signingIn" @click.prevent="onSubmit">
         <p>
           {{ $t('pages.login.submit') }}
         </p>

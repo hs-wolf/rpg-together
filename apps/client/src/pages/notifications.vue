@@ -34,7 +34,7 @@ function selectNotificationTypes(options: AdvancedSelectOption[]) {
     <PageTitle :title="$t('pages.notifications.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col gap-3 lg:gap-5">
-        <button class="btn-primary gap-2" @click.prevent="notificationsStore.readAllNotifications">
+        <button class="btn btn-primary gap-2" @click.prevent="notificationsStore.readAllNotifications">
           <p>{{ $t('pages.notifications.mark-all-read') }}</p>
           <NuxtIcon name="check" class="lg:text-lg" />
         </button>

@@ -28,7 +28,7 @@ const showInfo = ref(false)
     />
     <NuxtLink
       :to="localePath({ path: `/my-tables/${table?.id}/applications` })"
-      class="btn-primary absolute self-end m-1 gap-2 lg:gap-3"
+      class="btn btn-primary absolute self-end m-1 gap-2 lg:gap-3"
     >
       <NuxtIcon name="message-plus" :class="applications.length ? 'text-accent ' : 'opacity-50'" />
       <p class="font-semibold" :class="applications.length ? 'text-accent ' : 'opacity-50'">
@@ -52,11 +52,11 @@ const showInfo = ref(false)
       <Transition name="slide-down">
         <div v-if="showInfo" class="card-secondary gap-5 rounded-t-none">
           <div class="flex flex-wrap justify-end gap-3 lg:gap-5 w-full">
-            <NuxtLink :to="localePath({ path: `/editing-table/${table?.id}` })" class="btn-accent gap-2">
+            <NuxtLink :to="localePath({ path: `/editing-table/${table?.id}` })" class="btn btn-accent gap-2">
               <NuxtIcon name="edit-pencil" />
               <p>{{ $t('components.my-tables.table-card.edit') }}</p>
             </NuxtLink>
-            <NuxtLink :to="localePath({ path: `/tables/${table?.id}` })" class="btn-secondary gap-2">
+            <NuxtLink :to="localePath({ path: `/tables/${table?.id}` })" class="btn btn-secondary gap-2">
               <NuxtIcon name="eye-open" />
               <p>{{ $t('components.my-tables.table-card.view') }}</p>
             </NuxtLink>
@@ -78,7 +78,7 @@ const showInfo = ref(false)
               {{ flairsStore.getFlairLabel(flair) }}
             </div>
           </div>
-          <button class="btn-danger self-end" @click.prevent="$emit('delete', table)">
+          <button class="btn btn-danger self-end" @click.prevent="$emit('delete', table)">
             {{ $t('components.my-tables.table-card.delete') }}
           </button>
         </div>

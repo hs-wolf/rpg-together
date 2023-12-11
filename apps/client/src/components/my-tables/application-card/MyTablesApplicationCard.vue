@@ -98,18 +98,18 @@ function declineApplication() {
         <div class="flex flex-wrap justify-between lg:justify-end gap-3 lg:gap-5">
           <button
             v-if="application.status === ApplicationStatus.WAITING"
-            class="btn-danger"
+            class="btn btn-danger"
             @click.prevent="showRejectModal = !showRejectModal"
           >
             {{ $t('components.my-tables.application-card.decline') }}
           </button>
-          <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicant.id}` })" class="btn-secondary flex gap-2">
+          <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicant.id}` })" class="btn btn-secondary flex gap-2">
             <NuxtIcon name="external-link" class="lg:text-lg" />
             <p>{{ $t('components.my-tables.application-card.profile') }}</p>
           </NuxtLink>
           <button
             v-if="application.status === ApplicationStatus.WAITING"
-            class="btn-accent"
+            class="btn btn-accent"
             @click.prevent="showAcceptModal = !showAcceptModal"
           >
             {{ $t('components.my-tables.application-card.accept') }}

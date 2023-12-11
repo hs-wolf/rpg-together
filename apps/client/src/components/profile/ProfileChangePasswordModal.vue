@@ -143,10 +143,10 @@ const onSubmit = handleSubmit(async (values) => {
       <LoadingCard v-if="changingAuthData" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
-          <button class="btn-primary" @click.prevent="emits('close')">
+          <button class="btn btn-primary" @click.prevent="emits('close')">
             {{ $t('components.profile.change-password-modal.back') }}
           </button>
-          <button class="btn-accent" @click.prevent="onSubmit">
+          <button class="btn btn-accent" @click.prevent="onSubmit">
             {{ $t('components.profile.change-password-modal.save') }}
           </button>
         </div>

@@ -83,10 +83,10 @@ const onSubmit = handleSubmit(async (values) => {
       <LoadingCard v-if="deletingAccount" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
-          <button class="btn-accent" @click.prevent="showConfirmCard = false">
+          <button class="btn btn-accent" @click.prevent="showConfirmCard = false">
             {{ $t('components.profile.delete-account-modal.back') }}
           </button>
-          <button class="btn-danger" @click.prevent="onSubmit">
+          <button class="btn btn-danger" @click.prevent="onSubmit">
             {{ $t('components.profile.delete-account-modal.confirm') }}
           </button>
         </div>
@@ -110,10 +110,10 @@ const onSubmit = handleSubmit(async (values) => {
       <LoadingCard v-if="deletingAccount" class="mt-3" />
       <div v-else class="flex flex-col gap-3 mt-3">
         <div class="grid grid-cols-2 gap-3">
-          <button class="btn-accent" @click.prevent="emits('close')">
+          <button class="btn btn-accent" @click.prevent="emits('close')">
             {{ $t('components.profile.delete-account-modal.back') }}
           </button>
-          <button class="btn-primary" @click.prevent="showConfirmCard = true">
+          <button class="btn btn-primary" @click.prevent="showConfirmCard = true">
             {{ $t('components.profile.delete-account-modal.understand') }}
           </button>
         </div>

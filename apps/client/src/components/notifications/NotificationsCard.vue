@@ -40,7 +40,7 @@ function onClick() {
   >
     <div class="flex items-center gap-1" :class="notification.read ? 'text-primary-1' : 'text-accent'">
       <NuxtIcon name="bell" />
-      <h1 class="text-sm font-medium lg:text-base">
+      <h1 class="text-sm font-semibold lg:text-base">
         {{ $t(`notifications.titles.${notification.content}`) }}
       </h1>
     </div>

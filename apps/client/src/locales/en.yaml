@@ -24,6 +24,8 @@ api-errors:
   EMAIL_TAKEN: This email is taken.
   COULD_NOT_UPLOAD: Could not upload file.
   TABLES_LIMIT_REACHED: Tables limit reached.
+general:
+  app-name: Rpg Together
 pages:
   about:
     title: About us
@@ -38,6 +40,7 @@ pages:
       ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
   announcements:
     title: Anúncios
+    not-found: No announcements found.
   create-table:
     title: Create Table
     form:
@@ -203,12 +206,11 @@ components:
     announcements:
       title: Announcements
       see-all: See all
+      not-found: No announcements found.
     featured:
       title: Featured Tables
       loading: Loading
       no-tables-found: No tables found.
-  loading-card:
-    title: Loading
   my-applications:
     application-card:
       view-table: View table
@@ -270,22 +272,20 @@ components:
       flairs: 'Flairs:'
       delete: Delete
   navbar:
-    tabs:
-      menu: Menu
-      home: Home
-      search: Search
-    menus:
-      login: Login
-      register: Register
-      my-applications: My Applications
-      my-tables: My Tables
-      profile: Profile
-      notifications: Notifications
-      settings: Settings
-      announcements: Announcements
-      about: About
-      logout: Logout
-      language: Language
+    menu: Menu
+    home: Home
+    search: Search
+    login: Login
+    register: Register
+    my-applications: My Applications
+    my-tables: My Tables
+    profile: Profile
+    notifications: Notifications
+    settings: Settings
+    announcements: Announcements
+    about: About
+    logout: Logout
+    language: Language
   profile:
     change-email-modal:
       title: Change Email
