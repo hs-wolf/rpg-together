@@ -21,7 +21,7 @@ onMounted(async () => {
     madeFirstSearch.value = true
     return
   }
-  await newSearch()
+  // await newSearch()
   madeFirstSearch.value = true
 })
 </script>

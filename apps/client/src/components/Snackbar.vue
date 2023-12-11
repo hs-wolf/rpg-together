@@ -30,7 +30,7 @@ const currentBgAndIcon = computed(() => {
         @click.prevent="snackbarStore.clearCurrentSnack"
       >
         <NuxtIcon :name="currentBgAndIcon.icon" class="text-xl" />
-        <p class="w-full font-medium break-all">
+        <p class="w-full font-semibold break-all">
           {{ currentSnack.message }}
         </p>
         <NuxtIcon name="x-close-circle" class="text-lg" />

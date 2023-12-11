@@ -71,7 +71,7 @@ defineExpose({
         :class="{ 'w-full': !showOptions }"
         @click.prevent="showOptions = !showOptions"
       >
-        <p class="font-medium">
+        <p class="font-semibold">
           {{ placeholderMessage }}
         </p>
         <NuxtIcon name="chevron-up" class="transition-transform lg:text-lg" :class="showOptions ? 'rotate-0' : 'rotate-180'" />
@@ -105,7 +105,7 @@ defineExpose({
             v-model="optionsQuery"
             type="text"
             :placeholder="searchMessage"
-            class="w-full bg-transparent outline-none placeholder-accent-1 placeholder:font-normal text-secondary font-medium leading-none"
+            class="w-full bg-transparent outline-none placeholder-accent-1 placeholder:font-normal text-secondary font-semibold leading-none"
           >
         </div>
         <div class="flex flex-col" :class="{ 'max-h-[190px] overflow-y-auto': enableSearch }">

@@ -65,7 +65,7 @@ const onSubmit = handleSubmit(async (values) => {
     <PageTitle :title="$t('pages.register.title')" />
     <div class="flex flex-col gap-5 px-2 w-full lg:gap-7 lg:px-0 lg:max-w-xl lg:mx-auto">
       <i18n-t keypath="pages.register.existing-account" tag="div" scope="global" class="flex flex-col text-center text lg:text-lg">
-        <NuxtLink :to="localePath({ name: 'login' })" class="text-accent font-medium">
+        <NuxtLink :to="localePath({ name: 'login' })" class="text-accent font-semibold">
           {{ $t('pages.register.login-here') }}
         </NuxtLink>
       </i18n-t>

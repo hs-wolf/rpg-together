@@ -13,7 +13,7 @@ const finalPreviousRoute = computed(() => {
 
 <template>
   <div
-    class="flex bg-gradient-to-b from-accent to-accent-2"
+    class="flex lg:hidden bg-gradient-to-b from-accent to-accent-2"
   >
     <div class="flex items-center gap-2 w-full px-2 py-4 tracking-widest font-semibold lg:px-0 lg:py-6 lg:max-w-5xl lg:mx-auto" :class="finalPreviousRoute ? 'justify-between' : 'justify-center'">
       <NuxtLink v-if="finalPreviousRoute" :to="{ path: finalPreviousRoute }">

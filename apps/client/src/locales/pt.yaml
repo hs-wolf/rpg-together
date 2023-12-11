@@ -24,6 +24,8 @@ api-errors:
   EMAIL_TAKEN: Esse e-mail está em uso.
   COULD_NOT_UPLOAD: Não foi possível fazer o upload.
   TABLES_LIMIT_REACHED: Limite de mesas alcançado.
+general:
+  app-name: Rpg Together
 pages:
   about:
     title: Sobre nós
@@ -270,22 +272,20 @@ components:
       flairs: 'Categorias:'
       delete: Deletar
   navbar:
-    tabs:
-      menu: Menu
-      home: Início
-      search: Procurar
-    menus:
-      login: Entrar
-      register: Registrar
-      my-applications: Minhas aplicações
-      my-tables: Minhas mesas
-      profile: Perfil
-      notifications: Notificações
-      settings: Configurações
-      announcements: Anúncios
-      about: Sobre
-      logout: Sair
-      language: Língua
+    menu: Menu
+    home: Início
+    search: Procurar
+    login: Entrar
+    register: Registrar
+    my-applications: Minhas aplicações
+    my-tables: Minhas mesas
+    profile: Perfil
+    notifications: Notificações
+    settings: Configurações
+    announcements: Anúncios
+    about: Sobre
+    logout: Sair
+    language: Língua
   profile:
     change-email-modal:
       title: Alterar email
