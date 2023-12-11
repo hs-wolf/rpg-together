@@ -63,11 +63,11 @@ onBeforeMount(async () => {
           </div>
         </div>
         <div class="flex flex-col mt-3">
-          <button v-if="showApplicationButton" class="btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
+          <button v-if="showApplicationButton" class="btn btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
             <NuxtIcon name="apply" />
             <p>{{ $t('components.tables.apply-to-table') }}</p>
           </button>
-          <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn-primary gap-2">
+          <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn btn-primary gap-2">
             <NuxtIcon name="edit-pencil" />
             <p>{{ $t('components.tables.youre-the-owner') }}</p>
           </NuxtLink>

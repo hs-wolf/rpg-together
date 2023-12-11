@@ -142,7 +142,7 @@ const onSubmit = handleSubmit(async (values) => {
         <span v-if="apiError" class="text-end text-danger-1 text-sm lg:text-base">{{ apiError }}</span>
       </div>
       <LoadingCard v-if="registering" />
-      <button v-else class="btn-accent" :disabled="registering" @click.prevent="onSubmit">
+      <button v-else class="btn btn-accent" :disabled="registering" @click.prevent="onSubmit">
         <p>
           {{ $t('pages.register.submit') }}
         </p>

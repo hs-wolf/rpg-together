@@ -54,7 +54,7 @@ onMounted(async () => {
       class="w-full h-32 lg:h-48 rounded-t-sm object-cover"
     />
     <div class="absolute self-end flex m-1 gap-2 lg:gap-3">
-      <NuxtLink :to="localeRoute({ path: `/profile/${application.table?.owner?.id}` })" class="btn-primary gap-2 overflow-hidden">
+      <NuxtLink :to="localeRoute({ path: `/profile/${application.table?.owner?.id}` })" class="btn btn-primary gap-2 overflow-hidden">
         <NuxtImg
           :src="application.table?.owner?.avatar ?? DEFAULT_USER_AVATAR"
           :alt="application.table?.owner?.username"
@@ -67,7 +67,7 @@ onMounted(async () => {
           {{ application.table?.owner?.username }}
         </h1>
       </NuxtLink>
-      <NuxtLink :to="localeRoute({ path: `/tables/${application.table?.id}` })" class="btn-secondary gap-2">
+      <NuxtLink :to="localeRoute({ path: `/tables/${application.table?.id}` })" class="btn btn-secondary gap-2">
         <NuxtIcon name="bar-table" class="text-xl lg:text-2xl" />
         <p>{{ $t('components.my-applications.application-card.view-table') }}</p>
       </NuxtLink>
@@ -127,7 +127,7 @@ onMounted(async () => {
             {{ $t('components.my-applications.application-card.declined-message') }}
           </p>
           <div class="flex justify-end">
-            <button class="btn-danger" @click.prevent="showDeleteModal = !showDeleteModal">
+            <button class="btn btn-danger" @click.prevent="showDeleteModal = !showDeleteModal">
               <NuxtIcon name="trash" class="text-xl lg:text-2xl" />
             </button>
           </div>

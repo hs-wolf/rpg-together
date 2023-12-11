@@ -114,7 +114,7 @@ onMounted(async () => {
           <p v-if="noMoreTables" class="py-8 lg:py-16 text-sm text-center">
             {{ $t('pages.search.no-more-tables') }}
           </p>
-          <button v-else class="btn-accent" @click.prevent="searchDebounceFn(true)">
+          <button v-else class="btn btn-accent" @click.prevent="searchDebounceFn(true)">
             {{ $t('pages.search.load-more') }}
           </button>
         </div>
@@ -127,7 +127,7 @@ onMounted(async () => {
     <Transition name="slide-left">
       <button
         v-if="showScrollToTopButton"
-        class="btn-accent fixed right-3 bottom-[72px] h-12 rounded-full aspect-square lg:right-[72px] lg:h-14"
+        class="btn btn-accent fixed right-3 bottom-[72px] h-12 rounded-full aspect-square lg:right-[72px] lg:h-14"
         @click.prevent="scrollToTop"
       >
         <NuxtIcon name="chevron-up" class="text-xl" />

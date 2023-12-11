@@ -40,6 +40,7 @@ pages:
       ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
   announcements:
     title: Anúncios
+    not-found: No announcements found.
   create-table:
     title: Create Table
     form:
@@ -205,12 +206,11 @@ components:
     announcements:
       title: Announcements
       see-all: See all
+      not-found: No announcements found.
     featured:
       title: Featured Tables
       loading: Loading
       no-tables-found: No tables found.
-  loading-card:
-    title: Loading
   my-applications:
     application-card:
       view-table: View table

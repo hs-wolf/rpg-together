@@ -31,6 +31,7 @@ onMounted(async () => {
       </i18n-t>
       <NuxtLink
         :to="localePath({ name: 'create-table' })"
+        class="btn"
         :class="enableCreateTable ? 'btn-accent' : 'btn-primary opacity-50 pointer-events-none'"
       >
         {{ $t('components.my-tables.create-table') }}

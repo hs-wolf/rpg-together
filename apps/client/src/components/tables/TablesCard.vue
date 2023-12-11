@@ -98,7 +98,7 @@ const needToCropDescription = computed(() => props.table.description.length > TA
             {{ table?.owner?.username }}
           </h1>
         </NuxtLink>
-        <button name="options" class="btn-secondary" @click.prevent="toggleOptions()">
+        <button name="options" class="btn btn-secondary" @click.prevent="toggleOptions()">
           <NuxtIcon name="chevron-up" :class="{ 'rotate-180': !showOptions }" />
         </button>
       </div>

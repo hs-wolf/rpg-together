@@ -15,7 +15,7 @@ const handleError = () => clearError({ redirect: '/' })
         {{ $t('pages.error.message') }}
       </h1>
       <NuxtIcon name="caution-sign" class="self-center text-8xl" />
-      <button class="btn-accent" @click.prevent="handleError">
+      <button class="btn btn-accent" @click.prevent="handleError">
         {{ $t('pages.error.go-back') }}
       </button>
     </div>

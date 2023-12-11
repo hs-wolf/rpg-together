@@ -40,6 +40,7 @@ pages:
       ante. Ut rhoncus commodo nisi, id vehicula arcu vehicula at.
   announcements:
     title: Anúncios
+    not-found: Nenhum anúncio encontrado.
   create-table:
     title: Criar Mesa
     form:
@@ -205,12 +206,11 @@ components:
     announcements:
       title: Anúncios
       see-all: Ver todos
+      not-found: Nenhum anúncio encontrado.
     featured:
       title: Mesas em destaque
       loading: Carregando
       no-tables-found: Nenhuma mesa encontrada.
-  loading-card:
-    title: Carregando
   my-applications:
     application-card:
       view-table: Ver mesa

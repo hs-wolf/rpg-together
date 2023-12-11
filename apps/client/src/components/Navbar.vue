@@ -76,7 +76,7 @@ onClickOutside(mobileMenuRef, () => {
         <p>{{ $t(`components.navbar.${tab.name}`) }}</p>
       </NuxtLink>
       <Transition :name="mobileMenuCardDirection.transition">
-        <Modal v-if="showMobileMenu">
+        <BaseModal v-if="showMobileMenu">
           <div ref="mobileMenuRef" class="flex flex-col gap-3 w-full max-w-[80%] h-full bg-secondary text-primary overflow-auto" :class="mobileMenuCardDirection.align">
             <div v-if="firebaseUser" class="z-10 relative flex flex-col">
               <NuxtLink
@@ -102,11 +102,11 @@ onClickOutside(mobileMenuRef, () => {
               </div>
             </div>
             <div v-else-if="checkedFirstTime" class="z-20 grid grid-cols-2 gap-3 p-3">
-              <NuxtLink :to="localePath({ name: 'login' })">
-                <BaseButton theme="accent" :label="$t('components.navbar.login')" :action="closeMobileMenu" />
+              <NuxtLink :to="localePath({ name: 'login' })" class="btn btn-accent" @click.prevent="closeMobileMenu">
+                <p>{{ $t('components.navbar.login') }}</p>
               </NuxtLink>
-              <NuxtLink :to="localePath({ name: 'register' })">
-                <BaseButton theme="action" :label="$t('components.navbar.register')" :action="closeMobileMenu" />
+              <NuxtLink :to="localePath({ name: 'register' })" class="btn btn-action" @click.prevent="closeMobileMenu">
+                <p>{{ $t('components.navbar.register') }}</p>
               </NuxtLink>
             </div>
             <div class="z-20 flex-1 flex flex-col items-start gap-3">
@@ -136,11 +136,11 @@ onClickOutside(mobileMenuRef, () => {
               </button>
             </div>
           </div>
-        </Modal>
+        </BaseModal>
       </Transition>
     </div>
     <div class="desktop-nav">
-      <div class="flex flex-col gap-10 w-full lg:max-w-5xl lg:mx-auto">
+      <div class="flex flex-col gap-9 w-full lg:max-w-5xl lg:mx-auto">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-5">
             <NuxtIcon name="logo" class="text-4xl" />
@@ -180,11 +180,11 @@ onClickOutside(mobileMenuRef, () => {
             </button>
           </div>
           <div v-else-if="checkedFirstTime" class="flex gap-3">
-            <NuxtLink :to="localePath({ name: 'login' })">
-              <BaseButton theme="accent" :label="$t('components.navbar.login')" />
+            <NuxtLink :to="localePath({ name: 'login' })" class="btn btn-accent">
+              <p>{{ $t('components.navbar.login') }}</p>
             </NuxtLink>
-            <NuxtLink :to="localePath({ name: 'register' })">
-              <BaseButton theme="action" :label="$t('components.navbar.register')" />
+            <NuxtLink :to="localePath({ name: 'register' })" class="btn btn-action">
+              <p>{{ $t('components.navbar.register') }}</p>
             </NuxtLink>
           </div>
         </div>
@@ -193,8 +193,8 @@ onClickOutside(mobileMenuRef, () => {
             v-for="option in desktopNavOptions"
             :key="option.name"
             :to="localePath({ name: option.link })"
-            class="menu-button"
-            active-class="active-menu-button"
+            class="btn btn-secondary"
+            active-class="btn btn-accent"
           >
             <NuxtIcon :name="option.icon" />
             <p class="whitespace-nowrap">
@@ -229,19 +229,10 @@ onClickOutside(mobileMenuRef, () => {
     }
   }
   .active-menu-button {
-      @apply bg-accent-2 font-semibold text-secondary shadow
-    }
+    @apply bg-accent-2 font-semibold text-secondary shadow
+  }
 }
-
 .desktop-nav {
-  @apply z-30 hidden lg:flex flex-col py-10 bg-gradient-to-b from-secondary to-secondary-1 text-primary;
-  .menu-button {
-    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 border shadow rounded-sm font-semibold transition-transform bg-secondary border-secondary-2 text-primary;
-    @apply active:scale-95 active:bg-secondary-2;
-    @apply disabled:opacity-50 disabled:pointer-events-none;
-  }
-  .active-menu-button {
-    @apply bg-accent-2 font-semibold text-secondary shadow;
-  }
+  @apply z-30 hidden lg:flex flex-col py-9 bg-gradient-to-b from-secondary to-secondary-1 text-primary shadow;
 }
 </style>

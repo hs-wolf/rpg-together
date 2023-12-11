@@ -89,10 +89,10 @@ const currentAvatarUrl = computed(() =>
           </p>
         </div>
         <div class="flex flex-col gap-3 lg:gap-5">
-          <button class="btn-secondary self-center lg:self-start" @click.prevent="showChangePasswordModal = true">
+          <button class="btn btn-secondary self-center lg:self-start" @click.prevent="showChangePasswordModal = true">
             {{ $t('pages.profile.change-password') }}
           </button>
-          <button class="btn-danger self-center lg:self-start" @click.prevent="showDeleteAccountModal = true">
+          <button class="btn btn-danger self-center lg:self-start" @click.prevent="showDeleteAccountModal = true">
             {{ $t('pages.profile.delete-account') }}
           </button>
         </div>

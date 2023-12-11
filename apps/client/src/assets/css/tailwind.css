@@ -19,31 +19,34 @@
     @apply transition-transform active:scale-90;
   }
 
+  .btn {
+    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 border shadow rounded-sm text-sm font-semibold transition-transform;
+    @apply lg:text-base active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+    .nuxt-icon {
+      @apply text-base;
+    }
+    p {
+      @apply text-sm leading-none;
+    }
+  }
+
   .btn-primary {
-    @apply flex justify-center items-center px-3 py-2 bg-primary border border-primary-1 shadow rounded-sm text-sm text-secondary font-semibold transition-transform;
-    @apply lg:text-base;
-    @apply active:bg-primary-2 active:scale-95;
-    @apply disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-primary border-primary-2 text-secondary active:bg-primary-2;
   }
 
   .btn-secondary {
-    @apply flex justify-center items-center px-3 py-2 bg-secondary border border-secondary-2 shadow rounded-sm text-sm text-primary font-semibold transition-transform;
-    @apply lg:text-base;
-    @apply active:bg-secondary-2 active:scale-95;
-    @apply disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-secondary border-secondary-2 text-primary active:bg-secondary-2;
   }
 
   .btn-accent {
-    @apply flex justify-center items-center px-3 py-2 bg-accent border border-accent-2 shadow rounded-sm text-sm text-secondary font-semibold transition-transform;
-    @apply lg:text-base;
-    @apply active:bg-accent-2 active:scale-95;
-    @apply disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-accent border-accent-2 text-secondary active:bg-accent-2;
   }
 
   .btn-danger {
-    @apply flex justify-center items-center px-3 py-2 border border-danger shadow rounded-sm text-sm text-danger font-semibold transition-transform;
-    @apply lg:text-base;
-    @apply active:bg-danger-2 active:text-secondary active:scale-95;
-    @apply disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-danger border-danger-2 text-secondary active:bg-danger-2;
+  }
+
+  .btn-action {
+    @apply bg-action border-action-2 text-secondary active:bg-action-2;
   }
 }

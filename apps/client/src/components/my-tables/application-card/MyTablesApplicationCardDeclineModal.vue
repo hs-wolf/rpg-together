@@ -43,10 +43,10 @@ onClickOutside(cardRef, () => closeModal())
         </i18n-t>
         <LoadingCard v-if="decliningApplication" class="mt-3" />
         <div v-else class="grid grid-cols-2 gap-3 mt-3">
-          <button class="btn-primary" @click.prevent="closeModal">
+          <button class="btn btn-primary" @click.prevent="closeModal">
             {{ $t('components.my-tables.application-card.decline-modal.back') }}
           </button>
-          <button class="btn-danger" @click.prevent="declineApplication">
+          <button class="btn btn-danger" @click.prevent="declineApplication">
             {{ $t('components.my-tables.application-card.decline-modal.yes-accept') }}
           </button>
         </div>

@@ -172,7 +172,7 @@ const onSubmit = handleSubmit(async (values) => {
       </FormTextarea>
       <LoadingCard v-if="creatingTable" />
       <div v-else class="flex flex-col gap-3 mt-3">
-        <button class="btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
+        <button class="btn btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
           {{ $t('pages.create-table.submit') }}
         </button>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
