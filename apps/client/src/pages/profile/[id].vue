@@ -31,7 +31,7 @@ function checkOwnProfile() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 lg:gap-7">
+  <div class="flex flex-col gap-5 lg:pt-9 lg:gap-9">
     <PageTitle :title="user?.username ?? $t('pages.profile.title')" :back="true" />
     <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col items-center lg:items-start gap-3 lg:gap-5">
@@ -40,7 +40,7 @@ function checkOwnProfile() {
           :alt="user?.username ?? $t('pages.profile.title')"
           width="180"
           height="180"
-          class="w-[180px] lg:w-[256px] rounded-sm shadow object-cover"
+          class="w-[180px] lg:w-[256px] aspect-square rounded-sm shadow object-cover"
         />
         <h1 class="text-2xl lg:text-3xl font-semibold">
           {{ user?.username }}

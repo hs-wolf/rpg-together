@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Application, Table } from '@rpg-together/models'
+import { Table } from '@rpg-together/models'
+import type { Application } from '@rpg-together/models'
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
 import { useApplicationsStore, useFlairsStore, useTablesStore } from '~/stores'
 
@@ -28,7 +29,18 @@ watch(firebaseUser, async () => {
 })
 
 onBeforeMount(async () => {
-  table.value = await tablesStore.getTable(tableId)
+  // table.value = await tablesStore.getTable(tableId)
+  table.value = Table.fromMap({
+    id: '65751b322383a4325297fb78',
+    owner: { id: '654b3f7cc0dec74d8d0069cd', username: 'hswolf', avatar: 'https://placehold.co/512x512?text=Avatar' },
+    title: 'Pandoras Gate',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n\nVivamus sollicitudin euismod turpis, sit amet ornare odio malesuada non. Nulla non malesuada felis. \n\nMaecenas egestas sapien nec nulla convallis finibus. Aliquam tortor ex, suscipit id maximus ut sit. ',
+    banner: 'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/tables%2F65751b322383a4325297fb78%2Fbanner.jpg?alt=media&token=f6ce02b8-2907-403b-a11b-c55ee5217589',
+    flairs: ['64e76a93c4c83af4553a31b2', '64e76a62c4c83af4553a31b1', '64e76b18c4c83af4553a31b5', '64e76b55c4c83af4553a31b8', '64e76a93c4c83af4553a31b2', '64e76a62c4c83af4553a31b1', '64e76b18c4c83af4553a31b5', '64e76b55c4c83af4553a31b8'],
+    acceptMessageId: '65751b312383a4325297fb77',
+    creationDate: '[native Date Sat Dec 09 2023 22:58:09 GMT-0300 (Brasilia Standard Time)]',
+    lastUpdateDate: '[native Date Sat Dec 09 2023 22:58:15 GMT-0300 (Brasilia Standard Time)]',
+  })
   if (!table.value)
     navigateTo({ path: previousRoute?.toString() ?? '/' })
   if (firebaseUser.value)
@@ -37,7 +49,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div v-if="table" class="flex flex-col lg:gap-7">
+  <div v-if="table" class="flex flex-col lg:pt-9">
     <PageTitle :title="table?.title" :back="true" />
     <div class="flex flex-col gap-3 lg:gap-5 w-full lg:max-w-5xl lg:mx-auto lg:grid lg:grid-cols-2">
       <NuxtImg
@@ -49,32 +61,35 @@ onBeforeMount(async () => {
         format="webp"
         class="w-full object-contain"
       />
-      <div class="flex flex-col gap-3 px-2 lg:px-0">
+      <div class="flex flex-col gap-2 lg:gap-3 px-2 lg:px-0">
+        <h1 class="text-2xl lg:text-3xl text-accent-2 font-semibold">
+          {{ table?.title }}
+        </h1>
         <p class="font-roboto-slab whitespace-pre-line lg:text-lg">
           {{ table?.description }}
         </p>
-        <div v-if="table?.flairs && table?.flairs.length" class="flex flex-wrap items-center gap-1 lg:gap-2">
+        <div v-if="table?.flairs && table?.flairs.length" class="flex flex-wrap gap-1 lg:gap-2 mt-2 lg:mt-3">
           <div
             v-for="flair in table.flairs"
             :key="flair"
-            class="flex items-center px-1 lg:px-1.5 lg:py-0.5 bg-accent shadow rounded-sm text-sm lg:text-base text-secondary"
+            class="flex items-center px-1 py-0.5 bg-accent rounded-sm text-xs text-secondary lg:px-1.5 lg:py-1 lg:text-sm"
           >
             {{ flairsStore.getFlairLabel(flair) }}
           </div>
         </div>
-        <div class="flex flex-col mt-3">
-          <button v-if="showApplicationButton" class="btn btn-primary gap-2" @click.prevent="showApplicationMenu = !showApplicationMenu">
+        <div class="flex mt-3">
+          <button v-if="!showApplicationButton" class="btn btn-action lg:w-auto" @click.prevent="showApplicationMenu = !showApplicationMenu">
             <NuxtIcon name="apply" />
             <p>{{ $t('components.tables.apply-to-table') }}</p>
           </button>
-          <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn btn-primary gap-2">
+          <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn btn-primary lg:w-auto">
             <NuxtIcon name="edit-pencil" />
             <p>{{ $t('components.tables.youre-the-owner') }}</p>
           </NuxtLink>
-          <div v-else class="flex justify-center items-center lg:justify-start gap-2 text-sm lg:text-base text-center text-secondary-2">
+          <button v-else class="btn btn-primary lg:w-auto" disabled>
             <NuxtIcon name="apply" />
             <p>{{ $t('components.tables.already-applied') }}</p>
-          </div>
+          </button>
         </div>
       </div>
     </div>

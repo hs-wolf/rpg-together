@@ -188,7 +188,7 @@ onClickOutside(mobileMenuRef, () => {
             </NuxtLink>
           </div>
         </div>
-        <div class="flex justify-start items-center gap-1">
+        <div class="flex justify-start items-center gap-2">
           <NuxtLink
             v-for="option in desktopNavOptions"
             :key="option.name"
@@ -229,7 +229,7 @@ onClickOutside(mobileMenuRef, () => {
     }
   }
   .active-menu-button {
-    @apply bg-accent-2 font-semibold text-secondary shadow
+    @apply bg-accent font-semibold text-secondary shadow
   }
 }
 .desktop-nav {

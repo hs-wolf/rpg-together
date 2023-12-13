@@ -8,20 +8,20 @@ const { currentSnack, waitingSnack } = storeToRefs(snackbarStore)
 const currentBgAndIcon = computed(() => {
   switch (currentSnack.value.type) {
     case SnackType.SUCCESS:
-      return { bg: 'bg-green-500', icon: 'check' }
+      return { bg: 'bg-action', icon: 'check' }
     case SnackType.WARNING:
-      return { bg: 'bg-yellow-500', icon: 'alert' }
+      return { bg: 'bg-warning', icon: 'alert' }
     case SnackType.ERROR:
       return { bg: 'bg-danger', icon: 'danger' }
     default:
-      return { bg: 'bg-yellow-500', icon: 'alert' }
+      return { bg: 'bg-warning', icon: 'alert' }
   }
 })
 </script>
 
 <template>
   <Transition name="slide-down">
-    <div class="z-50 fixed inset-x-3 top-3 flex flex-col lg:left-auto bg-red-500">
+    <div class="z-50 fixed inset-x-3 top-3 flex flex-col lg:left-auto">
       <button
         v-if="waitingSnack"
         name="clear-snack"
