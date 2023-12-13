@@ -21,42 +21,7 @@ onMounted(async () => {
     madeFirstSearch.value = true
     return
   }
-  // await newSearch()
-  tables.value = [
-    Table.fromMap({
-      id: '65751b322383a4325297fb78',
-      owner: { id: '654b3f7cc0dec74d8d0069cd', username: 'hswolf', avatar: 'https://placehold.co/512x512?text=Avatar' },
-      title: 'asdcdsdf',
-      description: 'rgrgrg',
-      banner: 'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/tables%2F65751b322383a4325297fb78%2Fbanner.jpg?alt=media&token=f6ce02b8-2907-403b-a11b-c55ee5217589',
-      flairs: ['64e76a93c4c83af4553a31b2'],
-      acceptMessageId: '65751b312383a4325297fb77',
-      creationDate: '[native Date Sat Dec 09 2023 22:58:09 GMT-0300 (Brasilia Standard Time)]',
-      lastUpdateDate: '[native Date Sat Dec 09 2023 22:58:15 GMT-0300 (Brasilia Standard Time)]',
-    }),
-    Table.fromMap({
-      id: '65751b322383a4325297fb78',
-      owner: { id: '654b3f7cc0dec74d8d0069cd', username: 'hswolf', avatar: 'https://placehold.co/512x512?text=Avatar' },
-      title: 'Pandoras Gate',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sollicitudin euismod turpis, sit amet ornare odio malesuada non. Nulla non malesuada felis. Maecenas egestas sapien nec nulla convallis finibus. Aliquam tortor ex, suscipit id maximus ut sit. ',
-      banner: 'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/tables%2F65751b322383a4325297fb78%2Fbanner.jpg?alt=media&token=f6ce02b8-2907-403b-a11b-c55ee5217589',
-      flairs: ['64e76a93c4c83af4553a31b2', '64e76a62c4c83af4553a31b1', '64e76b18c4c83af4553a31b5', '64e76b55c4c83af4553a31b8'],
-      acceptMessageId: '65751b312383a4325297fb77',
-      creationDate: '[native Date Sat Dec 09 2023 22:58:09 GMT-0300 (Brasilia Standard Time)]',
-      lastUpdateDate: '[native Date Sat Dec 09 2023 22:58:15 GMT-0300 (Brasilia Standard Time)]',
-    }),
-    Table.fromMap({
-      id: '65751b322383a4325297fb78',
-      owner: { id: '654b3f7cc0dec74d8d0069cd', username: 'hswolf', avatar: 'https://placehold.co/512x512?text=Avatar' },
-      title: 'asdcdsdf',
-      description: 'rgrgrg',
-      banner: 'https://firebasestorage.googleapis.com/v0/b/rpg-together-44d2e.appspot.com/o/tables%2F65751b322383a4325297fb78%2Fbanner.jpg?alt=media&token=f6ce02b8-2907-403b-a11b-c55ee5217589',
-      flairs: ['64e76a93c4c83af4553a31b2'],
-      acceptMessageId: '65751b312383a4325297fb77',
-      creationDate: '[native Date Sat Dec 09 2023 22:58:09 GMT-0300 (Brasilia Standard Time)]',
-      lastUpdateDate: '[native Date Sat Dec 09 2023 22:58:15 GMT-0300 (Brasilia Standard Time)]',
-    }),
-  ]
+  await newSearch()
   madeFirstSearch.value = true
 })
 </script>
