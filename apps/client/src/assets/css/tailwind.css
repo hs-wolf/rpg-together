@@ -20,13 +20,10 @@
   }
 
   .btn {
-    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 shadow rounded-sm transition-all;
+    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 shadow rounded-sm transition-all text-sm lg:text-base font-semibold;
     @apply lg:text-base active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
     .nuxt-icon {
       @apply text-base lg:text-lg;
-    }
-    p {
-      @apply text-sm lg:text-base font-semibold leading-none;
     }
   }
 
@@ -48,5 +45,9 @@
 
   .btn-action {
     @apply bg-action text-secondary active:bg-action-1;
+  }
+
+  .btn-warning {
+    @apply bg-warning text-secondary active:bg-warning-1;
   }
 }

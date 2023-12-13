@@ -3,6 +3,8 @@ import { Table } from '@rpg-together/models'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useSearchStore } from '~/stores'
 
+definePageMeta({ layout: 'inner-scroll' })
+
 useHead({ title: useNuxtApp().$i18n.t('pages.search.title') })
 
 const { result, search } = useAlgoliaSearch('dev_tables')
@@ -80,38 +82,34 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div ref="pageRef" class="flex flex-col gap-3 h-full overflow-y-auto lg:gap-5">
+  <div ref="pageRef" class="flex flex-col gap-5 lg:pt-9 lg:gap-9 overflow-y-auto">
     <PageTitle :title="$t('pages.search.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
-      <div class="flex flex-col gap-2">
-        <div class="relative flex items-center py-2 border border-primary-1 rounded lg:py-3">
-          <NuxtIcon name="search-tool" class="absolute px-3 text-lg pointer-events-none lg:px-4 lg:text-xl" />
+      <div class="flex flex-col gap-3">
+        <div class="relative flex items-center gap-2 px-3 py-2 border border-primary-2 rounded lg:py-3">
+          <button class="text-lg lg:text-xl" :disabled="!query.length" @click.prevent="query = ''">
+            <NuxtIcon :name="query ? 'x-close' : 'search-tool'" />
+          </button>
           <input
             v-model="query"
             type="text"
             :placeholder="$t('pages.search.search')"
-            class="w-full h-full px-[42px] outline-none bg-transparent lg:px-[52px] text-sm lg:text-base"
+            class="flex-1 flex h-full outline-none bg-transparent text-sm lg:text-base"
           >
-          <button
-            class="absolute right-0 flex px-3 opacity-50 transition-transform active:rotate-90 lg:px-4 lg:text-lg"
-            @click.prevent="query = ''"
-          >
-            <NuxtIcon name="x-close" />
-          </button>
         </div>
         <FlairsMenu v-model="flairs" />
       </div>
-      <i18n-t v-if="result?.nbHits" keypath="pages.search.results-for" tag="h1" scope="global" class="text-sm text-center">
+      <i18n-t v-if="result?.nbHits" keypath="pages.search.results-for" tag="h1" scope="global" class="text-sm lg:text-base text-center">
         <template #amount>
           <span class="font-semibold">{{ result?.nbHits }}</span>
         </template>
       </i18n-t>
       <div class="flex flex-col">
-        <div v-if="tables?.length" class="flex flex-col">
+        <div v-if="tables?.length" class="flex flex-col gap-3 lg:gap-5">
           <div class="flex flex-col gap-3 lg:gap-5 lg:grid lg:grid-cols-2">
             <TablesCard v-for="table in tables" :key="table.id" :table="table" />
           </div>
-          <p v-if="noMoreTables" class="py-8 lg:py-16 text-sm text-center">
+          <p v-if="noMoreTables" class="p-5 lg:p-9 bg-primary-1 rounded-sm text-sm lg:text-base text-center text-secondary-2">
             {{ $t('pages.search.no-more-tables') }}
           </p>
           <button v-else class="btn btn-accent" @click.prevent="searchDebounceFn(true)">
@@ -119,18 +117,19 @@ onMounted(async () => {
           </button>
         </div>
         <LoadingCard v-else-if="!firstSearchMade" />
-        <p v-else class="py-8 lg:py-16 text-sm text-center text-secondary-2">
+        <p v-else class="p-5 lg:p-9 bg-primary-1 rounded-sm text-sm lg:text-base text-center text-secondary-2">
           {{ $t('pages.search.no-tables-found') }}
         </p>
       </div>
+      <Footer />
     </div>
     <Transition name="slide-left">
       <button
         v-if="showScrollToTopButton"
-        class="btn btn-accent fixed right-3 bottom-[72px] h-12 rounded-full aspect-square lg:right-[72px] lg:h-14"
+        class="btn btn-accent fixed right-3 bottom-[70px] w-auto aspect-square rounded-full lg:right-[70px] lg:scale-150"
         @click.prevent="scrollToTop"
       >
-        <NuxtIcon name="chevron-up" class="text-xl" />
+        <NuxtIcon name="chevron-up" />
       </button>
     </Transition>
   </div>

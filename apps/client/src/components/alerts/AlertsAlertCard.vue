@@ -12,7 +12,7 @@ defineEmits<{ (_e: 'markAsRead'): void }>()
   >
     <div class="flex items-center gap-1" :class="alert.read ? 'text-primary-1' : 'text-accent'">
       <NuxtIcon name="bell" />
-      <h1 class="text-sm font-semibold leading-none">
+      <h1 class="text-sm font-semibold">
         {{ alert.title }}
       </h1>
     </div>

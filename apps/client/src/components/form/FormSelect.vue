@@ -61,7 +61,7 @@ defineExpose({
     >
       <div class="flex flex-col">
         <button
-          class="flex items-center gap-1 p-2 lg:p-3 text-primary"
+          class="flex items-center gap-1 px-3 py-2 text-primary"
           :class="{ 'w-full': !showOptions }"
           @click.prevent="showOptions = !showOptions"
         >
@@ -71,16 +71,16 @@ defineExpose({
           <NuxtIcon name="chevron-up" class="transition-transform" :class="{ 'rotate-180': showOptions }" />
         </button>
       </div>
-      <div class="flex flex-wrap gap-2 px-2 lg:px-3" :class="{ 'pb-2 lg:pb-3': selectedOptions.length }">
-        <TransitionGroup name="fade">
+      <div v-if="selectedOptions.length" class="flex flex-wrap gap-1 lg:gap-2 px-3" :class="{ 'pb-2 lg:pb-3': selectedOptions.length }">
+        <TransitionGroup name="fade" appear>
           <button
             v-for="(option, index) in selectedOptions"
             :key="option.name"
-            class="flex items-center gap-1 px-1.5 py-1 bg-accent-2 rounded-sm text-xs text-secondary"
+            class="flex items-center gap-1 px-1 py-0.5 bg-accent-1 rounded-sm text-xs lg:text-sm text-secondary lg:px-1.5 lg:py-1"
             @click.prevent="removeOption(index)"
           >
             <p>{{ option.label }}</p>
-            <NuxtIcon name="x-close" />
+            <NuxtIcon name="x-close" class="text-sm lg:text-base" />
           </button>
         </TransitionGroup>
       </div>
@@ -90,25 +90,27 @@ defineExpose({
         v-if="showOptions"
         class="flex flex-col bg-secondary border border-accent-2 rounded-b text-primary"
       >
-        <div v-if="showOptions" class="flex items-center gap-2 p-2 lg:p-3 bg-secondary-2">
-          <NuxtIcon name="search-tool" class="text-accent-2 text-lg" />
+        <div v-if="showOptions" class="flex items-center gap-1 px-3 py-2 bg-secondary-2">
+          <button :disabled="!optionsQuery.length" @click.prevent="optionsQuery = ''">
+            <NuxtIcon :name="optionsQuery.length ? 'x-close' : 'search-tool'" class="text-accent text-lg" />
+          </button>
           <input
             v-model="optionsQuery"
             type="text"
             :placeholder="searchMessage"
-            class="w-full bg-transparent outline-none placeholder-accent-2 placeholder:font-normal"
+            class="w-full bg-transparent outline-none placeholder-accent text-sm lg:text-base"
           >
         </div>
-        <div class="flex flex-col max-h-[190px] overflow-y-auto">
+        <div class="flex flex-col max-h-[120px] lg:max-h-[160px] text-sm lg:text-base overflow-y-auto">
           <button
             v-for="option in filteredOptions"
             :key="option.id ?? option.name"
-            class="flex p-2 lg:p-3 active:bg-accent-2 active:text-secondary"
+            class="flex px-3 py-2 active:bg-accent-2 active:text-secondary"
             @click.prevent="insertOption(option)"
           >
-            <span>{{ option.label }}</span>
+            {{ option.label }}
           </button>
-          <p v-if="!filteredOptions.length" class="px-2 py-3 text-primary-1">
+          <p v-if="!filteredOptions.length" class="px-3 py-2 text-danger">
             {{ emptyMessage }}
           </p>
         </div>

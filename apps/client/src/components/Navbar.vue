@@ -59,7 +59,7 @@ onClickOutside(mobileMenuRef, () => {
 </script>
 
 <template>
-  <nav>
+  <nav class="flex flex-col">
     <div class="mobile-nav">
       <button class="tab-button" @click.prevent="showMobileMenu = !showMobileMenu">
         <NuxtIcon name="hamburger-menu" class="transition-transform" :class="{ 'rotate-90': showMobileMenu }" />
@@ -163,7 +163,7 @@ onClickOutside(mobileMenuRef, () => {
               <NuxtIcon name="bell" class="text-2xl" />
             </NuxtLink>
             <NuxtLink :to="localePath({ name: 'profile' })" class="btn-effect flex items-center gap-3">
-              <p class="text-xl font-semibold leading-none">
+              <p class="text-xl font-semibold">
                 {{ user?.username }}
               </p>
               <NuxtImg
@@ -216,7 +216,7 @@ onClickOutside(mobileMenuRef, () => {
       @apply text-base;
     }
     p {
-      @apply text-sm leading-none;
+      @apply text-sm;
     }
   }
   .menu-button {
@@ -225,7 +225,7 @@ onClickOutside(mobileMenuRef, () => {
       @apply text-lg;
     }
     p {
-      @apply text-base leading-none;
+      @apply text-base;
     }
   }
   .active-menu-button {
