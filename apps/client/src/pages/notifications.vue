@@ -30,7 +30,7 @@ function selectNotificationTypes(options: AdvancedSelectOption[]) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 lg:gap-7">
+  <div class="flex flex-col gap-5 lg:pt-9 lg:gap-9">
     <PageTitle :title="$t('pages.notifications.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col gap-3 lg:gap-5">

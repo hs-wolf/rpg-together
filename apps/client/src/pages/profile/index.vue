@@ -37,7 +37,7 @@ const currentAvatarUrl = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 lg:gap-7">
+  <div class="flex flex-col gap-5 lg:pt-9 lg:gap-9">
     <PageTitle :title="$t('pages.profile.title')" />
     <div class="flex flex-col gap-3 w-full px-3 lg:grid lg:grid-cols-2 lg:px-0 lg:gap-5 lg:max-w-5xl lg:mx-auto">
       <div class="flex flex-col items-center lg:items-start gap-3 lg:gap-5">
@@ -55,7 +55,7 @@ const currentAvatarUrl = computed(() =>
             :alt="user?.username"
             width="180"
             height="180"
-            class="w-[180px] lg:w-[256px] rounded-sm shadow object-cover"
+            class="w-[192px] lg:w-[256px] aspect-square rounded-sm shadow object-cover"
           />
           <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-50 lg:w-16 lg:h-16 lg:text-3xl">
             <NuxtIcon :name="changingAvatar ? 'loading-loop' : 'picture'" filled />
@@ -89,10 +89,10 @@ const currentAvatarUrl = computed(() =>
           </p>
         </div>
         <div class="flex flex-col gap-3 lg:gap-5">
-          <button class="btn btn-secondary self-center lg:self-start" @click.prevent="showChangePasswordModal = true">
+          <button class="btn btn-secondary self-center lg:w-auto lg:self-start" @click.prevent="showChangePasswordModal = true">
             {{ $t('pages.profile.change-password') }}
           </button>
-          <button class="btn btn-danger self-center lg:self-start" @click.prevent="showDeleteAccountModal = true">
+          <button class="btn btn-danger self-center lg:w-auto lg:self-start" @click.prevent="showDeleteAccountModal = true">
             {{ $t('pages.profile.delete-account') }}
           </button>
         </div>

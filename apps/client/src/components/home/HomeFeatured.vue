@@ -34,8 +34,8 @@ onMounted(async () => {
         {{ $t('components.home.featured.title') }}
       </h1>
     </div>
-    <div v-if="tables?.length" class="flex gap-3 pb-3 overflow-x-auto snap-x snap-mandatory">
-      <TablesCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%] md:min-w-[60%] lg:min-w-[40%] h-fit" />
+    <div v-if="tables?.length" class="flex gap-3 pb-2 lg:pb-4 overflow-x-auto snap-x snap-mandatory">
+      <TablesCard v-for="table in tables" :key="table.id" :table="table" class="snap-center min-w-[90%] max-w-[90%] md:min-w-[60%] md:max-w-[60%] lg:min-w-[40%] lg:max-w-[40%] h-fit" />
     </div>
     <LoadingCard v-else-if="!madeFirstSearch" />
     <p v-else class="p-5 lg:p-9 bg-primary-1 rounded-sm text-sm lg:text-base text-center text-secondary-2">

@@ -20,33 +20,34 @@
   }
 
   .btn {
-    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 border shadow rounded-sm text-sm font-semibold transition-transform;
+    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 shadow rounded-sm transition-all text-sm lg:text-base font-semibold;
     @apply lg:text-base active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
     .nuxt-icon {
-      @apply text-base;
-    }
-    p {
-      @apply text-sm leading-none;
+      @apply text-base lg:text-lg;
     }
   }
 
   .btn-primary {
-    @apply bg-primary border-primary-2 text-secondary active:bg-primary-2;
+    @apply bg-primary text-secondary active:bg-primary-2;
   }
 
   .btn-secondary {
-    @apply bg-secondary border-secondary-2 text-primary active:bg-secondary-2;
+    @apply bg-secondary text-primary active:bg-secondary-2;
   }
 
   .btn-accent {
-    @apply bg-accent border-accent-2 text-secondary active:bg-accent-2;
+    @apply bg-accent text-secondary active:bg-accent-1;
   }
 
   .btn-danger {
-    @apply bg-danger border-danger-2 text-secondary active:bg-danger-2;
+    @apply bg-danger text-secondary active:bg-danger-1;
   }
 
   .btn-action {
-    @apply bg-action border-action-2 text-secondary active:bg-action-2;
+    @apply bg-action text-secondary active:bg-action-1;
+  }
+
+  .btn-warning {
+    @apply bg-warning text-secondary active:bg-warning-1;
   }
 }

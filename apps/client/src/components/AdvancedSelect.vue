@@ -82,12 +82,10 @@ defineExpose({
             <button
               v-for="(option, index) in selectedOptions"
               :key="option.name"
-              class="flex items-center gap-1 px-1 py-0.5 lg:py-1 lg:px-1.5 bg-accent-2 rounded-sm text-xs lg:text-sm text-secondary"
+              class="flex items-center gap-1 px-1 py-0.5 lg:py-1 lg:px-1.5 bg-accent-1 rounded-sm text-xs lg:text-sm text-secondary"
               @click.prevent="removeOption(index)"
             >
-              <p class="leading-none">
-                {{ option.label }}
-              </p>
+              {{ option.label }}
               <NuxtIcon name="x-close" />
             </button>
           </TransitionGroup>
@@ -105,7 +103,7 @@ defineExpose({
             v-model="optionsQuery"
             type="text"
             :placeholder="searchMessage"
-            class="w-full bg-transparent outline-none placeholder-accent-1 placeholder:font-normal text-secondary font-semibold leading-none"
+            class="w-full bg-transparent outline-none placeholder-accent-1 placeholder:font-normal text-secondary font-semibold"
           >
         </div>
         <div class="flex flex-col" :class="{ 'max-h-[190px] overflow-y-auto': enableSearch }">
@@ -117,7 +115,7 @@ defineExpose({
           >
             {{ option.label }}
           </button>
-          <p v-if="!filteredOptions.length" class="px-2 py-4 lg:px-3 lg:py-5 text-secondary-2 leading-none">
+          <p v-if="!filteredOptions.length" class="px-2 py-4 lg:px-3 lg:py-5 text-secondary-2">
             {{ emptyMessage }}
           </p>
         </div>
