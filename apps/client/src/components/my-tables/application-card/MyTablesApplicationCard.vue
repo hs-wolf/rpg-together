@@ -53,7 +53,7 @@ function declineApplication() {
 <template>
   <div class="flex flex-col gap-[1px] shadow text-primary overflow-hidden">
     <button
-      class="z-10 flex justify-between items-center gap-2 p-2 lg:p-3 bg-secondary rounded-sm"
+      class="z-10 flex justify-between items-center gap-2 px-3 py-2 bg-secondary rounded-sm"
       :class="showInfo ? 'rounded-t-sm' : 'rounded-sm'"
       @click.prevent="showInfo = !showInfo"
     >
@@ -62,19 +62,19 @@ function declineApplication() {
         <NuxtImg
           :src="application?.applicant?.avatar ?? DEFAULT_USER_AVATAR"
           :alt="application?.applicant?.username"
-          width="24px"
-          height="24px"
+          width="28px"
+          height="28px"
           format="webp"
-          class="shadow rounded-full w-[20px] h-[20px] lg:w-[24px] lg:h-[24px]"
+          class="shadow rounded-full w-[24px] h-[24px] lg:w-[28px] lg:h-[28px] object-cover"
         />
         <h1 class="truncate font-semibold lg:text-lg">
           {{ application?.applicant?.username }}
         </h1>
       </div>
-      <NuxtIcon name="chevron-up" class="shrink-0 text-xl lg:text-2xl transition-transform" :class="{ 'rotate-180': !showInfo }" />
+      <NuxtIcon name="chevron-up" class="shrink-0 text-lg lg:text-xl transition-transform" :class="{ 'rotate-180': !showInfo }" />
     </button>
     <Transition name="slide-down">
-      <div v-if="showInfo" class="card-secondary gap-5 rounded-t-none">
+      <div v-if="showInfo" class="card-secondary gap-2 lg:gap-3 rounded-t-none">
         <i18n-t
           keypath="components.my-tables.application-card.their-message"
           tag="p"
@@ -82,7 +82,7 @@ function declineApplication() {
           class="flex flex-col gap-1 text-sm lg:text-base font-semibold"
         >
           <template #text>
-            <span class="text-base lg:text-lg font-normal font-roboto-slab leading-5 whitespace-pre-line">
+            <span class="text-base lg:text-lg font-normal font-roboto-slab whitespace-pre-line">
               {{ application?.message }}
             </span>
           </template>
@@ -95,21 +95,21 @@ function declineApplication() {
             </span>
           </template>
         </i18n-t>
-        <div class="flex flex-wrap justify-between lg:justify-end gap-3 lg:gap-5">
+        <div class="flex flex-wrap justify-end gap-2 lg:gap-3 mt-2 lg:mt-3">
           <button
             v-if="application.status === ApplicationStatus.WAITING"
-            class="btn btn-danger"
+            class="btn btn-danger w-auto"
             @click.prevent="showRejectModal = !showRejectModal"
           >
             {{ $t('components.my-tables.application-card.decline') }}
           </button>
-          <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicant.id}` })" class="btn btn-secondary flex gap-2">
-            <NuxtIcon name="external-link" class="lg:text-lg" />
+          <NuxtLink :to="localeRoute({ path: `/profile/${application?.applicant.id}` })" class="btn btn-primary w-auto">
+            <NuxtIcon name="external-link" />
             <p>{{ $t('components.my-tables.application-card.profile') }}</p>
           </NuxtLink>
           <button
             v-if="application.status === ApplicationStatus.WAITING"
-            class="btn btn-accent"
+            class="btn btn-accent w-auto"
             @click.prevent="showAcceptModal = !showAcceptModal"
           >
             {{ $t('components.my-tables.application-card.accept') }}
@@ -117,19 +117,21 @@ function declineApplication() {
         </div>
       </div>
     </Transition>
-    <TransitionGroup name="fade" tag="div">
+    <Transition name="fade">
       <MyTablesApplicationCardAcceptModal
         v-if="showAcceptModal"
         :application="application"
         @close="showAcceptModal = false"
         @accept="acceptApplication"
       />
+    </Transition>
+    <Transition name="fade">
       <MyTablesApplicationCardDeclineModal
         v-if="showRejectModal"
         :application="application"
         @close="showRejectModal = false"
         @decline="declineApplication"
       />
-    </TransitionGroup>
+    </Transition>
   </div>
 </template>

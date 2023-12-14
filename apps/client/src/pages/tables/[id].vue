@@ -69,7 +69,7 @@ onBeforeMount(async () => {
           </div>
         </div>
         <div class="flex mt-3">
-          <button v-if="!showApplicationButton" class="btn btn-action lg:w-auto" @click.prevent="showApplicationMenu = !showApplicationMenu">
+          <button v-if="showApplicationButton" class="btn btn-action lg:w-auto" @click.prevent="showApplicationMenu = !showApplicationMenu">
             <NuxtIcon name="apply" />
             <p>{{ $t('components.tables.apply-to-table') }}</p>
           </button>
