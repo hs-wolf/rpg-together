@@ -28,8 +28,8 @@ onClickOutside(cardRef, () => closeModal())
 </script>
 
 <template>
-  <div class="modal justify-center p-3 lg:p-0">
-    <div ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
+  <div class="modal justify-center">
+    <div ref="cardRef" class="card-secondary gap-2 lg:gap-3 w-full lg:max-w-xl lg:mx-auto">
       <h1 class="text-accent font-semibold lg:text-lg">
         {{ $t('components.my-tables.application-card.accept-modal.title') }}
       </h1>
@@ -40,7 +40,7 @@ onClickOutside(cardRef, () => closeModal())
           </span>
         </template>
       </i18n-t>
-      <LoadingCard v-if="acceptingApplication" class="mt-3" />
+      <LoadingCard v-if="acceptingApplication" />
       <div v-else class="grid grid-cols-2 gap-3 mt-3">
         <button class="btn btn-primary" @click.prevent="closeModal">
           {{ $t('components.my-tables.application-card.accept-modal.back') }}
