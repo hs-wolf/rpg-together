@@ -219,6 +219,7 @@ components:
       status: 'Status: {text}'
       owner-message: 'Mesangem do dono: {text}'
       declined-message: Desculpe, o dono da mesa recusou sua aplicação.
+      delete: Deletar
     delete-application-modal:
       title: Excluir aplicação
       warning: Excluir esta aplicação é uma ação irreversível. Você será solicitado a inserir sua senha.

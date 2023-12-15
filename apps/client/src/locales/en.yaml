@@ -219,6 +219,7 @@ components:
       status: 'Status: {text}'
       owner-message: 'Owner message: {text}'
       declined-message: Sorry, the table owner declined your application.
+      delete: Delete
     delete-application-modal:
       title: Delete application
       warning: Deleting this application is an irreversible action. You'll be prompted to enter your password.
