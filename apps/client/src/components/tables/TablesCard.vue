@@ -60,6 +60,7 @@ function viewOwner() {
 
 // TODO: Need to create the logic.
 function report() {
+  // eslint-disable-next-line no-alert
   alert('Not implemented yet.')
   toggleOptions(false)
 }

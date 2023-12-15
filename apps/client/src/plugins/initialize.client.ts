@@ -2,7 +2,7 @@ import type { FirebaseOptions } from 'firebase/app'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import type { MiddlewareKey } from '~~/.nuxt/types/middleware'
-import { useAlertsStore, useFlairsStore, useLocalesStore, useNotificationsStore, useSnackbarStore, useUserStore } from '~/stores'
+import { useAlertsStore, useApplicationsStore, useFlairsStore, useLocalesStore, useNotificationsStore, useSnackbarStore, useTablesStore, useUserStore } from '~/stores'
 import { SnackType } from '~/types'
 
 export default defineNuxtPlugin(({ hook }) => {
@@ -22,6 +22,8 @@ export default defineNuxtPlugin(({ hook }) => {
     const userStore = useUserStore(pinia)
     const flairsStore = useFlairsStore(pinia)
     const snackbarStore = useSnackbarStore(pinia)
+    const tablesStore = useTablesStore(pinia)
+    const applicationsStore = useApplicationsStore(pinia)
 
     localesStore.loadLocale()
     flairsStore.fetchAllFlairs({ save: true })
@@ -46,6 +48,9 @@ export default defineNuxtPlugin(({ hook }) => {
         }
         else {
           userStore.$reset()
+          tablesStore.$reset()
+          applicationsStore.$reset()
+          notificationsStore.$reset()
           // If the current route has a redirect, go for It.
           if (route.query.redirect)
             return navigateTo(localePath(route.query.redirect.toString()), { replace: true })
