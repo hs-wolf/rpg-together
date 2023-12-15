@@ -13,9 +13,10 @@ import { SnackType } from '~/types'
 import { useSnackbarStore, useTablesStore } from '~/stores'
 
 definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title') })
+useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title', { table: '...' }) })
 
 const tableId = useRoute().params.id as string
+const localePath = useLocalePath()
 const localeRoute = useLocaleRoute()
 const tablesStore = useTablesStore()
 const { updatingTable } = storeToRefs(tablesStore)
@@ -149,99 +150,113 @@ onMounted(async () => {
     'flairs': table.value?.flairs,
     'accept-message': acceptMessage.value.message,
   })
+  useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title', { table: table.value?.title }) })
 })
 </script>
 
 <template>
-  <LoadingIcon v-if="!table" />
-  <div v-else class="flex flex-col gap-5 lg:gap-7">
-    <PageTitle :title="$t('pages.edit-table.title')" back="my-tables" />
+  <div class="flex flex-col gap-5 lg:pt-9 lg:gap-9">
+    <PageTitle :title="$t('pages.edit-table.title', { table: table?.title })" back="my-tables" />
+    <i18n-t keypath="pages.edit-table.title" tag="h1" scope="global" class="w-full px-2 lg:px-0 lg:max-w-xl lg:mx-auto text-lg lg:text-xl">
+      <template #table>
+        <NuxtLink v-if="table" :to="localePath({ path: `/tables/${table.id}` })" class="font-semibold text-accent-2">
+          {{ table.title }}
+        </NuxtLink>
+        <span v-else>...</span>
+      </template>
+    </i18n-t>
     <div class="flex flex-col gap-3 lg:gap-5 px-2 lg:px-0 w-full lg:max-w-xl lg:mx-auto">
-      <FormInput
-        v-model="titleValue"
-        :name="formFields.title.name"
-        :label="$t(formFields.title.label)"
-        :placeholder="$t(formFields.title.placeholder)"
-        :maxlength="128"
-        autocomplete="off"
-        :disabled="updatingTable"
-        :error="errors.title"
-      >
-        <template #field-icon>
-          <NuxtIcon name="title" />
-        </template>
-      </FormInput>
-      <FormTextarea
-        v-model="descriptionValue"
-        :name="formFields.description.name"
-        :label="$t(formFields.description.label)"
-        :placeholder="$t(formFields.description.placeholder)"
-        :maxlength="TABLE_DESCRIPTION_MAX_LENGTH"
-        :rows="7"
-        :disabled="updatingTable"
-        :error="errors.description"
-      >
-        <template #field-icon>
-          <NuxtIcon name="document" />
-        </template>
-      </FormTextarea>
-      <div class="flex flex-col gap-2">
-        <h1>{{ $t(formFields['banner-url'].label) }}</h1>
-        <div class="flex flex-col w-full">
-          <input
-            id="banner"
-            type="file"
-            name="banner"
-            accept="image/*"
-            :disabled="updatingTable"
-            hidden
-            @change="onUserAvatarFileUploaded"
-          >
-          <label
-            for="banner"
-            class="relative flex justify-center items-center transition-transform active:scale-90 cursor-pointer"
-          >
-            <NuxtImg
-              :src="bannerUrlValue ?? DEFAULT_TABLE_BANNER"
-              :alt="$t(formFields['banner-url'].label)"
-              width="128"
-              height="128"
-              sizes="sm:100vw md:50vw lg:400px"
-              format="webp"
-              class="w-full h-32 shadow rounded opacity-80 object-cover"
-            />
-            <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-80">
-              <NuxtIcon name="picture" filled />
-            </div>
-          </label>
+      <LoadingCard v-if="!table" />
+      <div v-else class="flex flex-col gap-3 lg:gap-5">
+        <FormInput
+          v-model="titleValue"
+          :name="formFields.title.name"
+          :label="$t(formFields.title.label)"
+          :placeholder="$t(formFields.title.placeholder)"
+          :maxlength="128"
+          autocomplete="off"
+          :disabled="updatingTable"
+          :error="errors.title"
+        >
+          <template #field-icon>
+            <NuxtIcon name="title" />
+          </template>
+        </FormInput>
+        <FormTextarea
+          v-model="descriptionValue"
+          :name="formFields.description.name"
+          :label="$t(formFields.description.label)"
+          :placeholder="$t(formFields.description.placeholder)"
+          :maxlength="TABLE_DESCRIPTION_MAX_LENGTH"
+          :rows="7"
+          :disabled="updatingTable"
+          :error="errors.description"
+        >
+          <template #field-icon>
+            <NuxtIcon name="document" />
+          </template>
+        </FormTextarea>
+        <div class="flex flex-col gap-2 lg:gap-3">
+          <h1 class="lg:text-lg">
+            {{ $t(formFields['banner-url'].label) }}
+          </h1>
+          <div class="flex flex-col w-full">
+            <input
+              id="banner"
+              type="file"
+              name="banner"
+              accept="image/*"
+              :disabled="updatingTable"
+              hidden
+              @change="onUserAvatarFileUploaded"
+            >
+            <label
+              for="banner"
+              class="btn-effect relative flex justify-center items-center"
+            >
+              <NuxtImg
+                :src="bannerUrlValue ?? DEFAULT_TABLE_BANNER"
+                :alt="$t(formFields['banner-url'].label)"
+                width="192"
+                height="192"
+                format="webp"
+                class="w-full h-48 lg:h-64 shadow rounded opacity-80 object-cover"
+              />
+              <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-80">
+                <NuxtIcon name="picture" filled />
+              </div>
+            </label>
+          </div>
+        </div>
+        <FlairsMenu :open="!updatingTable" :initial-flairs="table?.flairs" @change="updateFlairs" />
+        <FormTextarea
+          v-model="acceptMessageValue"
+          :name="formFields['accept-message'].name"
+          :label="$t(formFields['accept-message'].label)"
+          :placeholder="$t(formFields['accept-message'].placeholder)"
+          :maxlength="TABLE_ACCEPT_MESSAGE_MAX_LENGTH"
+          :rows="7"
+          :disabled="updatingTable"
+          :error="errors['accept-message']"
+        >
+          <template #field-icon>
+            <NuxtIcon name="send" />
+          </template>
+        </FormTextarea>
+        <LoadingCard v-if="updatingTable" />
+        <div v-else class="flex flex-col gap-2 lg:gap-3 mt-2 lg:mt-3">
+          <button class="btn btn-action" :disabled="updatingTable" @click.prevent="onSubmit">
+            {{ $t('pages.edit-table.submit') }}
+          </button>
+          <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
+            <p>{{ apiError }}</p>
+            <div class="absolute bottom-full error-message-arrow-up" />
+          </span>
         </div>
       </div>
-      <FlairsMenu :open="!updatingTable" :initial-flairs="table?.flairs" @change="updateFlairs" />
-      <FormTextarea
-        v-model="acceptMessageValue"
-        :name="formFields['accept-message'].name"
-        :label="$t(formFields['accept-message'].label)"
-        :placeholder="$t(formFields['accept-message'].placeholder)"
-        :maxlength="TABLE_ACCEPT_MESSAGE_MAX_LENGTH"
-        :rows="7"
-        :disabled="updatingTable"
-        :error="errors['accept-message']"
-      >
-        <template #field-icon>
-          <NuxtIcon name="send" />
-        </template>
-      </FormTextarea>
-      <LoadingCard v-if="updatingTable" />
-      <div v-else class="flex flex-col gap-3 mt-3">
-        <button class="btn btn-accent" :disabled="updatingTable" @click.prevent="onSubmit">
-          {{ $t('pages.edit-table.submit') }}
-        </button>
-        <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
-          <p>{{ apiError }}</p>
-          <div class="absolute bottom-full error-message-arrow-up" />
-        </span>
-      </div>
     </div>
-    <DiscardChangesDialog :show="showDiscardChangedDialogs" @close="showDiscardChangedDialogs = false" @confirm="forcedExit" />
+    <Transition name="fade">
+      <DiscardChangesDialog v-if="showDiscardChangedDialogs" @close="showDiscardChangedDialogs = false" @confirm="forcedExit" />
+    </Transition>
   </div>
 </template>

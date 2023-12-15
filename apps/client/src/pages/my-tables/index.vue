@@ -52,6 +52,8 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-    <MyTablesDeleteTableModal v-if="tableToDelete" :table="tableToDelete" @close="tableToDelete = undefined" />
+    <Transition name="fade">
+      <MyTablesDeleteTableModal v-if="tableToDelete" :table="tableToDelete" @close="tableToDelete = undefined" />
+    </Transition>
   </div>
 </template>

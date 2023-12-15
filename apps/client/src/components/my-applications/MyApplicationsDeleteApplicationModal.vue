@@ -5,7 +5,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import type { Application } from '@rpg-together/models'
 import { useApplicationsStore } from '~/stores'
 
-const props = defineProps<{ show: boolean; application: Application }>()
+const props = defineProps<{ application: Application }>()
 
 const emits = defineEmits<{ (_e: 'close'): void }>()
 
@@ -53,15 +53,16 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <Transition name="fade">
-    <div v-if="show" class="modal justify-center">
-      <div v-if="showConfirmCard" ref="confirmCardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
-        <h1 class="text-danger font-semibold lg:text-lg">
-          {{ $t('components.my-applications.delete-application-modal.title') }}
-        </h1>
-        <p class="text-sm lg:text-base">
-          {{ $t('components.my-applications.delete-application-modal.confirmation') }}
-        </p>
+  <div class="modal justify-center">
+    <div v-if="showConfirmCard" ref="confirmCardRef" class="card-secondary gap-2 lg:gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="text-danger font-semibold lg:text-lg">
+        {{ $t('components.my-applications.delete-application-modal.title') }}
+      </h1>
+      <p class="text-sm lg:text-base">
+        {{ $t('components.my-applications.delete-application-modal.confirmation') }}
+      </p>
+      <LoadingCard v-if="deletingApplication" />
+      <div v-else class="flex flex-col gap-2 lg:gap-3">
         <FormInput
           v-model="passwordValue"
           type="password"
@@ -82,10 +83,9 @@ const onSubmit = handleSubmit(async (values) => {
             <NuxtIcon name="eye-closed" />
           </template>
         </FormInput>
-        <LoadingCard v-if="deletingApplication" class="mt-3" />
-        <div v-else class="flex flex-col gap-3 mt-3">
-          <div class="grid grid-cols-2 gap-3">
-            <button class="btn btn-accent" @click.prevent="showConfirmCard = false">
+        <div class="flex flex-col gap-2 lg:gap-3 mt-2 lg:mt-3">
+          <div class="grid grid-cols-2 gap-2 lg:gap-3">
+            <button class="btn btn-primary" @click.prevent="showConfirmCard = false">
               {{ $t('components.my-applications.delete-application-modal.back') }}
             </button>
             <button class="btn btn-danger" @click.prevent="onSubmit">
@@ -95,22 +95,22 @@ const onSubmit = handleSubmit(async (values) => {
           <FormErrorMessage :error="apiError ?? ''" />
         </div>
       </div>
-      <div v-else ref="cardRef" class="card-primary gap-3 w-full lg:max-w-xl lg:mx-auto">
-        <h1 class="text-danger font-semibold lg:text-lg">
-          {{ $t('components.my-applications.delete-application-modal.title') }}
-        </h1>
-        <p class="text-sm lg:text-base">
-          {{ $t('components.my-applications.delete-application-modal.warning') }}
-        </p>
-        <div class="grid grid-cols-2 gap-3 mt-3">
-          <button class="btn btn-accent" @click.prevent="closeModal">
-            {{ $t('components.my-applications.delete-application-modal.back') }}
-          </button>
-          <button class="btn btn-primary" @click.prevent="showConfirmCard = true">
-            {{ $t('components.my-applications.delete-application-modal.understand') }}
-          </button>
-        </div>
+    </div>
+    <div v-else ref="cardRef" class="card-secondary gap-2 lg:gap-3 w-full lg:max-w-xl lg:mx-auto">
+      <h1 class="text-danger font-semibold lg:text-lg">
+        {{ $t('components.my-applications.delete-application-modal.title') }}
+      </h1>
+      <p class="text-sm lg:text-base">
+        {{ $t('components.my-applications.delete-application-modal.warning') }}
+      </p>
+      <div class="grid grid-cols-2 gap-2 lg:gap-3 mt-2 lg:mt-3">
+        <button class="btn btn-primary" @click.prevent="closeModal">
+          {{ $t('components.my-applications.delete-application-modal.back') }}
+        </button>
+        <button class="btn btn-secondary" @click.prevent="showConfirmCard = true">
+          {{ $t('components.my-applications.delete-application-modal.understand') }}
+        </button>
       </div>
     </div>
-  </Transition>
+  </div>
 </template>

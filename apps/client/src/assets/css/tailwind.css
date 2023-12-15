@@ -16,11 +16,11 @@
   }
 
   .btn-effect {
-    @apply transition-transform active:scale-90;
+    @apply cursor-pointer transition-transform active:scale-90;
   }
 
   .btn {
-    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 shadow rounded-sm transition-all text-sm lg:text-base font-semibold;
+    @apply flex justify-center items-center gap-1.5 w-full px-3 py-2 shadow rounded-sm transition-all text-sm lg:text-base font-semibold whitespace-nowrap;
     @apply lg:text-base active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
     .nuxt-icon {
       @apply text-base lg:text-lg;

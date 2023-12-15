@@ -93,8 +93,11 @@ const onSubmit = handleSubmit(async (values) => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-5 lg:gap-7">
+  <div class="flex flex-col gap-5 lg:pt-9 lg:gap-9">
     <PageTitle :title="$t('pages.create-table.title')" back="my-tables" />
+    <h1 class="w-full px-2 lg:px-0 lg:max-w-xl lg:mx-auto text-lg lg:text-xl font-semibold">
+      {{ $t('pages.create-table.title') }}
+    </h1>
     <div class="flex flex-col gap-3 lg:gap-5 px-2 lg:px-0 w-full lg:max-w-xl lg:mx-auto">
       <FormInput
         v-model="titleValue"
@@ -124,8 +127,10 @@ const onSubmit = handleSubmit(async (values) => {
           <NuxtIcon name="document" />
         </template>
       </FormTextarea>
-      <div class="flex flex-col gap-2">
-        <h1>{{ $t(formFields['banner-url'].label) }}</h1>
+      <div class="flex flex-col gap-2 lg:gap-3">
+        <h1 class="lg:text-lg">
+          {{ $t(formFields['banner-url'].label) }}
+        </h1>
         <div class="flex flex-col w-full">
           <input
             id="banner"
@@ -138,16 +143,15 @@ const onSubmit = handleSubmit(async (values) => {
           >
           <label
             for="banner"
-            class="relative flex justify-center items-center transition-transform active:scale-90 cursor-pointer"
+            class="btn-effect relative flex justify-center items-center"
           >
             <NuxtImg
               :src="bannerUrlValue ?? DEFAULT_TABLE_BANNER"
               :alt="$t(formFields['banner-url'].label)"
-              width="128"
-              height="128"
-              sizes="sm:100vw md:50vw lg:400px"
+              width="256"
+              height="256"
               format="webp"
-              class="w-full shadow rounded opacity-80 object-cover"
+              class="w-full h-48 lg:h-64 shadow rounded opacity-80 object-cover"
             />
             <div class="absolute flex justify-center items-center w-12 h-12 bg-black rounded-full text-xl opacity-80">
               <NuxtIcon name="picture" filled />
@@ -171,8 +175,8 @@ const onSubmit = handleSubmit(async (values) => {
         </template>
       </FormTextarea>
       <LoadingCard v-if="creatingTable" />
-      <div v-else class="flex flex-col gap-3 mt-3">
-        <button class="btn btn-accent" :disabled="creatingTable" @click.prevent="onSubmit">
+      <div v-else class="flex flex-col gap-2 lg:gap-3 mt-2 lg:mt-3">
+        <button class="btn btn-action" :disabled="creatingTable" @click.prevent="onSubmit">
           {{ $t('pages.create-table.submit') }}
         </button>
         <span v-if="apiError" class="relative px-2 py-1 self-end text-sm bg-danger rounded">
