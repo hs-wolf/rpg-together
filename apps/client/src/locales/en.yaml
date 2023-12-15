@@ -61,7 +61,7 @@ pages:
         placeholder: Accept message
     submit: Create
   edit-table:
-    title: Edit Table
+    title: 'Editing table: {table}'
     form:
       title:
         label: Title

@@ -16,7 +16,7 @@
   }
 
   .btn-effect {
-    @apply transition-transform active:scale-90;
+    @apply cursor-pointer transition-transform active:scale-90;
   }
 
   .btn {
