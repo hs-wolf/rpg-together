@@ -88,7 +88,6 @@ const onSubmit = handleSubmit(async (values) => {
               {{ $t('components.my-tables.delete-table.confirm') }}
             </button>
           </div>
-          <FormErrorMessage :error="apiError ?? ''" />
         </div>
       </div>
     </div>
