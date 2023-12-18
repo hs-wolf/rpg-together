@@ -3,10 +3,7 @@ import { Table } from '@rpg-together/models'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useSearchStore } from '~/stores'
 
-definePageMeta({ layout: 'inner-scroll' })
-
-useHead({ title: useNuxtApp().$i18n.t('pages.search.title') })
-
+const { t } = useNuxtApp().$i18n
 const { result, search } = useAlgoliaSearch('dev_tables')
 const searchStore = useSearchStore()
 const { cachedSearch, checkIfSearchCached } = storeToRefs(searchStore)
@@ -20,6 +17,11 @@ const searching = ref(false)
 const noMoreTables = ref(false)
 const hitsPerPage = ref(5)
 const currentSearchPage = ref(0)
+const { y: pageY } = useScroll(pageRef, { behavior: 'smooth' })
+
+const showScrollToTopButton = computed(() => currentSearchPage.value >= 0 && pageY.value !== 0)
+
+const scrollToTop = () => (pageY.value = 0)
 
 const searchDebounceFn = useDebounceFn(async (continuous?: true) => {
   if (searching.value)
@@ -50,14 +52,15 @@ const searchDebounceFn = useDebounceFn(async (continuous?: true) => {
   searching.value = false
 }, 500)
 
+definePageMeta({ layout: 'inner-scroll' })
+
+useHead({ title: t('pages.search.title') })
+
 useInfiniteScroll(pageRef, () => {
   if (noMoreTables.value || !firstSearchMade.value)
     return
   searchDebounceFn(true)
 }, { distance: 32, interval: 1000 })
-const { y: pageY } = useScroll(pageRef, { behavior: 'smooth' })
-const scrollToTop = () => (pageY.value = 0)
-const showScrollToTopButton = computed(() => currentSearchPage.value >= 0 && pageY.value !== 0)
 
 watch([query, flairs], () => {
   if (!firstSearchMade.value)

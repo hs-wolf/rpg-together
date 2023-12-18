@@ -18,7 +18,6 @@ const props = defineProps<{ table: Table }>()
 const localeRoute = useLocaleRoute()
 const flairsStore = useFlairsStore()
 
-const showOptions = ref(false)
 const options: Option[] = [
   {
     name: 'report',
@@ -44,6 +43,15 @@ const options: Option[] = [
   },
 ]
 
+const showOptions = ref(false)
+
+const descriptionNeedCropping = computed(() => props.table.description.length > TABLE_CARD_DESCRIPTION_LENGTH)
+
+const croppedDescription = computed(() =>
+  descriptionNeedCropping.value
+    ? `${props.table.description.substring(0, TABLE_CARD_DESCRIPTION_LENGTH).trimEnd()}...`
+    : props.table.description)
+
 function toggleOptions(value?: boolean) {
   showOptions.value = value ?? !showOptions.value
 }
@@ -64,13 +72,6 @@ function report() {
   alert('Not implemented yet.')
   toggleOptions(false)
 }
-
-const descriptionNeedCropping = computed(() => props.table.description.length > TABLE_CARD_DESCRIPTION_LENGTH)
-
-const croppedDescription = computed(() =>
-  descriptionNeedCropping.value
-    ? `${props.table.description.substring(0, TABLE_CARD_DESCRIPTION_LENGTH).trimEnd()}...`
-    : props.table.description)
 </script>
 
 <template>

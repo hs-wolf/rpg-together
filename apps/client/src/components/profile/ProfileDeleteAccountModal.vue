@@ -6,21 +6,11 @@ import type { User } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
 defineProps<{ user: User | null }>()
+
 const emits = defineEmits<{ (_e: 'close'): void }>()
 
 const userStore = useUserStore()
 const { deletingAccount } = storeToRefs(userStore)
-
-const cardRef = ref<HTMLElement>()
-const confirmCardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => {
-  emits('close')
-})
-onClickOutside(confirmCardRef, () => {
-  emits('close')
-})
-
-const showConfirmCard = ref(false)
 
 const formFields = {
   password: {
@@ -39,6 +29,9 @@ const validationSchema = toTypedSchema(
 const { errors, handleSubmit } = useForm({ validationSchema })
 const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref('')
+const cardRef = ref<HTMLElement>()
+const confirmCardRef = ref<HTMLElement>()
+const showConfirmCard = ref(false)
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = ''
@@ -47,6 +40,14 @@ const onSubmit = handleSubmit(async (values) => {
     apiError.value = response
     return
   }
+  emits('close')
+})
+
+onClickOutside(cardRef, () => {
+  emits('close')
+})
+
+onClickOutside(confirmCardRef, () => {
   emits('close')
 })
 </script>

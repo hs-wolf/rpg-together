@@ -81,6 +81,7 @@ export type TableCreateBodyRequest = Pick<
 export type TableUpdateBody = Partial<
   Pick<
     Table,
+    | 'owner'
     | 'title'
     | 'description'
     | 'banner'

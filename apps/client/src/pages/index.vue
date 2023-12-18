@@ -1,5 +1,7 @@
 <script setup lang="ts">
-useHead({ title: useNuxtApp().$i18n.t('pages.home.title') })
+const { t } = useNuxtApp().$i18n
+
+useHead({ title: t('pages.home.title') })
 </script>
 
 <template>

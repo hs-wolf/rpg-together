@@ -2,12 +2,13 @@
 import type { Announcement } from '@rpg-together/models'
 import { useAnnouncementsStore } from '~/stores'
 
+const { t } = useNuxtApp().$i18n
 const announcementsStore = useAnnouncementsStore()
-
-useHead({ title: useNuxtApp().$i18n.t('pages.announcements.title') })
 
 const announcements = ref<Announcement[]>()
 const madeFirstSearch = ref(false)
+
+useHead({ title: t('pages.announcements.title') })
 
 onMounted(async () => {
   announcements.value = await announcementsStore.getAnnouncements()

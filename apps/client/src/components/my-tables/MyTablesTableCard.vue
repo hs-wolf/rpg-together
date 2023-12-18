@@ -4,6 +4,7 @@ import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
 import { useApplicationsStore, useFlairsStore } from '~/stores'
 
 const props = defineProps<{ table: Table }>()
+
 defineEmits<{ (_eventName: 'delete', _table: Table): void }>()
 
 const localePath = useLocalePath()
@@ -11,7 +12,6 @@ const flairsStore = useFlairsStore()
 const applicationsStore = useApplicationsStore()
 
 const applications = ref(await applicationsStore.getApplicationsFromTable(props.table.id))
-
 const showInfo = ref(false)
 </script>
 

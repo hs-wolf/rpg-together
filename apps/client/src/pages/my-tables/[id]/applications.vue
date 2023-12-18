@@ -2,15 +2,18 @@
 import type { Application, Table } from '@rpg-together/models'
 import { ApplicationStatus } from '@rpg-together/models'
 
+const { t } = useNuxtApp().$i18n
+const localePath = useLocalePath()
 const router = useRouter()
 const tableId = useRoute().params.id as string
-const localePath = useLocalePath()
-
-definePageMeta({ middleware: ['logged-in'] })
 
 const table = ref<Table>()
 const applications = ref<Application[]>([])
 const madeFirstSearch = ref(false)
+
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: computed(() => t('pages.my-tables.applications.title', { table: table.value?.title ?? '...' })) })
 
 onBeforeMount(async () => {
   table.value = await useRpgTogetherAPI.getTable({ tableId })
@@ -23,10 +26,10 @@ onBeforeMount(async () => {
 
 <template>
   <div class="flex flex-col gap-5 lg:pt-9 lg:gap-9">
-    <PageTitle :title="$t('components.my-tables.applications.title', { table: table?.title })" back="my-tables" />
+    <PageTitle :title="$t('pages.my-tables.applications.title', { table: table?.title ?? '...' })" back="my-tables" />
     <div class="flex flex-col w-full gap-5 lg:gap-9 px-2 lg:px-0 lg:max-w-5xl lg:mx-auto">
       <i18n-t
-        keypath="components.my-tables.applications.title"
+        keypath="pages.my-tables.applications.title"
         tag="p"
         scope="global"
         class="lg:text-lg"
@@ -39,7 +42,7 @@ onBeforeMount(async () => {
       </i18n-t>
       <LoadingCard v-if="!madeFirstSearch" />
       <p v-else-if="!applications.length" class="p-5 lg:p-9 bg-primary-1 rounded-sm text-sm lg:text-base text-center text-secondary-2">
-        {{ $t('components.my-tables.applications.no-applications') }}
+        {{ $t('pages.my-tables.applications.no-applications') }}
       </p>
       <div v-else class="flex flex-col gap-3 lg:gap-5">
         <MyTablesApplicationCard

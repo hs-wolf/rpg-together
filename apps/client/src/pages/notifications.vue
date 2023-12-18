@@ -4,11 +4,6 @@ import type { AdvancedSelectOption } from '~/types'
 import { useNotificationsStore } from '~/stores'
 
 const { t } = useNuxtApp().$i18n
-
-definePageMeta({ middleware: ['logged-in'] })
-
-useHead({ title: t('pages.notifications.title') })
-
 const notificationsStore = useNotificationsStore()
 const { notifications, firstSearch, unreadNotifications } = storeToRefs(notificationsStore)
 
@@ -27,6 +22,10 @@ const filteredNotifications = computed(() => {
 function selectNotificationTypes(options: AdvancedSelectOption[]) {
   selectedNotificationTypes.value = options
 }
+
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: t('pages.notifications.title') })
 </script>
 
 <template>

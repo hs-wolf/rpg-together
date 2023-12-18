@@ -10,7 +10,8 @@ const props = defineProps<{
   disabled?: boolean
   error?: string
 }>()
-defineEmits<{ (_e: 'update:modelValue'): void }>()
+
+defineEmits<{ (_e: 'update:modelValue', _value: string): void }>()
 
 const slots = useSlots()
 
@@ -20,7 +21,6 @@ const textareaFinalClass = computed(() => {
     classes = 'my-2 pr-2 pl-0'
   else
     classes = 'my-2 px-2'
-
   classes = props.resize ? classes : `${classes} resize-none`
   return classes
 })

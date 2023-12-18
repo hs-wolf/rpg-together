@@ -63,6 +63,18 @@ export class UsersService {
       const newUser = User.fromMap({ ...oldUser, ...body })
       newUser.lastUpdateDate = new Date()
       await this._usersRepo.updateUser(newUser)
+
+      const tablesService = new TablesService()
+      const userTables = await (tablesService.getTablesFromUser(userId))
+      const owner = {
+        id: userId,
+        avatar: newUser.avatar,
+        username: newUser.username,
+      }
+      userTables.forEach((table) => {
+        tablesService.updateTable(table.id, { owner })
+      })
+
       return newUser
     }
     catch (error) {

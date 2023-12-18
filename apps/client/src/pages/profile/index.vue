@@ -6,10 +6,6 @@ const { t, locale } = useNuxtApp().$i18n
 const userStore = useUserStore()
 const { user, changingAvatar } = storeToRefs(userStore)
 
-definePageMeta({ middleware: ['logged-in'] })
-
-useHead({ title: t('pages.profile.title') })
-
 const userAvatarImageFile = ref<File>()
 const userAvatarImageUrl = ref('')
 async function onUserAvatarFileUploaded(e: Event) {
@@ -34,6 +30,10 @@ const currentAvatarUrl = computed(() =>
       ? user.value?.avatar
       : DEFAULT_USER_AVATAR,
 )
+
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: computed(() => t('pages.profile.title', { name: user.value?.username ?? '...' })) })
 </script>
 
 <template>

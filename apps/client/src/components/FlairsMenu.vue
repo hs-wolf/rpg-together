@@ -29,17 +29,6 @@ function clearFilters() {
   genresFilterRef.value.clearOptions()
 }
 
-watch([selectedSystems, selectedLanguages, selectedRatings, selectedVacancies, selectedGenres], () => {
-  const ids = [
-    ...selectedSystems.value.map(option => option.id ?? option.name),
-    ...selectedLanguages.value.map(option => option.id ?? option.name),
-    ...selectedRatings.value.map(option => option.id ?? option.name),
-    ...selectedVacancies.value.map(option => option.id ?? option.name),
-    ...selectedGenres.value.map(option => option.id ?? option.name),
-  ]
-  emits('update:modelValue', ids)
-}, { deep: true })
-
 function setInitialFlairs() {
   selectedSystems.value = flairsStore.mapFlairsToAdvancedSelectOption(
     systemsFlairs.value.filter((flair) => {
@@ -67,6 +56,17 @@ function setInitialFlairs() {
     }),
   )
 }
+
+watch([selectedSystems, selectedLanguages, selectedRatings, selectedVacancies, selectedGenres], () => {
+  const ids = [
+    ...selectedSystems.value.map(option => option.id ?? option.name),
+    ...selectedLanguages.value.map(option => option.id ?? option.name),
+    ...selectedRatings.value.map(option => option.id ?? option.name),
+    ...selectedVacancies.value.map(option => option.id ?? option.name),
+    ...selectedGenres.value.map(option => option.id ?? option.name),
+  ]
+  emits('update:modelValue', ids)
+}, { deep: true })
 
 onMounted(() => setInitialFlairs())
 </script>
