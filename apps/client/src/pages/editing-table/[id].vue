@@ -152,6 +152,7 @@ onMounted(async () => {
     'flairs': table.value?.flairs,
     'accept-message': acceptMessage.value.message,
   })
+  useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title', { table: table.value?.title }) })
 })
 </script>
 
