@@ -13,14 +13,6 @@ const emits = defineEmits<{ (_e: 'close'): void; (_e: 'updateExisting'): void }>
 const applicationsStore = useApplicationsStore()
 const { sendingApplication } = storeToRefs(applicationsStore)
 
-const cardRef = ref<HTMLDivElement>()
-onClickOutside(cardRef, () => {
-  if (sendingApplication.value)
-    return
-
-  emits('close')
-})
-
 const formFields = {
   message: {
     name: 'message',
@@ -36,6 +28,7 @@ const formSchema = object({
 const { errors, handleSubmit } = useForm({ validationSchema: toTypedSchema(formSchema) })
 const { value: messageValue } = useField<string>(formFields.message.name)
 const apiError = ref('')
+const cardRef = ref<HTMLDivElement>()
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = ''
@@ -48,6 +41,13 @@ const onSubmit = handleSubmit(async (values) => {
     return
   }
   emits('updateExisting')
+  emits('close')
+})
+
+onClickOutside(cardRef, () => {
+  if (sendingApplication.value)
+    return
+
   emits('close')
 })
 </script>

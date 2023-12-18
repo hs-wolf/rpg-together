@@ -5,10 +5,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import type { AuthUserRegisterBody } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-out'] })
-
-useHead({ title: useNuxtApp().$i18n.t('pages.register.title') })
-
+const { t } = useNuxtApp().$i18n
 const localePath = useLocalePath()
 const userStore = useUserStore()
 const { registering } = storeToRefs(userStore)
@@ -51,13 +48,16 @@ const { value: usernameValue } = useField<string>(formFields.username.name)
 const { value: emailValue } = useField<string>(formFields.email.name)
 const { value: passwordValue } = useField<string>(formFields.password.name)
 const { value: confirmPasswordValue } = useField<string>(formFields.confirmPassword.name)
-
 const apiError = ref<string>()
 
 const onSubmit = handleSubmit(async (values) => {
   const body: AuthUserRegisterBody = { username: values.username, email: values.email, password: values.password }
   apiError.value = await userStore.register(body)
 })
+
+definePageMeta({ middleware: ['logged-out'] })
+
+useHead({ title: t('pages.register.title') })
 </script>
 
 <template>

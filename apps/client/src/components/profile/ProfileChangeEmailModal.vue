@@ -6,15 +6,11 @@ import type { User } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
 defineProps<{ user: User | null }>()
+
 const emits = defineEmits<{ (_e: 'close'): void }>()
 
 const userStore = useUserStore()
 const { changingAuthData } = storeToRefs(userStore)
-
-const cardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => {
-  emits('close')
-})
 
 const formFields = {
   'email': {
@@ -50,6 +46,7 @@ const { value: emailValue } = useField<string>(formFields.email.name)
 const { value: confirmEmailValue } = useField<string>(formFields['confirm-email'].name)
 const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref('')
+const cardRef = ref<HTMLElement>()
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = ''
@@ -61,6 +58,10 @@ const onSubmit = handleSubmit(async (values) => {
     apiError.value = response
     return
   }
+  emits('close')
+})
+
+onClickOutside(cardRef, () => {
   emits('close')
 })
 </script>

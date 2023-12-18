@@ -3,6 +3,7 @@ import type { Application, Table } from '@rpg-together/models'
 import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
 import { useApplicationsStore, useFlairsStore, useTablesStore } from '~/stores'
 
+const { t } = useNuxtApp().$i18n
 const localePath = useLocalePath()
 const tableId = useRoute().params.id as string
 const firebaseUser = useFirebase.currentUser()
@@ -15,13 +16,13 @@ const table = ref<Table>()
 const existingApplication = ref<Application | null>()
 const showApplicationMenu = ref(false)
 
-useHead({ title: () => table.value?.title ?? useNuxtApp().$i18n.t('components.tables.title') })
-
 const showApplicationButton = computed(() => table.value?.owner.id !== firebaseUser.value?.uid && !existingApplication.value)
 
 async function getExistingApplication() {
   existingApplication.value = await applicationsStore.getExistingApplication(firebaseUser.value?.uid ?? '', tableId)
 }
+
+useHead({ title: computed(() => t('pages.tables.title', { table: table.value?.title ?? '...' })) })
 
 watch(firebaseUser, async () => {
   await getExistingApplication()
@@ -71,15 +72,15 @@ onBeforeMount(async () => {
         <div class="flex mt-3">
           <button v-if="showApplicationButton" class="btn btn-action lg:w-auto" @click.prevent="showApplicationMenu = !showApplicationMenu">
             <NuxtIcon name="apply" />
-            <p>{{ $t('components.tables.apply-to-table') }}</p>
+            <p>{{ $t('pages.tables.apply-to-table') }}</p>
           </button>
           <NuxtLink v-else-if="table.owner.id === firebaseUser?.uid" :to="localePath({ path: `/editing-table/${table.id}` })" class="btn btn-primary lg:w-auto">
             <NuxtIcon name="edit-pencil" />
-            <p>{{ $t('components.tables.youre-the-owner') }}</p>
+            <p>{{ $t('pages.tables.youre-the-owner') }}</p>
           </NuxtLink>
           <button v-else class="btn btn-primary lg:w-auto" disabled>
             <NuxtIcon name="apply" />
-            <p>{{ $t('components.tables.already-applied') }}</p>
+            <p>{{ $t('pages.tables.already-applied') }}</p>
           </button>
         </div>
       </div>

@@ -2,14 +2,15 @@
 const emits = defineEmits<{ (_e: 'close'): void; (_e: 'confirm'): void }>()
 
 const cardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => {
-  emits('close')
-})
 
 function confirm() {
   emits('confirm')
   emits('close')
 }
+
+onClickOutside(cardRef, () => {
+  emits('close')
+})
 </script>
 
 <template>

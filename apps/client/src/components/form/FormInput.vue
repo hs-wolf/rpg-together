@@ -11,7 +11,8 @@ const props = defineProps<{
   error?: string
   theme?: 'primary' | 'secondary'
 }>()
-defineEmits<{ (_e: 'update:modelValue'): void }>()
+
+defineEmits<{ (_e: 'update:modelValue', _value: string): void }>()
 
 const slots = useSlots()
 const showPassword = ref(false)

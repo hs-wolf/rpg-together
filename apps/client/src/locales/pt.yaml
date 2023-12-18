@@ -86,6 +86,8 @@ pages:
     go-back: Voltar
   home:
     title: Rpg Together
+  loading:
+    title: Carregando
   login:
     title: Login
     email: Email
@@ -111,8 +113,15 @@ pages:
   my-applications:
     title: Minhas Aplicações
     applications-limit: 'Limite de aplicações: {limit}'
+  my-tables:
+    title: Minhas mesas
+    create-table: Criar nova mesa
+    tables-limit: 'Limite de mesas: {limit}'
+    applications:
+      title: Aplicações à {table}
+      no-applications: Não há aplicações à esta mesa.
   profile:
-    title: Perfil
+    title: 'Perfil: {name}'
     email: 'Email:'
     creation-date: 'Data de criação: {date}'
     last-update-date: 'Data da última mudança: {date}'
@@ -149,6 +158,11 @@ pages:
     no-tables-found: Nenhuma mesa encontrada.
   settings:
     title: Configurações
+  tables:
+    title: 'Mesa: {table}'
+    youre-the-owner: Você é o dono, clique aqui para editar.
+    apply-to-table: Aplicar a esta mesa
+    already-applied: Você já se aplicou nesta mesa.
 stores:
   applications:
     success:
@@ -232,12 +246,6 @@ components:
           label: Senha
           placeholder: Senha
   my-tables:
-    title: Minhas mesas
-    create-table: Criar nova mesa
-    tables-limit: 'Limite de mesas: {limit}'
-    applications:
-      title: Aplicações à {table}
-      no-applications: Não há aplicações à esta mesa.
     application-card:
       their-message: 'A mensagem deles: {text}'
       decline: Recusar
@@ -348,12 +356,6 @@ components:
     privacy: Política de Privacidade
     tos: Termos de Serviço
   tables:
-    title: Mesas
-    description: 'Descrição:'
-    flairs: 'Categorias:'
-    youre-the-owner: Você é o dono, clique aqui para editar.
-    apply-to-table: Aplicar a esta mesa
-    already-applied: Você já se aplicou nesta mesa.
     card:
       read-more: Ler mais
       view-table: Mesa

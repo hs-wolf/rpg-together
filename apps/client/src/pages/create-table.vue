@@ -10,9 +10,7 @@ import {
 } from '@rpg-together/utilities'
 import { useTablesStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('pages.create-table.title') })
-
+const { t } = useNuxtApp().$i18n
 const tablesStore = useTablesStore()
 const { creatingTable } = storeToRefs(tablesStore)
 
@@ -57,7 +55,7 @@ const { value: descriptionValue } = useField<string>(formFields.description.name
 const { value: bannerUrlValue } = useField<string>(formFields['banner-url'].name)
 const { value: flairsValue } = useField<string[]>(formFields.flairs.name)
 const { value: acceptMessageValue } = useField<string>(formFields['accept-message'].name)
-const apiError = ref('')
+const apiError = ref<string>()
 
 const bannerImageFile = ref<File>()
 async function onUserAvatarFileUploaded(e: Event) {
@@ -90,6 +88,10 @@ const onSubmit = handleSubmit(async (values) => {
   if (response)
     apiError.value = response
 })
+
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: t('pages.create-table.title') })
 </script>
 
 <template>

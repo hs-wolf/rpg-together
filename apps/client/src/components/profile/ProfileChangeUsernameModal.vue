@@ -6,15 +6,11 @@ import type { User } from '@rpg-together/models'
 import { useUserStore } from '~/stores'
 
 defineProps<{ user: User | null }>()
+
 const emits = defineEmits<{ (_e: 'close'): void }>()
 
 const userStore = useUserStore()
 const { changingUsername } = storeToRefs(userStore)
-
-const cardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => {
-  emits('close')
-})
 
 const formFields = {
   username: {
@@ -40,6 +36,7 @@ const { errors, handleSubmit } = useForm({ validationSchema })
 const { value: usernameValue } = useField<string>(formFields.username.name)
 const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref('')
+const cardRef = ref<HTMLElement>()
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = ''
@@ -48,6 +45,10 @@ const onSubmit = handleSubmit(async (values) => {
     apiError.value = response
     return
   }
+  emits('close')
+})
+
+onClickOutside(cardRef, () => {
   emits('close')
 })
 </script>

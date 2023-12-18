@@ -4,10 +4,7 @@ import { useField, useForm } from 'vee-validate'
 import { object, string } from 'zod'
 import { useUserStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-out'] })
-
-useHead({ title: useNuxtApp().$i18n.t('pages.login.title') })
-
+const { t } = useNuxtApp().$i18n
 const localePath = useLocalePath()
 const userStore = useUserStore()
 const { signingIn } = storeToRefs(userStore)
@@ -33,12 +30,15 @@ const validationSchema = toTypedSchema(
 const { errors, handleSubmit } = useForm({ validationSchema })
 const { value: emailValue } = useField<string>(formFields.email.name)
 const { value: passwordValue } = useField<string>(formFields.password.name)
-
 const apiError = ref<string>()
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = await userStore.signIn(values.email, values.password)
 })
+
+definePageMeta({ middleware: ['logged-out'] })
+
+useHead({ title: t('pages.login.title') })
 </script>
 
 <template>

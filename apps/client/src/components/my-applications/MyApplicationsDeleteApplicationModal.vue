@@ -12,17 +12,6 @@ const emits = defineEmits<{ (_e: 'close'): void }>()
 const applicationsStore = useApplicationsStore()
 const { deletingApplication } = storeToRefs(applicationsStore)
 
-const cardRef = ref<HTMLElement>()
-const showConfirmCard = ref(false)
-const confirmCardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => closeModal())
-onClickOutside(confirmCardRef, () => closeModal())
-
-function closeModal() {
-  showConfirmCard.value = false
-  emits('close')
-}
-
 const formFields = {
   password: {
     name: 'password',
@@ -39,8 +28,16 @@ const validationSchema = toTypedSchema(
 
 const { errors, handleSubmit } = useForm({ validationSchema })
 const { value: passwordValue } = useField<string>(formFields.password.name)
-
 const apiError = ref('')
+const cardRef = ref<HTMLElement>()
+const showConfirmCard = ref(false)
+const confirmCardRef = ref<HTMLElement>()
+
+function closeModal() {
+  showConfirmCard.value = false
+  emits('close')
+}
+
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = ''
   const response = await applicationsStore.deleteApplication(props.application.id, values.password)
@@ -50,6 +47,10 @@ const onSubmit = handleSubmit(async (values) => {
   }
   closeModal()
 })
+
+onClickOutside(cardRef, () => closeModal())
+
+onClickOutside(confirmCardRef, () => closeModal())
 </script>
 
 <template>

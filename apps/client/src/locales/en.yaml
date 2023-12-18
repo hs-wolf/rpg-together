@@ -86,6 +86,8 @@ pages:
     go-back: Go back
   home:
     title: Rpg Together
+  loading:
+    title: Loading
   login:
     title: Login
     email: Email
@@ -103,6 +105,13 @@ pages:
   my-applications:
     title: My Applications
     applications-limit: 'Applications limit: {limit}'
+  my-tables:
+    title: My Tables
+    create-table: Create new table
+    tables-limit: 'Tables limit: {limit}'
+    applications:
+      title: Applications for {table}
+      no-applications: There is no applications for this table.
   notifications:
     title: Notifications
     mark-all-read: Mark all as read
@@ -112,7 +121,7 @@ pages:
     no-types-left: No types left.
     load-more: Load more
   profile:
-    title: Profile
+    title: 'Profile: {name}'
     email: 'Email:'
     creation-date: 'Creation date: {date}'
     last-update-date: 'Last update date: {date}'
@@ -149,6 +158,11 @@ pages:
     no-tables-found: No tables found.
   settings:
     title: Settings
+  tables:
+    title: 'Table: {table}'
+    youre-the-owner: You're the owner, click here to edit.
+    apply-to-table: Apply to this table
+    already-applied: You've already applied to this table.
 stores:
   applications:
     success:
@@ -232,12 +246,6 @@ components:
           label: Password
           placeholder: Password
   my-tables:
-    title: My Tables
-    create-table: Create new table
-    tables-limit: 'Tables limit: {limit}'
-    applications:
-      title: Applications for {table}
-      no-applications: There is no applications for this table.
     application-card:
       their-message: 'Their message: {text}'
       decline: Decline
@@ -348,12 +356,6 @@ components:
     privacy: Privacy Policy
     tos: Terms of Service
   tables:
-    title: Tables
-    description: 'Description:'
-    flairs: 'Flairs:'
-    youre-the-owner: You're the owner, click here to edit.
-    apply-to-table: Apply to this table
-    already-applied: You've already applied to this table.
     card:
       read-more: Read more
       view-table: Table

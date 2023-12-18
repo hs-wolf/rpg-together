@@ -6,21 +6,11 @@ import type { Table } from '@rpg-together/models'
 import { useTablesStore } from '~/stores'
 
 const props = defineProps<{ table?: Table }>()
+
 const emits = defineEmits<{ (_e: 'close'): void }>()
 
 const tablesStore = useTablesStore()
 const { deletingTable } = storeToRefs(tablesStore)
-
-const cardRef = ref<HTMLElement>()
-const confirmCardRef = ref<HTMLElement>()
-onClickOutside(cardRef, () => {
-  emits('close')
-})
-onClickOutside(confirmCardRef, () => {
-  emits('close')
-})
-
-const showConfirmCard = ref(false)
 
 const formFields = {
   password: {
@@ -39,11 +29,22 @@ const validationSchema = toTypedSchema(
 const { errors, handleSubmit } = useForm({ validationSchema })
 const { value: passwordValue } = useField<string>(formFields.password.name)
 const apiError = ref<string>()
+const cardRef = ref<HTMLElement>()
+const confirmCardRef = ref<HTMLElement>()
+const showConfirmCard = ref(false)
 
 const onSubmit = handleSubmit(async (values) => {
   apiError.value = ''
   const response = await tablesStore.deleteTable(props.table?.id ?? '', values.password)
   apiError.value = response
+  emits('close')
+})
+
+onClickOutside(cardRef, () => {
+  emits('close')
+})
+
+onClickOutside(confirmCardRef, () => {
   emits('close')
 })
 </script>

@@ -13,7 +13,14 @@ const firebaseUser = useFirebase.currentUser()
 const userId = route.params.id as string
 const user = ref<User | null>(null)
 
-useHead({ title: computed(() => user.value?.username ?? t('pages.profile.title')) })
+function checkOwnProfile() {
+  if (firebaseUser.value?.uid === userId)
+    return navigateTo(localeRoute({ name: 'profile' }), { replace: true })
+}
+
+useHead({ title: computed(() => t('pages.profile.title', { name: user.value?.username ?? '...' })) })
+
+watch(firebaseUser, () => checkOwnProfile())
 
 onBeforeMount(async () => {
   checkOwnProfile()
@@ -21,13 +28,6 @@ onBeforeMount(async () => {
   if (!user.value)
     navigateTo({ path: router.options.history.state.back?.toString() ?? '/' })
 })
-
-watch(firebaseUser, () => checkOwnProfile())
-
-function checkOwnProfile() {
-  if (firebaseUser.value?.uid === userId)
-    return navigateTo(localeRoute({ name: 'profile' }), { replace: true })
-}
 </script>
 
 <template>

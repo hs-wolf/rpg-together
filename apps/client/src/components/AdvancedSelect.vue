@@ -9,22 +9,19 @@ const props = defineProps<{
   emptyMessage: string
   enableSearch: boolean
 }>()
+
 const emits = defineEmits<{ (_e: 'changeOptions', _items: AdvancedSelectOption[]): void }>()
 
 const componentRef = ref()
 const showOptions = ref(false)
-
 const selectedOptions = ref<AdvancedSelectOption[]>([])
 const optionsQuery = ref('')
+
 const filteredOptions = computed(() =>
   props.options
     .filter(item => !selectedOptions.value.includes(item))
     .filter(item => item.label.toLowerCase().includes(optionsQuery.value.toLowerCase())),
 )
-
-onClickOutside(componentRef, () => {
-  showOptions.value = false
-})
 
 function changeOptions() {
   emits('changeOptions', selectedOptions.value)
@@ -49,6 +46,10 @@ function clearOptions() {
   showOptions.value = false
   changeOptions()
 }
+
+onClickOutside(componentRef, () => {
+  showOptions.value = false
+})
 
 onMounted(() => {
   if (props.initialValue)

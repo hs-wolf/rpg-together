@@ -2,13 +2,15 @@
 import { LIMIT_OF_APPLICATIONS } from '@rpg-together/utilities'
 import { useApplicationsStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('pages.my-applications.title') })
-
+const { t } = useNuxtApp().$i18n
 const applicationsStore = useApplicationsStore()
 const { myApplications } = storeToRefs(applicationsStore)
 
 const madeFirstSearch = ref(false)
+
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: t('pages.my-applications.title') })
 
 onMounted(async () => {
   if (!myApplications.value.length)

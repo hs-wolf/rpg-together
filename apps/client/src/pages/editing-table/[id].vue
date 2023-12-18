@@ -12,12 +12,10 @@ import {
 import { SnackType } from '~/types'
 import { useSnackbarStore, useTablesStore } from '~/stores'
 
-definePageMeta({ middleware: ['logged-in'] })
-useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title', { table: '...' }) })
-
-const tableId = useRoute().params.id as string
+const { t } = useNuxtApp().$i18n
 const localePath = useLocalePath()
 const localeRoute = useLocaleRoute()
+const tableId = useRoute().params.id as string
 const tablesStore = useTablesStore()
 const { updatingTable } = storeToRefs(tablesStore)
 
@@ -136,6 +134,10 @@ useRouter().beforeEach((to, _from) => {
   }
 })
 
+definePageMeta({ middleware: ['logged-in'] })
+
+useHead({ title: computed(() => t('pages.edit-table.title', { table: table.value?.title ?? '...' })) })
+
 onMounted(async () => {
   table.value = await tablesStore.getTable(tableId)
   acceptMessage.value = await useRpgTogetherAPI.getTableAcceptMessage({ tableId: table.value?.id ?? '' })
@@ -150,7 +152,6 @@ onMounted(async () => {
     'flairs': table.value?.flairs,
     'accept-message': acceptMessage.value.message,
   })
-  useHead({ title: useNuxtApp().$i18n.t('pages.edit-table.title', { table: table.value?.title }) })
 })
 </script>
 
