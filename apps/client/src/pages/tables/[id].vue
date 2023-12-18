@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Application, Table } from '@rpg-together/models'
-import { DEFAULT_TABLE_BANNER } from '@rpg-together/utilities'
+import { DEFAULT_TABLE_BANNER, DEFAULT_USER_AVATAR } from '@rpg-together/utilities'
 import { useApplicationsStore, useFlairsStore, useTablesStore } from '~/stores'
 
 const { t } = useNuxtApp().$i18n
@@ -54,6 +54,16 @@ onBeforeMount(async () => {
         class="w-full object-contain"
       />
       <div class="flex flex-col gap-2 lg:gap-3 px-2 lg:px-0">
+        <NuxtLink :to="localePath({ path: `/profile/${table.owner.id}` })" class="flex items-center gap-2 lg:gap-3">
+          <NuxtImg
+            :src="table?.owner?.avatar ?? DEFAULT_USER_AVATAR"
+            :alt="table?.owner?.username"
+            class="flex w-[36px] h-[36px] lg:w-[40px] lg:h-[40px] rounded-sm object-cover shadow"
+          />
+          <h1 class="text-lg lg:text-xl font-semibold">
+            {{ table?.owner?.username }}
+          </h1>
+        </NuxtLink>
         <h1 class="text-2xl lg:text-3xl text-accent-2 font-semibold">
           {{ table?.title }}
         </h1>
