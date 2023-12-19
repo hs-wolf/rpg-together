@@ -464,51 +464,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Pick_TableCreateBody.title-or-description-or-banner-or-flairs_": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"banner": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"flairs": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					}
-				},
-				"required": [
-					"title",
-					"banner",
-					"description",
-					"flairs"
-				],
-				"type": "object",
-				"description": "From T, pick a set of properties whose keys are in the union K"
-			},
-			"TableCreateBodyRequest": {
-				"allOf": [
-					{
-						"$ref": "#/components/schemas/Pick_TableCreateBody.title-or-description-or-banner-or-flairs_"
-					},
-					{
-						"properties": {
-							"acceptMessage": {
-								"type": "string"
-							}
-						},
-						"required": [
-							"acceptMessage"
-						],
-						"type": "object"
-					}
-				]
-			},
 			"Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__": {
 				"properties": {
 					"title": {
@@ -1489,9 +1444,22 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": {
+						"multipart/form-data": {
 							"schema": {
-								"$ref": "#/components/schemas/TableCreateBodyRequest"
+								"type": "object",
+								"properties": {
+									"bannerFile": {
+										"type": "string",
+										"format": "binary"
+									},
+									"body": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"bannerFile",
+									"body"
+								]
 							}
 						}
 					}

@@ -18,7 +18,9 @@ import {
   LIMIT_OF_TABLES,
   apiErrorHandler,
 } from '@rpg-together/utilities'
+import { ObjectId } from 'mongodb'
 import { mongoDB } from '../../mongodb'
+import { UsersService } from '../users/usersService'
 import { FlairsService } from '../flairs/flairsService'
 import { UploadService } from '../upload/uploadService'
 import { AlgoliaService } from '../algolia/algoliaService'
@@ -32,7 +34,18 @@ export class TablesService {
   private _tablesRepo: ITablesRepository
   private _acceptMessageRepo: IAcceptMessageRepository
 
-  async createTable(ownerId: string, body: TableCreateBody): Promise<Table> {
+  async createTable(ownerId: string, bannerFile: Express.Multer.File, body: TableCreateBody) {
+    const _id = new ObjectId()
+    const currentDate = new Date()
+    let bannerUrl = ''
+    let step:
+    | 'authorizing'
+    | 'uploading-banner'
+    | 'creating-accept-message'
+    | 'creating-table'
+    | 'updating-flairs'
+    | 'creating-on-algolia' = 'authorizing'
+
     try {
       const existingTables = await this.getTablesFromUser(ownerId)
       if (existingTables.length >= LIMIT_OF_TABLES) {
@@ -41,23 +54,29 @@ export class TablesService {
           ResponseMessages.TABLES_LIMIT_REACHED,
         )
       }
-      const currentDate = new Date()
 
+      step = 'uploading-banner'
+      bannerUrl = await new UploadService().uploadTableFile(_id.toString(), bannerFile)
+      throw new ApiError(ResponseCodes.INTERNAL_ERROR,
+        ResponseMessages.COULD_NOT_UPLOAD)
+      step = 'creating-accept-message'
       let newAcceptMessage = AcceptMessage.fromMap({ message: body.acceptMessage })
       newAcceptMessage.creationDate = currentDate
       newAcceptMessage.lastUpdateDate = currentDate
       newAcceptMessage = await this._acceptMessageRepo.createAcceptMessage(newAcceptMessage)
 
+      return
+      step = 'creating-table'
+      const owner = await new UsersService().getUser(ownerId)
       let newTable = Table.fromMap({ ...body })
-      newTable.owner = { id: ownerId }
-      newTable.banner = newTable.banner
-        ? newTable.banner
-        : DEFAULT_TABLE_BANNER
+      newTable.owner = { id: owner.id, avatar: owner.avatar, username: owner.username }
+      newTable.banner = DEFAULT_TABLE_BANNER
       newTable.acceptMessageId = newAcceptMessage.id
       newTable.creationDate = currentDate
       newTable.lastUpdateDate = currentDate
       newTable = await this._tablesRepo.createTable(newTable)
 
+      step = 'updating-flairs'
       if (newTable.flairs) {
         await Promise.all(
           newTable.flairs.map(flair =>
@@ -65,10 +84,19 @@ export class TablesService {
           ),
         )
       }
+
+      step = 'creating-on-algolia'
       await new AlgoliaService().createTable(newTable)
+
       return newTable
     }
     catch (error) {
+      console.log('Failed to create table on: ', step)
+      switch (step) {
+        case 'uploading-banner':
+          console.log(bannerUrl)
+          break
+      }
       apiErrorHandler(error)
     }
   }

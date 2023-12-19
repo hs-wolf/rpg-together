@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      API_URL: 'https://monolith-lmggplptsq-ue.a.run.app/',
+      API_URL: 'http://192.168.15.7:3000/',
       FIREBASE_CONFIG: {
         apiKey: 'AIzaSyAncOxnuvQJLLuwoKIt8FPZIo-8OyjM8wM',
         authDomain: 'rpg-together-44d2e.firebaseapp.com',

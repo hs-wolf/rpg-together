@@ -232,16 +232,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_TableCreateBody.title-or-description-or-banner-or-flairs_": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string","required":true},"banner":{"dataType":"string","required":true},"description":{"dataType":"string","required":true},"flairs":{"dataType":"array","array":{"dataType":"string"},"required":true}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "TableCreateBodyRequest": {
-        "dataType": "refAlias",
-        "type": {"dataType":"intersection","subSchemas":[{"ref":"Pick_TableCreateBody.title-or-description-or-banner-or-flairs_"},{"dataType":"nestedObjectLiteral","nestedProperties":{"acceptMessage":{"dataType":"string","required":true}}}],"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"banner":{"dataType":"string"},"description":{"dataType":"string"},"flairs":{"dataType":"array","array":{"dataType":"string"}},"acceptMessage":{"dataType":"string"}},"validators":{}},
@@ -992,13 +982,15 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/tables',
             authenticateMiddleware([{"Bearer":[]}]),
+            upload.single('bannerFile'),
             ...(fetchMiddlewares<RequestHandler>(TablesController)),
             ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.createTable)),
 
             function TablesController_createTable(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    body: {"in":"body","name":"body","required":true,"ref":"TableCreateBodyRequest"},
+                    bannerFile: {"in":"formData","name":"bannerFile","required":true,"dataType":"file"},
+                    body: {"in":"formData","name":"body","required":true,"dataType":"string"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

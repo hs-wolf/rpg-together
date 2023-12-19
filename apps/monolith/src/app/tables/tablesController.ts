@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  FormField,
   Get,
   Path,
   Post,
@@ -10,6 +11,7 @@ import {
   Route,
   Security,
   Tags,
+  UploadedFile,
 } from 'tsoa'
 import { selfOnly } from '@rpg-together/middlewares'
 import type {
@@ -29,9 +31,11 @@ export class TablesController extends Controller {
   @Post('/')
   public async createTable(
     @Request() request: TsoaRequest,
-    @Body() body: TableCreateBodyRequest,
+    @UploadedFile() bannerFile: Express.Multer.File,
+    @FormField() body: string,
   ): Promise<Table> {
-    return new TablesService().createTable(request.user.uid, body)
+    const jsonBody = JSON.parse(body) as TableCreateBodyRequest
+    return new TablesService().createTable(request.user.uid, bannerFile, jsonBody)
   }
 
   @Get('/from-user/{userId}')

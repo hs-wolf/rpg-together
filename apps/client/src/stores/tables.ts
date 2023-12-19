@@ -157,6 +157,9 @@ export const useTablesStore = defineStore(TABLES_STORE, {
         this.deletingTable = false
       }
     },
+    async uploadBanner(tableId: string, bannerFile?: File) {
+
+    },
   },
 })
 
