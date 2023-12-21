@@ -1169,35 +1169,6 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/upload/table-file/:tableId',
-            authenticateMiddleware([{"Bearer":[]}]),
-            upload.single('file'),
-            ...(fetchMiddlewares<RequestHandler>(UploadController)),
-            ...(fetchMiddlewares<RequestHandler>(UploadController.prototype.uploadTableFile)),
-
-            function UploadController_uploadTableFile(request: any, response: any, next: any) {
-            const args = {
-                    request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
-                    file: {"in":"formData","name":"file","required":true,"dataType":"file"},
-            };
-
-            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request, response);
-
-                const controller = new UploadController();
-
-
-              const promise = controller.uploadTableFile.apply(controller, validatedArgs as any);
-              promiseHandler(controller, promise, response, undefined, next);
-            } catch (err) {
-                return next(err);
-            }
-        });
-        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.post('/upload/announcement-file/:announcementId',
             authenticateMiddleware([{"Bearer":[]}]),
             upload.single('file'),

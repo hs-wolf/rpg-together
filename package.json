@@ -21,6 +21,7 @@
     "nuxt-icons": "^3.2.1",
     "pinia": "^2.1.6",
     "recaptcha-v3": "^1.10.0",
+    "sharp": "0.32.6",
     "swagger-ui-express": "^5.0.0",
     "tslib": "^2.3.0",
     "tsoa": "^5.1.1",

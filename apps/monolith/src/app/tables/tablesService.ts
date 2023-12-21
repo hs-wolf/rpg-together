@@ -16,9 +16,9 @@ import {
 import {
   DEFAULT_TABLE_BANNER,
   LIMIT_OF_TABLES,
+  TABLE_FILE_TYPES,
   apiErrorHandler,
 } from '@rpg-together/utilities'
-import { ObjectId } from 'mongodb'
 import { mongoDB } from '../../mongodb'
 import { UsersService } from '../users/usersService'
 import { FlairsService } from '../flairs/flairsService'
@@ -35,16 +35,17 @@ export class TablesService {
   private _acceptMessageRepo: IAcceptMessageRepository
 
   async createTable(ownerId: string, bannerFile: Express.Multer.File, body: TableCreateBody) {
-    const _id = new ObjectId()
     const currentDate = new Date()
-    let bannerUrl = ''
-    let step:
-    | 'authorizing'
-    | 'uploading-banner'
-    | 'creating-accept-message'
-    | 'creating-table'
-    | 'updating-flairs'
-    | 'creating-on-algolia' = 'authorizing'
+
+    let newTable = Table.fromMap({ ...body })
+    newTable.banner = DEFAULT_TABLE_BANNER
+    newTable.creationDate = currentDate
+    newTable.lastUpdateDate = currentDate
+
+    let newBannerUrl = ''
+    let newAcceptMessage = AcceptMessage.fromMap({ message: body.acceptMessage })
+    newAcceptMessage.creationDate = currentDate
+    newAcceptMessage.lastUpdateDate = currentDate
 
     try {
       const existingTables = await this.getTablesFromUser(ownerId)
@@ -55,28 +56,18 @@ export class TablesService {
         )
       }
 
-      step = 'uploading-banner'
-      bannerUrl = await new UploadService().uploadTableFile(_id.toString(), bannerFile)
-      throw new ApiError(ResponseCodes.INTERNAL_ERROR,
-        ResponseMessages.COULD_NOT_UPLOAD)
-      step = 'creating-accept-message'
-      let newAcceptMessage = AcceptMessage.fromMap({ message: body.acceptMessage })
-      newAcceptMessage.creationDate = currentDate
-      newAcceptMessage.lastUpdateDate = currentDate
-      newAcceptMessage = await this._acceptMessageRepo.createAcceptMessage(newAcceptMessage)
-
-      return
-      step = 'creating-table'
       const owner = await new UsersService().getUser(ownerId)
-      let newTable = Table.fromMap({ ...body })
       newTable.owner = { id: owner.id, avatar: owner.avatar, username: owner.username }
-      newTable.banner = DEFAULT_TABLE_BANNER
+
+      newBannerUrl = await new UploadService().uploadTableFile(_id, bannerFile, TABLE_FILE_TYPES.BANNER)
+      newAcceptMessage = await this._acceptMessageRepo.createAcceptMessage(newAcceptMessage)
       newTable.acceptMessageId = newAcceptMessage.id
-      newTable.creationDate = currentDate
-      newTable.lastUpdateDate = currentDate
+
+      throw new ApiError(ResponseCodes.INTERNAL_ERROR,
+        'testing error')
+
       newTable = await this._tablesRepo.createTable(newTable)
 
-      step = 'updating-flairs'
       if (newTable.flairs) {
         await Promise.all(
           newTable.flairs.map(flair =>
@@ -85,18 +76,15 @@ export class TablesService {
         )
       }
 
-      step = 'creating-on-algolia'
       await new AlgoliaService().createTable(newTable)
 
       return newTable
     }
     catch (error) {
-      console.log('Failed to create table on: ', step)
-      switch (step) {
-        case 'uploading-banner':
-          console.log(bannerUrl)
-          break
-      }
+      if (newBannerUrl.length)
+        await new UploadService().deleteTableFile(newTable.id, TABLE_FILE_TYPES.BANNER)
+      if (newAcceptMessage.id)
+        await this._acceptMessageRepo.deleteAcceptMessage(newAcceptMessage.id)
       apiErrorHandler(error)
     }
   }
@@ -190,7 +178,7 @@ export class TablesService {
           ),
         )
       }
-      await new UploadService().deleteAllTableFiles(tableToDelete.id)
+      await new UploadService().deleteTableFile(tableToDelete.id, TABLE_FILE_TYPES.ALL)
       await new AlgoliaService().deleteTable(tableToDelete.id)
     }
     catch (error) {

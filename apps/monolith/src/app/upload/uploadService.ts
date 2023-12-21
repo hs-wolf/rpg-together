@@ -7,7 +7,7 @@ import type { IUploadRepository } from '@rpg-together/repositories'
 import {
   UploadRepositoryFirebase,
 } from '@rpg-together/repositories'
-import { TABLE_BANNER_MAX_SIZE_IN_MB, apiErrorHandler } from '@rpg-together/utilities'
+import { TABLE_DEFAULTS, TABLE_FILE_TYPES, apiErrorHandler, validateAndFormatImage } from '@rpg-together/utilities'
 
 export class UploadService {
   private _uploadRepo: IUploadRepository
@@ -37,24 +37,19 @@ export class UploadService {
 
   async uploadTableFile(
     tableid: string,
-    file: Express.Multer.File,
+    multerFile: Express.Multer.File,
+    fileType: TABLE_FILE_TYPES,
   ) {
     try {
-      if (!file.mimetype.includes('image')) {
-        throw new ApiError(
-          ResponseCodes.BAD_REQUEST,
-          ResponseMessages.FAILED_UPLOAD_FILE_NOT_IMAGE,
-        )
+      if (fileType === TABLE_FILE_TYPES.BANNER) {
+        const newFile = await validateAndFormatImage(multerFile, TABLE_DEFAULTS.BANNER_NAME, TABLE_DEFAULTS.BANNER_EXT, TABLE_DEFAULTS.BANNER_MAX_SIZE_IN_MB)
+        const url = await this._uploadRepo.uploadTableFile(tableid, newFile)
+        return url
       }
-      const fileSizeInMB = file.size / (1024 * 1024)
-      if (fileSizeInMB > TABLE_BANNER_MAX_SIZE_IN_MB) {
-        throw new ApiError(
-          ResponseCodes.BAD_REQUEST,
-          ResponseMessages.FAILED_UPLOAD_FILE_TOO_BIG,
-        )
-      }
-      const url = await this._uploadRepo.uploadTableImage(tableid, file)
-      return url
+      throw new ApiError(
+        ResponseCodes.BAD_REQUEST,
+        ResponseMessages.INVALID_FILE_TYPE,
+      )
     }
     catch (error) {
       apiErrorHandler(error)
@@ -89,9 +84,21 @@ export class UploadService {
     }
   }
 
-  async deleteAllTableFiles(tableId: string): Promise<void> {
+  async deleteTableFile(tableId: string, fileType: TABLE_FILE_TYPES): Promise<void> {
     try {
-      await this._uploadRepo.deleteAllTableFiles(tableId)
+      let fileName = ''
+      switch (fileType) {
+        case TABLE_FILE_TYPES.ALL:
+          fileName = ''
+          break
+        case TABLE_FILE_TYPES.BANNER:
+          fileName = `${TABLE_DEFAULTS.BANNER_NAME}.${TABLE_DEFAULTS.BANNER_EXT}`
+          break
+        default:
+          fileName = ''
+          break
+      }
+      await this._uploadRepo.deleteTableFile(tableId, fileName)
     }
     catch (error) {
       apiErrorHandler(error)
