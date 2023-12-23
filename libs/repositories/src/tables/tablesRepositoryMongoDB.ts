@@ -1,5 +1,4 @@
-import type { Db } from 'mongodb'
-import { ObjectId } from 'mongodb'
+import type { Db, ObjectId } from 'mongodb'
 import { Table } from '@rpg-together/models'
 import {
   MONGODB_COLLECTION_TABLES,
@@ -12,12 +11,9 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
 
   private _collection = this.mongoDB.collection(MONGODB_COLLECTION_TABLES)
 
-  async createTable(table: Table) {
-    const newTable = table
-    const _id = new ObjectId()
-    newTable.id = _id.toString()
-    await this._collection.insertOne({ _id, ...newTable.toMap() })
-    return newTable
+  async createTable(table: Table, objectId: ObjectId) {
+    await this._collection.insertOne({ objectId, ...table.toMap() })
+    return table
   }
 
   async getTablesFromUser(userId: string) {
@@ -27,7 +23,6 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
         ...mongodbPipelineGetUserHeader('owner'),
       ])
       .toArray()
-
     return docs
       .map(doc => Table.fromMongoDB(doc))
       .filter(table => table) as Table[]

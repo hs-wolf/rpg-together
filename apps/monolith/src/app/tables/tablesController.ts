@@ -35,7 +35,7 @@ export class TablesController extends Controller {
     @FormField() body: string,
   ): Promise<Table> {
     const jsonBody = JSON.parse(body) as TableCreateBodyRequest
-    return new TablesService().createTable(request.user.uid, bannerFile, jsonBody)
+    return new TablesService().createTable(request.user.uid, jsonBody, bannerFile)
   }
 
   @Get('/from-user/{userId}')

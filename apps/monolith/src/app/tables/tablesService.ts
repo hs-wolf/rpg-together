@@ -19,6 +19,8 @@ import {
   TABLE_FILE_TYPES,
   apiErrorHandler,
 } from '@rpg-together/utilities'
+import type { SaveObjectResponse } from '@algolia/client-search'
+import { ObjectId } from 'mongodb'
 import { mongoDB } from '../../mongodb'
 import { UsersService } from '../users/usersService'
 import { FlairsService } from '../flairs/flairsService'
@@ -34,18 +36,24 @@ export class TablesService {
   private _tablesRepo: ITablesRepository
   private _acceptMessageRepo: IAcceptMessageRepository
 
-  async createTable(ownerId: string, bannerFile: Express.Multer.File, body: TableCreateBody) {
+  async createTable(ownerId: string, body: TableCreateBody, bannerFile?: Express.Multer.File) {
+    const newId = new ObjectId()
     const currentDate = new Date()
 
-    let newTable = Table.fromMap({ ...body })
-    newTable.banner = DEFAULT_TABLE_BANNER
-    newTable.creationDate = currentDate
-    newTable.lastUpdateDate = currentDate
-
     let newBannerUrl = ''
+
     let newAcceptMessage = AcceptMessage.fromMap({ message: body.acceptMessage })
     newAcceptMessage.creationDate = currentDate
     newAcceptMessage.lastUpdateDate = currentDate
+
+    const newTableBody = Table.fromMap({ ...body })
+    newTableBody.id = newId.toString()
+    newTableBody.banner = DEFAULT_TABLE_BANNER
+    newTableBody.creationDate = currentDate
+    newTableBody.lastUpdateDate = currentDate
+    let createdTable: Table
+
+    let algoliaResponse: SaveObjectResponse
 
     try {
       const existingTables = await this.getTablesFromUser(ownerId)
@@ -56,35 +64,42 @@ export class TablesService {
         )
       }
 
-      const owner = await new UsersService().getUser(ownerId)
-      newTable.owner = { id: owner.id, avatar: owner.avatar, username: owner.username }
+      if (bannerFile) {
+        newBannerUrl = await new UploadService().uploadTableFile(newId.toString(), bannerFile, TABLE_FILE_TYPES.BANNER)
+        newTableBody.banner = newBannerUrl
+      }
 
-      newBannerUrl = await new UploadService().uploadTableFile(_id, bannerFile, TABLE_FILE_TYPES.BANNER)
       newAcceptMessage = await this._acceptMessageRepo.createAcceptMessage(newAcceptMessage)
-      newTable.acceptMessageId = newAcceptMessage.id
+      newTableBody.acceptMessageId = newAcceptMessage.id
+
+      const owner = await new UsersService().getUser(ownerId)
+      newTableBody.owner = { id: owner.id, avatar: owner.avatar, username: owner.username }
+
+      createdTable = await this._tablesRepo.createTable(newTableBody, newId)
+      algoliaResponse = await new AlgoliaService().createTable(newTableBody)
 
       throw new ApiError(ResponseCodes.INTERNAL_ERROR,
         'testing error')
 
-      newTable = await this._tablesRepo.createTable(newTable)
-
-      if (newTable.flairs) {
+      if (newTableBody.flairs) {
         await Promise.all(
-          newTable.flairs.map(flair =>
+          newTableBody.flairs.map(flair =>
             new FlairsService().changeNumberOfUses(flair, 'increase'),
           ),
         )
       }
 
-      await new AlgoliaService().createTable(newTable)
-
-      return newTable
+      return newTableBody
     }
     catch (error) {
       if (newBannerUrl.length)
-        await new UploadService().deleteTableFile(newTable.id, TABLE_FILE_TYPES.BANNER)
+        await new UploadService().deleteTableFile(newTableBody.id, TABLE_FILE_TYPES.BANNER)
       if (newAcceptMessage.id)
         await this._acceptMessageRepo.deleteAcceptMessage(newAcceptMessage.id)
+      if (createdTable.id)
+        await this._tablesRepo.deleteTable(createdTable.id)
+      if (algoliaResponse.objectID)
+        await new AlgoliaService().deleteTable(algoliaResponse.objectID)
       apiErrorHandler(error)
     }
   }
