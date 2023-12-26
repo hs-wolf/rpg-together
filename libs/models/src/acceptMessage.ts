@@ -34,6 +34,6 @@ export class AcceptMessage {
   }
 }
 
-export type AcceptMessageCreateBody = Partial<Pick<AcceptMessage, 'message' | 'creationDate'>>
+export type AcceptMessageCreateBody = Partial<Pick<AcceptMessage, 'message' | 'creationDate' | 'lastUpdateDate'>>
 
 export type AcceptMessageUpdateBody = Partial<Pick<AcceptMessage, 'message' | 'lastUpdateDate'>>

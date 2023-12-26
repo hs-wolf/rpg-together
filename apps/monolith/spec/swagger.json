@@ -464,33 +464,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__": {
-				"properties": {
-					"title": {
-						"type": "string"
-					},
-					"banner": {
-						"type": "string"
-					},
-					"description": {
-						"type": "string"
-					},
-					"flairs": {
-						"items": {
-							"type": "string"
-						},
-						"type": "array"
-					},
-					"acceptMessage": {
-						"type": "string"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
-			},
-			"TableUpdateBodyRequest": {
-				"$ref": "#/components/schemas/Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__"
-			},
 			"UserRoles": {
 				"enum": [
 					"USER",
@@ -1050,7 +1023,7 @@
 					}
 				},
 				"tags": [
-					"Authentication Service"
+					"Authentication"
 				],
 				"security": [],
 				"parameters": [],
@@ -1075,7 +1048,7 @@
 					}
 				},
 				"tags": [
-					"Authentication Service"
+					"Authentication"
 				],
 				"security": [
 					{
@@ -1106,7 +1079,7 @@
 					}
 				},
 				"tags": [
-					"Authentication Service"
+					"Authentication"
 				],
 				"security": [
 					{
@@ -1135,7 +1108,7 @@
 					}
 				},
 				"tags": [
-					"Authentication Service"
+					"Authentication"
 				],
 				"security": [
 					{
@@ -1154,7 +1127,7 @@
 					}
 				},
 				"tags": [
-					"Authentication Service"
+					"Authentication"
 				],
 				"security": [],
 				"parameters": [
@@ -1448,16 +1421,15 @@
 							"schema": {
 								"type": "object",
 								"properties": {
+									"body": {
+										"type": "string"
+									},
 									"bannerFile": {
 										"type": "string",
 										"format": "binary"
-									},
-									"body": {
-										"type": "string"
 									}
 								},
 								"required": [
-									"bannerFile",
 									"body"
 								]
 							}
@@ -1565,9 +1537,21 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": {
+						"multipart/form-data": {
 							"schema": {
-								"$ref": "#/components/schemas/TableUpdateBodyRequest"
+								"type": "object",
+								"properties": {
+									"body": {
+										"type": "string"
+									},
+									"bannerFile": {
+										"type": "string",
+										"format": "binary"
+									}
+								},
+								"required": [
+									"body"
+								]
 							}
 						}
 					}
@@ -1750,7 +1734,7 @@
 					}
 				},
 				"tags": [
-					"Users Service"
+					"Users"
 				],
 				"security": [],
 				"parameters": [
@@ -1781,7 +1765,7 @@
 					}
 				},
 				"tags": [
-					"Users Service"
+					"Users"
 				],
 				"security": [
 					{

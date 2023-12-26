@@ -1,4 +1,5 @@
 import type { Db, ObjectId } from 'mongodb'
+import type { TableUpdateBody } from '@rpg-together/models'
 import { Table } from '@rpg-together/models'
 import {
   MONGODB_COLLECTION_TABLES,
@@ -38,8 +39,8 @@ export class TablesRepositoryMongoDB implements ITablesRepository {
     return Table.fromMongoDB(docs[0])
   }
 
-  async updateTable(table: Table) {
-    await this._collection.updateOne({ id: table.id }, { $set: table.toMap() })
+  async updateTable(tableId: string, body: TableUpdateBody) {
+    await this._collection.updateOne({ id: tableId }, { $set: body })
   }
 
   async deleteTable(tableId: string) {

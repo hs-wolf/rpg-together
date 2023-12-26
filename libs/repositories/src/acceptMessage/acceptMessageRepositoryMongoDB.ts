@@ -1,5 +1,6 @@
 import type { Db } from 'mongodb'
 import { ObjectId } from 'mongodb'
+import type { AcceptMessageUpdateBody } from '@rpg-together/models'
 import { AcceptMessage } from '@rpg-together/models'
 import {
   MONGODB_COLLECTION_ACCEPT_MESSAGES,
@@ -24,8 +25,8 @@ export class AcceptMessageRepositoryMongoDB implements IAcceptMessageRepository 
     return AcceptMessage.fromMongoDB(doc)
   }
 
-  async updateAcceptMessage(acceptMessage: AcceptMessage) {
-    await this._collection.updateOne({ id: acceptMessage.id }, { $set: acceptMessage.toMap() })
+  async updateAcceptMessage(acceptMessageId: string, acceptMessageUpdateBody: AcceptMessageUpdateBody) {
+    await this._collection.updateOne({ id: acceptMessageId }, { $set: acceptMessageUpdateBody })
   }
 
   async deleteAcceptMessage(acceptMessageId: string) {

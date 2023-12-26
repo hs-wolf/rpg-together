@@ -1,5 +1,4 @@
 import {
-  Body,
   Controller,
   Delete,
   FormField,
@@ -31,8 +30,8 @@ export class TablesController extends Controller {
   @Post('/')
   public async createTable(
     @Request() request: TsoaRequest,
-    @UploadedFile() bannerFile: Express.Multer.File,
     @FormField() body: string,
+    @UploadedFile() bannerFile?: Express.Multer.File,
   ): Promise<Table> {
     const jsonBody = JSON.parse(body) as TableCreateBodyRequest
     return new TablesService().createTable(request.user.uid, jsonBody, bannerFile)
@@ -53,11 +52,13 @@ export class TablesController extends Controller {
   public async updateTable(
     @Request() request: TsoaRequest,
     @Path() tableId: string,
-    @Body() body: TableUpdateBodyRequest,
+    @FormField() body: string,
+    @UploadedFile() bannerFile?: Express.Multer.File,
   ): Promise<Table> {
+    const jsonBody = JSON.parse(body) as TableUpdateBodyRequest
     const table = await new TablesService().getTable(tableId)
     selfOnly(request, table.owner.id)
-    return new TablesService().updateTable(table, body)
+    return new TablesService().updateTable(table.id, jsonBody, bannerFile)
   }
 
   @Security(SECURITY_NAME_BEARER)

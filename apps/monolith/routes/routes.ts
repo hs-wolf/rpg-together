@@ -232,16 +232,6 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__": {
-        "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"title":{"dataType":"string"},"banner":{"dataType":"string"},"description":{"dataType":"string"},"flairs":{"dataType":"array","array":{"dataType":"string"}},"acceptMessage":{"dataType":"string"}},"validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "TableUpdateBodyRequest": {
-        "dataType": "refAlias",
-        "type": {"ref":"Partial_Pick_TableUpdateBody.title-or-description-or-banner-or-flairs_-and-_acceptMessage-string__","validators":{}},
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UserRoles": {
         "dataType": "refEnum",
         "enums": ["USER","ADMIN"],
@@ -989,8 +979,8 @@ export function RegisterRoutes(app: Router) {
             function TablesController_createTable(request: any, response: any, next: any) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
-                    bannerFile: {"in":"formData","name":"bannerFile","required":true,"dataType":"file"},
                     body: {"in":"formData","name":"body","required":true,"dataType":"string"},
+                    bannerFile: {"in":"formData","name":"bannerFile","dataType":"file"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -1061,6 +1051,7 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         app.put('/tables/:tableId',
             authenticateMiddleware([{"Bearer":[]}]),
+            upload.single('bannerFile'),
             ...(fetchMiddlewares<RequestHandler>(TablesController)),
             ...(fetchMiddlewares<RequestHandler>(TablesController.prototype.updateTable)),
 
@@ -1068,7 +1059,8 @@ export function RegisterRoutes(app: Router) {
             const args = {
                     request: {"in":"request","name":"request","required":true,"dataType":"object"},
                     tableId: {"in":"path","name":"tableId","required":true,"dataType":"string"},
-                    body: {"in":"body","name":"body","required":true,"ref":"TableUpdateBodyRequest"},
+                    body: {"in":"formData","name":"body","required":true,"dataType":"string"},
+                    bannerFile: {"in":"formData","name":"bannerFile","dataType":"file"},
             };
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa

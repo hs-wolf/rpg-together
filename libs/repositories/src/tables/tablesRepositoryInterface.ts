@@ -1,4 +1,4 @@
-import type { Table } from '@rpg-together/models'
+import type { Table, TableUpdateBody } from '@rpg-together/models'
 import type { ObjectId } from 'mongodb'
 
 export interface ITablesRepository {
@@ -8,7 +8,7 @@ export interface ITablesRepository {
 
   getTable(tableId: string): Promise<Table | null>
 
-  updateTable(table: Table): Promise<void>
+  updateTable(tableId: string, body: TableUpdateBody): Promise<void>
 
   deleteTable(tableId: string): Promise<void>
 }

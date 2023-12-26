@@ -13,12 +13,14 @@ import type { TsoaRequest, User, UserUpdateBodyRequest } from '@rpg-together/mod
 import { SECURITY_NAME_BEARER } from '@rpg-together/utilities'
 import { UsersService } from './usersService'
 
-@Tags('Users Service')
+@Tags('Users')
 @Route('/users')
 export class UsersController extends Controller {
+  private _userService = new UsersService()
+
   @Get('/{userId}')
   public async getUser(@Path() userId: string): Promise<User> {
-    return new UsersService().getUser(userId)
+    return this._userService.getUser(userId)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -27,6 +29,6 @@ export class UsersController extends Controller {
     @Request() request: TsoaRequest,
     @Body() body: UserUpdateBodyRequest,
   ): Promise<User> {
-    return new UsersService().updateUser(request.user.uid, body)
+    return this._userService.updateUser(request.user.uid, body)
   }
 }

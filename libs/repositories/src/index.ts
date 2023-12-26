@@ -1,6 +1,7 @@
 export * from './applications'
 export * from './announcements'
 export * from './auth'
+export * from './crud'
 export * from './flairs'
 export * from './notifications'
 export * from './acceptMessage'

@@ -21,12 +21,14 @@ import {
 import { SECURITY_NAME_BEARER } from '@rpg-together/utilities'
 import { AuthService } from './authService'
 
-@Tags('Authentication Service')
+@Tags('Authentication')
 @Route('/auth')
 export class AuthController extends Controller {
+  private _authService = new AuthService()
+
   @Post('/register/user')
   public async userRegister(@Body() body: AuthUserRegisterBody): Promise<void> {
-    return await new AuthService().userRegister(body)
+    return this._authService.userRegister(body)
   }
 
   @Security(SECURITY_NAME_BEARER, [UserRoles.ADMIN])
@@ -34,7 +36,7 @@ export class AuthController extends Controller {
   public async adminRegister(
     @Body() body: AuthUserRegisterBody,
   ): Promise<void> {
-    return await new AuthService().adminRegister(body)
+    return this._authService.adminRegister(body)
   }
 
   @Security(SECURITY_NAME_BEARER)
@@ -43,17 +45,17 @@ export class AuthController extends Controller {
     @Request() request: TsoaRequest,
     @Body() body: AuthUserUpdateBody,
   ): Promise<void> {
-    return await new AuthService().updateAuthUser(request.user.uid, body)
+    return this._authService.updateAuthUser(request.user.uid, body)
   }
 
   @Security(SECURITY_NAME_BEARER)
   @Delete('/delete')
   public async deleteAuthUser(@Request() request: TsoaRequest): Promise<void> {
-    return await new AuthService().deleteAuthUser(request.user.uid)
+    return this._authService.deleteAuthUser(request.user.uid)
   }
 
   @Post('/verify-recaptcha/{token}')
   public async verifyRecaptcha(@Path() token: string): Promise<void> {
-    return await new AuthService().recaptchaVerify(token)
+    return this._authService.recaptchaVerify(token)
   }
 }

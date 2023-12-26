@@ -87,7 +87,7 @@ export type TableUpdateBody = Partial<
     | 'banner'
     | 'flairs'
     | 'lastUpdateDate'
-  > & { acceptMessage: string }
+  >
 >
 
 export type TableUpdateBodyRequest = Partial<Pick<

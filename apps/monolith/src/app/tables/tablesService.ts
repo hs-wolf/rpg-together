@@ -1,6 +1,7 @@
 import type {
   TableCreateBody,
   TableUpdateBody,
+  TableUpdateBodyRequest,
 } from '@rpg-together/models'
 import {
   AcceptMessage,
@@ -36,25 +37,24 @@ export class TablesService {
   private _tablesRepo: ITablesRepository
   private _acceptMessageRepo: IAcceptMessageRepository
 
+  private _usersService = new UsersService()
+  private _uploadService = new UploadService()
+  private _algoliaService = new AlgoliaService()
+
   async createTable(ownerId: string, body: TableCreateBody, bannerFile?: Express.Multer.File) {
     const newId = new ObjectId()
     const currentDate = new Date()
-
     let newBannerUrl = ''
-
     let newAcceptMessage = AcceptMessage.fromMap({ message: body.acceptMessage })
     newAcceptMessage.creationDate = currentDate
     newAcceptMessage.lastUpdateDate = currentDate
-
     const newTableBody = Table.fromMap({ ...body })
     newTableBody.id = newId.toString()
     newTableBody.banner = DEFAULT_TABLE_BANNER
     newTableBody.creationDate = currentDate
     newTableBody.lastUpdateDate = currentDate
     let createdTable: Table
-
     let algoliaResponse: SaveObjectResponse
-
     try {
       const existingTables = await this.getTablesFromUser(ownerId)
       if (existingTables.length >= LIMIT_OF_TABLES) {
@@ -63,43 +63,27 @@ export class TablesService {
           ResponseMessages.TABLES_LIMIT_REACHED,
         )
       }
-
       if (bannerFile) {
-        newBannerUrl = await new UploadService().uploadTableFile(newId.toString(), bannerFile, TABLE_FILE_TYPES.BANNER)
+        newBannerUrl = await this._uploadService.uploadTableFile(newId.toString(), bannerFile, TABLE_FILE_TYPES.BANNER)
         newTableBody.banner = newBannerUrl
       }
-
       newAcceptMessage = await this._acceptMessageRepo.createAcceptMessage(newAcceptMessage)
       newTableBody.acceptMessageId = newAcceptMessage.id
-
-      const owner = await new UsersService().getUser(ownerId)
+      const owner = await this._usersService.getUser(ownerId)
       newTableBody.owner = { id: owner.id, avatar: owner.avatar, username: owner.username }
-
       createdTable = await this._tablesRepo.createTable(newTableBody, newId)
-      algoliaResponse = await new AlgoliaService().createTable(newTableBody)
-
-      throw new ApiError(ResponseCodes.INTERNAL_ERROR,
-        'testing error')
-
-      if (newTableBody.flairs) {
-        await Promise.all(
-          newTableBody.flairs.map(flair =>
-            new FlairsService().changeNumberOfUses(flair, 'increase'),
-          ),
-        )
-      }
-
-      return newTableBody
+      algoliaResponse = await this._algoliaService.createTable(newTableBody)
+      return createdTable
     }
     catch (error) {
-      if (newBannerUrl.length)
-        await new UploadService().deleteTableFile(newTableBody.id, TABLE_FILE_TYPES.BANNER)
+      if (newBannerUrl)
+        await this._uploadService.deleteTableFile(newId.toString(), TABLE_FILE_TYPES.BANNER)
       if (newAcceptMessage.id)
         await this._acceptMessageRepo.deleteAcceptMessage(newAcceptMessage.id)
       if (createdTable.id)
         await this._tablesRepo.deleteTable(createdTable.id)
       if (algoliaResponse.objectID)
-        await new AlgoliaService().deleteTable(algoliaResponse.objectID)
+        await this._algoliaService.deleteTable(algoliaResponse.objectID)
       apiErrorHandler(error)
     }
   }
@@ -131,39 +115,29 @@ export class TablesService {
   }
 
   async updateTable(
-    table: Table | string,
-    request: TableUpdateBody,
+    tableId: string,
+    body: TableUpdateBodyRequest,
+    bannerFile?: Express.Multer.File,
   ): Promise<Table> {
+    const currentDate = new Date()
+    const { acceptMessage, ...newTableBody }: TableUpdateBodyRequest & TableUpdateBody = body
+    let newBannerUrl = ''
+
     try {
-      const currentDate = new Date()
+      newTableBody.lastUpdateDate = currentDate
 
-      const oldTable
-        = typeof table === 'string' ? await this.getTable(table) : table
-      const newTable = Table.fromMap({ ...oldTable, ...request })
-      newTable.lastUpdateDate = currentDate
-      await this._tablesRepo.updateTable(newTable)
+      if (bannerFile) {
+        newBannerUrl = await this._uploadService.uploadTableFile(tableId, bannerFile, TABLE_FILE_TYPES.BANNER)
+        newTableBody.banner = newBannerUrl
+      }
 
-      const newAcceptMessage = await this._acceptMessageRepo.getAcceptMessage(newTable.acceptMessageId)
-      newAcceptMessage.message = request.acceptMessage
-      newAcceptMessage.lastUpdateDate = currentDate
-      await this._acceptMessageRepo.updateAcceptMessage(newAcceptMessage)
-
-      const flairsToDecrease = oldTable.flairs.length
-        ? oldTable.flairs.filter(flair => !newTable.flairs.includes(flair))
-        : []
-      const flairsToIncrease = newTable.flairs.length
-        ? newTable.flairs.filter(flair => !oldTable.flairs.includes(flair))
-        : []
-      await Promise.all([
-        ...flairsToDecrease.map(flair =>
-          new FlairsService().changeNumberOfUses(flair, 'decrease'),
-        ),
-        ...flairsToIncrease.map(flair =>
-          new FlairsService().changeNumberOfUses(flair, 'increase'),
-        ),
-      ])
-
-      new AlgoliaService().updateTable(newTable)
+      if (acceptMessage) {
+        const newAcceptMessage = await this.getTableAcceptMessageByTable(tableId)
+        await this._acceptMessageRepo.updateAcceptMessage(newAcceptMessage.id, { message: body.acceptMessage, lastUpdateDate: currentDate })
+      }
+      const newTable = Table.fromMap({ ...newTableBody })
+      await this._tablesRepo.updateTable(tableId, newTableBody)
+      await this._algoliaService.updateTable(newTable)
       return newTable
     }
     catch (error) {
@@ -193,8 +167,24 @@ export class TablesService {
           ),
         )
       }
-      await new UploadService().deleteTableFile(tableToDelete.id, TABLE_FILE_TYPES.ALL)
-      await new AlgoliaService().deleteTable(tableToDelete.id)
+      await this._uploadService.deleteTableFile(tableToDelete.id, TABLE_FILE_TYPES.ALL)
+      await this._algoliaService.deleteTable(tableToDelete.id)
+    }
+    catch (error) {
+      apiErrorHandler(error)
+    }
+  }
+
+  async getTableAcceptMessageByTable(tableId: string): Promise<AcceptMessage> {
+    try {
+      const acceptMessage = await this._acceptMessageRepo.getAcceptMessage(tableId)
+      if (!acceptMessage) {
+        throw new ApiError(
+          ResponseCodes.NOT_FOUND,
+          ResponseMessages.ACCEPT_MESSAGE_NOT_FOUND,
+        )
+      }
+      return acceptMessage
     }
     catch (error) {
       apiErrorHandler(error)

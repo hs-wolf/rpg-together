@@ -7,13 +7,13 @@ import type { IUsersRepository } from './usersRepositoryInterface'
 export class UsersRepositoryMongoDB implements IUsersRepository {
   constructor(private mongoDB: Db) {}
 
-  private _collection = this.mongoDB.collection(MONGODB_COLLECTION_USERS)
+  private _collection = this.mongoDB.collection<User>(MONGODB_COLLECTION_USERS)
 
   async createUser(user: User) {
     const newUser = user
     const _id = new ObjectId()
     newUser.id = _id.toString()
-    await this._collection.insertOne({ _id, ...newUser.toMap() })
+    await this._collection.insertOne({ _id, ...newUser.toMap() } as any)
     return newUser
   }
 
@@ -28,8 +28,7 @@ export class UsersRepositoryMongoDB implements IUsersRepository {
   }
 
   async getUser(userId: string) {
-    const doc = await this._collection.findOne({ id: userId })
-    return User.fromMongoDB(doc)
+    return await this._collection.findOne({ id: userId })
   }
 
   async updateUser(user: User) {

@@ -53,7 +53,7 @@ export enum UserRoles {
 export type UserHeader = Partial<Pick<User, 'id' | 'username' | 'avatar'>>
 
 export type UserCreateBody = Partial<
-  Pick<User, 'role' | 'username' | 'email' | 'avatar'>
+  Omit<User, 'toMap'>
 >
 
 export type UserUpdateBody = Partial<

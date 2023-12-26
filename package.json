@@ -25,6 +25,7 @@
     "swagger-ui-express": "^5.0.0",
     "tslib": "^2.3.0",
     "tsoa": "^5.1.1",
+    "typescript-ioc": "^3.2.2",
     "vee-validate": "^4.11.3",
     "zod": "^3.22.2"
   },

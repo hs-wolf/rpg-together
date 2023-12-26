@@ -1,11 +1,11 @@
-import type { AcceptMessage } from '@rpg-together/models'
+import type { AcceptMessage, AcceptMessageUpdateBody } from '@rpg-together/models'
 
 export interface IAcceptMessageRepository {
   createAcceptMessage(acceptMessage: AcceptMessage): Promise<AcceptMessage | null>
 
   getAcceptMessage(acceptMessageId: string): Promise<AcceptMessage | null>
 
-  updateAcceptMessage(acceptMessage: AcceptMessage): Promise<void>
+  updateAcceptMessage(acceptMessageId: string, acceptMessageUpdateBody: AcceptMessageUpdateBody): Promise<void>
 
   deleteAcceptMessage(acceptMessageId: string): Promise<void>
 }
